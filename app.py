@@ -1,12 +1,24 @@
 from flask import Flask, render_template, redirect, request, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
+
+app.config['MYSQL_USER'] = ''
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_HOST'] = ''
+app.config['MYSQL_DB'] = ''
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor' #Instead of tuples, it uses dictionary
+
+mysql = MySQL(app)
+
 
 comments = []
 
 @app.route("/", methods=["GET", "POST"])
 def main():
+    cursor = mysql.connection.cursor()
+    cursor.execute('''CREATE TABLE example (id INTEGER, name VARCHAR(20))''')
+
     #If it was a GET request, simply display the page
     if request.method == "GET":
         return render_template("index.html", comments=comments)
