@@ -20,5 +20,11 @@
             {{ comment }}
         </div>
     {% endfor %}
+
+    {% for user in users %}
+        <div class="row">
+            {{ user.username }} - {{ user.password }}
+        </div>
+    {% endfor %}
     
 {% endblock %}
