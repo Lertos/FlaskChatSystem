@@ -28,12 +28,12 @@ users = []
 
 #===============================
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def index():
     
     if 'username' in session:
-        return 'Logged in'
-    return redirect(url_for('login'))
+        return redirect(url_for('dashboard'))
+    return redirect(url_for('signin'))
 
     cursor = mysql.connection.cursor()
 
@@ -58,29 +58,44 @@ def index():
     return redirect(url_for('main'))
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
+@app.route('/signin', methods=['GET', 'POST'])
+def signin():
     if request.method == 'POST':
+        print('Username: ' + request.form['username'])
+        print('Password: ' + request.form['password'])
+
         session['username'] = request.form['username']
 
-        return redirect(url_for('index'))
-    return '''
-        <form method="post">
-            <p><input type=text name=username>
-            <p><input type=submit value=Login>
-        </form>
-    '''
+        return redirect(url_for('dashboard'))
+    else:
+        return render_template('signin.html', errorMessage='')
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        print('Username: ' + request.form['username'])
+        print('Display Name: ' + request.form['displayName'])
+        print('Password: ' + request.form['password'])
+        print('Confirm Password: ' + request.form['passwordConfirm'])
+
+        session['username'] = request.form['username']
+
+        return redirect(url_for('dashboard'))
+    else:
+        return render_template('signup.html', errorMessage='')
+
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
 
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('signin'))
 
-
-@app.route("/about")
-def about():
-    return render_template("about.html")
 
 
 if __name__ == "__main__":

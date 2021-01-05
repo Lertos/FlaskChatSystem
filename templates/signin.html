@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Sign In</title>
+{% endblock %}
+
+{% block body %}
+
+    <h1>Noxphor Login</h1>
+
+    <div class="row">
+        {% if errorMessage != '' %}
+            <label id='lblErrorMessage' style='color:red'>{{ errorMessage }}</label>
+        {% endif %}
+
+        <form action="#" method="POST">
+            <input type='text' class="form-control" name="username" placeholder="Username"></input>
+            <input type='password' class="form-control" name="password" placeholder="Password"></input>
+            <input type="submit" class="btn btn-success" value="Login">
+        </form>
+    </div>
+
+    <div>
+        <a href="{{ url_for('signup') }}">Create Account</a>
+    </div>
+    
+{% endblock %}
