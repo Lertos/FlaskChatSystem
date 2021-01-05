@@ -11,7 +11,7 @@ app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_DB'] = 'flasksimplerpg'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor' #Instead of tuples, it uses dictionary
 
-#mysql = MySQL(app)
+mysql = MySQL(app)
 
 #===============================
 
@@ -35,16 +35,16 @@ def index():
         return 'Logged in'
     return redirect(url_for('login'))
 
-    #cursor = mysql.connection.cursor()
+    cursor = mysql.connection.cursor()
 
     data = [('Jane', 'pass123')]
     stmt = "INSERT INTO users (username, password) VALUES (%s, %s);"
-    #cursor.executemany(stmt, data)
-    #mysql.connection.commit()
+    cursor.executemany(stmt, data)
+    mysql.connection.commit()
 
     stmt = "SELECT * FROM users;"
-    #cursor.execute(stmt)
-    #results = cursor.fetchall()
+    cursor.execute(stmt)
+    results = cursor.fetchall()
     users = results
 
     if request.method == 'GET':
