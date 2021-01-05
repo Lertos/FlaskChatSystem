@@ -11,7 +11,7 @@ app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_DB'] = 'flasksimplerpg'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor' #Instead of tuples, it uses dictionary
 
-mysql = MySQL(app)
+#mysql = MySQL(app)
 
 #===============================
 
