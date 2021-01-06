@@ -41,12 +41,20 @@ h1{
 .generalSpacing{
     padding: 16px;
     margin: 20px;
-    text-align: center;
 }
 
 img{
     margin:4px;
 }
+
+hr{
+    border-top: 8px solid #451e3e;
+}
+
+.textAlign{
+    text-align: center;
+}
+
 
 .borderDiv{
     border: #651e3e;
