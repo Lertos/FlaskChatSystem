@@ -5,6 +5,63 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Dashboard</h1>
+    <div class='borderDiv generalSpacing'>
+        <h1>Dashboard</h1>
+    </div>
+
+    <div id='container'>
+
+
+        <div id='leftPanel' class='borderDiv generalSpacing'>
+            <div>
+                <div style='text-align: center;'>
+                    <img style='display:inline;' src='/static/256b256_avatar.png'>
+                </div>
+            </div>
+
+            <div style='text-align: center;'>
+                <h2>Jeffyboyy</h2>
+                <h3>Class: Berserker</h3>
+            </div>
+
+            <div>
+                <h2>Stats</h2>
+            </div>
+        </div>
+
+
+        <div id='rightPanel' class='borderDiv generalSpacing'>
+
+            <div id='equipmentSlots'>
+                <div style='display:block;'>
+                    <img src='/static/64by64_slot.png'>
+                </div>
+                <div style='display:block;'>
+                    <img src='/static/64by64_slot.png'>
+                    <img src='/static/64by64_slot.png'>
+                    <img src='/static/64by64_slot.png'>
+                </div>
+                <div style='display:block;'>
+                    <img src='/static/64by64_slot.png'>
+                </div>
+                <div style='display:block;'>
+                    <img src='/static/64by64_slot.png'>
+                    <img src='/static/64by64_slot.png'>
+                    <img src='/static/64by64_slot.png'>
+                </div>
+            </div>
+
+            <div id='equipmentStats'>
+                <div>
+                    <h3>Health: </h3>
+                    <h3>Armor: </h3>
+                    <h3>Crit Chance: </h3>
+                    <h3>Crit Damage: </h3>
+                    <h3>Accuracy: </h3>
+                    <h3>Weapon Dmg: </h3>
+                </div>
+            </div>
+        </div>
+    </div>
     
 {% endblock %}

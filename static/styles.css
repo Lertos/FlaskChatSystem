@@ -1,0 +1,92 @@
+/*
+
+!!!!!!!!!!!!!!!!!!!!
+
+You can do CTRL+SHIFT+R to refresh the page wwith no cache!!
+
+!!!!!!!!!!!!!!!!!!!!
+
+Color Palette (Darkest to Lightest)
+
+#051e3e - Black/Blue
+#251e3e - Dark Purple
+#451e3e - Purple
+#651e3e - Lighter Purple
+#851e3e - Light Purple
+
+
+*/
+
+html{
+    background-color: #051e3e;
+}
+
+body{
+    background-color: #051e3e;
+    color: #851e3e;
+    font-family: "Tahoma";
+}
+
+div{
+    background-color: #251e3e;
+}
+
+h1{
+    text-align: center;
+    font-weight: bold;
+    padding: 15px;
+    background-color: #251e3e;
+}
+
+.generalSpacing{
+    padding: 16px;
+    margin: 20px;
+    text-align: center;
+}
+
+img{
+    margin:4px;
+}
+
+.borderDiv{
+    border: #651e3e;
+    border-radius: 8px;
+    border-width: 8px;
+    border-style: solid;
+}
+
+.container {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.row{
+    margin:auto;
+}
+
+#leftPanel{
+    display: inline;
+    float: left;
+    width: 400px;
+    height: auto;
+}
+
+#rightPanel{
+    display: inline;
+    float: right;
+    width: calc(100% - 500px);
+    height: auto;
+}
+
+#equipmentSlots{
+    display: inline-block;
+    width: 45%;
+    height: auto;
+}
+
+#equipmentStats{
+    display: inline-block;
+    width: 45%;
+    height: auto;
+    text-align: left;
+}
