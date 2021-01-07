@@ -1,37 +1,34 @@
-/*
-
-!!!!!!!!!!!!!!!!!!!!
-
+/*!!!!!!!!!!!!!!!!!!!!
 You can do CTRL+SHIFT+R to refresh the page wwith no cache!!
+!!!!!!!!!!!!!!!!!!!!*/
 
-!!!!!!!!!!!!!!!!!!!!
-
-Color Palette (Darkest to Lightest)
-
-#051e3e - Black/Blue
-#251e3e - Dark Purple
-#451e3e - Purple
-#651e3e - Lighter Purple
-#851e3e - Light Purple
-
-
-*/
+:root {
+    --text: #632d16;
+    --background: #4e3429;
+    --divAndHeaders: #c38659;
+    --borderAndLines: #411b0b;
+  }
 
 html{
-    background-color: #051e3e;
+    background-color: var(--background);
 }
 
 body{
-    background-color: #051e3e;
-    color: #851e3e;
+    background-color: var(--background);
+    color: var(--text);
     font-family: "Tahoma";
 }
 
 div{
-    background-color: #251e3e;
+    background-color: var(--divAndHeaders);
 }
 
-td{
+/* Want to keep this close to the div background */
+.tableColColor{
+    background-color: var(--divAndHeaders);
+}
+
+#playerPanelInfo td{
     width: 33%;
 }
 
@@ -47,7 +44,7 @@ h1{
     text-align: center;
     font-weight: bold;
     padding: 15px;
-    background-color: #251e3e;
+    background-color: var(--background);
 }
 
 .sameLine{
@@ -64,18 +61,39 @@ h1{
 }
 
 hr{
-    border-top: 8px solid #451e3e;
+    border-top: 1px solid var(--text);
+}
+
+#tableActiveItemStats td{
+    width: 33%;
+}
+
+#tableInventory{
+    width: 100%;
+}
+
+#ddd{
+    width: 100%;
+}
+
+#ddd td{
+    width: 12.5%;
+    text-align: center;
+}
+
+#ddd td p{
+    text-align: center;
 }
 
 .borderDiv{
-    border: #651e3e;
+    border: var(--borderAndLines);
     border-radius: 8px;
     border-width: 8px;
     border-style: solid;
 }
 
 #container {
-    width: 1200px;
+    width: 1400px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -94,11 +112,11 @@ hr{
 #rightPanel{
     display: inline;
     float: right;
-    width: calc(100% - 500px);
+    width: calc(100% - 340px);
     height: auto;
 }
 
-#equipmentSlots{
+#equipmentPanel{
     display: inline-block;
     width: 45%;
     height: auto;

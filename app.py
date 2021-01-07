@@ -61,9 +61,6 @@ def index():
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
-        print('Username: ' + request.form['username'])
-        print('Password: ' + request.form['password'])
-
         session['username'] = request.form['username']
 
         return redirect(url_for('dashboard'))

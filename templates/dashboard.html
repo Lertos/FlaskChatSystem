@@ -25,7 +25,7 @@
                 <hr>
 
                 <div style='width: 100%;'>
-                    <table>
+                    <table id='playerPanelInfo'>
                         <tr style='width:100%'>
                             <td class='tdAlignLeft'><h5 class='bold'>Class: </h5></td>
                             <td></td>
@@ -84,46 +84,156 @@
 
         <div id='rightPanel' class='borderDiv generalSpacing'>
 
-            <div id='equipmentSlots' class='textAlign'>
-                <div style='display:block;'>
-                    <img src='/static/128b128_avatar.png'>
-                </div>
-                <div style='display:block;'>
-                    <img src='/static/128b128_avatar.png'>
-                    <img src='/static/128b128_avatar.png'>
-                    <img src='/static/128b128_avatar.png'>
-                </div>
-                <div style='display:block;'>
-                    <img src='/static/128b128_avatar.png'>
-                </div>
-                <div style='display:block;'>
-                    <img src='/static/128b128_avatar.png'>
-                    <img src='/static/128b128_avatar.png'>
-                    <img src='/static/128b128_avatar.png'>
-                </div>
-            </div>
-
-            <div id='equipmentStats' class='textAlign'>
-                <div>
-                    <h3>Health: </h3>
-                    <h3>Armor: </h3>
-                    <h3>Crit Chance: </h3>
-                    <h3>Crit Damage: </h3>
-                    <h3>Accuracy: </h3>
-                    <h3>Weapon Dmg: </h3>
-                </div>
+            <div>
+                <table id='ddd'>
+                    <tr>
+                        <td></td>
+                        <td><h5 class='sameLine bold'>Health: </h5></td>
+                        <td><p id='player_class' class='sameLine '>111</p></td>
+                        <td><h5 class='sameLine bold'>Armor: </h5></td>
+                        <td><p id='player_class' class='sameLine '>123</p></td>
+                        <td><h5 class='sameLine bold'>Accuracy: </h5></td>
+                        <td><p id='player_class' class='sameLine '>345</p> %</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><h5 class='sameLine bold'>Crit Chance: </h5></td>
+                        <td><p id='player_class' class='sameLine '>234</p> %</td>
+                        <td><h5 class='sameLine bold'>Crit Damage: </h5></td>
+                        <td><p id='player_class' class='sameLine '>432</p></td>
+                        <td><h5 class='sameLine bold'>Weapon Dmg: </h5></td>
+                        <td><p id='player_class' class='sameLine '>219</p> ~</td>
+                        <td></td>
+                    </tr>
+                </table>
             </div>
 
             <hr>
 
-            <h1>Inventory</h1>
+            <div id='equipmentPanel' class='textAlign' style='width: 100%;text-align: center;'>
+                <div style='padding-bottom: 15px;'>
+                    <div id='equipmentActiveItemSlot' style='display:inline-block;width: 40%;height:auto;text-align: right;vertical-align: top;padding-right: 15px;'>
+                        <img src='/static/128by128_slot.png'>
+                    </div>
+                    <div style='display:inline-block;width:40%;text-align: left;'>
+                        <table id='tableActiveItemStats'>
+                            <tr>
+                                <td><h5 class='bold sameLine tdAlignLeft'>Health: </h5></td>
+                                <td></td>
+                                <td><p id='player_class' class='tdAlignRight sameLine'>--</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5 class='bold sameLine tdAlignLeft'>Armor: </h5></td>
+                                <td></td>
+                                <td><p id='player_class' class='tdAlignRight sameLine'>--</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5 class='bold sameLine tdAlignLeft'>Accuracy: </h5></td>
+                                <td></td>
+                                <td><p id='player_class' class='tdAlignRight sameLine'>--</p> %</td>
+                            </tr>
+                            <tr>
+                                <td><h5 class='bold sameLine tdAlignLeft'>Crit Chance: </h5></td>
+                                <td></td>
+                                <td><p id='player_class' class='tdAlignRight sameLine'>--</p> %</td>
+                            </tr>
+                            <tr>
+                                <td><h5 class='bold sameLine tdAlignLeft'>Crit Damage: </h5></td>
+                                <td></td>
+                                <td><p id='player_class' class='tdAlignRight sameLine'>--</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5 class='bold sameLine tdAlignLeft'>Weapon Dmg: </h5> ~</td>
+                                <td></td>
+                                <td><p id='player_class' class='tdAlignRight sameLine'>--</p></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id='equipmentItemSlots'>
+                    <div style='display:block;'>
+                        <img src='/static/64by64_slot.png' tooltip='ss'>
+                        <img src='/static/64by64_slot.png'>
+                        <img src='/static/64by64_slot.png'>
+                        <img src='/static/64by64_slot.png'>
+                        <img src='/static/64by64_slot.png'>
+                        <img src='/static/64by64_slot.png'>
+                        <img src='/static/64by64_slot.png'>
+                        <img src='/static/64by64_slot.png'>
+                    </div>
+                </div>
+
+            <hr>
+
+            <h3 style='font-weight: 700;'>Inventory</h3>
 
             <hr>
 
             <div id='inventory'>
-                <div>
-
-                </div>
+                <table id='tableInventory'>
+                    <colgroup>
+                        <col/>
+                        <col/>
+                        <col class='tableColColor'/>
+                        <col/>
+                        <col class='tableColColor'/>
+                        <col/>
+                        <col class='tableColColor'/>
+                        <col/>
+                        <col/>
+                        <col/>
+                      </colgroup>
+                    <tr style='text-align: center;font-weight: 700;'>
+                        <td></td>
+                        <td></td>
+                        <td>CON</td>
+                        <td>ARM</td>
+                        <td>ACC</td>
+                        <td>CRC</td>
+                        <td>CRD</td>
+                        <td>DMG</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr style='text-align: center;'>
+                        <td><img src='/static/64by64_slot.png'></td>
+                        <td style='text-align: left;'>Sword of Mass Destruction</td>
+                        <td>132</td>
+                        <td>533</td>
+                        <td>233</td>
+                        <td>133</td>
+                        <td>130</td>
+                        <td>933</td>
+                        <td><button>Equip</button></td>
+                        <td><button>Sell</button></td>
+                    </tr>
+                    <tr style='text-align: center;'>
+                        <td><img src='/static/64by64_slot.png'></td>
+                        <td style='text-align: left;'>Axe</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td><button>Equip</button></td>
+                        <td><button>Sell</button></td>
+                    </tr>
+                    <tr style='text-align: center;'>
+                        <td><img src='/static/64by64_slot.png'></td>
+                        <td style='text-align: left;'>Pepe's Super Sexy Sextape</td>
+                        <td>1111</td>
+                        <td>2222</td>
+                        <td>3333</td>
+                        <td>4444</td>
+                        <td>5555</td>
+                        <td>6666</td>
+                        <td><button>Equip</button></td>
+                        <td><button>Sell</button></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
