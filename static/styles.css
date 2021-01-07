@@ -31,6 +31,18 @@ div{
     background-color: #251e3e;
 }
 
+td{
+    width: 33%;
+}
+
+.tdAlignLeft{
+    text-align: left;
+}
+
+.tdAlignRight{
+    text-align: right;
+}
+
 h1{
     text-align: center;
     font-weight: bold;
@@ -38,23 +50,22 @@ h1{
     background-color: #251e3e;
 }
 
+.sameLine{
+    display: inline;
+}
+
+.bold{
+    font-weight: bold;
+}
+
 .generalSpacing{
     padding: 16px;
     margin: 20px;
 }
 
-img{
-    margin:4px;
-}
-
 hr{
     border-top: 8px solid #451e3e;
 }
-
-.textAlign{
-    text-align: center;
-}
-
 
 .borderDiv{
     border: #651e3e;
@@ -63,7 +74,8 @@ hr{
     border-style: solid;
 }
 
-.container {
+#container {
+    width: 1200px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -75,7 +87,7 @@ hr{
 #leftPanel{
     display: inline;
     float: left;
-    width: 400px;
+    width: 256px;
     height: auto;
 }
 
