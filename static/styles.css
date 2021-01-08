@@ -1,5 +1,9 @@
-/*
-You can do CTRL+SHIFT+R to refresh the page wwith no cache!!
+/* List of useful things to know
+
+-You can do CTRL+SHIFT+R to refresh the page wwith no cache!!
+
+-IMAGES - ALL will be forced to 64x64. Can be overwritten by making a class such as "resizeImg128" to change the "max-width"
+
 */
 
 :root {
@@ -55,6 +59,12 @@ hr{
     border-top: 6px solid var(--horzLines);
 }
 
+img{
+    max-width:64px; 
+    height:auto;
+}
+
+
 /*===================
 
 OWN CLASSES
@@ -88,7 +98,8 @@ OWN CLASSES
 
 .generalSpacing{
     padding: 16px;
-    margin: 20px;
+    margin-top: 16px;
+    margin-right: 30px;
 }
 
 .borderDiv{
@@ -134,47 +145,10 @@ OWN CLASSES
 
 /* IMAGE UPDATES */
 
-.resizeImg64{
-    width:64; 
+.resizeImg128{
+    max-width:128; 
     height:auto;
 }
-
-/* BUTTON TOOLTIPS */
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  
-  .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    border-style: solid;
-  }
-  
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-  }
 
 /*===================
 
@@ -182,12 +156,34 @@ DIRECT CLASSES
 
 ===================*/
 
+#equipmentActiveItemSlot{
+    display:inline-block;
+    width: 40%;
+    text-align: right;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
 #tableActiveItemStats td{
     width: 33%;
 }
 
+#tableActiveItemStats h5{
+    display: inline;
+    text-align: left;
+}
+
+#tableActiveItemStats p{
+    display: inline;
+    text-align: right;
+}
+
 #tableInventory{
     width: 100%;
+}
+
+#tableInventory tr{
+    text-align: center;
 }
 
 #playerPanelInfo td{
@@ -229,14 +225,16 @@ DIRECT CLASSES
 }
 
 #equipmentItemSlots{
+    display: block;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
 #equipmentPanel{
     display: inline-block;
-    width: 45%;
+    width: 100%;
     height: auto;
+    text-align: center;
 }
 
 #equipmentStats{
