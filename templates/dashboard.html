@@ -1,55 +1,56 @@
-{% extends 'base.html' %}
+{% extends 'basePlusNavbar.html' %}
 
 {% block head %}
     <title>Dashboard</title>
 {% endblock %}
 
 {% block body %}
-    <div class='borderDiv generalSpacing'>
+    <div class='borderDiv'>
         <h1>Dashboard</h1>
     </div>
 
     <div id='container'>
 
-
+        <!-- Player Avatar -->
         <div id='leftPanel' class='borderDiv generalSpacing'>
-            <div>
-                <div style='text-align: center;'>
-                    <img style='display:inline;' src='/static/64by64_slot.png'>
-                </div>
+            
+            <!-- Player Avatar -->
+            <div class='alignCenter'>
+                <img id='playerAvatar' style='display:inline;' src='/static/avatar.png'>
             </div>
 
+            <!-- Player Info Panel -->
             <div id='playerInfo' style='text-align: center;'>
-                <h4 style='font-weight: 700;text-align: center;'>Jeffyboyy</h4>
+                <h3 class='alignCenter'>Jeffyboyy</h3>
 
                 <hr>
 
                 <div style='width: 100%;'>
                     <table id='playerPanelInfo'>
-                        <tr style='width:100%'>
-                            <td class='tdAlignLeft'><h5 class='bold'>Class: </h5></td>
+                        <tr  class='tableColColor' style='width:100%'>
+                            <td class='alignLeft'><h5>Class: </h5></td>
                             <td></td>
-                            <td class='tdAlignRight'><h5 id='player_class'>Berserker</h5></td>
+                            <td class='alignRight'><p id='player_class'>Berserker</p></td>
                         </tr>
                         <tr style='width:100%'>
-                            <td class='tdAlignLeft'><h5 class='bold'>Level: </h5></td>
+                            <td class='alignLeft'><h5>Level: </h5></td>
                             <td></td>
-                            <td class='tdAlignRight'><h5 id='player_class'>23</h5></td>
+                            <td class='alignRight'><p id='player_class'>23</p></td>
+                        </tr>
+                        <tr class='tableColColor' style='width:100%'>
+                            <td class='alignLeft'><h5>Exp Left: </h5></td>
+                            <td></td>
+                            <td class='alignRight'><p id='player_class'>566</p></td>
                         </tr>
                         <tr style='width:100%'>
-                            <td class='tdAlignLeft'><h5 class='bold'>Exp Left: </h5></td>
+                            <td class='alignLeft'><h5>Gold: </h5></td>
                             <td></td>
-                            <td class='tdAlignRight'><h5 id='player_class'>566</h5></td>
+                            <td class='alignRight'><p id='player_class'>1231</p></td>
                         </tr>
-                        <tr style='width:100%'>
-                            <td class='tdAlignLeft'><h5 class='bold'>Gold: </h5></td>
+                        <tr class='tableColColor' style='width:100%'>
+                            <td class='alignLeft'><h5>Stamina: </h5></td>
                             <td></td>
-                            <td class='tdAlignRight'><h5 id='player_class'>1231</h5></td>
-                        </tr>
-                        <tr style='width:100%'>
-                            <td class='tdAlignLeft'><h5 class='bold'>Stamina: </h5></td>
-                            <td></td>
-                            <td class='tdAlignRight'><h5 id='player_class'>25</h5></td>
+                            <td class='alignRight'><p id='player_class'>25</p></td>
                         </tr>
                     </table>
                 </div>
@@ -57,31 +58,35 @@
 
             <hr>
 
-            <div id='playerStats' style='text-align: center;'>
-                <h4 class='bold'>Player Stats</h4>
+            <!-- Player Stats Panel -->
+            <div class='alignCenter'>
+                
+                <h3>Player Stats</h3>
 
                 <hr>
 
                 <div>
-                    <h5 class='bold'>Players Killed: </h5>
+                    <h5 class='tableColColor'>Players Killed: </h5>
                     <p id='player_class'>102</p>
                 </div>
                 <div>
-                    <h5 class='bold'>Monsters Killed: </h5>
+                    <h5 class='tableColColor'>Monsters Killed: </h5>
                     <p id='player_class'>433</p>
                 </div>
                 <div>
-                    <h5 class='bold'>Gold Collected: </h5>
+                    <h5 class='tableColColor'>Gold Collected: </h5>
                     <p id='player_class'>12303</p>
                 </div>
                 <div>
-                    <h5 class='bold'>Quests Done: </h5>
+                    <h5 class='tableColColor'>Quests Done: </h5>
                     <p id='player_class'>101</p>
                 </div>
+
             </div>
+
         </div>
 
-
+        <!-- Main Panel -->
         <div id='rightPanel' class='borderDiv generalSpacing'>
 
             <div>
@@ -114,60 +119,62 @@
             <div id='equipmentPanel' class='textAlign' style='width: 100%;text-align: center;'>
                 <div style='padding-bottom: 15px;'>
                     <div id='equipmentActiveItemSlot' style='display:inline-block;width: 40%;height:auto;text-align: right;vertical-align: top;padding-right: 15px;'>
-                        <img src='/static/128by128_slot.png'>
+                        <img style='width:128; height:auto;' src='/static/pirates.png'>
                     </div>
                     <div style='display:inline-block;width:40%;text-align: left;'>
                         <table id='tableActiveItemStats'>
                             <tr>
-                                <td><h5 class='bold sameLine tdAlignLeft'>Health: </h5></td>
+                                <td><h5 class='bold sameLine alignLeft'>Health: </h5></td>
                                 <td></td>
-                                <td><p id='player_class' class='tdAlignRight sameLine'>--</p></td>
+                                <td><p id='player_class' class='alignRight sameLine'>--</p></td>
                             </tr>
                             <tr>
-                                <td><h5 class='bold sameLine tdAlignLeft'>Armor: </h5></td>
+                                <td><h5 class='bold sameLine alignLeft'>Armor: </h5></td>
                                 <td></td>
-                                <td><p id='player_class' class='tdAlignRight sameLine'>--</p></td>
+                                <td><p id='player_class' class='alignRight sameLine'>--</p></td>
                             </tr>
                             <tr>
-                                <td><h5 class='bold sameLine tdAlignLeft'>Accuracy: </h5></td>
+                                <td><h5 class='bold sameLine alignLeft'>Accuracy: </h5></td>
                                 <td></td>
-                                <td><p id='player_class' class='tdAlignRight sameLine'>--</p> %</td>
+                                <td><p id='player_class' class='alignRight sameLine'>--</p> <p class='sameLine'>%</p></td>
                             </tr>
                             <tr>
-                                <td><h5 class='bold sameLine tdAlignLeft'>Crit Chance: </h5></td>
+                                <td><h5 class='bold sameLine alignLeft'>Crit Chance: </h5></td>
                                 <td></td>
-                                <td><p id='player_class' class='tdAlignRight sameLine'>--</p> %</td>
+                                <td><p id='player_class' class='alignRight sameLine'>--</p> <p class='sameLine'>%</p></td>
                             </tr>
                             <tr>
-                                <td><h5 class='bold sameLine tdAlignLeft'>Crit Damage: </h5></td>
+                                <td><h5 class='bold sameLine alignLeft'>Crit Damage: </h5></td>
                                 <td></td>
-                                <td><p id='player_class' class='tdAlignRight sameLine'>--</p></td>
+                                <td><p id='player_class' class='alignRight sameLine'>--</p></td>
                             </tr>
                             <tr>
-                                <td><h5 class='bold sameLine tdAlignLeft'>Weapon Dmg: </h5> ~</td>
+                                <td><h5 class='bold sameLine alignLeft'>Weapon Dmg: </h5></td>
                                 <td></td>
-                                <td><p id='player_class' class='tdAlignRight sameLine'>--</p></td>
+                                <td><p id='player_class' class='alignRight sameLine'>--</p> <p class='sameLine'>~</p></td>
                             </tr>
                         </table>
                     </div>
                 </div>
                 
+                <button class='themeButton'>Unequip</button>
+
                 <div id='equipmentItemSlots'>
                     <div style='display:block;'>
-                        <img src='/static/64by64_slot.png' tooltip='ss'>
-                        <img src='/static/64by64_slot.png'>
-                        <img src='/static/64by64_slot.png'>
-                        <img src='/static/64by64_slot.png'>
-                        <img src='/static/64by64_slot.png'>
-                        <img src='/static/64by64_slot.png'>
-                        <img src='/static/64by64_slot.png'>
-                        <img src='/static/64by64_slot.png'>
+                        <img class='resizeImg64' src='/static/pirates.png'>
+                        <img class='resizeImg64' src='/static/sword2.png'>
+                        <img class='resizeImg64' src='/static/sword2.png'>
+                        <img class='resizeImg64' src='/static/sword2.png'>
+                        <img class='resizeImg64' src='/static/sword2.png'>
+                        <img class='resizeImg64' src='/static/sword2.png'>
+                        <img class='resizeImg64' src='/static/sword2.png'>
+                        <img class='resizeImg64' src='/static/sword2.png'>
                     </div>
                 </div>
 
             <hr>
 
-            <h3 style='font-weight: 700;'>Inventory</h3>
+            <h3>Inventory</h3>
 
             <hr>
 
@@ -182,56 +189,56 @@
                         <col/>
                         <col class='tableColColor'/>
                         <col/>
-                        <col/>
+                        <col class='tableColColor'/>
                         <col/>
                       </colgroup>
-                    <tr style='text-align: center;font-weight: 700;'>
+                    <tr class='bold alignCenter'>
                         <td></td>
                         <td></td>
-                        <td>CON</td>
-                        <td>ARM</td>
-                        <td>ACC</td>
-                        <td>CRC</td>
-                        <td>CRD</td>
-                        <td>DMG</td>
+                        <td><h5>CON</h5></td>
+                        <td><h5>ARM</h5></td>
+                        <td><h5>ACC</h5></td>
+                        <td><h5>CRC</h5></td>
+                        <td><h5>CRD</h5></td>
+                        <td><h5>DMG</h5></td>
                         <td></td>
                         <td></td>
                     </tr>
                     <tr style='text-align: center;'>
-                        <td><img src='/static/64by64_slot.png'></td>
+                        <td><img class='resizeImg64' src='/static/sword1.png'></td>
                         <td style='text-align: left;'>Sword of Mass Destruction</td>
-                        <td>132</td>
-                        <td>533</td>
-                        <td>233</td>
-                        <td>133</td>
-                        <td>130</td>
-                        <td>933</td>
-                        <td><button>Equip</button></td>
-                        <td><button>Sell</button></td>
+                        <td><p>132</p></td>
+                        <td><p>533</p></td>
+                        <td><p>233</p></td>
+                        <td><p>133</p></td>
+                        <td><p>130</p></td>
+                        <td><p>933</p></td>
+                        <td><button class='themeButton'>Equip</button></td>
+                        <td><button class='themeButton'>Sell</button></td>
                     </tr>
                     <tr style='text-align: center;'>
-                        <td><img src='/static/64by64_slot.png'></td>
-                        <td style='text-align: left;'>Axe</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td><button>Equip</button></td>
-                        <td><button>Sell</button></td>
+                        <td><img class='resizeImg64' src='/static/sword2.png'></td>
+                        <td style='text-align: left;'>Other Sword</td>
+                        <td><p>1</p></td>
+                        <td><p>2</p></td>
+                        <td><p>3</p></td>
+                        <td><p>4</p></td>
+                        <td><p>5</p></td>
+                        <td><p>6</p></td>
+                        <td><button class='themeButton'>Equip</button></td>
+                        <td><button class='themeButton'>Sell</button></td>
                     </tr>
                     <tr style='text-align: center;'>
-                        <td><img src='/static/64by64_slot.png'></td>
+                        <td><img class='resizeImg64' src='/static/pepe.png'></td>
                         <td style='text-align: left;'>Pepe's Super Sexy Sextape</td>
-                        <td>1111</td>
-                        <td>2222</td>
-                        <td>3333</td>
-                        <td>4444</td>
-                        <td>5555</td>
-                        <td>6666</td>
-                        <td><button>Equip</button></td>
-                        <td><button>Sell</button></td>
+                        <td><p>1111</p></td>
+                        <td><p>2222</p></td>
+                        <td><p>3333</p></td>
+                        <td><p>4444</p></td>
+                        <td><p>5555</p></td>
+                        <td><p>6666</p></td>
+                        <td><button class='themeButton'>Equip</button></td>
+                        <td><button class='themeButton'>Sell</button></td>
                     </tr>
                 </table>
             </div>

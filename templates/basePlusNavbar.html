@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+<body onload='setActiveNavBar()'>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Noxphor</a>
+            </div>
+            <ul id='navBarButtons' class="nav navbar-nav">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/tavern">Tavern</a></li>
+                <li><a href="/dungeon">Dungeon</a></li>
+                <li><a href="/arena">Arena</a></li>
+                <li><a href="/market">Market</a></li>
+                <li><a href="/leaderboard">Leaderboard</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+{% endblock %}

@@ -7,7 +7,19 @@
         <link rel='stylesheet' href='/static/styles.css' />
         {% block head %}{% endblock %}
     </head>
-    <body>
+        {% block navbar %}{% endblock %}
         {% block body %}{% endblock %}
     </body>
+    <script>
+        function setActiveNavBar(){
+            var buttons = document.getElementById('navBarButtons').getElementsByTagName('li');
+            
+            for(var i=0;i<buttons.length;i++){
+                buttons[i].classList = ''
+
+                if(document.title.toLowerCase() == buttons[i].innerText.toLowerCase())
+                    buttons[i].classList.add('active')
+            }          
+        }
+    </script>
 </html>

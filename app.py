@@ -88,6 +88,31 @@ def dashboard():
     return render_template('dashboard.html')
 
 
+@app.route('/arena')
+def arena():
+    return render_template('arena.html')
+
+
+@app.route('/tavern')
+def tavern():
+    return render_template('tavern.html')
+
+
+@app.route('/market')
+def market():
+    return render_template('market.html')
+
+
+@app.route('/dungeon')
+def dungeon():
+    return render_template('dungeon.html')
+
+
+@app.route('/leaderboard')
+def leaderboard():
+    return render_template('leaderboard.html')
+
+
 @app.route('/logout')
 def logout():
     session.pop('username', None)
