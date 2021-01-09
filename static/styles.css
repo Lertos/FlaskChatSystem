@@ -39,8 +39,7 @@ div p, td p{
     color:black;
 }
 
-/* LINE UP WITH H5's */
-p{
+p{ /* Used to line up with the H5's */
     padding-top: 10px;
 }
 
@@ -62,6 +61,7 @@ hr{
 img{
     max-width:64px; 
     height:auto;
+    border: var(--text) 3px solid;
 }
 
 
@@ -156,6 +156,45 @@ DIRECT CLASSES
 
 ===================*/
 
+/* Will be used by almost every page */
+#container {
+    width: 1400px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#leftPanel{
+    display: inline;
+    float: left;
+    width: 256px;
+    height: auto;
+}
+
+#rightPanel{
+    display: inline;
+    float: right;
+    width: calc(100% - 340px);
+    height: auto;
+}
+
+/* Other */
+
+#signinContainer{
+    width: 300px;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+}
+
+#signinContainer input{
+    margin: 4px;
+}
+
+#signinContainer a{
+    color: var(--text);
+}
+
 #equipmentActiveItemSlot{
     display:inline-block;
     width: 40%;
@@ -202,26 +241,6 @@ DIRECT CLASSES
 
 #playerEquipmentStats td p{
     text-align: center;
-}
-
-#container {
-    width: 1400px;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-#leftPanel{
-    display: inline;
-    float: left;
-    width: 256px;
-    height: auto;
-}
-
-#rightPanel{
-    display: inline;
-    float: right;
-    width: calc(100% - 340px);
-    height: auto;
 }
 
 #equipmentItemSlots{

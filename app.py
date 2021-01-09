@@ -71,11 +71,38 @@ def signin():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        print('Username: ' + request.form['username'])
-        print('Display Name: ' + request.form['displayName'])
-        print('Password: ' + request.form['password'])
-        print('Confirm Password: ' + request.form['passwordConfirm'])
+        errorMessage = ''
 
+        #Check if passwords are the same
+        if(request.form['password'] != request.form['passwordConfirm']):
+            errorMessage = 'Passwords do not match'
+            return render_template('signup.html', errorMessage=errorMessage)
+
+        #Make the call to create the account to the database and check if the username and/or display name already exist
+        args = [request.form['username'], request.form['displayName'], request.form['password']]
+        cursor = mysql.connection.cursor()
+        
+        cursor.callproc('CreateUserAccount', args)
+
+        user = cursor.fetchone()
+
+        #Account was successfully created
+        if(user['username'] != '' and user['displayName'] != ''):
+            print('success')
+        else:
+            if(user['username'] == ''):
+                errorMessage = 'That username is already taken'
+            else:
+                errorMessage = 'That display name is already taken'
+
+            return render_template('signup.html', errorMessage=errorMessage)
+
+
+        cursor.close()
+
+        return ''
+
+        #Account successfully created - setup the session variable
         session['username'] = request.form['username']
 
         return redirect(url_for('dashboard'))

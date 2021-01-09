@@ -6,24 +6,29 @@
 
 <body>
 {% block body %}
-    <h1>Noxphor Account Creation</h1>
 
-    <div class="row">
-        {% if errorMessage != '' %}
-            <label id='lblErrorMessage' style='color:red'>{{ errorMessage }}</label>
-        {% endif %}
-
-        <form action="#" method="POST">
-            <input type='text' class="form-control" name="username" placeholder="Username"></input>
-            <input type='text' class="form-control" name="displayName" placeholder="Display Name"></input>
-            <input type='password' class="form-control" name="password" placeholder="Password"></input>
-            <input type='password' class="form-control" name="passwordConfirm" placeholder="Confirm Password"></input>
-            <input type="submit" class="btn btn-success" value="Create">
-        </form>
+    <div class='borderDiv generalSpacing'>
+        <h1>Noxphor Account Creation</h1>
     </div>
 
-    <div>
-        <a href="{{ url_for('signin') }}">Have an account?</a>
+    <div id='signinContainer' class='borderDiv generalSpacing'>
+        <div class="row">
+            {% if errorMessage != '' %}
+                <label id='lblErrorMessage' style='color:red'>{{ errorMessage }}</label>
+            {% endif %}
+
+            <form action="#" method="POST">
+                <input type='text' class="form-control" name="username" placeholder="Username"></input>
+                <input type='text' class="form-control" name="displayName" placeholder="Display Name"></input>
+                <input type='password' class="form-control" name="password" placeholder="Password"></input>
+                <input type='password' class="form-control" name="passwordConfirm" placeholder="Confirm Password"></input>
+                <input type="submit" class="themeButton" value="Create">
+            </form>
+        </div>
+
+        <div>
+            <a href="{{ url_for('signin') }}">Have an account?</a>
+        </div>
     </div>
     
 {% endblock %}
