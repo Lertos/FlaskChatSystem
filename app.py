@@ -19,8 +19,7 @@ mysql = MySQL(app)
 
 #===============================
 
-comments = []
-users = []
+
 
 #===============================
 
@@ -30,40 +29,45 @@ users = []
 
 @app.route("/")
 def index():
-    
+    #If the session DOES exist, they are already logged in - send them to their dashboard
     if 'username' in session:
         return redirect(url_for('dashboard'))
-    return redirect(url_for('signin'))
-
-    cursor = mysql.connection.cursor()
-
-    data = [('Jane', 'pass123')]
-    stmt = "INSERT INTO users (username, password) VALUES (%s, %s);"
-    cursor.executemany(stmt, data)
-    mysql.connection.commit()
-
-    stmt = "SELECT * FROM users;"
-    cursor.execute(stmt)
-    results = cursor.fetchall()
-    users = results
-
-    if request.method == 'GET':
-        return render_template('index.html', comments=comments, users=users)
-
-
-    #If the request was not a GET - add the text inside of the 'contents' form to our list
-    comments.append(request.form["contents"])
-
-    #Says: Please request this page again, this time using a 'GET' method (default request)
-    return redirect(url_for('main'))
+    #If the session DOES NOT exist for this connection, make the user sign in
+    else:
+        return redirect(url_for('signin'))
 
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
-        session['username'] = request.form['username']
 
-        return redirect(url_for('dashboard'))
+        username = request.form['username']
+        password = request.form['password']
+
+        cursor = mysql.connection.cursor()
+
+        #Check if the username/password combination exists
+        data = [username, password]
+        stmt = '''SELECT username, displayName, hasCharacter FROM users WHERE username = %s and password = %s;'''
+        cursor.execute(stmt, data)
+        
+        results = cursor.fetchone()
+        
+        #If the statement returned anything (meaning the combo exists) - log them in
+        if(results is not None):
+            session['username'] = results['username']
+            session['displayName'] = results['displayName']
+
+            #Check is the character has been created yet
+            if(results['hasCharacter'] == 1):
+                return redirect(url_for('dashboard'))
+            else:
+                return redirect(url_for('characterCreation'))
+
+        #If the username/password combo doesn't exist - display combo error
+        else:
+            return render_template('signin.html', errorMessage='That username/password combination doesn''t exist')
+
     else:
         return render_template('signin.html', errorMessage='')
 
@@ -71,15 +75,35 @@ def signin():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
+
         errorMessage = ''
 
+        username = request.form['username']
+        displayName = request.form['displayName']
+        password = request.form['password']
+        passwordConfirm = request.form['passwordConfirm']
+
+        #Check if the username/display name/password meets length requirements
+        if(len(username) < 6 or len(displayName) < 6 or len(password) < 6):
+
+            if(len(username) < 6):
+                errorMessage = 'Your username must be more than 6 characters'
+
+            elif(len(displayName) < 6):
+                errorMessage = 'Your display name must be more than 6 characters'
+                
+            else:
+                errorMessage = 'Your password must be more than 6 characters'
+
+            return render_template('signup.html', errorMessage=errorMessage)
+
         #Check if passwords are the same
-        if(request.form['password'] != request.form['passwordConfirm']):
+        if(password != passwordConfirm):
             errorMessage = 'Passwords do not match'
             return render_template('signup.html', errorMessage=errorMessage)
 
         #Make the call to create the account to the database and check if the username and/or display name already exist
-        args = [request.form['username'], request.form['displayName'], request.form['password']]
+        args = [username, displayName, password]
         cursor = mysql.connection.cursor()
         
         cursor.callproc('CreateUserAccount', args)
@@ -88,7 +112,9 @@ def signup():
 
         #Account was successfully created
         if(user['username'] != '' and user['displayName'] != ''):
-            print('success')
+            session['username'] = user['username']
+            session['displayName'] = user['displayName']
+        #Either the username or the displayname is already taken
         else:
             if(user['username'] == ''):
                 errorMessage = 'That username is already taken'
@@ -100,14 +126,16 @@ def signup():
 
         cursor.close()
 
-        return ''
+        #Take them to the character creation screen
+        return redirect(url_for('characterCreation'))
 
-        #Account successfully created - setup the session variable
-        session['username'] = request.form['username']
-
-        return redirect(url_for('dashboard'))
     else:
         return render_template('signup.html', errorMessage='')
+
+
+@app.route('/characterCreation')
+def characterCreation():
+    return render_template('characterCreation.html')
 
 
 @app.route('/dashboard')

@@ -11,15 +11,16 @@ CREATE TABLE users (
     username VARCHAR(20) NOT NULL UNIQUE,
     displayName VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(30) NOT NULL,
+    hasCharacter BIT DEFAULT 0,
     PRIMARY KEY (id)
 );
 
 ALTER TABLE users AUTO_INCREMENT = 1;
-SELECT * FROM users;
 
-INSERT INTO users (username,displayName,password) VALUES ('dee','Lertos','dee123');
-INSERT INTO users (username,displayName,password) VALUES ('dee2','Lertos2','dee1234');
-INSERT INTO users (username,displayName,password) VALUES ('dee3','Lertos3','dee1234');
+INSERT INTO users (username,displayName,password) VALUES ('lertos','lertos','lertos');
+INSERT INTO users (username,displayName,password,hasCharacter) VALUES ('lertos2','lertos2','lertos2',1);
+
+SELECT * FROM users;
 
 DROP PROCEDURE CreateUserAccount;
 
