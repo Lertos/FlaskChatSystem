@@ -92,6 +92,14 @@ OWN CLASSES
     display: inline;
 }
 
+.block{
+    display: block;
+}
+
+.inlineBlock{
+    display: inline-block;
+}
+
 .bold{
     font-weight: bold;
 }
@@ -107,6 +115,11 @@ OWN CLASSES
     border-radius: 8px;
     border-width: 8px;
     border-style: solid;
+}
+
+.divNormalBackgroundCentered{
+    background-color: var(--background);
+    text-align: center;
 }
 
 .tableColColor{
@@ -178,6 +191,26 @@ DIRECT CLASSES
 }
 
 /* Other */
+
+#characterCreationProgressBar{
+    text-align: center;
+    background-color: var(--background);
+    padding: 50px 0px;
+}
+
+#characterCreationProgressBar h2{
+    padding: 0px 50px;
+    display: inline;
+    color: white;
+    font-weight: bold;
+}
+
+#pickClassSection div{
+    width: 256px;
+    height: 420px;
+    vertical-align: top;
+    display: inline-block;
+}
 
 #signinContainer{
     width: 300px;

@@ -11,7 +11,7 @@ CREATE TABLE users (
     username VARCHAR(20) NOT NULL UNIQUE,
     displayName VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(30) NOT NULL,
-    hasCharacter BIT DEFAULT 0,
+    hasCharacter TINYINT DEFAULT 0,
     PRIMARY KEY (id)
 );
 

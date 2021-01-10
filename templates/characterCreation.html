@@ -4,7 +4,62 @@
     <title>Character Creation</title>
 {% endblock %}
 
+<body>
 {% block body %}
-    <h1>#</h1>
+
+    <div class='borderDiv generalSpacing'>
+        <h1>Character Creation</h1>
+    </div>
+
+    <div id='container' class='divNormalBackgroundCentered' style='width: 1600px'>
+
+        <div id='characterCreationProgressBar'>
+            <h2 id='classHeader' style='color:chartreuse'>CLASS</h2>
+            <h2>>></h2>
+            <h2 id='classHeader'>AVATAR</h2>
+            <h2>>></h2>
+            <h2 id='classHeader'>ATTRIBUTES</h2>
+        </div>
+        
+        <div id='backButton' class='divNormalBackgroundCentered' style='padding-right: 80px; padding-bottom: 60px;'>
+            <button class='themeButton'>BACK</button>
+        </div>
+
+        <div id='pickClassSection' class='divNormalBackgroundCentered block'>
+            <div class='borderDiv generalSpacing' onclick='alert("ddd")'>
+                <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/berserker.png'>
+                <h2 class='alignCenter'>Berserker</h2>
+                <hr>
+                <h4 class='alignLeft'>After each attack there is a 50% chance to attack again</h4>
+            </div>
+            <div class='borderDiv generalSpacing' onclick='alert("ddd")'>
+                <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/rogue.png'>
+                <h2 class='alignCenter'>Rogue</h2>
+                <hr>
+                <h4 class='alignLeft'>Attackers lose 15% of their total accuracy during battle</h4>
+            </div>
+            <div class='borderDiv generalSpacing' onclick='alert("ddd")'>
+                <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/knight.PNG'>
+                <h2 class='alignCenter'>Knight</h2>
+                <hr>
+                <h4 class='alignLeft'>When wearing a shield there is a 40% chance to block any attack - at the cost of 25% overall damage</h4>
+            </div>
+            <div class='borderDiv generalSpacing' onclick='alert("ddd")'>
+                <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/duelist.png'>
+                <h2 class='alignCenter'>Duelist</h2>
+                <hr>
+                <h4 class='alignLeft'>Against foes with shields, do 25% damage and gain 10% accuracy</h4>
+            </div>
+            <div class='borderDiv generalSpacing' onclick='alert("ddd")'>
+                <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/assassain.PNG'>
+                <h2 class='alignCenter'>Assassain</h2>
+                <hr>
+                <h4 class='alignLeft'>Crtical hits hit 30% more often against foes with shields or two-handed weapons</h4>
+            </div>
+        </div>
+
+
+
+    </div>
 	
 {% endblock %}
