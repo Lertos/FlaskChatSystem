@@ -7,54 +7,147 @@
 <body>
 {% block body %}
 
-    <div class='borderDiv generalSpacing'>
+    <div class='header border spacing'>
         <h1>Character Creation</h1>
     </div>
 
-    <div id='container' class='divNormalBackgroundCentered' style='width: 1600px'>
+    <div id='container' class='alignCenter' style='width: 1600px'>
 
-        <div id='characterCreationProgressBar'>
-            <h2 id='classHeader' style='color:chartreuse'>CLASS</h2>
-            <h2>>></h2>
-            <h2 id='classHeader'>AVATAR</h2>
-            <h2>>></h2>
-            <h2 id='classHeader'>ATTRIBUTES</h2>
-        </div>
-        
-        <div id='backButton' class='divNormalBackgroundCentered' style='padding-right: 80px; padding-bottom: 60px;'>
-            <button class='themeButton'>BACK</button>
-        </div>
+        <div id='pickClassSection'>
 
-        <div id='pickClassSection' class='divNormalBackgroundCentered block'>
-            <div class='borderDiv generalSpacing' onclick='alert("ddd")'>
-                <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/berserker.png'>
-                <h2 class='alignCenter'>Berserker</h2>
-                <hr>
-                <h4 class='alignLeft'>After each attack there is a 50% chance to attack again</h4>
+            <div class='header border spacing'>
+                <h1 id='classHeader' class='textColor'>Class Selection</h1>
             </div>
-            <div class='borderDiv generalSpacing' onclick='alert("ddd")'>
-                <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/rogue.png'>
-                <h2 class='alignCenter'>Rogue</h2>
-                <hr>
-                <h4 class='alignLeft'>Attackers lose 15% of their total accuracy during battle</h4>
+            
+            <div class='spacing'>
+                <button class='themeBigButton'>BACK</button>
             </div>
-            <div class='borderDiv generalSpacing' onclick='alert("ddd")'>
-                <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/knight.PNG'>
-                <h2 class='alignCenter'>Knight</h2>
-                <hr>
-                <h4 class='alignLeft'>When wearing a shield there is a 40% chance to block any attack - at the cost of 25% overall damage</h4>
+            
+            <div>
+                <div class='background border spacing' onclick='alert("ddd")'>
+                    <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_warrior.png'>
+                    <h3 class='alignCenter'>Warrior</h3>
+                    <hr>
+                    <p>Main Attribute: <strong>Strength</strong></p>
+                    <p>Max Armor Reduction: <strong>30%</strong></p>
+                    <p>Health Multiplier: <strong>5x</strong></p>
+                    <hr>
+                    <p>The warrior has a 50% chance to block an attack when wearing a shield</p>
+                </div>
+                <div class='background border spacing' onclick='alert("ddd")'>
+                    <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_berserker.png'>
+                    <h3 class='alignCenter'>Berserker</h3>
+                    <hr>
+                    <p>Main Attribute: <strong>Strength</strong></p>
+                    <p>Max Armor Reduction: <strong>25%</strong></p>
+                    <p>Health Multiplier: <strong>4x</strong></p>
+                    <hr>
+                    <p>The berserker has a 50% chance to hit an additional attack. Due to this, the berserker takes 2x damage from magic</p>
+                </div>
+                <div class='background border spacing' onclick='alert("ddd")'>
+                    <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_magic_knight.png'>
+                    <h3 class='alignCenter'>Magic Knight</h3>
+                    <hr>
+                    <p>Main Attribute: <strong>Strength</strong></p>
+                    <p>Max Armor Reduction: <strong>25%</strong></p>
+                    <p>Health Multiplier: <strong>4x</strong></p>
+                    <hr>
+                    <p>The berserker has a 50% chance to hit an additional attack. Due to this, the berserker takes 2x damage from magic</p>
+                </div>
+                <div class='background border spacing' onclick='alert("ddd")'>
+                    <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_fencer.png'>
+                    <h3 class='alignCenter'>Fencer</h3>
+                    <hr>
+                    <p>Main Attribute: <strong>Strength</strong></p>
+                    <p>Max Armor Reduction: <strong>25%</strong></p>
+                    <p>Health Multiplier: <strong>4x</strong></p>
+                    <hr>
+                    <p>The berserker has a 50% chance to hit an additional attack. Due to this, the berserker takes 2x damage from magic</p>
+                </div>
             </div>
-            <div class='borderDiv generalSpacing' onclick='alert("ddd")'>
-                <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/duelist.png'>
-                <h2 class='alignCenter'>Duelist</h2>
-                <hr>
-                <h4 class='alignLeft'>Against foes with shields, do 25% damage and gain 10% accuracy</h4>
+            <div>
+                <div class='background border spacing' onclick='alert("ddd")'>
+                    <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_frost_mage.png'>
+                    <h3 class='alignCenter'>Frost Mage</h3>
+                    <hr>
+                    <p>Main Attribute: <strong>Strength</strong></p>
+                    <p>Max Armor Reduction: <strong>25%</strong></p>
+                    <p>Health Multiplier: <strong>4x</strong></p>
+                    <hr>
+                    <p>The berserker has a 50% chance to hit an additional attack. Due to this, the berserker takes 2x damage from magic</p>
+                </div>
+                <div class='background border spacing' onclick='alert("ddd")'>
+                    <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_fire_mage.png'>
+                    <h3 class='alignCenter'>Fire Mage</h3>
+                    <hr>
+                    <p>Main Attribute: <strong>Strength</strong></p>
+                    <p>Max Armor Reduction: <strong>25%</strong></p>
+                    <p>Health Multiplier: <strong>4x</strong></p>
+                    <hr>
+                    <p>The berserker has a 50% chance to hit an additional attack. Due to this, the berserker takes 2x damage from magic</p>
+                </div>
+                <div class='background border spacing' onclick='alert("ddd")'>
+                    <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_dark_mage.png'>
+                    <h3 class='alignCenter'>Dark Mage</h3>
+                    <hr>
+                    <p>Main Attribute: <strong>Strength</strong></p>
+                    <p>Max Armor Reduction: <strong>25%</strong></p>
+                    <p>Health Multiplier: <strong>4x</strong></p>
+                    <hr>
+                    <p>The berserker has a 50% chance to hit an additional attack. Due to this, the berserker takes 2x damage from magic</p>
+                </div>
+                <div class='background border spacing' onclick='alert("ddd")'>
+                    <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_blood_mage.png'>
+                    <h3 class='alignCenter'>Blood Mage</h3>
+                    <hr>
+                    <p>Main Attribute: <strong>Strength</strong></p>
+                    <p>Max Armor Reduction: <strong>25%</strong></p>
+                    <p>Health Multiplier: <strong>4x</strong></p>
+                    <hr>
+                    <p>The berserker has a 50% chance to hit an additional attack. Due to this, the berserker takes 2x damage from magic</p>
+                </div>
             </div>
-            <div class='borderDiv generalSpacing' onclick='alert("ddd")'>
-                <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/assassain.PNG'>
-                <h2 class='alignCenter'>Assassain</h2>
-                <hr>
-                <h4 class='alignLeft'>Crtical hits hit 30% more often against foes with shields or two-handed weapons</h4>
+            <div>
+                <div class='background border spacing' onclick='alert("ddd")'>
+                    <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_scout.png'>
+                    <h3 class='alignCenter'>Scout</h3>
+                    <hr>
+                    <p>Main Attribute: <strong>Strength</strong></p>
+                    <p>Max Armor Reduction: <strong>25%</strong></p>
+                    <p>Health Multiplier: <strong>4x</strong></p>
+                    <hr>
+                    <p>The berserker has a 50% chance to hit an additional attack. Due to this, the berserker takes 2x damage from magic</p>
+                </div>
+                <div class='background border spacing' onclick='alert("ddd")'>
+                    <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_rogue.png'>
+                    <h3 class='alignCenter'>Rogue</h3>
+                    <hr>
+                    <p>Main Attribute: <strong>Strength</strong></p>
+                    <p>Max Armor Reduction: <strong>25%</strong></p>
+                    <p>Health Multiplier: <strong>4x</strong></p>
+                    <hr>
+                    <p>The berserker has a 50% chance to hit an additional attack. Due to this, the berserker takes 2x damage from magic</p>
+                </div>
+                <div class='background border spacing' onclick='alert("ddd")'>
+                    <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_demon_hunter.PNG'>
+                    <h3 class='alignCenter'>Demon Hunter</h3>
+                    <hr>
+                    <p>Main Attribute: <strong>Strength</strong></p>
+                    <p>Max Armor Reduction: <strong>25%</strong></p>
+                    <p>Health Multiplier: <strong>4x</strong></p>
+                    <hr>
+                    <p>The berserker has a 50% chance to hit an additional attack. Due to this, the berserker takes 2x damage from magic</p>
+                </div>
+                <div class='background border spacing' onclick='alert("ddd")'>
+                    <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_assassin.png'>
+                    <h3 class='alignCenter'>Assassin</h3>
+                    <hr>
+                    <p>Main Attribute: <strong>Strength</strong></p>
+                    <p>Max Armor Reduction: <strong>25%</strong></p>
+                    <p>Health Multiplier: <strong>4x</strong></p>
+                    <hr>
+                    <p>The berserker has a 50% chance to hit an additional attack. Due to this, the berserker takes 2x damage from magic</p>
+                </div>
             </div>
         </div>
 
