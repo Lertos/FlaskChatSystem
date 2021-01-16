@@ -220,6 +220,13 @@ DIRECT CLASSES
     padding: 0px;
 }
 
+#pickAvatarSection div img{
+    max-width: 128px;
+    height: auto;
+    background-color: var(--background);
+    margin: 12px;
+}
+
 /* signin.html AND signup.html */
 
 #signinContainer{
