@@ -12,7 +12,7 @@
     <div id='container'>
 
         <!-- LEFT PANEL -->
-        <div id='leftPanel' class='background border spacing'>
+        <div class='sidePanel background border spacing'>
             
             <!-- Player Avatar -->
             <div class='alignCenter'>
@@ -28,29 +28,24 @@
                 <div>
                     <table id='playerPanelInfo'>
                         <tr>
-                            <td class='alignLeft'><h5>Class: </h5></td>
-                            <td></td>
-                            <td class='alignRight'><p id='player_class'>{{ user['className'] }}</p></td>
+                            <td><h5>Class </h5></td>
+                            <td><p id='player_class'>{{ user['className'] }}</p></td>
                         </tr>
                         <tr>
-                            <td class='alignLeft'><h5>Level: </h5></td>
-                            <td></td>
-                            <td class='alignRight'><p id='player_class'>{{ user['playerLevel'] }}</p></td>
+                            <td><h5>Level </h5></td>
+                            <td><p id='player_class'>{{ user['playerLevel'] }}</p></td>
                         </tr>
                         <tr>
-                            <td class='alignLeft'><h5>Exp Left: </h5></td>
-                            <td></td>
-                            <td class='alignRight'><p id='player_class'>{{ user['expUntilLevel'] }}</p></td>
+                            <td><h5>Exp Left </h5></td>
+                            <td><p id='player_class'>{{ user['expUntilLevel'] }}</p></td>
                         </tr>
                         <tr>
-                            <td class='alignLeft'><h5>Gold: </h5></td>
-                            <td></td>
-                            <td class='alignRight'><p id='player_class'>{{ user['gold'] }}</p></td>
+                            <td><h5>Gold </h5></td>
+                            <td><p id='player_class'>{{ user['gold'] }}</p></td>
                         </tr>
                         <tr>
-                            <td class='alignLeft'><h5>Stamina: </h5></td>
-                            <td></td>
-                            <td class='alignRight'><p id='player_class'>{{ user['stamina'] }}</p></td>
+                            <td><h5>Stamina </h5></td>
+                            <td><p id='player_class'>{{ user['stamina'] }}</p></td>
                         </tr>
                     </table>
                 </div>
@@ -60,29 +55,70 @@
 
             <div class='alignCenter'>
 
-                <div>
-                    <h5 class='tableColColor'>Strength</h5>
-                    <p id='player_class'>{{ user['baseStrength'] }}</p>
-                </div>
-                <div>
-                    <h5 class='tableColColor'>Dexterity</h5>
-                    <p id='player_class'>{{ user['baseDexterity'] }}</p>
-                </div>
-                <div>
-                    <h5 class='tableColColor'>Intelligence</h5>
-                    <p id='player_class'>{{ user['baseIntelligence'] }}</p>
-                </div>
-                <div>
-                    <h5 class='tableColColor'>Constitution</h5>
-                    <p id='player_class'>{{ user['baseConstitution'] }}</p>
-                </div>
-                <div>
-                    <h5 class='tableColColor'>Luck</h5>
-                    <p id='player_class'>{{ user['baseLuck'] }}</p>
-                </div>
+                <h5 class='tableColColor'>Strength</h5>
+                <p id='player_class'>{{ user['baseStrength'] }}</p>
+
+                <h5 class='tableColColor'>Dexterity</h5>
+                <p id='player_class'>{{ user['baseDexterity'] }}</p>
+
+                <h5 class='tableColColor'>Intelligence</h5>
+                <p id='player_class'>{{ user['baseIntelligence'] }}</p>
+
+                <h5 class='tableColColor'>Constitution</h5>
+                <p id='player_class'>{{ user['baseConstitution'] }}</p>
+
+                <h5 class='tableColColor'>Luck</h5>
+                <p id='player_class'>{{ user['baseLuck'] }}</p>
+            </div>
+        </div>
+
+        <!-- Main Panel -->
+        <div class='mainPanel background border spacing'>
+
+            <h3 class='header'>Worn Items</h3>
+
+            <hr>
+
+            <div id='equipmentItemSlots'>
+                <img src='/static/pirates.png'>
+                <img src='/static/sword2.png'>
+                <img src='/static/sword2.png'>
+                <img src='/static/sword2.png'>
+                <img src='/static/sword2.png'>
+                <img src='/static/sword2.png'>
+                <img src='/static/sword2.png'>
+                <img src='/static/sword2.png'>
             </div>
 
             <hr>
+
+            <h3 class='header'>Inventory</h3>
+
+            <hr>
+
+            <div id='inventory'>
+                <img src='/static/sword1.png'>
+                <img src='/static/sword.png'>
+                <img src='/static/sword2.png'>
+                <img src='/static/pepe.png'>
+                <img src='/static/sword1.png'>
+                <img src='/static/sword.png'>
+                <img src='/static/sword2.png'>
+                <img src='/static/pepe.png'>
+                <img src='/static/sword1.png'>
+                <img src='/static/sword.png'>
+                <img src='/static/sword2.png'>
+                <img src='/static/pepe.png'>
+                <img src='/static/sword1.png'>
+                <img src='/static/sword.png'>
+                <img src='/static/sword2.png'>
+                <img src='/static/pepe.png'>
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class='sidePanel background border spacing'>
 
             <!-- Player Stats Panel -->
             <div class='alignCenter'>
@@ -91,158 +127,17 @@
 
                 <hr>
 
-                <div>
-                    <h5 class='tableColColor'>Players Killed </h5>
-                    <p id='player_class'>{{ user['playersKilled'] }}</p>
-                </div>
-                <div>
-                    <h5 class='tableColColor'>Monsters Killed </h5>
-                    <p id='player_class'>{{ user['monstersKilled'] }}</p>
-                </div>
-                <div>
-                    <h5 class='tableColColor'>Gold Collected </h5>
-                    <p id='player_class'>{{ user['goldCollected'] }}</p>
-                </div>
-                <div>
-                    <h5 class='tableColColor'>Quests Done </h5>
-                    <p id='player_class'>{{ user['questsDone'] }}</p>
-                </div>
+                <h5 class='tableColColor'>Players Killed </h5>
+                <p id='player_class'>{{ user['playersKilled'] }}</p>
 
-            </div>
+                <h5 class='tableColColor'>Monsters Killed </h5>
+                <p id='player_class'>{{ user['monstersKilled'] }}</p>
 
-        </div>
+                <h5 class='tableColColor'>Gold Collected </h5>
+                <p id='player_class'>{{ user['goldCollected'] }}</p>
 
-        <!-- Main Panel -->
-        <div id='rightPanel' class='borderDiv generalSpacing'>
-
-            <div id='equipmentPanel'>
-
-                <div style='padding-bottom: 15px;'>
-
-                    <div id='equipmentActiveItemSlot'>
-
-                        <img src='/static/pirates.png' class='resizeImg128'>
-                    </div>
-
-                    <div style='display:inline-block;width:40%;text-align: left;'>
-                        <table id='tableActiveItemStats'>
-                            <tr>
-                                <td><h5>CON: </h5></td>
-                                <td></td>
-                                <td><p id='player_class'>--</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>ARM: </h5></td>
-                                <td></td>
-                                <td><p id='player_class'>--</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>ACC: </h5></td>
-                                <td></td>
-                                <td><p id='player_class'>--</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>CRC: </h5></td>
-                                <td></td>
-                                <td><p id='player_class'>--</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>CRD: </h5></td>
-                                <td></td>
-                                <td><p id='player_class'>--</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>DMG: </h5></td>
-                                <td></td>
-                                <td><p id='player_class'>--</p></td>
-                            </tr>
-                        </table>
-                    </div>
-
-                </div>
-                
-                <button class='themeSmallButton'>Unequip</button>
-
-                <div id='equipmentItemSlots'>
-                    <img src='/static/pirates.png'>
-                    <img src='/static/sword2.png'>
-                    <img src='/static/sword2.png'>
-                    <img src='/static/sword2.png'>
-                    <img src='/static/sword2.png'>
-                    <img src='/static/sword2.png'>
-                    <img src='/static/sword2.png'>
-                    <img src='/static/sword2.png'>
-                </div>
-
-            <hr>
-
-            <h3>Inventory</h3>
-
-            <hr>
-
-            <div id='inventory'>
-                <table id='tableInventory'>
-                    <colgroup>
-                        <col/>
-                        <col/>
-                        <col class='tableColColor'/>
-                        <col/>
-                        <col class='tableColColor'/>
-                        <col/>
-                        <col class='tableColColor'/>
-                        <col/>
-                        <col class='tableColColor'/>
-                        <col/>
-                      </colgroup>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td><h5>CON</h5></td>
-                        <td><h5>ARM</h5></td>
-                        <td><h5>ACC</h5></td>
-                        <td><h5>CRC</h5></td>
-                        <td><h5>CRD</h5></td>
-                        <td><h5>DMG</h5></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td><img src='/static/sword1.png'></td>
-                        <td class='bold alignLeft'>Sword of Mass Destruction</td>
-                        <td><p>132</p></td>
-                        <td><p>533</p></td>
-                        <td><p>233</p></td>
-                        <td><p>133</p></td>
-                        <td><p>130</p></td>
-                        <td><p>933</p></td>
-                        <td><button class='themeSmallButton'>Equip</button></td>
-                        <td><button class='themeSmallButton'>Sell</button></td>
-                    </tr>
-                    <tr>
-                        <td><img src='/static/pirates.png'></td>
-                        <td class='bold alignLeft'>Other Sword</td>
-                        <td><p>1</p></td>
-                        <td><p>2</p></td>
-                        <td><p>3</p></td>
-                        <td><p>4</p></td>
-                        <td><p>5</p></td>
-                        <td><p>6</p></td>
-                        <td><button class='themeSmallButton'>Equip</button></td>
-                        <td><button class='themeSmallButton'>Sell</button></td>
-                    </tr>
-                    <tr>
-                        <td><img src='/static/pepe.png'></td>
-                        <td class='bold alignLeft'>Pepe's Super Sexy Sextape</td>
-                        <td><p>1111</p></td>
-                        <td><p>2222</p></td>
-                        <td><p>3333</p></td>
-                        <td><p>4444</p></td>
-                        <td><p>5555</p></td>
-                        <td><p>6666</p></td>
-                        <td><button class='themeSmallButton'>Equip</button></td>
-                        <td><button class='themeSmallButton'>Sell</button></td>
-                    </tr>
-                </table>
+                <h5 class='tableColColor'>Quests Done </h5>
+                <p id='player_class'>{{ user['questsDone'] }}</p>
             </div>
 
         </div>

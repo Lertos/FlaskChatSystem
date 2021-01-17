@@ -104,24 +104,10 @@ OWN CLASSES
     color: var(--div);
 }
 
-
-
-.sameLine{
-    display: inline;
-}
-
-.block{
-    display: block;
-}
-
-.inlineBlock{
-    display: inline-block;
-}
-
-
 /* NAV BAR UPDATES */
 .nav.navbar-nav li a {
-    color: var(--text);
+    color: var(--background);
+    background-color: var(--div);
     font-weight: bold;
 }
 
@@ -177,7 +163,8 @@ DIRECT CLASSES
 
 /* Will be used by almost every page */
 #container {
-    width: 1400px;
+    width: 80%;
+    text-align: center;
     margin-right: auto;
     margin-left: auto;
 }
@@ -233,52 +220,34 @@ DIRECT CLASSES
 
 /* dashboard.html */
 
-#leftPanel{
-    display: inline;
-    float: left;
-    width: 320px;
+.sidePanel{
+    display: inline-block;
+    width: 20%;
+    vertical-align: top;
     height: auto;
 }
 
-#leftPanel div{
+.sidePanel div{
     background-color: var(--div);
 }
 
-#leftPanel table{
+.sidePanel table{
     width: 100%;
 }
 
-#leftPanel tr:nth-child(even) {
+.sidePanel tr:nth-child(even) {
     background-color: var(--diffColorTable);
 }
 
-#rightPanel{
-    display: inline;
-    float: right;
-    width: calc(100% - 400px);
+.mainPanel{
+    display: inline-block;
+    width: 35%;
+    vertical-align: top;
     height: auto;
 }
 
-#equipmentActiveItemSlot{
-    display:inline-block;
-    width: 40%;
-    text-align: right;
-    vertical-align: top;
-    padding-right: 15px;
-}
-
-#tableActiveItemStats td{
-    width: 33%;
-}
-
-#tableActiveItemStats h5{
-    display: inline;
-    text-align: left;
-}
-
-#tableActiveItemStats p{
-    display: inline;
-    text-align: right;
+.mainPanel div{
+    background-color: var(--div);
 }
 
 #tableInventory{
@@ -290,8 +259,12 @@ DIRECT CLASSES
 }
 
 #playerPanelInfo td{
-    width: 33%;
+    width: 50%;
     padding: 0 6px;
+}
+
+#playerPanelInfo td:nth-child(even){
+    text-align: right;
 }
 
 #playerEquipmentStats{
