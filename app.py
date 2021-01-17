@@ -141,8 +141,6 @@ def characterCreation():
         className = request.form['className']
         avatarName = request.form['avatarName']
 
-        print(str(className) + " - " + str(avatarName))
-
         cursor = mysql.connection.cursor()
         
         data = [className, avatarName, username]
@@ -170,11 +168,7 @@ def dashboard():
 
     cursor.close()
 
-    displayName = user['displayName']
-    className = user['className']
-    avatarName = user['avatarName']
-
-    return render_template('dashboard.html', displayName=displayName, className=className, avatarName=avatarName)
+    return render_template('dashboard.html', user=user)
 
 
 @app.route('/arena')

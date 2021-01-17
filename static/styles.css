@@ -182,20 +182,6 @@ DIRECT CLASSES
     margin-left: auto;
 }
 
-#leftPanel{
-    display: inline;
-    float: left;
-    width: 256px;
-    height: auto;
-}
-
-#rightPanel{
-    display: inline;
-    float: right;
-    width: calc(100% - 340px);
-    height: auto;
-}
-
 /* characterCreation.html */
 
 #characterCreationProgressBar{
@@ -246,6 +232,32 @@ DIRECT CLASSES
 }
 
 /* dashboard.html */
+
+#leftPanel{
+    display: inline;
+    float: left;
+    width: 320px;
+    height: auto;
+}
+
+#leftPanel div{
+    background-color: var(--div);
+}
+
+#leftPanel table{
+    width: 100%;
+}
+
+#leftPanel tr:nth-child(even) {
+    background-color: var(--diffColorTable);
+}
+
+#rightPanel{
+    display: inline;
+    float: right;
+    width: calc(100% - 400px);
+    height: auto;
+}
 
 #equipmentActiveItemSlot{
     display:inline-block;

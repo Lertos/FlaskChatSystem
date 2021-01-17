@@ -7,20 +7,30 @@ USE flasksimplerpg;
 DROP TABLE users;
 
 CREATE TABLE users (
-    id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(20) NOT NULL UNIQUE,
     displayName VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(30) NOT NULL,
     hasCharacter TINYINT DEFAULT 0,
     className VARCHAR(30) NULL,
     avatarName VARCHAR(30) NULL,
-    PRIMARY KEY (id)
+    playerLevel INT DEFAULT 1,
+    expUntilLevel INT DEFAULT 50,
+	baseStrength INT DEFAULT 10,
+    baseDexterity INT DEFAULT 10,
+    baseIntelligence INT DEFAULT 10,
+    baseConstitution INT DEFAULT 10,
+    baseLuck INT DEFAULT 10,
+    gold INT DEFAULT 5,
+    stamina INT DEFAULT 100,
+    inventorySpace INT DEFAULT 12,
+    playersKilled INT DEFAULT 0,
+    monstersKilled INT DEFAULT 0,
+    goldCollected INT DEFAULT 20,
+	questsDone INT DEFAULT 0,
+    PRIMARY KEY (username)
 );
 
-ALTER TABLE users AUTO_INCREMENT = 1;
-
-INSERT INTO users (username,displayName,password) VALUES ('lertos','lertos','lertos');
-INSERT INTO users (username,displayName,password,hasCharacter) VALUES ('lertos2','lertos2','lertos2',1);
+INSERT INTO users (username,displayName,password) VALUES ('lertos','Lertos','lertos');
 
 SELECT * FROM users;
 
@@ -59,7 +69,7 @@ END //
 
 DELIMITER ;
 
-CALL CreateUserAccount('de223432e','d21234323ee','1');
+CALL CreateUserAccount('lertos2','Lertos2','lertos2');
 
 DROP PROCEDURE GetDashboardDetails;
 
@@ -70,7 +80,8 @@ CREATE PROCEDURE GetDashboardDetails(
 	IN pUsername VARCHAR(30)
 )
 BEGIN
-	SELECT displayName, className, avatarName
+	SELECT displayName, className, avatarName, playerLevel, expUntilLevel, baseStrength, baseDexterity, baseIntelligence,
+		baseConstitution, baseLuck, gold, stamina, inventorySpace, playersKilled, monstersKilled, goldCollected, questsDone
 	FROM users
 	WHERE username = pUsername;
 END //
