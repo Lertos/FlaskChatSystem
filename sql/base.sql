@@ -12,6 +12,8 @@ CREATE TABLE users (
     displayName VARCHAR(20) NOT NULL UNIQUE,
     password VARCHAR(30) NOT NULL,
     hasCharacter TINYINT DEFAULT 0,
+    className VARCHAR(30) NULL,
+    avatarName VARCHAR(30) NULL,
     PRIMARY KEY (id)
 );
 
@@ -24,6 +26,7 @@ SELECT * FROM users;
 
 DROP PROCEDURE CreateUserAccount;
 
+# PROC - ACCOUNT CREATION
 DELIMITER //
 
 CREATE PROCEDURE CreateUserAccount(
@@ -56,4 +59,22 @@ END //
 
 DELIMITER ;
 
-CALL CreateUserAccount('de223432e','d21234323ee','1')
+CALL CreateUserAccount('de223432e','d21234323ee','1');
+
+DROP PROCEDURE GetDashboardDetails;
+
+# PROC - DASHBOARD DETAILS
+DELIMITER //
+
+CREATE PROCEDURE GetDashboardDetails(
+	IN pUsername VARCHAR(30)
+)
+BEGIN
+	SELECT displayName, className, avatarName
+	FROM users
+	WHERE username = pUsername;
+END //
+
+DELIMITER ;
+
+CALL GetDashboardDetails('lertos');

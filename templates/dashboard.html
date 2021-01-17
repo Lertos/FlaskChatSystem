@@ -16,12 +16,12 @@
             
             <!-- Player Avatar -->
             <div class='alignCenter'>
-                <img id='playerAvatar' class='resizeImg128' src='/static/avatar.png'>
+                <img id='playerAvatar' class='resizeImg128' src='/static/avatars/{{ avatarName }}'>
             </div>
 
             <!-- Player Info Panel -->
             <div id='playerInfo'>
-                <h3 class='alignCenter'>Jeffyboyy</h3>
+                <h3 class='alignCenter'>{{ displayName }}</h3>
 
                 <hr>
 
@@ -30,7 +30,7 @@
                         <tr  class='tableColColor' style='width:100%'>
                             <td class='alignLeft'><h5>Class: </h5></td>
                             <td></td>
-                            <td class='alignRight'><p id='player_class'>Berserker</p></td>
+                            <td class='alignRight'><p id='player_class'>{{ className }}</p></td>
                         </tr>
                         <tr style='width:100%'>
                             <td class='alignLeft'><h5>Level: </h5></td>

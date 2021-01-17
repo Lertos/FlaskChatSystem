@@ -133,14 +133,48 @@ def signup():
         return render_template('signup.html', errorMessage='')
 
 
-@app.route('/characterCreation')
+@app.route('/characterCreation', methods=['GET', 'POST'])
 def characterCreation():
+    if request.method == 'POST':
+
+        username = session['username']
+        className = request.form['className']
+        avatarName = request.form['avatarName']
+
+        print(str(className) + " - " + str(avatarName))
+
+        cursor = mysql.connection.cursor()
+        
+        data = [className, avatarName, username]
+        stmt = '''UPDATE users SET className = %s, avatarName = %s, hasCharacter = 1 WHERE username = %s;'''
+        cursor.execute(stmt, data)
+
+        mysql.connection.commit()
+
+        cursor.close()
+        
+        return redirect(url_for('dashboard'))
+
     return render_template('characterCreation.html')
 
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+
+    args = [session['username']]
+    cursor = mysql.connection.cursor()
+    
+    cursor.callproc('GetDashboardDetails', args)
+
+    user = cursor.fetchone()
+
+    cursor.close()
+
+    displayName = user['displayName']
+    className = user['className']
+    avatarName = user['avatarName']
+
+    return render_template('dashboard.html', displayName=displayName, className=className, avatarName=avatarName)
 
 
 @app.route('/arena')

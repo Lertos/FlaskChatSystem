@@ -15,18 +15,18 @@
 
 
         <!-- CLASS SELECTION -->
-        <div id='pickClassSection' hidden>
+        <div id='pickClassSection'>
 
             <div class='header border spacing'>
                 <h3 id='classHeader' class='textColor'>Class Selection</h3>
             </div>
             
             <div class='spacing'>
-                <button class='themeBigButton'>BACK</button>
+                <button class='themeBigButton' onclick='backButtonOnClass()'>BACK</button>
             </div>
 
             <div>
-                <div class='background border spacing' onclick='alert("ddd")'>
+                <div class='background border spacing' onclick='pickClass("Warrior")'>
                     <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_warrior.png'>
                     <h3 class='alignCenter'>Warrior</h3>
                     <hr>
@@ -37,7 +37,7 @@
                     <p style='color:red'>Can only equip shields in your off-hand</p>
                     <p>The warrior has a 50% chance to block an attack when wearing a shield</p>
                 </div>
-                <div class='background border spacing' onclick='alert("ddd")'>
+                <div class='background border spacing' onclick='pickClass("Berserker")'>
                     <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_berserker.png'>
                     <h3 class='alignCenter'>Berserker</h3>
                     <hr>
@@ -48,7 +48,7 @@
                     <p style='color:red'>Takes 2x damage from magic</p>
                     <p>The berserker has a 50% chance to hit an additional attack</p>
                 </div>
-                <div class='background border spacing' onclick='alert("ddd")'>
+                <div class='background border spacing' onclick='pickClass("Magic Knight")'>
                     <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_magic_knight.png'>
                     <h3 class='alignCenter'>Magic Knight</h3>
                     <hr>
@@ -59,7 +59,7 @@
                     <p style='color:red'>Only uses one (one-handed) weapon</p>
                     <p>For every successful hit, drop the foes armor reduction by 2.5%</p>
                 </div>
-                <div class='background border spacing' onclick='alert("ddd")'>
+                <div class='background border spacing' onclick='pickClass("Fencer")'>
                     <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_fencer.png'>
                     <h3 class='alignCenter'>Fencer</h3>
                     <hr>
@@ -72,7 +72,7 @@
                 </div>
             </div>
             <div>
-                <div class='background border spacing' onclick='alert("ddd")'>
+                <div class='background border spacing' onclick='pickClass("Frost Mage")'>
                     <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_frost_mage.png'>
                     <h3 class='alignCenter'>Frost Mage</h3>
                     <hr>
@@ -83,7 +83,7 @@
                     <p style='color:red'>Your magic attacks cannot be blocked or dodged</p>
                     <p>Has an icy aura. Drops the evasion rating of foes by 25%</p>
                 </div>
-                <div class='background border spacing' onclick='alert("ddd")'>
+                <div class='background border spacing' onclick='pickClass("Fire Mage")'>
                     <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_fire_mage.png'>
                     <h3 class='alignCenter'>Fire Mage</h3>
                     <hr>
@@ -94,7 +94,7 @@
                     <p style='color:red'>Your magic attacks cannot be blocked or dodged</p>
                     <p>Every attack applies a burn, which increases 10% of base damage each hit</p>
                 </div>
-                <div class='background border spacing' onclick='alert("ddd")'>
+                <div class='background border spacing' onclick='pickClass("Dark Mage")'>
                     <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_dark_mage.png'>
                     <h3 class='alignCenter'>Dark Mage</h3>
                     <hr>
@@ -105,7 +105,7 @@
                     <p style='color:red'>Your magic attacks cannot be blocked or dodged</p>
                     <p>On each hit, you have a 50% chance to steal a third of your base damage as health</p>
                 </div>
-                <div class='background border spacing' onclick='alert("ddd")'>
+                <div class='background border spacing' onclick='pickClass("Blood Mage")'>
                     <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_blood_mage.png'>
                     <h3 class='alignCenter'>Blood Mage</h3>
                     <hr>
@@ -118,7 +118,7 @@
                 </div>
             </div>
             <div>
-                <div class='background border spacing' onclick='alert("ddd")'>
+                <div class='background border spacing' onclick='pickClass("Scout")'>
                     <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_scout.png'>
                     <h3 class='alignCenter'>Scout</h3>
                     <hr>
@@ -129,7 +129,7 @@
                     <p style='color:red'>Reflexes: You have a 50% chance to evade physical attacks</p>
                     <p>Critical chance is increased by 25% against mages and 15% against melee foes</p>
                 </div>
-                <div class='background border spacing' onclick='alert("ddd")'>
+                <div class='background border spacing' onclick='pickClass("Rogue")'>
                     <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_rogue.png'>
                     <h3 class='alignCenter'>Rogue</h3>
                     <hr>
@@ -140,7 +140,7 @@
                     <p style='color:red'>Reflexes: You have a 50% chance to evade physical attacks</p>
                     <p>Can wield two melee weapons - striking twice on each hit</p>
                 </div>
-                <div class='background border spacing' onclick='alert("ddd")'>
+                <div class='background border spacing' onclick='pickClass("Demon Hunter")'>
                     <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_demon_hunter.PNG'>
                     <h3 class='alignCenter'>Demon Hunter</h3>
                     <hr>
@@ -150,7 +150,7 @@
                     <hr>
                     <p>Wears warrior equipment but uses ranged weapons. Has a 25% chance of restoring all hitpoints when killed</p>
                 </div>
-                <div class='background border spacing' onclick='alert("ddd")'>
+                <div class='background border spacing' onclick='pickClass("Assassin")'>
                     <img id='playerAvatar' class='resizeImg128' style='border: 0px' src='/static/classes/class_assassin.png'>
                     <h3 class='alignCenter'>Assassin</h3>
                     <hr>
@@ -165,33 +165,83 @@
         </div>
 
         <!-- AVATAR SELECTION -->
-        <div id='pickAvatarSection'>
+        <div id='pickAvatarSection' hidden>
 
             <div class='header border spacing'>
                 <h3 id='classHeader' class='textColor'>Avatar Selection</h3>
             </div>
             
             <div class='spacing'>
-                <button class='themeBigButton'>BACK</button>
+                <button class='themeBigButton' onclick='backButtonOnAvatar()'>BACK</button>
             </div>
 
             <div class='background border spacing'>
                 <div class='background'>
-                    <img id='playerAvatar' onclick='alert("dd")' class='border' src='/static/avatars/avatar_male1.png'>
-                    <img id='playerAvatar' class='border' src='/static/avatars/avatar_male2.png'>
-                    <img id='playerAvatar' class='border' src='/static/avatars/avatar_male3.png'>
-                    <img id='playerAvatar' class='border' src='/static/avatars/avatar_male4.png'>
-                    <img id='playerAvatar' class='border' src='/static/avatars/avatar_male5.png'>
+                    <img id='playerAvatar' onclick='pickAvatar("avatar_male1.png")' class='border' src='/static/avatars/avatar_male1.png'>
+                    <img id='playerAvatar' onclick='pickAvatar("avatar_male2.png")' class='border' src='/static/avatars/avatar_male2.png'>
+                    <img id='playerAvatar' onclick='pickAvatar("avatar_male3.png")' class='border' src='/static/avatars/avatar_male3.png'>
+                    <img id='playerAvatar' onclick='pickAvatar("avatar_male4.png")' class='border' src='/static/avatars/avatar_male4.png'>
+                    <img id='playerAvatar' onclick='pickAvatar("avatar_male5.png")' class='border' src='/static/avatars/avatar_male5.png'>
                 </div>
                 <div class='background'>
-                    <img id='playerAvatar' class='border' src='/static/avatars/avatar_female1.png'>
-                    <img id='playerAvatar' class='border' src='/static/avatars/avatar_female2.png'>
-                    <img id='playerAvatar' class='border' src='/static/avatars/avatar_female3.png'>
-                    <img id='playerAvatar' class='border' src='/static/avatars/avatar_female4.png'>
-                    <img id='playerAvatar' class='border' src='/static/avatars/avatar_female5.png'>
+                    <img id='playerAvatar' onclick='pickAvatar("avatar_female1.png")' class='border' src='/static/avatars/avatar_female1.png'>
+                    <img id='playerAvatar' onclick='pickAvatar("avatar_female2.png")' class='border' src='/static/avatars/avatar_female2.png'>
+                    <img id='playerAvatar' onclick='pickAvatar("avatar_female3.png")' class='border' src='/static/avatars/avatar_female3.png'>
+                    <img id='playerAvatar' onclick='pickAvatar("avatar_female4.png")' class='border' src='/static/avatars/avatar_female4.png'>
+                    <img id='playerAvatar' onclick='pickAvatar("avatar_female5.png")' class='border' src='/static/avatars/avatar_female5.png'>
                 </div>
             </div>
         </div>
     </div>
+
+    <form id='formCharacter' hidden action="#" method="POST">
+        <input type='text' name="className"></input>
+        <input type='text' name="avatarName"></input>
+        <input type="submit" value="">
+    </form>
 	
+{% endblock %}
+
+{% block script %}
+<script>
+
+var className = '';
+var avatarName = '';
+
+//If the player is on the class selection - put them back to the login screen
+function backButtonOnClass(){
+    window.location.replace("{{ url_for('signin') }}")
+}
+
+//If the player is on the avatar selection - hide the avatar section and unhide the class section
+function backButtonOnAvatar(){
+    var divClass = document.getElementById('pickClassSection')
+    var divAvatar = document.getElementById('pickAvatarSection')
+
+    divAvatar.hidden = true
+    divClass.hidden = false
+}
+
+function pickClass(chosenClass){
+    var divClass = document.getElementById('pickClassSection')
+    var divAvatar = document.getElementById('pickAvatarSection')
+
+    divClass.hidden = true
+    divAvatar.hidden = false
+    
+    className = chosenClass
+}
+
+function pickAvatar(chosenAvatar){
+    avatarName = chosenAvatar;
+
+    document.forms['formCharacter']['className'].value = className
+    document.forms['formCharacter']['avatarName'].value = avatarName
+
+    document.getElementById('formCharacter').submit()
+
+    //window.location.replace("{{ url_for('dashboard',className=className,avatarName=avatarName) }}")
+}
+
+</script>
 {% endblock %}

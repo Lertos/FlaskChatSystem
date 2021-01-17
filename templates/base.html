@@ -10,6 +10,7 @@
         {% block navbar %}{% endblock %}
         {% block body %}{% endblock %}
     </body>
+    {% block script %}{% endblock %}
     <script>
         function setActiveNavBar(){
             var buttons = document.getElementById('navBarButtons').getElementsByTagName('li');
@@ -21,5 +22,6 @@
                     buttons[i].classList.add('active')
             }          
         }
+        
     </script>
 </html>
