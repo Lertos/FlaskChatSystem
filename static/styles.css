@@ -88,8 +88,16 @@ OWN CLASSES
     background-color: var(--div);
 }
 
+.backgroundDark{
+    background-color: var(--background);
+}
+
 .tableColColor{
     background-color: var(--diffColorTable);
+}
+
+.sameLine{
+    display: inline;
 }
 
 .textColor{
@@ -135,6 +143,16 @@ OWN CLASSES
     background-color: #301f17;
 }
 
+.themePlusButton{
+    background-color: var(--background);
+    color: white;
+    font-size: 12px;
+    padding: 0px 2px;
+    margin: 0px;
+    border-radius: 2px;
+    border: 1px solid #301f17;
+}
+
 .themeBigButton{
     background-color: var(--background);
     color: white;
@@ -151,8 +169,38 @@ OWN CLASSES
 /* IMAGE UPDATES */
 
 .resizeImg128{
-    max-width:128; 
+    max-width:128px; 
     height:auto;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* Popup container */
+.popup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+    visibility: visible;
 }
 
 /*===================
@@ -250,52 +298,38 @@ DIRECT CLASSES
     background-color: var(--div);
 }
 
-#tableInventory{
-    width: 100%;
-}
-
-#tableInventory tr{
-    text-align: center;
-}
-
 #playerPanelInfo td{
     width: 50%;
     padding: 0 6px;
+}
+
+#playerPanelInfo tr td h5{
+    font-weight: bold;
 }
 
 #playerPanelInfo td:nth-child(even){
     text-align: right;
 }
 
-#playerEquipmentStats{
-    width: 100%;
-}
-
-#playerEquipmentStats td{
-    width: 25%;
-    text-align: center;
-}
-
-#playerEquipmentStats td p{
-    text-align: center;
-}
-
-#equipmentItemSlots{
-    display: block;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-#equipmentPanel{
-    display: inline-block;
-    width: 100%;
-    height: auto;
-    text-align: center;
-}
-
-#equipmentStats{
-    display: inline-block;
-    width: 45%;
-    height: auto;
+#playerPanelInfo td:nth-child(odd){
     text-align: left;
+}
+
+.inventory{
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    font-size: 0;
+}
+
+.inventory div{
+    display: block;
+}
+
+.inventory img{
+    border: var(--text) 2px solid;
+}
+
+.equipmentSlots img{
+    border: none;
 }

@@ -14,14 +14,11 @@
         <!-- LEFT PANEL -->
         <div class='sidePanel background border spacing'>
             
-            <!-- Player Avatar -->
-            <div class='alignCenter'>
-                <img id='playerAvatar' class='resizeImg128' src='/static/avatars/{{ user["avatarName"] }}'>
-            </div>
+            <img class='resizeImg128' src='/static/avatars/{{ user["avatarName"] }}'>
 
             <!-- Player Info Panel -->
             <div id='playerInfo'>
-                <h3 class='alignCenter'>{{ user['displayName'] }}</h3>
+                <h3 class='alignCenter'><strong>{{ user['displayName'] }}</strong></h3>
 
                 <hr>
 
@@ -53,22 +50,50 @@
 
             <hr>
 
-            <div class='alignCenter'>
+            <div class='alignLeft'>
+                <table>
+                    <tr>
+                        <td class='alignLeft'>
+                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
+                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
+                            <h5 class='sameLine tableColColor'>Luck</h5>
+                        </td>
+                        <td class='alignRight'>
+                            <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseLuck'] }}</p>
+                            <p class='sameLine' style='color:green'>(+122)</p>
+                        </td>
+                    </tr>
+                </table>
 
-                <h5 class='tableColColor'>Strength</h5>
-                <p id='player_class'>{{ user['baseStrength'] }}</p>
+                <ul style='overflow-x:hidden;
+                white-space:nowrap; 
+                width: 100%;'>
+                    <li class='alignLeft sameLine'>
+                        <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
+                        <h5 class='sameLine'>Strength</h5>
+                    </li>
+                    <li class='alignRight sameLine'>
+                        <p id='player_class' class='tableColColor'>{{ user['baseStrength'] }}</p>
+                    </li>
+                </ul>
 
-                <h5 class='tableColColor'>Dexterity</h5>
+                <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
+                <h5 class='sameLine tableColColor'>Dexterity</h5>
                 <p id='player_class'>{{ user['baseDexterity'] }}</p>
 
-                <h5 class='tableColColor'>Intelligence</h5>
+                <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
+                <h5 class='sameLine tableColColor'>Intelligence</h5>
                 <p id='player_class'>{{ user['baseIntelligence'] }}</p>
 
-                <h5 class='tableColColor'>Constitution</h5>
+                <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
+                <h5 class='sameLine tableColColor'>Constitution</h5>
                 <p id='player_class'>{{ user['baseConstitution'] }}</p>
 
-                <h5 class='tableColColor'>Luck</h5>
-                <p id='player_class'>{{ user['baseLuck'] }}</p>
+                <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
+                <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
+                <h5 class='sameLine tableColColor'>Luck</h5>
+                <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseLuck'] }}</p>
+                <p class='sameLine' style='color:green'>(+122)</p>
             </div>
         </div>
 
@@ -79,15 +104,25 @@
 
             <hr>
 
-            <div id='equipmentItemSlots'>
-                <img src='/static/pirates.png'>
-                <img src='/static/sword2.png'>
-                <img src='/static/sword2.png'>
-                <img src='/static/sword2.png'>
-                <img src='/static/sword2.png'>
-                <img src='/static/sword2.png'>
-                <img src='/static/sword2.png'>
-                <img src='/static/sword2.png'>
+            <div class='inventory'>
+                <div class='equipmentSlots'>
+                    <img src='/static/slots/slot_helmet.png'>
+                    <img src='/static/slots/slot_chest.png'>
+                    <img src='/static/slots/slot_legs.png'>
+                    <img src='/static/slots/slot_gloves.png'>
+                    <img src='/static/slots/slot_boots.png'>
+                    <img src='/static/slots/slot_weapon.png'>
+                    <img src='/static/slots/slot_offhand.png'>
+                </div>
+                <div>
+                    <img src='/static/weapons/axe1.png'>
+                    <img src='/static/weapons/axe2.png'>
+                    <img src='/static/weapons/dagger1.png'>
+                    <img src='/static/weapons/dagger2.png'>
+                    <img src='/static/weapons/dagger3.png'>
+                    <img src='/static/weapons/axe2.png'>
+                    <img src='/static/weapons/axe3.png'>
+                </div>
             </div>
 
             <hr>
@@ -96,23 +131,31 @@
 
             <hr>
 
-            <div id='inventory'>
-                <img src='/static/sword1.png'>
-                <img src='/static/sword.png'>
-                <img src='/static/sword2.png'>
-                <img src='/static/pepe.png'>
-                <img src='/static/sword1.png'>
-                <img src='/static/sword.png'>
-                <img src='/static/sword2.png'>
-                <img src='/static/pepe.png'>
-                <img src='/static/sword1.png'>
-                <img src='/static/sword.png'>
-                <img src='/static/sword2.png'>
-                <img src='/static/pepe.png'>
-                <img src='/static/sword1.png'>
-                <img src='/static/sword.png'>
-                <img src='/static/sword2.png'>
-                <img src='/static/pepe.png'>
+            <div class='inventory'>
+                <div>
+                    <img src='/static/weapons/dagger1.png'>
+                    <img src='/static/weapons/dagger2.png'>
+                    <img src='/static/weapons/maul1.png'>
+                    <img src='/static/weapons/axe2.png'>
+                    <img src='/static/weapons/dagger1.png'>
+                    <img src='/static/weapons/maul2.png'>
+                </div>
+                <div>
+                    <img src='/static/weapons/dagger2.png'>
+                    <img src='/static/weapons/axe1.png'>
+                    <img src='/static/weapons/maul3.png'>
+                    <img src='/static/weapons/dagger1.png'>
+                    <img src='/static/weapons/axe3.png'>
+                    <img src='/static/weapons/dagger1.png'>
+                </div>
+                <div>
+                    <img class='backgroundDark' src='/static/slots/lock.png'>
+                    <img class='backgroundDark' src='/static/slots/lock.png'>
+                    <img class='backgroundDark' src='/static/slots/lock.png'>
+                    <img class='backgroundDark' src='/static/slots/lock.png'>
+                    <img class='backgroundDark' src='/static/slots/lock.png'>
+                    <img class='backgroundDark' src='/static/slots/lock.png'>
+                </div>
             </div>
 
         </div>
@@ -144,4 +187,17 @@
         
     </div>
     
+{% endblock %}
+
+{% block script %}
+    <script>
+        function myFunction() {
+            var popup = document.getElementById("myPopup");
+            popup.classList.toggle("show");
+        }
+        function myFunction2() {
+            var popup = document.getElementById("myPopup");
+            popup.classList.toggle("show");
+        }
+    </script>
 {% endblock %}
