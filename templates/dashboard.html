@@ -56,44 +56,58 @@
                         <td class='alignLeft'>
                             <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
                             <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
-                            <h5 class='sameLine tableColColor'>Luck</h5>
+                            <h5 class='sameLine'>Strength</h5>
+                        </td>
+                        <td class='alignRight'>
+                            <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseStrength'] }}</p>
+                            <p class='sameLine' style='color:green'>(+0)</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'>
+                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
+                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
+                            <h5 class='sameLine tableColColor'>Dexterity</h5>
+                        </td>
+                        <td class='alignRight'>
+                            <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseDexterity'] }}</p>
+                            <p class='sameLine' style='color:green'>(+0)</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'>
+                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
+                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
+                            <h5 class='sameLine'>Intelligence</h5>
+                        </td>
+                        <td class='alignRight'>
+                            <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseIntelligence'] }}</p>
+                            <p class='sameLine' style='color:green'>(+0)</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'>
+                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
+                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
+                            <h5 class='sameLine tableColColor'>Constitution</h5>
+                        </td>
+                        <td class='alignRight'>
+                            <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseConstitution'] }}</p>
+                            <p class='sameLine' style='color:green'>(+0)</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'>
+                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
+                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
+                            <h5 class='sameLine'>Luck</h5>
                         </td>
                         <td class='alignRight'>
                             <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseLuck'] }}</p>
-                            <p class='sameLine' style='color:green'>(+122)</p>
+                            <p class='sameLine' style='color:green'>(+0)</p>
                         </td>
                     </tr>
                 </table>
-
-                <ul style='overflow-x:hidden;
-                white-space:nowrap; 
-                width: 100%;'>
-                    <li class='alignLeft sameLine'>
-                        <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
-                        <h5 class='sameLine'>Strength</h5>
-                    </li>
-                    <li class='alignRight sameLine'>
-                        <p id='player_class' class='tableColColor'>{{ user['baseStrength'] }}</p>
-                    </li>
-                </ul>
-
-                <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
-                <h5 class='sameLine tableColColor'>Dexterity</h5>
-                <p id='player_class'>{{ user['baseDexterity'] }}</p>
-
-                <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
-                <h5 class='sameLine tableColColor'>Intelligence</h5>
-                <p id='player_class'>{{ user['baseIntelligence'] }}</p>
-
-                <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
-                <h5 class='sameLine tableColColor'>Constitution</h5>
-                <p id='player_class'>{{ user['baseConstitution'] }}</p>
-
-                <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
-                <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
-                <h5 class='sameLine tableColColor'>Luck</h5>
-                <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseLuck'] }}</p>
-                <p class='sameLine' style='color:green'>(+122)</p>
             </div>
         </div>
 
@@ -139,14 +153,6 @@
                     <img src='/static/weapons/axe2.png'>
                     <img src='/static/weapons/dagger1.png'>
                     <img src='/static/weapons/maul2.png'>
-                </div>
-                <div>
-                    <img src='/static/weapons/dagger2.png'>
-                    <img src='/static/weapons/axe1.png'>
-                    <img src='/static/weapons/maul3.png'>
-                    <img src='/static/weapons/dagger1.png'>
-                    <img src='/static/weapons/axe3.png'>
-                    <img src='/static/weapons/dagger1.png'>
                 </div>
                 <div>
                     <img class='backgroundDark' src='/static/slots/lock.png'>
