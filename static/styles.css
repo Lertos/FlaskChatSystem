@@ -13,6 +13,7 @@
     --div: #f9c49a;
     --borderAndLines: #411b0b;
     --diffColorTable: #ebb68c;
+    --imageBackground: rgb(27, 27, 27);
   }
 
 /*===================
@@ -43,6 +44,7 @@ img{
     max-width:64px; 
     height:auto;
     border: var(--text) 3px solid;
+    background-color: var(--imageBackground);
 }
 
 
@@ -316,8 +318,4 @@ DIRECT CLASSES
 
 .inventory div{
     display: block;
-}
-
-.inventory img{
-    background-color: rgb(27, 27, 27);
 }

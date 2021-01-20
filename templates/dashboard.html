@@ -54,60 +54,73 @@
                 <table class='attributePanel'>
                     <tr>
                         <td class='alignLeft'>
-                            <button onclick='showPopupDiv("playerStrength")'>?</button>
-                            <button onclick='increaseAttribute("playerStrength")'>+</button>
+                            <button onclick='showPopupDiv("playerStrength")'>+</button>
                             <h5>Strength</h5>
                         </td>
                         <td class='alignRight'>
                             <p id='playerStrength' class='sameLine'>{{ user['baseStrength'] }}</p>
-                            <p class='sameLine textGreen'>(+0)</p>
+                            (<p id='playerPlusStrength' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
                     <tr>
                         <td class='alignLeft'>
-                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
-                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
-                            <h5 class='sameLine tableColColor'>Dexterity</h5>
+                            <button onclick='showPopupDiv("playerDexterity")'>+</button>
+                            <h5>Dexterity</h5>
                         </td>
                         <td class='alignRight'>
-                            <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseDexterity'] }}</p>
-                            <p class='sameLine' style='color:green'>(+0)</p>
+                            <p id='playerDexterity' class='sameLine'>{{ user['baseDexterity'] }}</p>
+                            (<p id='playerPlusDexterity' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
                     <tr>
                         <td class='alignLeft'>
-                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
-                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
-                            <h5 class='sameLine'>Intelligence</h5>
+                            <button onclick='showPopupDiv("playerIntelligence")'>+</button>
+                            <h5>Intelligence</h5>
                         </td>
                         <td class='alignRight'>
-                            <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseIntelligence'] }}</p>
-                            <p class='sameLine' style='color:green'>(+0)</p>
+                            <p id='playerIntelligence' class='sameLine'>{{ user['baseIntelligence'] }}</p>
+                            (<p id='playerPlusIntelligence' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
                     <tr>
                         <td class='alignLeft'>
-                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
-                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
-                            <h5 class='sameLine tableColColor'>Constitution</h5>
+                            <button onclick='showPopupDiv("playerConstitution")'>+</button>
+                            <h5>Constitution</h5>
                         </td>
                         <td class='alignRight'>
-                            <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseConstitution'] }}</p>
-                            <p class='sameLine' style='color:green'>(+0)</p>
+                            <p id='playerConstitution' class='sameLine'>{{ user['baseConstitution'] }}</p>
+                            (<p id='playerPlusConstitution' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
                     <tr>
                         <td class='alignLeft'>
-                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
-                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
-                            <h5 class='sameLine'>Luck</h5>
+                            <button onclick='showPopupDiv("playerLuck")'>+</button>
+                            <h5>Luck</h5>
                         </td>
                         <td class='alignRight'>
-                            <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseLuck'] }}</p>
-                            <p class='sameLine' style='color:green'>(+0)</p>
+                            <p id='playerLuck' class='sameLine'>{{ user['baseLuck'] }}</p>
+                            (<p id='playerPlusLuck' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
                 </table>
+
+                <hr>
+
+                <h3>Player Stats</h3>
+
+                <hr>
+
+                <h5 class='tableColColor'>Players Killed </h5>
+                <p id='player_class'>{{ user['playersKilled'] }}</p>
+
+                <h5 class='tableColColor'>Monsters Killed </h5>
+                <p id='player_class'>{{ user['monstersKilled'] }}</p>
+
+                <h5 class='tableColColor'>Gold Collected </h5>
+                <p id='player_class'>{{ user['goldCollected'] }}</p>
+
+                <h5 class='tableColColor'>Quests Done </h5>
+                <p id='player_class'>{{ user['questsDone'] }}</p>
             </div>
         </div>
 
@@ -159,21 +172,85 @@
             <!-- Player Stats Panel -->
             <div class='alignCenter'>
                 
-                <h3>Player Stats</h3>
+                <h3>Item Information</h3>
 
                 <hr>
 
-                <h5 class='tableColColor'>Players Killed </h5>
-                <p id='player_class'>{{ user['playersKilled'] }}</p>
+                <img src='/static/weapons/dagger1.png'>
+                <h3>Dagger of Blast</h3>
+                <h4>Rare</h4>
 
-                <h5 class='tableColColor'>Monsters Killed </h5>
-                <p id='player_class'>{{ user['monstersKilled'] }}</p>
+                <table class='attributePanel'>
+                    <tr>
+                        <td class='alignLeft'><h5>Weapon Dmg</h5></td>
+                        <td class='alignRight'><p id='itemDamage' class='sameLine'>22</p>~</td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'><h5>Armor</h5></td>
+                        <td class='alignRight'><p id='itemDamage' class='sameLine'>0</p></td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'><h5>Strength</h5></td>
+                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'><h5>Dexterity</h5></td>
+                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'><h5>Intelligence</h5></td>
+                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'><h5>Constitution</h5></td>
+                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'><h5>Luck</h5></td>
+                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                    </tr>
+                </table>
 
-                <h5 class='tableColColor'>Gold Collected </h5>
-                <p id='player_class'>{{ user['goldCollected'] }}</p>
+                <hr>
 
-                <h5 class='tableColColor'>Quests Done </h5>
-                <p id='player_class'>{{ user['questsDone'] }}</p>
+                <h3>Current Item</h3>
+
+                <hr>
+
+                <img src='/static/weapons/dagger1.png'>
+                <h3>Dagger of Blast</h3>
+                <h4>Rare</h4>
+
+                <table class='attributePanel'>
+                    <tr>
+                        <td class='alignLeft'><h5>Weapon Dmg</h5></td>
+                        <td class='alignRight'><p id='itemDamage' class='sameLine'>22</p>~</td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'><h5>Armor</h5></td>
+                        <td class='alignRight'><p id='itemDamage' class='sameLine'>0</p></td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'><h5>Strength</h5></td>
+                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'><h5>Dexterity</h5></td>
+                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'><h5>Intelligence</h5></td>
+                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'><h5>Constitution</h5></td>
+                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                    </tr>
+                    <tr>
+                        <td class='alignLeft'><h5>Luck</h5></td>
+                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                    </tr>
+                </table>
             </div>
 
         </div>
@@ -187,9 +264,14 @@
 
     function increaseAttribute(id) {
         var attributeLevel = document.getElementById(id).innerText
-        var costToUpgrade = parseInt(attributeLevel) * -10
+        var gold = document.getElementById('playerGold').innerText
+        var costToUpgrade = parseInt(attributeLevel)
+        
+        if(gold < costToUpgrade)
+            return
 
-        updateInnerText('playerGold', costToUpgrade)
+        updateInnerText('playerGold', -costToUpgrade)
+        updateInnerText('playerPlusStrength', 2)
         updateInnerText(id, 1)
     }
 
