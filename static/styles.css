@@ -1,3 +1,15 @@
+/* TABLE OF CONTENTS
+
+-base
+-color
+-position
+-direct
+-border
+-button
+-other
+
+*/
+
 /* List of useful things to know
 
 -You can do CTRL+SHIFT+R to refresh the page wwith no cache!!
@@ -14,11 +26,19 @@
     --borderAndLines: #411b0b;
     --diffColorTable: #ebb68c;
     --imageBackground: rgb(27, 27, 27);
+    --borderCommon: grey;
+    --borderUncommon: green;
+    --borderRare: darkblue;
+    --borderLegendary: gold;
+    --borderMythic: red;
+    --borderUnique: purple;
+
+    --borderWidth: 3px;
   }
 
 /*===================
 
-BASE ELEMENT CLASSES
+    base
 
 ===================*/
 
@@ -43,14 +63,47 @@ hr{
 img{
     max-width:64px; 
     height:auto;
-    border: var(--text) 3px solid;
+    border: var(--text) var(--borderWidth) solid;
     background-color: var(--imageBackground);
 }
 
+/*===================
+
+    color
+
+===================*/
+
+.background{
+    background-color: var(--div);
+}
+
+.backgroundDark{
+    background-color: var(--background);
+}
+
+.tableColColor{
+    background-color: var(--diffColorTable);
+}
+
+.textColor{
+    color: var(--text);
+}
+
+.textColorDarker{
+    color: var(--background);
+}
+
+.textColorLighter{
+    color: var(--div);
+}
+
+.textGreen{
+    color: green;
+}
 
 /*===================
 
-OWN CLASSES
+    position
 
 ===================*/
 
@@ -73,118 +126,42 @@ OWN CLASSES
     background-color: var(--div);
 }
 
-.border{
-    border: var(--borderAndLines);
-    border-radius: 8px;
-    border-width: 8px;
-    border-style: solid;
-}
-
 .spacing{
     padding: 16px;
     margin-top: 16px;
     margin-right: 30px;
 }
 
-.background{
-    background-color: var(--div);
-}
-
-.backgroundDark{
-    background-color: var(--background);
-}
-
-.tableColColor{
-    background-color: var(--diffColorTable);
-}
-
 .sameLine{
     display: inline;
 }
 
-.textColor{
-    color: var(--text);
+.leftRightTable td:nth-child(odd){
+    text-align: left;
 }
 
-.textColorDarker{
-    color: var(--background);
+.leftRightTable td:nth-child(even){
+    text-align: right;
 }
 
-.textColorLighter{
-    color: var(--div);
+.leftRightTable h5,p{
+    display: inline;
 }
 
-.textGreen{
-    color: green;
-}
-
-/* NAV BAR UPDATES */
-.nav.navbar-nav li a {
-    color: var(--background);
-    background-color: var(--div);
-    font-weight: bold;
-}
-
-.navbar-inverse .navbar-brand{ 
-    color: white;
-    background-color: var(--background);
-    font-weight: bold;
-}
-
-.navbar-inverse .navbar-brand:hover{ 
-    background-color: #38241b;
-}
-
-/* BUTTON THEME */
-.themeSmallButton{
+.leftRightTable button{
+    display: inline;
     background-color: var(--background);
     color: white;
-    font-size: 16px;
-    padding: 2px 4px;
-    border-radius: 8px;
-    border: 4px solid #301f17;
-}
-
-.themeSmallButton:hover{
-    background-color: #301f17;
-}
-
-.themeBigButton{
-    background-color: var(--background);
-    color: white;
-    font-size: 20px;
-    padding: 8px 16px;
-    border-radius: 8px;
-    border: 4px solid #301f17;
-}
-
-.themeBigButton:hover{
-    background-color: #301f17;
-}
-
-/* IMAGE UPDATES */
-
-.resizeImg128{
-    max-width:128px; 
-    height:auto;
+    font-size: 12px;
+    padding: 0px 2px;
     margin: 0px;
-    padding: 0px;
+    border-radius: 2px;
+    border: 1px solid #301f17;
 }
-
-/* COULD USE THESE TO MAKE MORE ITEMS */
-.saturate { filter: saturate(3); }
-.grayscale { filter: grayscale(100%); }
-.contrast { filter: contrast(160%); }
-.brightness { filter: brightness(0.25); }
-.blur { filter: blur(3px); }
-.invert { filter: invert(100%); }
-.sepia { filter: sepia(100%); }
-.huerotate { filter: hue-rotate(180deg); }
-.rss.opacity { filter: opacity(50%); }
 
 /*===================
 
-DIRECT CLASSES
+    direct
 
 ===================*/
 
@@ -277,38 +254,6 @@ DIRECT CLASSES
     background-color: var(--div);
 }
 
-#playerPanelInfo td{
-    width: 50%;
-    padding: 0 6px;
-}
-
-#playerPanelInfo tr td h5{
-    font-weight: bold;
-}
-
-#playerPanelInfo td:nth-child(even){
-    text-align: right;
-}
-
-#playerPanelInfo td:nth-child(odd){
-    text-align: left;
-}
-
-.attributePanel button{
-    display: inline;
-    background-color: var(--background);
-    color: white;
-    font-size: 12px;
-    padding: 0px 2px;
-    margin: 0px;
-    border-radius: 2px;
-    border: 1px solid #301f17;
-}
-
-.attributePanel h5{
-    display: inline;
-}
-
 .inventory{
     padding: 0px;
     margin: 0px;
@@ -319,3 +264,113 @@ DIRECT CLASSES
 .inventory div{
     display: block;
 }
+
+/*===================
+
+    border
+
+===================*/
+
+.border{
+    border: var(--borderAndLines);
+    border-radius: 8px;
+    border-width: 8px;
+    border-style: solid;
+}
+
+.itemBorderCommon{
+    border: var(--borderWidth) solid var(--borderCommon);
+}
+
+.itemBorderUncommon{
+    border: var(--borderWidth) solid var(--borderUncommon);
+}
+
+.itemBorderRare{
+    border: var(--borderWidth) solid var(--borderRare);
+}
+
+.itemBorderLegendary{
+    border: var(--borderWidth) solid var(--borderLegendary);
+}
+
+.itemBorderMythic{
+    border: var(--borderWidth) solid var(--borderMythic);
+}
+
+.itemBorderUnique{
+    border: var(--borderWidth) solid var(--borderUnique);
+}
+
+/*===================
+
+    button
+
+===================*/
+
+.themeSmallButton{
+    background-color: var(--background);
+    color: white;
+    font-size: 16px;
+    padding: 2px 4px;
+    border-radius: 8px;
+    border: 4px solid #301f17;
+}
+
+.themeSmallButton:hover{
+    background-color: #301f17;
+}
+
+.themeBigButton{
+    background-color: var(--background);
+    color: white;
+    font-size: 20px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 4px solid #301f17;
+}
+
+.themeBigButton:hover{
+    background-color: #301f17;
+}
+
+/*===================
+
+    other
+
+===================*/
+
+/* NAV BAR */
+.nav.navbar-nav li a {
+    color: var(--background);
+    background-color: var(--div);
+    font-weight: bold;
+}
+
+.navbar-inverse .navbar-brand{ 
+    color: white;
+    background-color: var(--background);
+    font-weight: bold;
+}
+
+.navbar-inverse .navbar-brand:hover{ 
+    background-color: #38241b;
+}
+
+.resizeImg128{
+    max-width:128px; 
+    height:auto;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* COULD USE THESE TO MAKE MORE ITEMS */
+.saturate { filter: saturate(3); }
+.grayscale { filter: grayscale(100%); }
+.contrast { filter: contrast(160%); }
+.brightness { filter: brightness(0.25); }
+.blur { filter: blur(3px); }
+.invert { filter: invert(100%); }
+.sepia { filter: sepia(100%); }
+.huerotate { filter: hue-rotate(180deg); }
+.rss.opacity { filter: opacity(50%); }

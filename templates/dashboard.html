@@ -23,25 +23,25 @@
                 <hr>
 
                 <div>
-                    <table id='playerPanelInfo'>
+                    <table class='leftRightTable'>
                         <tr>
-                            <td><h5>Class </h5></td>
+                            <td><h5>Class</h5></td>
                             <td><p>{{ user['className'] }}</p></td>
                         </tr>
                         <tr>
-                            <td><h5>Level </h5></td>
+                            <td><h5>Level</h5></td>
                             <td><p>{{ user['playerLevel'] }}</p></td>
                         </tr>
                         <tr>
-                            <td><h5>Exp Left </h5></td>
+                            <td><h5>Exp Left</h5></td>
                             <td><p>{{ user['expUntilLevel'] }}</p></td>
                         </tr>
                         <tr>
-                            <td><h5>Gold </h5></td>
+                            <td><h5>Gold</h5></td>
                             <td><p id='playerGold'>{{ user['gold'] }}</p></td>
                         </tr>
                         <tr>
-                            <td><h5>Stamina </h5></td>
+                            <td><h5>Stamina</h5></td>
                             <td><p>{{ user['stamina'] }}</p></td>
                         </tr>
                     </table>
@@ -51,53 +51,53 @@
             <hr>
 
             <div>
-                <table class='attributePanel'>
+                <table class='leftRightTable'>
                     <tr>
-                        <td class='alignLeft'>
+                        <td>
                             <button onclick='showPopupDiv("playerStrength")'>+</button>
                             <h5>Strength</h5>
                         </td>
-                        <td class='alignRight'>
+                        <td>
                             <p id='playerStrength' class='sameLine'>{{ user['baseStrength'] }}</p>
                             (<p id='playerPlusStrength' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'>
+                        <td>
                             <button onclick='showPopupDiv("playerDexterity")'>+</button>
                             <h5>Dexterity</h5>
                         </td>
-                        <td class='alignRight'>
+                        <td>
                             <p id='playerDexterity' class='sameLine'>{{ user['baseDexterity'] }}</p>
                             (<p id='playerPlusDexterity' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'>
+                        <td>
                             <button onclick='showPopupDiv("playerIntelligence")'>+</button>
                             <h5>Intelligence</h5>
                         </td>
-                        <td class='alignRight'>
+                        <td>
                             <p id='playerIntelligence' class='sameLine'>{{ user['baseIntelligence'] }}</p>
                             (<p id='playerPlusIntelligence' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'>
+                        <td>
                             <button onclick='showPopupDiv("playerConstitution")'>+</button>
                             <h5>Constitution</h5>
                         </td>
-                        <td class='alignRight'>
+                        <td>
                             <p id='playerConstitution' class='sameLine'>{{ user['baseConstitution'] }}</p>
                             (<p id='playerPlusConstitution' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'>
+                        <td>
                             <button onclick='showPopupDiv("playerLuck")'>+</button>
                             <h5>Luck</h5>
                         </td>
-                        <td class='alignRight'>
+                        <td>
                             <p id='playerLuck' class='sameLine'>{{ user['baseLuck'] }}</p>
                             (<p id='playerPlusLuck' class='sameLine textGreen'>0</p>)
                         </td>
@@ -110,17 +110,24 @@
 
                 <hr>
 
-                <h5 class='tableColColor'>Players Killed </h5>
-                <p id='player_class'>{{ user['playersKilled'] }}</p>
-
-                <h5 class='tableColColor'>Monsters Killed </h5>
-                <p id='player_class'>{{ user['monstersKilled'] }}</p>
-
-                <h5 class='tableColColor'>Gold Collected </h5>
-                <p id='player_class'>{{ user['goldCollected'] }}</p>
-
-                <h5 class='tableColColor'>Quests Done </h5>
-                <p id='player_class'>{{ user['questsDone'] }}</p>
+                <table class='leftRightTable'>
+                    <tr>
+                        <td><h5>Players Killed</h5></td>
+                        <td><p>{{ user['playersKilled'] }}</p></td>
+                    </tr>
+                    <tr>
+                        <td><h5>Monsters Killed</h5></td>
+                        <td><p>{{ user['monstersKilled'] }}</p></td>
+                    </tr>
+                    <tr>
+                        <td><h5>Gold Collected</h5></td>
+                        <td><p>{{ user['goldCollected'] }}</p></td>
+                    </tr>
+                    <tr>
+                        <td><h5>Quests Done</h5></td>
+                        <td><p>{{ user['questsDone'] }}</p></td>
+                    </tr>
+                </table>
             </div>
         </div>
 
@@ -151,12 +158,12 @@
 
             <div class='inventory'>
                 <div>
-                    <img src='/static/weapons/dagger1.png'>
-                    <img src='/static/weapons/dagger2.png'>
-                    <img src='/static/weapons/maul1.png'>
-                    <img src='/static/weapons/axe2.png'>
-                    <img src='/static/weapons/dagger1.png'>
-                    <img src='/static/weapons/maul2.png'>
+                    <img class='itemBorderCommon' src='/static/weapons/dagger1.png'>
+                    <img class='itemBorderUncommon' src='/static/weapons/dagger2.png'>
+                    <img class='itemBorderRare' src='/static/weapons/maul1.png'>
+                    <img class='itemBorderLegendary' src='/static/weapons/axe2.png'>
+                    <img class='itemBorderUnique' src='/static/weapons/dagger1.png'>
+                    <img class='itemBorderMythic' src='/static/weapons/maul2.png'>
                 </div>
                 <div>
                     <img src='/static/weapons/dagger1.png'>
@@ -177,37 +184,36 @@
                 <hr>
 
                 <img src='/static/weapons/dagger1.png'>
-                <h3>Dagger of Blast</h3>
-                <h4>Rare</h4>
+                <h4>Dagger of Blast</h4>
 
-                <table class='attributePanel'>
+                <table class='leftRightTable'>
                     <tr>
-                        <td class='alignLeft'><h5>Weapon Dmg</h5></td>
-                        <td class='alignRight'><p id='itemDamage' class='sameLine'>22</p>~</td>
+                        <td><h5>Weapon Dmg</h5></td>
+                        <td><p id='itemDamage' class='sameLine'>22</p>~</td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'><h5>Armor</h5></td>
-                        <td class='alignRight'><p id='itemDamage' class='sameLine'>0</p></td>
+                        <td><h5>Armor</h5></td>
+                        <td><p id='itemDamage' class='sameLine'>0</p></td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'><h5>Strength</h5></td>
-                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><h5>Strength</h5></td>
+                        <td><p id='playerStrength' class='sameLine'>0</p></td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'><h5>Dexterity</h5></td>
-                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><h5>Dexterity</h5></td>
+                        <td><p id='playerStrength' class='sameLine'>0</p></td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'><h5>Intelligence</h5></td>
-                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><h5>Intelligence</h5></td>
+                        <td><p id='playerStrength' class='sameLine'>0</p></td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'><h5>Constitution</h5></td>
-                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><h5>Constitution</h5></td>
+                        <td><p id='playerStrength' class='sameLine'>0</p></td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'><h5>Luck</h5></td>
-                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><h5>Luck</h5></td>
+                        <td><p id='playerStrength' class='sameLine'>0</p></td>
                     </tr>
                 </table>
 
@@ -218,37 +224,36 @@
                 <hr>
 
                 <img src='/static/weapons/dagger1.png'>
-                <h3>Dagger of Blast</h3>
-                <h4>Rare</h4>
+                <h4>Dagger of Blast</h4>
 
-                <table class='attributePanel'>
+                <table class='leftRightTable'>
                     <tr>
-                        <td class='alignLeft'><h5>Weapon Dmg</h5></td>
-                        <td class='alignRight'><p id='itemDamage' class='sameLine'>22</p>~</td>
+                        <td><h5>Weapon Dmg</h5></td>
+                        <td><p id='itemDamage' class='sameLine'>22</p>~</td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'><h5>Armor</h5></td>
-                        <td class='alignRight'><p id='itemDamage' class='sameLine'>0</p></td>
+                        <td><h5>Armor</h5></td>
+                        <td><p id='itemDamage' class='sameLine'>0</p></td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'><h5>Strength</h5></td>
-                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><h5>Strength</h5></td>
+                        <td><p id='playerStrength' class='sameLine'>0</p></td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'><h5>Dexterity</h5></td>
-                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><h5>Dexterity</h5></td>
+                        <td><p id='playerStrength' class='sameLine'>0</p></td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'><h5>Intelligence</h5></td>
-                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><h5>Intelligence</h5></td>
+                        <td><p id='playerStrength' class='sameLine'>0</p></td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'><h5>Constitution</h5></td>
-                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><h5>Constitution</h5></td>
+                        <td><p id='playerStrength' class='sameLine'>0</p></td>
                     </tr>
                     <tr>
-                        <td class='alignLeft'><h5>Luck</h5></td>
-                        <td class='alignRight'><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><h5>Luck</h5></td>
+                        <td><p id='playerStrength' class='sameLine'>0</p></td>
                     </tr>
                 </table>
             </div>
