@@ -112,6 +112,10 @@ OWN CLASSES
     color: var(--div);
 }
 
+.textGreen{
+    color: green;
+}
+
 /* NAV BAR UPDATES */
 .nav.navbar-nav li a {
     color: var(--background);
@@ -143,16 +147,6 @@ OWN CLASSES
     background-color: #301f17;
 }
 
-.themePlusButton{
-    background-color: var(--background);
-    color: white;
-    font-size: 12px;
-    padding: 0px 2px;
-    margin: 0px;
-    border-radius: 2px;
-    border: 1px solid #301f17;
-}
-
 .themeBigButton{
     background-color: var(--background);
     color: white;
@@ -175,33 +169,16 @@ OWN CLASSES
     padding: 0px;
 }
 
-/* Popup container */
-.popup {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-    }
-
-/* The actual popup (appears on top) */
-.popup .popuptext {
-    visibility: hidden;
-    width: 160px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 8px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -80px;
-}
-
-/* Toggle this class when clicking on the popup container (hide and show the popup) */
-.popup .show {
-    visibility: visible;
-}
+/* COULD USE THESE TO MAKE MORE ITEMS */
+.saturate { filter: saturate(3); }
+.grayscale { filter: grayscale(100%); }
+.contrast { filter: contrast(160%); }
+.brightness { filter: brightness(0.25); }
+.blur { filter: blur(3px); }
+.invert { filter: invert(100%); }
+.sepia { filter: sepia(100%); }
+.huerotate { filter: hue-rotate(180deg); }
+.rss.opacity { filter: opacity(50%); }
 
 /*===================
 
@@ -315,6 +292,21 @@ DIRECT CLASSES
     text-align: left;
 }
 
+.attributePanel button{
+    display: inline;
+    background-color: var(--background);
+    color: white;
+    font-size: 12px;
+    padding: 0px 2px;
+    margin: 0px;
+    border-radius: 2px;
+    border: 1px solid #301f17;
+}
+
+.attributePanel h5{
+    display: inline;
+}
+
 .inventory{
     padding: 0px;
     margin: 0px;
@@ -327,9 +319,5 @@ DIRECT CLASSES
 }
 
 .inventory img{
-    border: var(--text) 2px solid;
-}
-
-.equipmentSlots img{
-    border: none;
+    background-color: rgb(27, 27, 27);
 }

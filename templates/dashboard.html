@@ -26,23 +26,23 @@
                     <table id='playerPanelInfo'>
                         <tr>
                             <td><h5>Class </h5></td>
-                            <td><p id='player_class'>{{ user['className'] }}</p></td>
+                            <td><p>{{ user['className'] }}</p></td>
                         </tr>
                         <tr>
                             <td><h5>Level </h5></td>
-                            <td><p id='player_class'>{{ user['playerLevel'] }}</p></td>
+                            <td><p>{{ user['playerLevel'] }}</p></td>
                         </tr>
                         <tr>
                             <td><h5>Exp Left </h5></td>
-                            <td><p id='player_class'>{{ user['expUntilLevel'] }}</p></td>
+                            <td><p>{{ user['expUntilLevel'] }}</p></td>
                         </tr>
                         <tr>
                             <td><h5>Gold </h5></td>
-                            <td><p id='player_class'>{{ user['gold'] }}</p></td>
+                            <td><p id='playerGold'>{{ user['gold'] }}</p></td>
                         </tr>
                         <tr>
                             <td><h5>Stamina </h5></td>
-                            <td><p id='player_class'>{{ user['stamina'] }}</p></td>
+                            <td><p>{{ user['stamina'] }}</p></td>
                         </tr>
                     </table>
                 </div>
@@ -50,17 +50,17 @@
 
             <hr>
 
-            <div class='alignLeft'>
-                <table>
+            <div>
+                <table class='attributePanel'>
                     <tr>
                         <td class='alignLeft'>
-                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>?</button>
-                            <button class='sameLine themePlusButton' onmouseover="myFunction()" onmouseleave='myFunction2()'>+</button>
-                            <h5 class='sameLine'>Strength</h5>
+                            <button onclick='showPopupDiv("playerStrength")'>?</button>
+                            <button onclick='increaseAttribute("playerStrength")'>+</button>
+                            <h5>Strength</h5>
                         </td>
                         <td class='alignRight'>
-                            <p id='player_class' class='sameLine' style='margin-left: 10px;'>{{ user['baseStrength'] }}</p>
-                            <p class='sameLine' style='color:green'>(+0)</p>
+                            <p id='playerStrength' class='sameLine'>{{ user['baseStrength'] }}</p>
+                            <p class='sameLine textGreen'>(+0)</p>
                         </td>
                     </tr>
                     <tr>
@@ -119,21 +119,12 @@
             <hr>
 
             <div class='inventory'>
-                <div class='equipmentSlots'>
+                <div>
                     <img src='/static/slots/slot_helmet.png'>
                     <img src='/static/slots/slot_chest.png'>
                     <img src='/static/slots/slot_legs.png'>
                     <img src='/static/slots/slot_gloves.png'>
                     <img src='/static/slots/slot_boots.png'>
-                    <img src='/static/slots/slot_weapon.png'>
-                    <img src='/static/slots/slot_offhand.png'>
-                </div>
-                <div>
-                    <img src='/static/weapons/axe1.png'>
-                    <img src='/static/weapons/axe2.png'>
-                    <img src='/static/weapons/dagger1.png'>
-                    <img src='/static/weapons/dagger2.png'>
-                    <img src='/static/weapons/dagger3.png'>
                     <img src='/static/weapons/axe2.png'>
                     <img src='/static/weapons/axe3.png'>
                 </div>
@@ -155,12 +146,8 @@
                     <img src='/static/weapons/maul2.png'>
                 </div>
                 <div>
-                    <img class='backgroundDark' src='/static/slots/lock.png'>
-                    <img class='backgroundDark' src='/static/slots/lock.png'>
-                    <img class='backgroundDark' src='/static/slots/lock.png'>
-                    <img class='backgroundDark' src='/static/slots/lock.png'>
-                    <img class='backgroundDark' src='/static/slots/lock.png'>
-                    <img class='backgroundDark' src='/static/slots/lock.png'>
+                    <img src='/static/weapons/dagger1.png'>
+                    <img src='/static/weapons/dagger1.png'>
                 </div>
             </div>
 
@@ -196,14 +183,25 @@
 {% endblock %}
 
 {% block script %}
-    <script>
-        function myFunction() {
-            var popup = document.getElementById("myPopup");
-            popup.classList.toggle("show");
-        }
-        function myFunction2() {
-            var popup = document.getElementById("myPopup");
-            popup.classList.toggle("show");
-        }
-    </script>
+<script>
+
+    function increaseAttribute(id) {
+        var attributeLevel = document.getElementById(id).innerText
+        var costToUpgrade = parseInt(attributeLevel) * -10
+
+        updateInnerText('playerGold', costToUpgrade)
+        updateInnerText(id, 1)
+    }
+
+    function updateInnerText(id, increaseBy) {
+        var element = document.getElementById(id)
+        var current = parseInt(element.innerText)
+
+        if(typeof(current) !== 'number')
+            return
+
+        element.innerText = current + increaseBy
+    }
+
+</script>
 {% endblock %}
