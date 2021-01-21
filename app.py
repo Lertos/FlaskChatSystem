@@ -5,6 +5,8 @@ app = Flask(__name__)
 
 app.secret_key = b'\xe4$Y2\xd5\xbb_\xab#\xfd*\x1e\xe2v\xa8J'
 
+app.config['JSON_AS_ASCII'] = False
+
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'joker420lolA!'
 app.config['MYSQL_HOST'] = '127.0.0.1'
@@ -19,6 +21,15 @@ mysql = MySQL(app)
 
 #===============================
 
+#[dropChance, statMultiplier, borderClass]
+itemRarities = [
+    ['common', 0.6, 1.0, 'borderCommon'],
+    ['uncommon', 0.30, 1.05, 'borderUncommon'],
+    ['rare', 0.08, 1.1, 'borderRare'],
+    ['legendary', 0.01, 1.15, 'borderLegendary'],
+    ['mythic', 0.005, 1.2, 'borderMythic'],
+    ['unique', 0.005, 1.15, 'borderUnique']
+]
 
 
 #===============================
@@ -168,7 +179,7 @@ def dashboard():
 
     cursor.close()
 
-    return render_template('dashboard.html', user=user)
+    return render_template('dashboard.html', user=user, itemRarities=itemRarities)
 
 
 @app.route('/arena')

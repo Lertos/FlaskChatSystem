@@ -189,31 +189,31 @@
                 <table class='leftRightTable'>
                     <tr>
                         <td><h5>Weapon Dmg</h5></td>
-                        <td><p id='itemDamage' class='sameLine'>22</p>~</td>
+                        <td><p id='newItemDamage'>22</p>~</td>
                     </tr>
                     <tr>
                         <td><h5>Armor</h5></td>
-                        <td><p id='itemDamage' class='sameLine'>0</p></td>
+                        <td><p id='newItemArmor'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Strength</h5></td>
-                        <td><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><p id='newItemStrength'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Dexterity</h5></td>
-                        <td><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><p id='newItemDexterity'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Intelligence</h5></td>
-                        <td><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><p id='newItemIntelligence'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Constitution</h5></td>
-                        <td><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><p id='newItemConstitution'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Luck</h5></td>
-                        <td><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><p id='newItemLuck'>0</p></td>
                     </tr>
                 </table>
 
@@ -229,31 +229,31 @@
                 <table class='leftRightTable'>
                     <tr>
                         <td><h5>Weapon Dmg</h5></td>
-                        <td><p id='itemDamage' class='sameLine'>22</p>~</td>
+                        <td><p id='currentItemDamage'>22</p>~</td>
                     </tr>
                     <tr>
                         <td><h5>Armor</h5></td>
-                        <td><p id='itemDamage' class='sameLine'>0</p></td>
+                        <td><p id='currentItemArmor'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Strength</h5></td>
-                        <td><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><p id='currentItemStrength'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Dexterity</h5></td>
-                        <td><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><p id='currentItemDexterity'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Intelligence</h5></td>
-                        <td><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><p id='currentItemIntelligence'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Constitution</h5></td>
-                        <td><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><p id='currentItemConstitution'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Luck</h5></td>
-                        <td><p id='playerStrength' class='sameLine'>0</p></td>
+                        <td><p id='currentItemLuck'>0</p></td>
                     </tr>
                 </table>
             </div>
@@ -266,6 +266,27 @@
 
 {% block script %}
 <script>
+
+    var itemRarities = JSON.parse('{{itemRarities | tojson}}');
+    
+    
+
+    var double = 0.0
+
+    for(var i=0; i<100; i++){
+        var dropChance = itemRarities[0][1]
+        double = Math.random().toFixed(3)
+
+        for (var x=1; x<itemRarities.length; x++) {  
+            if(double < dropChance){
+                console.log(itemRarities[x][0])
+                break
+            }
+            else{
+                dropChance += itemRarities[x][1]
+            }
+        }
+    }
 
     function increaseAttribute(id) {
         var attributeLevel = document.getElementById(id).innerText
