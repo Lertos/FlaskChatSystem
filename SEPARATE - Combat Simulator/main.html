@@ -1,0 +1,341 @@
+<html>
+<head>
+<link rel='stylesheet' href='styles.css'/>
+</head>
+<body>
+	<div id='container'>
+		<div class='background border spacing'>
+			<h1>Global Inputs</h1>
+			
+			<div class='background sameLineBlock'>
+				<ul>
+					<li>
+						<label for="iSimulation">Simulation:</label>
+						<input type="text" id="iSimulation" name="iSimulation" value='100' size='5'>
+					</li>
+					<li>
+						<label for="iStatLvlM">Stat/Level Multiplier:</label>
+						<input type="text" id="iStatLvlM" name="iStatLvlM" value='2' size='5'>
+					</li>
+					<li>
+						<label for="iArmorLvlM">Armor/Level Multiplier:</label>
+						<input type="text" id="iArmorLvlM" name="iArmorLvlM" value='3' size='5'>
+					</li>
+					<li>
+						<label for="iDmgLvlM">Dmg/Level Multiplier:</label>
+						<input type="text" id="iDmgLvlM" name="iDmgLvlM" value='10' size='5'>
+					</li>
+					<li>
+						<label for="iStrWeapM">STR Weapon Multiplier:</label>
+						<input type="text" id="iStrWeapM" name="iStrWeapM" value='0.5' size='5'>
+					</li>
+					<li>
+						<label for="iDexWeapM">DEX Weapon Multiplier:</label>
+						<input type="text" id="iDexWeapM" name="iDexWeapM" value='0.7' size='5'>
+					</li>
+					<li>
+						<label for="iIntWeapM">INT Weapon Multiplier:</label>
+						<input type="text" id="iIntWeapM" name="iIntWeapM" value='1' size='5'>
+					</li>
+				</ul>
+			</div>
+			<div class='background sameLineBlock'>
+				<ul>
+					<li>
+						<label for="iCommonM">Common Multiplier:</label>
+						<input type="text" id="iCommonM" name="iCommonM" value='1.0' size='5'>
+					</li>
+					<li>
+						<label for="iUncommonM">Uncommon Multiplier:</label>
+						<input type="text" id="iUncommonM" name="iUncommonM" value='1.11' size='5'>
+					</li>
+					<li>
+						<label for="iRareM">Rare Multiplier:</label>
+						<input type="text" id="iRareM" name="iRareM" value='1.24' size='5'>
+					</li>
+					<li>
+						<label for="iLegendaryM">Legendary Multiplier:</label>
+						<input type="text" id="iLegendaryM" name="iLegendaryM" value='1.41' size='5'>
+					</li>
+					<li>
+						<label for="iMythicM">Mythic Multiplier:</label>
+						<input type="text" id="iMythicM" name="iMythicM" value='1.63' size='5'>
+					</li>
+					<li>
+						<label for="iArmorPieces">Armor Pieces:</label>
+						<input type="text" id="iArmorPieces" name="iArmorPieces" value='5' size='5'>
+					</li>
+				</ul>
+			</div>
+			
+		</div>
+
+		<!-- PLAYER 1 -->
+		<div class='sidePanel background border spacing'>
+			<h1>Player 1</h1>
+
+			<ul class='alignLeft'>
+				<li>
+					<label for="p1Level">Level:</label>
+					<input type="text" id="p1Level" name="p1Level" value='100' size='5'>
+				</li>
+				<li>
+					<label for="p1Class">Class:</label>
+					<select name="p1Class" id="p1Class">
+						<option value="warrior">Warrior</option>
+						<option value="berserker">Berserker</option>
+						<option value="magicKnight">Magic Knight</option>
+						<option value="fencer">Fencer</option>
+						<option value="frostMage">Frost Mage</option>
+						<option value="fireMage">Fire Mage</option>
+						<option value="darkMage">Dark Mage</option>
+						<option value="bloodMage">Blood Mage</option>
+						<option value="scout">Scout</option>
+						<option value="rogue">Rogue</option>
+						<option value="demonHunter">Demon Hunter</option>
+						<option value="assassin">Assassin</option>
+					  </select>
+				</li>
+				<li>
+					<p style='color:red'>*Leave empty for automatic calculation</p>
+				</li>
+				<li>
+					<label for="p1Strength">Strength:</label>
+					<input type="text" id="p1Strength" name="p1Strength" value='' size='5'>
+				</li>
+				<li>
+					<label for="p1Dexterity">Dexterity:</label>
+					<input type="text" id="p1Dexterity" name="p1Dexterity" value='' size='5'>
+				</li>
+				<li>
+					<label for="p1Intelligence">Intelligence:</label>
+					<input type="text" id="p1Intelligence" name="p1Intelligence" value='' size='5'>
+				</li>
+				<li>
+					<label for="p1Consitution">Consitution:</label>
+					<input type="text" id="p1Consitution" name="p1Consitution" value='' size='5'>
+				</li>
+				<li>
+					<label for="p1Luck">Luck:</label>
+					<input type="text" id="p1Luck" name="p1Luck" value='' size='5'>
+				</li>
+				<li>
+					<p style='color:red'>*End of "Leave"</p>
+				</li>
+				<li>
+					<label for="p1GearType">Gear Type:</label>
+					<select name="p1GearType" id="p1GearType">
+						<option value="light">Light</option>
+						<option value="medium">Medium</option>
+						<option value="heavy">Heavy</option>
+					  </select>
+				</li>
+				<li>
+					<label for="p1GearRarity">Gear Rarity:</label>
+					<select name="p1GearRarity" id="p1GearRarity">
+						<option value="common">Common</option>
+						<option value="uncommon">Uncommon</option>
+						<option value="rare">Rare</option>
+						<option value="legendary">Legendary</option>
+						<option value="mythic">Mythic</option>
+					  </select>
+				</li>
+				<li>
+					<label for="p1BaseDist">Base Stat Distribution:</label>
+					<select name="p1BaseDist" id="p1BaseDist">
+						<option value="evenly">All Split Evenly</option>
+						<option value="normal">Main/Con/Luck</option>
+						<option value="all">All But + Order</option>
+						<option value="glass">Only Main</option>
+					  </select>
+				</li>
+				<li>
+					<label for="p1GearDist">Gear Stat Distribution:</label>
+					<select name="p1GearDist" id="p1GearDist">
+						<option value="evenly">All Split Evenly</option>
+						<option value="normal">Main/Con/Luck</option>
+						<option value="all">All But + Order</option>
+						<option value="glass">Only Main</option>
+					  </select>
+				</li>
+				<li class='alignCenter'>
+					<h4>Presets</h4>
+				</li>
+				<li>
+					<button onclick='changeToPreset("warrior","p1")'>Warrior</button>
+					<button onclick='changeToPreset("berserker","p1")'>Berserker</button>
+					<button onclick='changeToPreset("magicKnight","p1")'>Magic Knight</button>
+				</li>
+				<li>
+					<button onclick='changeToPreset("fencer","p1")'>Fencer</button>
+					<button onclick='changeToPreset("frostMage","p1")'>Frost Mage</button>
+					<button onclick='changeToPreset("fireMage","p1")'>Fire Mage</button>
+				</li>
+				<li></li>
+					<button onclick='changeToPreset("darkMage","p1")'>Dark Mage</button>
+					<button onclick='changeToPreset("bloodMage","p1")'>Blood Mage</button>
+					<button onclick='changeToPreset("scout","p1")'>Scout</button>
+				</li>
+				<li>
+					<button onclick='changeToPreset("rogue","p1")'>Rogue</button>
+					<button onclick='changeToPreset("demonHunter","p1")'>Demon Hunter</button>
+					<button onclick='changeToPreset("assassin","p1")'>Assassin</button>
+				</li>
+			</ul>
+
+		</div>
+		<div class='mainPanel background border spacing'>
+			<h4 class='sameLine'>LEFT WIN: </h4>
+			<h4 class='sameLine textWinLoss'>1</h4>
+			<h4 class='sameLine'>RIGHT WIN: </h4>
+			<h4 class='sameLine textWinLoss'>2</h4>
+		</div>
+
+		<!-- PLAYER 2 -->
+		<div class='sidePanel background border spacing'>
+			<h1>Player 2</h1>
+
+			<ul class='alignLeft'>
+				<li>
+					<label for="p2Level">Level:</label>
+					<input type="text" id="p2Level" name="p2Level" value='100' size='5'>
+				</li>
+				<li>
+					<label for="p2Class">Class:</label>
+					<select name="p2Class" id="p2Class">
+						<option value="warrior">Warrior</option>
+						<option value="berserker">Berserker</option>
+						<option value="magicKnight">Magic Knight</option>
+						<option value="fencer">Fencer</option>
+						<option value="frostMage">Frost Mage</option>
+						<option value="fireMage">Fire Mage</option>
+						<option value="darkMage">Dark Mage</option>
+						<option value="bloodMage">Blood Mage</option>
+						<option value="scout">Scout</option>
+						<option value="rogue">Rogue</option>
+						<option value="demonHunter">Demon Hunter</option>
+						<option value="assassin">Assassin</option>
+					  </select>
+				</li>
+				<li>
+					<p style='color:red'>*Leave empty for automatic calculation</p>
+				</li>
+				<li>
+					<label for="p2Strength">Strength:</label>
+					<input type="text" id="p2Strength" name="p2Strength" value='' size='5'>
+				</li>
+				<li>
+					<label for="p2Dexterity">Dexterity:</label>
+					<input type="text" id="p2Dexterity" name="p2Dexterity" value='' size='5'>
+				</li>
+				<li>
+					<label for="p2Intelligence">Intelligence:</label>
+					<input type="text" id="p2Intelligence" name="p2Intelligence" value='' size='5'>
+				</li>
+				<li>
+					<label for="p2Consitution">Consitution:</label>
+					<input type="text" id="p2Consitution" name="p2Consitution" value='' size='5'>
+				</li>
+				<li>
+					<label for="p2Luck">Luck:</label>
+					<input type="text" id="p2Luck" name="p2Luck" value='' size='5'>
+				</li>
+				<li>
+					<p style='color:red'>*End of "Leave"</p>
+				</li>
+				<li>
+					<label for="p2GearType">Gear Type:</label>
+					<select name="p2GearType" id="p2GearType">
+						<option value="light">Light</option>
+						<option value="medium">Medium</option>
+						<option value="heavy">Heavy</option>
+					  </select>
+				</li>
+				<li>
+					<label for="p2GearRarity">Gear Rarity:</label>
+					<select name="p2GearRarity" id="p2GearRarity">
+						<option value="common">Common</option>
+						<option value="uncommon">Uncommon</option>
+						<option value="rare">Rare</option>
+						<option value="legendary">Legendary</option>
+						<option value="mythic">Mythic</option>
+					  </select>
+				</li>
+				<li>
+					<label for="p2BaseDist">Base Stat Distribution:</label>
+					<select name="p2BaseDist" id="p2BaseDist">
+						<option value="evenly">All Split Evenly</option>
+						<option value="normal">Main/Con/Luck</option>
+						<option value="all">All But + Order</option>
+						<option value="glass">Only Main</option>
+					  </select>
+				</li>
+				<li>
+					<label for="p2GearDist">Gear Stat Distribution:</label>
+					<select name="p2GearDist" id="p2GearDist">
+						<option value="evenly">All Split Evenly</option>
+						<option value="normal">Main/Con/Luck</option>
+						<option value="all">All But + Order</option>
+						<option value="glass">Only Main</option>
+					  </select>
+				</li>
+				<li class='alignCenter'>
+					<h4>Presets</h4>
+				</li>
+				<li>
+					<button onclick='changeToPreset("warrior","p2")'>Warrior</button>
+					<button onclick='changeToPreset("berserker","p2")'>Berserker</button>
+					<button onclick='changeToPreset("magicKnight","p2")'>Magic Knight</button>
+				</li>
+				<li>
+					<button onclick='changeToPreset("fencer","p2")'>Fencer</button>
+					<button onclick='changeToPreset("frostMage","p2")'>Frost Mage</button>
+					<button onclick='changeToPreset("fireMage","p2")'>Fire Mage</button>
+				</li>
+				<li></li>
+					<button onclick='changeToPreset("darkMage","p2")'>Dark Mage</button>
+					<button onclick='changeToPreset("bloodMage","p2")'>Blood Mage</button>
+					<button onclick='changeToPreset("scout","p2")'>Scout</button>
+				</li>
+				<li>
+					<button onclick='changeToPreset("rogue","p2")'>Rogue</button>
+					<button onclick='changeToPreset("demonHunter","p2")'>Demon Hunter</button>
+					<button onclick='changeToPreset("assassin","p2")'>Assassin</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+<script>
+	var maxLevel = 100
+	var commonM = 1.0
+	var uncommonM = 1.11
+	var rareM = 1.24
+	var legendM = 1.41
+	var mythicM = 1.63
+	var uniqueM = 1.15
+	var statLevelM = 2
+	var armorLevelM = 3
+	var dmgLevelM = 10
+
+	for(var i=1; i<=maxLevel; i++){
+		var common = i ** 2 * commonM * statLevelM
+		var uncommon = i ** 2 * uncommonM * statLevelM
+		var rare = i ** 2 * rareM * statLevelM
+		var legend = i ** 2 * legendM * statLevelM
+		var mythic = i ** 2 * mythicM * statLevelM
+		
+
+		console.log("Level: " + i 
+		+ " Common: " + common.toFixed(0) 
+		+ " Uncommon: " + uncommon.toFixed(0)
+		+ " Rare: " + rare.toFixed(0)
+		+ " Legend: " + legend.toFixed(0)
+		+ " Mythic: " + mythic.toFixed(0)
+		)
+
+	}
+
+	
+</script>
+</html>
