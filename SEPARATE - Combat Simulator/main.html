@@ -307,7 +307,99 @@
 	</div>
 </body>
 <script>
-	var maxLevel = 100
+/*
+				
+					<input type="text" id="p2Level" name="p2Level" value='100' size='5'>
+					<select name="p2Class" id="p2Class">
+					<input type="text" id="p2Strength" name="p2Strength" value='' size='5'>
+					<input type="text" id="p2Dexterity" name="p2Dexterity" value='' size='5'>
+					<input type="text" id="p2Intelligence" name="p2Intelligence" value='' size='5'>
+					<input type="text" id="p2Consitution" name="p2Consitution" value='' size='5'>
+					<input type="text" id="p2Luck" name="p2Luck" value='' size='5'>
+					<select name="p2GearType" id="p2GearType">
+					<select name="p2GearRarity" id="p2GearRarity">
+					<select name="p2BaseDist" id="p2BaseDist">
+					<select name="p2GearDist" id="p2GearDist">
+
+*/
+	function startSimulation(){
+		//Global Variables
+		var iSimulation = document.getElementById('iSimulation').value
+		var iStatLvlM = document.getElementById('iStatLvlM').value
+		var iArmorLvlM = document.getElementById('iArmorLvlM').value
+		var iDmgLvlM = document.getElementById('iDmgLvlM').value
+		var iStrWeapM = document.getElementById('iStrWeapM').value
+		var iDexWeapM = document.getElementById('iDexWeapM').value
+		var iIntWeapM = document.getElementById('iIntWeapM').value
+		var iCommonM = document.getElementById('iCommonM').value
+		var iUncommonM = document.getElementById('iUncommonM').value
+		var iRareM = document.getElementById('iRareM').value
+		var iLegendaryM = document.getElementById('iLegendaryM').value
+		var iMythicM = document.getElementById('iMythicM').value
+		var iArmorPieces = document.getElementById('iArmorPieces').value
+
+		//P1 Variables
+		var p1Level = document.getElementById('p1Level').value
+		var p1Class = document.getElementById('p1Class').value
+		var p1Strength = document.getElementById('p1Strength').value
+		var p1Dexterity = document.getElementById('p1Dexterity').value
+		var p1Intelligence = document.getElementById('p1Intelligence').value
+		var p1Consitution = document.getElementById('p1Consitution').value
+		var p1Luck = document.getElementById('p1Luck').value
+		var p1GearType = document.getElementById('p1GearType').value
+		var p1GearRarity = document.getElementById('p1GearRarity').value
+		var p1BaseDist = document.getElementById('p1BaseDist').value
+		var p1GearDist = document.getElementById('p1GearDist').value
+
+		//P2 Variables
+		var p2Level = document.getElementById('p2Level').value
+		var p2Class = document.getElementById('p2Class').value
+		var p2Strength = document.getElementById('p2Strength').value
+		var p2Dexterity = document.getElementById('p2Dexterity').value
+		var p2Intelligence = document.getElementById('p2Intelligence').value
+		var p2Consitution = document.getElementById('p2Consitution').value
+		var p2Luck = document.getElementById('p2Luck').value
+		var p2GearType = document.getElementById('p2GearType').value
+		var p2GearRarity = document.getElementById('p2GearRarity').value
+		var p2BaseDist = document.getElementById('p2BaseDist').value
+		var p2GearDist = document.getElementById('p2GearDist').value
+		
+		//Setup Base Stats (If attribute fields are empty, automatically calculate them. Otherwise move on)
+		if(p1Strength != '')
+		
+		//Setup Gear Stats
+		
+
+		//Setup Final Stats (CON -> Health)
+
+		
+		//Start the Battle
+	}
+
+	function calculateBaseStat(){
+		
+	}
+
+
+	/*
+
+	EVALUATE FUNCTIONS BASED ON STRINGS
+
+	*/
+	var funcString = "lol";
+
+	// find object
+	var classFunc = window[fnstring];
+
+	// is object a function?
+	if (typeof fn === "function") fn('ss');
+	
+	function lol(test){
+		console.log(test)
+	}
+
+/*	
+	var giSimulation = document.getElementById('iSimulation')
 	var commonM = 1.0
 	var uncommonM = 1.11
 	var rareM = 1.24
@@ -335,6 +427,8 @@
 		)
 
 	}
+*/
+	
 
 	
 </script>
