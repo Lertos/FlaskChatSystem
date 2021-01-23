@@ -14,16 +14,20 @@
 						<input type="text" id="iSimulation" name="iSimulation" value='100' size='5'>
 					</li>
 					<li>
-						<label for="iStatLvlM">Stat/Level Multiplier:</label>
-						<input type="text" id="iStatLvlM" name="iStatLvlM" value='2' size='5'>
-					</li>
-					<li>
 						<label for="iArmorLvlM">Armor/Level Multiplier:</label>
-						<input type="text" id="iArmorLvlM" name="iArmorLvlM" value='3' size='5'>
+						<input type="text" id="iArmorLvlM" name="iArmorLvlM" value='2' size='5'>
 					</li>
 					<li>
-						<label for="iDmgLvlM">Dmg/Level Multiplier:</label>
-						<input type="text" id="iDmgLvlM" name="iDmgLvlM" value='10' size='5'>
+						<label for="iLightArmorM">Light Armor Multiplier:</label>
+						<input type="text" id="iLightArmorM" name="iLightArmorM" value='1' size='5'>
+					</li>
+					<li>
+						<label for="iMediumArmorM">Medium Armor Multiplier:</label>
+						<input type="text" id="iMediumArmorM" name="iMediumArmorM" value='2' size='5'>
+					</li>
+					<li>
+						<label for="iHeavyArmorM">Heavy Armor Multiplier:</label>
+						<input type="text" id="iHeavyArmorM" name="iHeavyArmorM" value='3' size='5'>
 					</li>
 					<li>
 						<label for="iStrWeapM">STR Weapon Multiplier:</label>
@@ -41,6 +45,14 @@
 			</div>
 			<div class='background sameLineBlock'>
 				<ul>
+					<li>
+						<label for="iStatLvlM">Stat/Level Multiplier:</label>
+						<input type="text" id="iStatLvlM" name="iStatLvlM" value='2' size='5'>
+					</li>
+					<li>
+						<label for="iDmgLvlM">Dmg/Level Multiplier:</label>
+						<input type="text" id="iDmgLvlM" name="iDmgLvlM" value='10' size='5'>
+					</li>
 					<li>
 						<label for="iCommonM">Common Multiplier:</label>
 						<input type="text" id="iCommonM" name="iCommonM" value='1.0' size='5'>
@@ -97,7 +109,7 @@
 					  </select>
 				</li>
 				<li>
-					<p style='color:red'>*Leave empty for automatic calculation</p>
+					<p style='color:red'>*Leave ALL empty for automatic calculation</p>
 				</li>
 				<li>
 					<label for="p1Strength">Strength:</label>
@@ -143,19 +155,19 @@
 				<li>
 					<label for="p1BaseDist">Base Stat Distribution:</label>
 					<select name="p1BaseDist" id="p1BaseDist">
-						<option value="evenly">All Split Evenly</option>
-						<option value="normal">Main/Con/Luck</option>
-						<option value="all">All But + Order</option>
-						<option value="glass">Only Main</option>
+						<option value="allEvenly">All Split Evenly</option>
+						<option value="mainThree">Main/Con/Luck</option>
+						<option value="allOrder">All But + Order</option>
+						<option value="glassCannon">Only Main</option>
 					  </select>
 				</li>
 				<li>
 					<label for="p1GearDist">Gear Stat Distribution:</label>
 					<select name="p1GearDist" id="p1GearDist">
-						<option value="evenly">All Split Evenly</option>
-						<option value="normal">Main/Con/Luck</option>
-						<option value="all">All But + Order</option>
-						<option value="glass">Only Main</option>
+						<option value="allEvenly">All Split Evenly</option>
+						<option value="mainThree">Main/Con/Luck</option>
+						<option value="allOrder">All But + Order</option>
+						<option value="glassCannon">Only Main</option>
 					  </select>
 				</li>
 				<li class='alignCenter'>
@@ -218,7 +230,7 @@
 					  </select>
 				</li>
 				<li>
-					<p style='color:red'>*Leave empty for automatic calculation</p>
+					<p style='color:red'>*Leave ALL empty for automatic calculation</p>
 				</li>
 				<li>
 					<label for="p2Strength">Strength:</label>
@@ -264,19 +276,19 @@
 				<li>
 					<label for="p2BaseDist">Base Stat Distribution:</label>
 					<select name="p2BaseDist" id="p2BaseDist">
-						<option value="evenly">All Split Evenly</option>
-						<option value="normal">Main/Con/Luck</option>
-						<option value="all">All But + Order</option>
-						<option value="glass">Only Main</option>
+						<option value="allEvenly">All Split Evenly</option>
+						<option value="mainThree">Main/Con/Luck</option>
+						<option value="allOrder">All But + Order</option>
+						<option value="glassCannon">Only Main</option>
 					  </select>
 				</li>
 				<li>
 					<label for="p2GearDist">Gear Stat Distribution:</label>
 					<select name="p2GearDist" id="p2GearDist">
-						<option value="evenly">All Split Evenly</option>
-						<option value="normal">Main/Con/Luck</option>
-						<option value="all">All But + Order</option>
-						<option value="glass">Only Main</option>
+						<option value="allEvenly">All Split Evenly</option>
+						<option value="mainThree">Main/Con/Luck</option>
+						<option value="allOrder">All But + Order</option>
+						<option value="glassCannon">Only Main</option>
 					  </select>
 				</li>
 				<li class='alignCenter'>
@@ -337,6 +349,9 @@
 		var iLegendaryM = document.getElementById('iLegendaryM').value
 		var iMythicM = document.getElementById('iMythicM').value
 		var iArmorPieces = document.getElementById('iArmorPieces').value
+		var iLightArmorM = document.getElementById('iLightArmorM').value
+		var iMediumArmorM = document.getElementById('iMediumArmorM').value
+		var iHeavyArmorM = document.getElementById('iHeavyArmorM').value
 
 		//P1 Variables
 		var p1Level = document.getElementById('p1Level').value
@@ -364,20 +379,66 @@
 		var p2BaseDist = document.getElementById('p2BaseDist').value
 		var p2GearDist = document.getElementById('p2GearDist').value
 		
-		//Setup Base Stats (If attribute fields are empty, automatically calculate them. Otherwise move on)
-		if(p1Strength != '')
+		//===Setup Base Stats (If attribute fields are empty, automatically calculate them. Otherwise move on)
 		
-		//Setup Gear Stats
-		
+			//Player 1
+			var player1Stats = [] //[STR, DEX, INT, CON, LUK]
 
-		//Setup Final Stats (CON -> Health)
+			if(p1Strength != '' && p1Dexterity != '' && p1Intelligence != '' && p1Consitution != '' && p1Luck != '')
+				player1Stats = calculateBaseStats(p1Class, p1Level, p1BaseDist)
+
+			//Player 2
+			var player2Stats = [] //[STR, DEX, INT, CON, LUK]
+
+			if(p2Strength != '' && p2Dexterity != '' && p2Intelligence != '' && p2Consitution != '' && p2Luck != '')
+				player2Stats = calculateBaseStats(p2Class, p2Level, p2BaseDist)
+		
+		//==Setup Gear Stats
+			
+			//Player 1
+			var player1ArmorMult = 
+
+		//==Setup Final Stats (CON -> Health)
 
 		
-		//Start the Battle
+		//==Start the Battle
 	}
 
-	function calculateBaseStat(){
-		
+	function calculateBaseStats(playerClass, playerLevel, baseDist){
+		var arr = []
+		var mainStatIndex = getMainStat(playerClass)
+		var availableGold = (playerLevel ** 3) + 20
+		var stat
+
+		if(baseDist == 'allEvenly'){
+			stat = Math.floor(availableGold / 5)
+			arr = [evenStat, evenStat, evenStat, evenStat, evenStat]
+		}
+		else if(baseDist == 'mainThree'){
+			stat = Math.floor(availableGold / 4)
+			arr = [Math.floor(stat/2), Math.floor(stat/2), Math.floor(stat/2), stat, stat]
+			arr[mainStatIndex] = stat
+		}
+		else if(baseDist == 'allOrder'){
+			stat = Math.floor(availableGold / 8)
+			arr = [stat, stat, stat, Math.floor(stat * 1.5), Math.floor(stat * 1.5)]
+			arr[mainStatIndex] = stat * 3
+		}
+		else if(baseDist == 'glassCannon'){
+			stat = Math.floor(availableGold / 8)
+			arr = [Math.floor(stat/2), Math.floor(stat/2), Math.floor(stat/2), Math.floor(stat/2), Math.floor(stat/2)]
+			arr[mainStatIndex] = stat * 6
+		}
+		return arr
+	}
+
+	function getMainStat(playerClass){
+		if(playerClass == 'warrior' || playerClass == 'berserker' || playerClass == 'magicKnight' || playerClass == 'fencer')
+			return 0 //STR
+		else if(playerClass == 'scout' || playerClass == 'rogue' || playerClass == 'demonHunter' || playerClass == 'assassin')
+			return 1 //DEX
+		else if(playerClass == 'frostMage' || playerClass == 'fireMage' || playerClass == 'darkMage' || playerClass == 'bloodMage')
+			return 2 //INT
 	}
 
 
@@ -385,7 +446,7 @@
 
 	EVALUATE FUNCTIONS BASED ON STRINGS
 
-	*/
+	
 	var funcString = "lol";
 
 	// find object
@@ -397,20 +458,15 @@
 	function lol(test){
 		console.log(test)
 	}
+	*/
 
-/*	
-	var giSimulation = document.getElementById('iSimulation')
-	var commonM = 1.0
-	var uncommonM = 1.11
-	var rareM = 1.24
-	var legendM = 1.41
-	var mythicM = 1.63
-	var uniqueM = 1.15
-	var statLevelM = 2
-	var armorLevelM = 3
-	var dmgLevelM = 10
 
-	for(var i=1; i<=maxLevel; i++){
+	for(var i=1; i<=100; i++){
+		//var gold = (i ** 3) + 20
+		//console.log("level: " + i + ' gold: ' + gold)
+		var xp = (i ** 2) * 20 + 50
+		console.log("level: " + i + ' xp: ' + xp)
+		/*
 		var common = i ** 2 * commonM * statLevelM
 		var uncommon = i ** 2 * uncommonM * statLevelM
 		var rare = i ** 2 * rareM * statLevelM
@@ -425,9 +481,9 @@
 		+ " Legend: " + legend.toFixed(0)
 		+ " Mythic: " + mythic.toFixed(0)
 		)
+		*/
 
 	}
-*/
 	
 
 	
