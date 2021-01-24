@@ -14,20 +14,20 @@
 						<input type="text" id="simulation" name="simulation" value='100' size='5'>
 					</li>
 					<li>
-						<label for="armorLvlM">Armor/Level Multiplier:</label>
-						<input type="text" id="armorLvlM" name="armorPerLvlM" value='2' size='5'>
+						<label for="armorPerLvlM">Armor/Level Multiplier:</label>
+						<input type="text" id="armorPerLvlM" name="armorPerLvlM" value='15' size='5'>
 					</li>
 					<li>
 						<label for="lightArmorM">Light Armor Multiplier:</label>
-						<input type="text" id="lightArmorM" name="lightArmorM" value='1' size='5'>
+						<input type="text" id="lightArmorM" name="lightArmorM" value='1.1' size='5'>
 					</li>
 					<li>
 						<label for="mediumArmorM">Medium Armor Multiplier:</label>
-						<input type="text" id="mediumArmorM" name="mediumArmorM" value='2' size='5'>
+						<input type="text" id="mediumArmorM" name="mediumArmorM" value='1.3' size='5'>
 					</li>
 					<li>
 						<label for="heavyArmorM">Heavy Armor Multiplier:</label>
-						<input type="text" id="heavyArmorM" name="heavyArmorM" value='3' size='5'>
+						<input type="text" id="heavyArmorM" name="heavyArmorM" value='1.5' size='5'>
 					</li>
 					<li>
 						<label for="strWeapM">STR Weapon Multiplier:</label>
@@ -46,8 +46,8 @@
 			<div class='background sameLineBlock'>
 				<ul>
 					<li>
-						<label for="statLvlM">Stat/Level Multiplier:</label>
-						<input type="text" id="statLvlM" name="statPerLvlM" value='2' size='5'>
+						<label for="statPerLvlM">Stat/Level Multiplier:</label>
+						<input type="text" id="statPerLvlM" name="statPerLvlM" value='2' size='5'>
 					</li>
 					<li>
 						<label for="dmgPerLvlM">Dmg/Level Multiplier:</label>
@@ -326,9 +326,9 @@
 	function startSimulation(){
 		//Global Variables
 		var simulation = document.getElementById('simulation').value
-		var statLvlM = document.getElementById('statPerLvlM').value
-		var armorLvlM = document.getElementById('armorPerLvlM').value
-		var dmgLvlM = document.getElementById('dmgLvlPerM').value
+		var statPerLvlM = document.getElementById('statPerLvlM').value
+		var armorPerLvlM = document.getElementById('armorPerLvlM').value
+		var dmgPerLvlM = document.getElementById('dmgPerLvlM').value
 		var strWeapM = document.getElementById('strWeapM').value
 		var dexWeapM = document.getElementById('dexWeapM').value
 		var intWeapM = document.getElementById('intWeapM').value
@@ -370,8 +370,16 @@
 			//Player 1
 			var p1Stats = [] //[STR, DEX, INT, CON, LUK]
 
-			if(p1Strength != '' && p1Dexterity != '' && p1Intelligence != '' && p1Consitution != '' && p1Luck != '')
+			if(p1Strength == '' && p1Dexterity == '' && p1Intelligence == '' && p1Consitution == '' && p1Luck == '')
 				p1Stats = calculateBaseStats(p1Class, p1Level, p1BaseDist)
+
+			console.log('Base Stats: '
+			+ ' STR: ' + p1Stats[0]
+			+ ' DEX: ' + p1Stats[1]
+			+ ' INT: ' + p1Stats[2]
+			+ ' CON: ' + p1Stats[3]
+			+ ' LUK: ' + p1Stats[4]
+			)
 
 			//Player 2
 			var p2Stats = [] //[STR, DEX, INT, CON, LUK]
@@ -384,15 +392,29 @@
 			//Player 1
 			
 			//Light/Med/Heavy Multiplier for both Weapon and Armor
-			var p1ArmorStatsMult = document.getElementById(p1GearType + 'ArmorM').value
-			var p1WeaponStatsMult
+			var p1ArmorMultArmor = document.getElementById(p1GearType + 'ArmorM').value
+			var p1ArmorMultStats
 			
 			if(p1GearType == 'light')
-				p1WeaponStatsMult = document.getElementById('heavyArmorM').value
+				p1ArmorMultStats = document.getElementById('heavyArmorM').value
 			else if(p1GearType == 'medium')
-				p1WeaponStatsMult = document.getElementById('mediumArmorM').value
+				p1ArmorMultStats = document.getElementById('mediumArmorM').value
 			else
-				p1WeaponStatsMult = document.getElementById('lightArmorM').value
+				p1ArmorMultStats = document.getElementById('lightArmorM').value
+
+			var p1ArmorPieceArmor = Math.floor((p1Level * armorPerLvlM * p1ArmorMultArmor) / armorPieces)
+			//console.log("Stat/Lvl " + statPerLvlM + " ArmorStats " + p1ArmorMultArmor + " Class " + p1Class + " Lvl " + p1Level + ' GearDist ' + p1GearDist + ' p1GearRarity ' + p1GearRarity + ' armorPieces ' + armorPieces)
+			var p1ArmorPieceStats = calculateArmorStatsPerPiece(statPerLvlM, p1ArmorMultStats, p1Class, p1Level, p1GearDist, p1GearRarity, armorPieces)
+
+			console.log('Each piece of armor will have: ARMOR: ' + p1ArmorPieceArmor + " STATS: " 
+			+ ' STR: ' + p1ArmorPieceStats[0]
+			+ ' DEX: ' + p1ArmorPieceStats[1]
+			+ ' INT: ' + p1ArmorPieceStats[2]
+			+ ' CON: ' + p1ArmorPieceStats[3]
+			+ ' LUK: ' + p1ArmorPieceStats[4]
+			)
+
+			
 
 			//Player 2
 
@@ -405,27 +427,59 @@
 	function calculateBaseStats(playerClass, playerLevel, baseDist){
 		var arr = []
 		var mainStatIndex = getMainStat(playerClass)
-		var availableGold = (playerLevel ** 3) + 20
-		var stat
+		var availableGold = getTotalGoldOfLevel(playerLevel)
+		var goldSplit
 
 		if(baseDist == 'allEvenly'){
-			stat = Math.floor(availableGold / 5)
-			arr = [evenStat, evenStat, evenStat, evenStat, evenStat]
+			goldSplit = Math.floor(availableGold / 5)
+			statLevel = getStatLevelByGold(goldSplit)
+			arr = [statLevel, statLevel, statLevel, statLevel, statLevel]
 		}
 		else if(baseDist == 'mainThree'){
-			stat = Math.floor(availableGold / 4)
-			arr = [Math.floor(stat/2), Math.floor(stat/2), Math.floor(stat/2), stat, stat]
-			arr[mainStatIndex] = stat
+			goldSplit = Math.floor(availableGold / 4)
+			var levelBy2 = getStatLevelByGold(Math.floor(goldSplit/2))
+			var level = getStatLevelByGold(goldSplit)
+			arr = [levelBy2, levelBy2, levelBy2, level, level]
+			arr[mainStatIndex] = level
 		}
 		else if(baseDist == 'allOrder'){
-			stat = Math.floor(availableGold / 8)
-			arr = [stat, stat, stat, Math.floor(stat * 1.5), Math.floor(stat * 1.5)]
-			arr[mainStatIndex] = stat * 3
+			goldSplit = Math.floor(availableGold / 8)
+			var levelX1pt5 = getStatLevelByGold(Math.floor(goldSplit*1.5))
+			var level = getStatLevelByGold(goldSplit)
+			var levelXthree = getStatLevelByGold(goldSplit*3)
+			arr = [level, level, level, levelX1pt5, levelX1pt5]
+			arr[mainStatIndex] = levelXthree
 		}
 		else if(baseDist == 'glassCannon'){
-			stat = Math.floor(availableGold / 8)
-			arr = [Math.floor(stat/2), Math.floor(stat/2), Math.floor(stat/2), Math.floor(stat/2), Math.floor(stat/2)]
-			arr[mainStatIndex] = stat * 6
+			goldSplit = Math.floor(availableGold / 8)
+			var levelBy2 = getStatLevelByGold(Math.floor(goldSplit/4))
+			var levelXseven = getStatLevelByGold(goldSplit*7)
+			arr = [levelBy2, levelBy2, levelBy2, levelBy2, levelBy2]
+			arr[mainStatIndex] = levelXseven
+		}
+		console.log(arr)
+		return arr
+	}
+
+	function calculateArmorStatsPerPiece(statPerLvlM, armorStatsMult, playerClass, playerLevel, gearDist, gearRarity, armorPieces){
+		var arr = []
+		var mainStatIndex = getMainStat(playerClass)
+		var stat = Math.floor(((playerLevel ** 2) * statPerLvlM * armorStatsMult * document.getElementById(gearRarity + 'M').value)/5) 
+
+		if(gearDist == 'allEvenly'){
+			arr = [stat, stat, stat, stat, stat]
+		}
+		else if(gearDist == 'mainThree'){
+			arr = [Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 1.5), Math.floor(stat * 1.5)]
+			arr[mainStatIndex] = Math.floor(stat * 1.5)
+		}
+		else if(gearDist == 'allOrder'){
+			arr = [Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 1.5), Math.floor(stat * 1)]
+			arr[mainStatIndex] = Math.floor(stat * 2)
+		}
+		else if(gearDist == 'glassCannon'){
+			arr = [Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 0.25)]
+			arr[mainStatIndex] = stat * 4
 		}
 		return arr
 	}
@@ -439,11 +493,37 @@
 			return 2 //INT
 	}
 
+	function getStatLevelByGold(gold){
+		var level = 1
+		var total = 0
+
+		while(level != 2000){
+			total += Math.floor((level ** 2)/20 + 1)
+
+			if(total >= gold)
+				return level
+			else
+				level += 1
+		}
+	}
+
+	function getTotalGoldOfLevel(level){
+		var total = 0
+		var gold
+
+		for(var i=1; i<=level; i++){
+			gold = (i ** 3) + 500
+			total += gold
+		}
+
+		return total
+	}
 
 	/*
 
-	EVALUATE FUNCTIONS BASED ON STRINGS
-
+	//===============================
+		EVALUATE FUNCTIONS BASED ON STRINGS
+	//===============================
 	
 	var funcString = "lol";
 
@@ -459,29 +539,35 @@
 	*/
 
 
+	//===============================
+	/* CALCULATIONS
+	//===============================
+
+	//calculate approx gold the player should have per level
+	var total = 0
 	for(var i=1; i<=100; i++){
-		//var gold = (i ** 3) + 20
-		//console.log("level: " + i + ' gold: ' + gold)
-		var xp = (i ** 2) * 20 + 50
-		console.log("level: " + i + ' xp: ' + xp)
-		/*
-		var common = i ** 2 * commonM * statLevelM
-		var uncommon = i ** 2 * uncommonM * statLevelM
-		var rare = i ** 2 * rareM * statLevelM
-		var legend = i ** 2 * legendM * statLevelM
-		var mythic = i ** 2 * mythicM * statLevelM
-		
-
-		console.log("Level: " + i 
-		+ " Common: " + common.toFixed(0) 
-		+ " Uncommon: " + uncommon.toFixed(0)
-		+ " Rare: " + rare.toFixed(0)
-		+ " Legend: " + legend.toFixed(0)
-		+ " Mythic: " + mythic.toFixed(0)
-		)
-		*/
-
+		var gold = (i ** 3) + 500
+		total += gold
+		//console.log("level: " + i + ' gold: ' + gold + ' total: ' + total)
 	}
+
+	//calculate approx gold an attribute will cost per stat level
+	var total2 = 0
+	for(var i=1; i<=100; i++){
+		var statCost = Math.floor((i ** 2)/20 + 1)
+		total2 += statCost
+		//console.log("level: " + i + ' statCost: ' + statCost + ' total: ' + total2)
+	}
+
+	//calculate the xp needed for each player level
+	var total3 = 0
+	for(var i=1; i<=100; i++){
+		var xp = (i ** 2) * 20 + 50
+		total3 += xp
+		//console.log("level: " + i + ' xp: ' + xp + ' total: ' + total3)
+	}
+
+	*/
 	
 
 	
