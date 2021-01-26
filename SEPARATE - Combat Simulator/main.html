@@ -10,72 +10,56 @@
 			<div class='background sameLineBlock'>
 				<ul>
 					<li>
-						<label for="simulation">Simulation:</label>
-						<input type="text" id="simulation" name="simulation" value='100' size='5'>
+						<label for="simulations">Simulations:</label>
+						<input type="text" id="simulations" name="simulations" value='' size='2'>
 					</li>
 					<li>
-						<label for="armorPerLvlM">Armor/Level Multiplier:</label>
-						<input type="text" id="armorPerLvlM" name="armorPerLvlM" value='15' size='5'>
+						<p><strong>Armor Per Level</strong></p>
 					</li>
 					<li>
-						<label for="lightArmorM">Light Armor Multiplier:</label>
-						<input type="text" id="lightArmorM" name="lightArmorM" value='1.1' size='5'>
+						<label for="lightArmorPerLvl">Light</label>
+						<input type="text" id="lightArmorPerLvl" name="lightArmorPerLvl" value='12' size='2'>
+						<label for="mediumArmorPerLvl">Medium</label>
+						<input type="text" id="mediumArmorPerLvl" name="mediumArmorPerLvl" value='15' size='2'>
+						<label for="heavyArmorPerLvl">Heavy</label>
+						<input type="text" id="heavyArmorPerLvl" name="heavyArmorPerLvl" value='20' size='2'>
 					</li>
 					<li>
-						<label for="mediumArmorM">Medium Armor Multiplier:</label>
-						<input type="text" id="mediumArmorM" name="mediumArmorM" value='1.3' size='5'>
+						<p><strong>Stats from Armor Per Level</strong></p>
 					</li>
 					<li>
-						<label for="heavyArmorM">Heavy Armor Multiplier:</label>
-						<input type="text" id="heavyArmorM" name="heavyArmorM" value='1.5' size='5'>
+						<label for="lightArmorStatsPerLvl">Light</label>
+						<input type="text" id="lightArmorStatsPerLvl" name="lightArmorStatsPerLvl" value='20' size='2'>
+						<label for="mediumArmorStatsPerLvl">Medium</label>
+						<input type="text" id="mediumArmorStatsPerLvl" name="mediumArmorStatsPerLvl" value='15' size='2'>
+						<label for="heavyArmorStatsPerLvl">Heavy</label>
+						<input type="text" id="heavyArmorStatsPerLvl" name="heavyArmorStatsPerLvl" value='12' size='2'>
 					</li>
 					<li>
-						<label for="strWeapM">STR Weapon Multiplier:</label>
-						<input type="text" id="strWeapM" name="strWeapM" value='1.1' size='5'>
+						<p><strong>Weapon Multipliers</strong></p>
 					</li>
 					<li>
-						<label for="dexWeapM">DEX Weapon Multiplier:</label>
-						<input type="text" id="dexWeapM" name="dexWeapM" value='1.5' size='5'>
+						<label for="strWeapM">STR</label>
+						<input type="text" id="strWeapM" name="strWeapM" value='1.1' size='2'>
+						<label for="dexWeapM">DEX</label>
+						<input type="text" id="dexWeapM" name="dexWeapM" value='1.5' size='2'>
+						<label for="intWeapM">INT</label>
+						<input type="text" id="intWeapM" name="intWeapM" value='2' size='2'>
 					</li>
 					<li>
-						<label for="intWeapM">INT Weapon Multiplier:</label>
-						<input type="text" id="intWeapM" name="intWeapM" value='2' size='5'>
-					</li>
-				</ul>
-			</div>
-			<div class='background sameLineBlock'>
-				<ul>
-					<li>
-						<label for="statPerLvlM">Stat/Level Multiplier:</label>
-						<input type="text" id="statPerLvlM" name="statPerLvlM" value='2' size='5'>
+						<p><strong>Rarity Multipliers</strong></p>
 					</li>
 					<li>
-						<label for="dmgPerLvlM">Dmg/Level Multiplier:</label>
-						<input type="text" id="dmgPerLvlM" name="dmgPerLvlM" value='10' size='5'>
-					</li>
-					<li>
-						<label for="commonM">Common Multiplier:</label>
-						<input type="text" id="commonM" name="commonM" value='1.0' size='5'>
-					</li>
-					<li>
-						<label for="uncommonM">Uncommon Multiplier:</label>
-						<input type="text" id="uncommonM" name="uncommonM" value='1.11' size='5'>
-					</li>
-					<li>
-						<label for="rareM">Rare Multiplier:</label>
-						<input type="text" id="rareM" name="rareM" value='1.24' size='5'>
-					</li>
-					<li>
-						<label for="legendaryM">Legendary Multiplier:</label>
-						<input type="text" id="legendaryM" name="legendaryM" value='1.41' size='5'>
-					</li>
-					<li>
-						<label for="mythicM">Mythic Multiplier:</label>
-						<input type="text" id="mythicM" name="mythicM" value='1.63' size='5'>
-					</li>
-					<li>
-						<label for="armorPieces">Armor Pieces:</label>
-						<input type="text" id="armorPieces" name="armorPieces" value='5' size='5'>
+						<label for="common">Common</label>
+						<input type="text" id="common" name="common" value='1.0' size='2'>
+						<label for="uncommon">Uncommon</label>
+						<input type="text" id="uncommon" name="uncommon" value='1.11' size='2'>
+						<label for="rare">Rare</label>
+						<input type="text" id="rare" name="rare" value='1.24' size='2'>
+						<label for="legendary">Legendary</label>
+						<input type="text" id="legendary" name="legendary" value='1.41' size='2'>
+						<label for="mythic">Mythic</label>
+						<input type="text" id="mythic" name="mythic" value='1.63' size='2'>
 					</li>
 				</ul>
 			</div>
@@ -89,7 +73,7 @@
 			<ul class='alignLeft'>
 				<li>
 					<label for="p1Level">Level:</label>
-					<input type="text" id="p1Level" name="p1Level" value='100' size='5'>
+					<input type="text" id="p1Level" name="p1Level" value='100' size='2'>
 				</li>
 				<li>
 					<label for="p1Class">Class:</label>
@@ -109,30 +93,24 @@
 					  </select>
 				</li>
 				<li>
-					<p style='color:red'>*Leave ALL empty for automatic calculation</p>
+					<label for="p1Strength">STR/Lvl:</label>
+					<input type="text" id="p1Strength" name="p1Strength" value='20' size='2'>
 				</li>
 				<li>
-					<label for="p1Strength">Strength:</label>
-					<input type="text" id="p1Strength" name="p1Strength" value='' size='5'>
+					<label for="p1Dexterity">DEX/Lvl:</label>
+					<input type="text" id="p1Dexterity" name="p1Dexterity" value='5' size='2'>
 				</li>
 				<li>
-					<label for="p1Dexterity">Dexterity:</label>
-					<input type="text" id="p1Dexterity" name="p1Dexterity" value='' size='5'>
+					<label for="p1Intelligence">INT/Lvl:</label>
+					<input type="text" id="p1Intelligence" name="p1Intelligence" value='5' size='2'>
 				</li>
 				<li>
-					<label for="p1Intelligence">Intelligence:</label>
-					<input type="text" id="p1Intelligence" name="p1Intelligence" value='' size='5'>
+					<label for="p1Consitution">CON/Lvl:</label>
+					<input type="text" id="p1Consitution" name="p1Consitution" value='15' size='2'>
 				</li>
 				<li>
-					<label for="p1Consitution">Consitution:</label>
-					<input type="text" id="p1Consitution" name="p1Consitution" value='' size='5'>
-				</li>
-				<li>
-					<label for="p1Luck">Luck:</label>
-					<input type="text" id="p1Luck" name="p1Luck" value='' size='5'>
-				</li>
-				<li>
-					<p style='color:red'>*End of "Leave"</p>
+					<label for="p1Luck">LUK/Lvl:</label>
+					<input type="text" id="p1Luck" name="p1Luck" value='15' size='2'>
 				</li>
 				<li>
 					<label for="p1GearType">Gear Type:</label>
@@ -151,47 +129,6 @@
 						<option value="legendary">Legendary</option>
 						<option value="mythic">Mythic</option>
 					  </select>
-				</li>
-				<li>
-					<label for="p1BaseDist">Base Stat Distribution:</label>
-					<select name="p1BaseDist" id="p1BaseDist">
-						<option value="allEvenly">All Split Evenly</option>
-						<option value="mainThree">Main/Con/Luck</option>
-						<option value="allOrder">All But + Order</option>
-						<option value="glassCannon">Only Main</option>
-					  </select>
-				</li>
-				<li>
-					<label for="p1GearDist">Gear Stat Distribution:</label>
-					<select name="p1GearDist" id="p1GearDist">
-						<option value="allEvenly">All Split Evenly</option>
-						<option value="mainThree">Main/Con/Luck</option>
-						<option value="allOrder">All But + Order</option>
-						<option value="glassCannon">Only Main</option>
-					  </select>
-				</li>
-				<li class='alignCenter'>
-					<h4>Presets</h4>
-				</li>
-				<li>
-					<button onclick='changeToPreset("warrior","p1")'>Warrior</button>
-					<button onclick='changeToPreset("berserker","p1")'>Berserker</button>
-					<button onclick='changeToPreset("magicKnight","p1")'>Magic Knight</button>
-				</li>
-				<li>
-					<button onclick='changeToPreset("fencer","p1")'>Fencer</button>
-					<button onclick='changeToPreset("frostMage","p1")'>Frost Mage</button>
-					<button onclick='changeToPreset("fireMage","p1")'>Fire Mage</button>
-				</li>
-				<li></li>
-					<button onclick='changeToPreset("darkMage","p1")'>Dark Mage</button>
-					<button onclick='changeToPreset("bloodMage","p1")'>Blood Mage</button>
-					<button onclick='changeToPreset("scout","p1")'>Scout</button>
-				</li>
-				<li>
-					<button onclick='changeToPreset("rogue","p1")'>Rogue</button>
-					<button onclick='changeToPreset("demonHunter","p1")'>Demon Hunter</button>
-					<button onclick='changeToPreset("assassin","p1")'>Assassin</button>
 				</li>
 			</ul>
 
@@ -213,7 +150,7 @@
 			<ul class='alignLeft'>
 				<li>
 					<label for="p2Level">Level:</label>
-					<input type="text" id="p2Level" name="p2Level" value='100' size='5'>
+					<input type="text" id="p2Level" name="p2Level" value='100' size='2'>
 				</li>
 				<li>
 					<label for="p2Class">Class:</label>
@@ -233,30 +170,24 @@
 					  </select>
 				</li>
 				<li>
-					<p style='color:red'>*Leave ALL empty for automatic calculation</p>
+					<label for="p2Strength">STR/Lvl:</label>
+					<input type="text" id="p2Strength" name="p2Strength" value='20' size='2'>
 				</li>
 				<li>
-					<label for="p2Strength">Strength:</label>
-					<input type="text" id="p2Strength" name="p2Strength" value='' size='5'>
+					<label for="p2Dexterity">DEX/Lvl:</label>
+					<input type="text" id="p2Dexterity" name="p2Dexterity" value='15' size='2'>
 				</li>
 				<li>
-					<label for="p2Dexterity">Dexterity:</label>
-					<input type="text" id="p2Dexterity" name="p2Dexterity" value='' size='5'>
+					<label for="p2Intelligence">INT/Lvl:</label>
+					<input type="text" id="p2Intelligence" name="p2Intelligence" value='5' size='2'>
 				</li>
 				<li>
-					<label for="p2Intelligence">Intelligence:</label>
-					<input type="text" id="p2Intelligence" name="p2Intelligence" value='' size='5'>
+					<label for="p2Consitution">CON/Lvl:</label>
+					<input type="text" id="p2Consitution" name="p2Consitution" value='5' size='2'>
 				</li>
 				<li>
-					<label for="p2Consitution">Consitution:</label>
-					<input type="text" id="p2Consitution" name="p2Consitution" value='' size='5'>
-				</li>
-				<li>
-					<label for="p2Luck">Luck:</label>
-					<input type="text" id="p2Luck" name="p2Luck" value='' size='5'>
-				</li>
-				<li>
-					<p style='color:red'>*End of "Leave"</p>
+					<label for="p2Luck">LUK/Lvl:</label>
+					<input type="text" id="p2Luck" name="p2Luck" value='15' size='2'>
 				</li>
 				<li>
 					<label for="p2GearType">Gear Type:</label>
@@ -276,331 +207,213 @@
 						<option value="mythic">Mythic</option>
 					  </select>
 				</li>
-				<li>
-					<label for="p2BaseDist">Base Stat Distribution:</label>
-					<select name="p2BaseDist" id="p2BaseDist">
-						<option value="allEvenly">All Split Evenly</option>
-						<option value="mainThree">Main/Con/Luck</option>
-						<option value="allOrder">All But + Order</option>
-						<option value="glassCannon">Only Main</option>
-					  </select>
-				</li>
-				<li>
-					<label for="p2GearDist">Gear Stat Distribution:</label>
-					<select name="p2GearDist" id="p2GearDist">
-						<option value="allEvenly">All Split Evenly</option>
-						<option value="mainThree">Main/Con/Luck</option>
-						<option value="allOrder">All But + Order</option>
-						<option value="glassCannon">Only Main</option>
-					  </select>
-				</li>
-				<li class='alignCenter'>
-					<h4>Presets</h4>
-				</li>
-				<li>
-					<button onclick='changeToPreset("warrior","p2")'>Warrior</button>
-					<button onclick='changeToPreset("berserker","p2")'>Berserker</button>
-					<button onclick='changeToPreset("magicKnight","p2")'>Magic Knight</button>
-				</li>
-				<li>
-					<button onclick='changeToPreset("fencer","p2")'>Fencer</button>
-					<button onclick='changeToPreset("frostMage","p2")'>Frost Mage</button>
-					<button onclick='changeToPreset("fireMage","p2")'>Fire Mage</button>
-				</li>
-				<li></li>
-					<button onclick='changeToPreset("darkMage","p2")'>Dark Mage</button>
-					<button onclick='changeToPreset("bloodMage","p2")'>Blood Mage</button>
-					<button onclick='changeToPreset("scout","p2")'>Scout</button>
-				</li>
-				<li>
-					<button onclick='changeToPreset("rogue","p2")'>Rogue</button>
-					<button onclick='changeToPreset("demonHunter","p2")'>Demon Hunter</button>
-					<button onclick='changeToPreset("assassin","p2")'>Assassin</button>
-				</li>
 			</ul>
 		</div>
 	</div>
 </body>
 <script>
 
+	var classes = {
+		//STR Classes
+		'warrior': {
+			'mainStat': 'str',
+			'weapons': 1,
+			'twoHanded': false,
+			'healthMult': 5
+		},
+		'berserker': {
+			'mainStat': 'str',
+			'weapons': 1,
+			'twoHanded': false,
+			'healthMult': 4
+		},
+		'magicKnight': {
+			'mainStat': 'str',
+			'weapons': 1,
+			'twoHanded': false,
+			'healthMult': 5
+		},
+		'fencer': {
+			'mainStat': 'str',
+			'weapons': 1,
+			'twoHanded': false,
+			'healthMult': 4
+		},
+		//DEX Classes
+		'scout': {
+			'mainStat': 'dex',
+			'weapons': 1,
+			'twoHanded': true,
+			'healthMult': 3
+		},
+		'rogue': {
+			'mainStat': 'dex',
+			'weapons': 2,
+			'twoHanded': false,
+			'healthMult': 3
+		},
+		'demonHunter': {
+			'mainStat': 'dex',
+			'weapons': 1,
+			'twoHanded': true,
+			'healthMult': 4
+		},
+		'assassin': {
+			'mainStat': 'dex',
+			'weapons': 1,
+			'twoHanded': false,
+			'healthMult': 3
+		},
+		//INT Classes
+		'frostMage': {
+			'mainStat': 'int',
+			'weapons': 1,
+			'twoHanded': true,
+			'healthMult': 2
+		},
+		'fireMage': {
+			'mainStat': 'int',
+			'weapons': 1,
+			'twoHanded': true,
+			'healthMult': 2
+		},
+		'bloodMage': {
+			'mainStat': 'int',
+			'weapons': 1,
+			'twoHanded': true,
+			'healthMult': 2
+		},
+		'darkMage': {
+			'mainStat': 'int',
+			'weapons': 1,
+			'twoHanded': true,
+			'healthMult': 2
+		}
+	}
+
+
 	function startSimulation(){
-		//Global Variables
-		var simulation = document.getElementById('simulation').value
-		var statPerLvlM = document.getElementById('statPerLvlM').value
-		var armorPerLvlM = document.getElementById('armorPerLvlM').value
-		var dmgPerLvlM = document.getElementById('dmgPerLvlM').value
-		var strWeapM = document.getElementById('strWeapM').value
-		var dexWeapM = document.getElementById('dexWeapM').value
-		var intWeapM = document.getElementById('intWeapM').value
-		var commonM = document.getElementById('commonM').value
-		var incommonM = document.getElementById('uncommonM').value
-		var rareM = document.getElementById('rareM').value
-		var legendaryM = document.getElementById('legendaryM').value
-		var mythicM = document.getElementById('mythicM').value
-		var armorPieces = document.getElementById('armorPieces').value
-
-		//P1 Variables
-		var p1Level = document.getElementById('p1Level').value
-		var p1Class = document.getElementById('p1Class').value
-		var p1Strength = document.getElementById('p1Strength').value
-		var p1Dexterity = document.getElementById('p1Dexterity').value
-		var p1Intelligence = document.getElementById('p1Intelligence').value
-		var p1Consitution = document.getElementById('p1Consitution').value
-		var p1Luck = document.getElementById('p1Luck').value
-		var p1GearType = document.getElementById('p1GearType').value
-		var p1GearRarity = document.getElementById('p1GearRarity').value
-		var p1BaseDist = document.getElementById('p1BaseDist').value
-		var p1GearDist = document.getElementById('p1GearDist').value
-
-		//P2 Variables
-		var p2Level = document.getElementById('p2Level').value
-		var p2Class = document.getElementById('p2Class').value
-		var p2Strength = document.getElementById('p2Strength').value
-		var p2Dexterity = document.getElementById('p2Dexterity').value
-		var p2Intelligence = document.getElementById('p2Intelligence').value
-		var p2Consitution = document.getElementById('p2Consitution').value
-		var p2Luck = document.getElementById('p2Luck').value
-		var p2GearType = document.getElementById('p2GearType').value
-		var p2GearRarity = document.getElementById('p2GearRarity').value
-		var p2BaseDist = document.getElementById('p2BaseDist').value
-		var p2GearDist = document.getElementById('p2GearDist').value
 		
-		//===Setup Base Stats (If attribute fields are empty, automatically calculate them. Otherwise move on)
+		var simulations = document.getElementById('simulations').value
+
+		var player1 =  createPlayer('1')
+		var player2 =  createPlayer('2')
 		
-			//Player 1
-			var p1Stats = [] //[STR, DEX, INT, CON, LUK]
+		//Calculate Stats
+		calculateStats(player1)
+		calculateStats(player2)
 
-			if(p1Strength == '' && p1Dexterity == '' && p1Intelligence == '' && p1Consitution == '' && p1Luck == '')
-				p1Stats = calculateBaseStats(p1Class, p1Level, p1BaseDist)
+		//Calculate Final Stats
+		calculateFinalStats(player1)
+		calculateFinalStats(player2)
 
-			console.log('Base Stats:'
-			+ ' STR: ' + p1Stats[0]
-			+ ' DEX: ' + p1Stats[1]
-			+ ' INT: ' + p1Stats[2]
-			+ ' CON: ' + p1Stats[3]
-			+ ' LUK: ' + p1Stats[4]
-			)
-
-			//Player 2
-			var p2Stats = [] //[STR, DEX, INT, CON, LUK]
-
-			if(p2Strength != '' && p2Dexterity != '' && p2Intelligence != '' && p2Consitution != '' && p2Luck != '')
-				p2Stats = calculateBaseStats(p2Class, p2Level, p2BaseDist)
-		
-		//==Setup Gear Stats
-			
-			//Player 1
-			
-			//Light/Med/Heavy Multiplier for both Weapon and Armor
-			var p1ArmorMultArmor = document.getElementById(p1GearType + 'ArmorM').value
-			var p1ArmorMultStats
-			
-			if(p1GearType == 'light')
-				p1ArmorMultStats = document.getElementById('heavyArmorM').value
-			else if(p1GearType == 'medium')
-				p1ArmorMultStats = document.getElementById('mediumArmorM').value
-			else
-				p1ArmorMultStats = document.getElementById('lightArmorM').value
-
-			var p1ArmorPieceArmor = Math.floor((p1Level * armorPerLvlM * p1ArmorMultArmor) / armorPieces)
-			var p1ArmorPieceStats = calculateArmorStatsPerPiece(statPerLvlM, p1ArmorMultStats, p1Class, p1Level, p1GearDist, p1GearRarity, armorPieces)
-
-			console.log('Each armor: ' + p1ArmorPieceArmor
-			+ ' STR: ' + p1ArmorPieceStats[0]
-			+ ' DEX: ' + p1ArmorPieceStats[1]
-			+ ' INT: ' + p1ArmorPieceStats[2]
-			+ ' CON: ' + p1ArmorPieceStats[3]
-			+ ' LUK: ' + p1ArmorPieceStats[4]
-			)
-
-			var mainStatIndex = getMainStat(p1Class)
-			var p1WeaponTypeM
-			if (mainStatIndex == 0)
-				p1WeaponTypeM = strWeapM
-			else if (mainStatIndex == 1)
-				p1WeaponTypeM = dexWeapM
-			else if (mainStatIndex == 2)
-				p1WeaponTypeM = intWeapM
-
-			var p1WeaponPieceDmg = Math.floor(p1Level * (dmgPerLvlM ** 2)/20 * p1WeaponTypeM)
-
-			var p1WeaponPieceStats = calculateWeaponStatsPerPiece(statPerLvlM, p1Class, p1Level, p1GearDist, p1GearRarity)
-
-			console.log('Each weapon: ' + p1WeaponPieceDmg
-			+ ' STR: ' + p1WeaponPieceStats[0]
-			+ ' DEX: ' + p1WeaponPieceStats[1]
-			+ ' INT: ' + p1WeaponPieceStats[2]
-			+ ' CON: ' + p1WeaponPieceStats[3]
-			+ ' LUK: ' + p1WeaponPieceStats[4]
-			)
-			
-
-			//Player 2
-
-		//==Setup Final Stats (CON -> Health)
-
-		
-		//==Start the Battle
+		console.log(player1)
+		console.log(player2)
 	}
-
-	function calculateBaseStats(playerClass, playerLevel, baseDist){
-		var arr = []
-		var mainStatIndex = getMainStat(playerClass)
-		var availableGold = getTotalGoldOfLevel(playerLevel)
-		var goldSplit
-
-		if(baseDist == 'allEvenly'){
-			goldSplit = Math.floor(availableGold / 5)
-			statLevel = getStatLevelByGold(goldSplit)
-			arr = [statLevel, statLevel, statLevel, statLevel, statLevel]
-		}
-		else if(baseDist == 'mainThree'){
-			goldSplit = Math.floor(availableGold / 4)
-			var levelBy2 = getStatLevelByGold(Math.floor(goldSplit/2))
-			var level = getStatLevelByGold(goldSplit)
-			arr = [levelBy2, levelBy2, levelBy2, level, level]
-			arr[mainStatIndex] = level
-		}
-		else if(baseDist == 'allOrder'){
-			goldSplit = Math.floor(availableGold / 8)
-			var levelX1pt5 = getStatLevelByGold(Math.floor(goldSplit*1.5))
-			var level = getStatLevelByGold(goldSplit)
-			var levelXthree = getStatLevelByGold(goldSplit*3)
-			arr = [level, level, level, levelX1pt5, levelX1pt5]
-			arr[mainStatIndex] = levelXthree
-		}
-		else if(baseDist == 'glassCannon'){
-			goldSplit = Math.floor(availableGold / 8)
-			var levelBy2 = getStatLevelByGold(Math.floor(goldSplit/4))
-			var levelXseven = getStatLevelByGold(goldSplit*7)
-			arr = [levelBy2, levelBy2, levelBy2, levelBy2, levelBy2]
-			arr[mainStatIndex] = levelXseven
-		}
-		return arr
-	}
-
-	function calculateWeaponStatsPerPiece(statPerLvlM, playerClass, playerLevel, gearDist, gearRarity){
-		var arr = []
-		var mainStatIndex = getMainStat(playerClass)
-		var stat = Math.floor(((playerLevel ** 2) * statPerLvlM * document.getElementById(gearRarity + 'M').value)/3) 
-
-		if(gearDist == 'allEvenly'){
-			arr = [0, 0, 0, stat, stat]
-			arr[mainStatIndex] = stat
-		}
-		else if(gearDist == 'mainThree'){
-			arr = [0, 0, 0, stat, stat]
-			arr[mainStatIndex] = stat
-		}
-		else if(gearDist == 'allOrder'){
-			arr = [0,0,0, Math.floor(stat * 1), Math.floor(stat * 0.5)]
-			arr[mainStatIndex] = Math.floor(stat * 1.5)
-		}
-		else if(gearDist == 'glassCannon'){
-			arr = [0,0,0, Math.floor(stat * 0.25), Math.floor(stat * 0.25)]
-			arr[mainStatIndex] = stat * 2.5
-		}
-		return arr
-	}
-
-	function calculateArmorStatsPerPiece(statPerLvlM, armorStatsMult, playerClass, playerLevel, gearDist, gearRarity, armorPieces){
-		var arr = []
-		var mainStatIndex = getMainStat(playerClass)
-		var stat = Math.floor(((playerLevel ** 2) * statPerLvlM * armorStatsMult * document.getElementById(gearRarity + 'M').value)/armorPieces) 
-
-		if(gearDist == 'allEvenly'){
-			arr = [stat, stat, stat, stat, stat]
-		}
-		else if(gearDist == 'mainThree'){
-			arr = [Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 1.5), Math.floor(stat * 1.5)]
-			arr[mainStatIndex] = Math.floor(stat * 1.5)
-		}
-		else if(gearDist == 'allOrder'){
-			arr = [Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 1.5), Math.floor(stat * 1)]
-			arr[mainStatIndex] = Math.floor(stat * 2)
-		}
-		else if(gearDist == 'glassCannon'){
-			arr = [Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 0.25), Math.floor(stat * 0.25)]
-			arr[mainStatIndex] = stat * 4
-		}
-		return arr
-	}
-
-	function getMainStat(playerClass){
-		if(playerClass == 'warrior' || playerClass == 'berserker' || playerClass == 'magicKnight' || playerClass == 'fencer')
-			return 0 //STR
-		else if(playerClass == 'scout' || playerClass == 'rogue' || playerClass == 'demonHunter' || playerClass == 'assassin')
-			return 1 //DEX
-		else if(playerClass == 'frostMage' || playerClass == 'fireMage' || playerClass == 'darkMage' || playerClass == 'bloodMage')
-			return 2 //INT
-	}
-
-	function getStatLevelByGold(gold){
-		var level = 1
-		var total = 0
-
-		while(level != 2000){
-			total += Math.floor((level ** 2)/20 + 1)
-
-			if(total >= gold)
-				return level
-			else
-				level += 1
-		}
-	}
-
-	function getTotalGoldOfLevel(level){
-		var total = 0
-		var gold
-
-		for(var i=1; i<=level; i++){
-			gold = (i ** 3) + 500
-			total += gold
-		}
-
-		return total
-	}
-
-	/*
 
 	//===============================
-		EVALUATE FUNCTIONS BASED ON STRINGS
+	//	Helper Functions
 	//===============================
-	
-	var funcString = "lol";
 
-	// find object
-	var classFunc = window[fnstring];
-
-	// is object a function?
-	if (typeof fn === "function") fn('ss');
-	
-	function lol(test){
-		console.log(test)
+	function createPlayer(playerNum){
+		var player = {
+			'level': document.getElementById('p' + playerNum + 'Level').value,
+			'class': document.getElementById('p' + playerNum + 'Class').value,
+			'strPerLvl': document.getElementById('p' + playerNum + 'Strength').value,
+			'dexPerLvl': document.getElementById('p' + playerNum + 'Dexterity').value,
+			'intPerLvl': document.getElementById('p' + playerNum + 'Intelligence').value,
+			'conPerLvl': document.getElementById('p' + playerNum + 'Consitution').value,
+			'lukPerLvl': document.getElementById('p' + playerNum + 'Luck').value,
+			'gearType': document.getElementById('p' + playerNum + 'GearType').value,
+			'gearRarity': document.getElementById('p' + playerNum + 'GearRarity').value
+		}
+		return player
 	}
-	*/
 
+	function calculateStats(player){
+		var level = player['level']
+		
+		player['str'] = level * player['strPerLvl']
+		player['dex'] = level * player['dexPerLvl']
+		player['int'] = level * player['intPerLvl']
+		player['con'] = level * player['conPerLvl']
+		player['luk'] = level * player['lukPerLvl']
+		player['armor'] = level * document.getElementById(player['gearType'] + 'ArmorPerLvl').value
+	}
+
+	function calculateFinalStats(player){
+		var level = player['level']
+		var pClass = player['class']
+		var mainStat = classes[pClass]['mainStat']
+		
+		if(level <= 5){
+			player['dmg'] = (level ** 2) * Math.floor(player[mainStat]/20) + 10
+			player['health'] = (level ** 2) * 4 * Math.floor(player['con']/20) + 60
+		} else {
+			player['dmg'] = (level ** 2) * Math.floor(player[mainStat]/30) + 10
+			player['health'] = (level ** 2) * 4 * Math.floor(player['con']/30) + 60
+		}
+
+		player['armorReduction'] = (player['armor'])/(level * 60) * 100
+		player['critChance'] = (player['luk'])/(level * 60) * 100
+
+		player['strResistance'] = Math.floor(player['str'] / 2)
+		player['dexResistance'] = Math.floor(player['dex'] / 2)
+		player['intResistance'] = Math.floor(player['int'] / 2)
+	}
 
 	//===============================
 	// CALCULATIONS
 	//===============================
 
 	var output = ''
-	//calculate approx gold the player should have per level
 	var total = 0
 	var total2 = 0
 	var total3 = 0
+	var questXp = 0
+
 	for(var i=1; i<=100; i++){
-		var gold = (i ** 3) + 500
-		var statCost = Math.floor((i ** 2)/20 + 1)
-		var xp = (i ** 2) * 20 + 50
+		var gold = (i ** 3) + 300
+		var statCost = Math.floor((i ** 2.2)/20 + 1)
+		var xp = Math.floor((i ** 2) * i ** 1.3) + 50
+		questXp = Math.floor((i ** 2)) + 10
+		var questsNeeded = Math.floor(xp / questXp)
 		total += gold
 		total2 += statCost
 		total3 += xp
-		output += i + '\t' + gold + '\t' + total + '\t' + statCost + '\t' + total2 + '\t' + xp + '\t' + total3 + '\n'
+		output += i + '\t' + gold + '\t' + total + '\t' + statCost + '\t' + total2 + '\t' + xp + '\t' + total3 + '\t' + questXp + '\t' + questsNeeded + '\n'
 	}
 	document.getElementById('output').value = output
 	
+	var output2 = ''
+
+	for(var i=1; i<=100; i++){
+		//wpn dmg * str stat + 10
+		var mainStat = (i*20)
+		var conStat = (i*15)
+		var dmg
+		if(i<5)
+			dmg = (i ** 2) * Math.floor(mainStat/20) + 10
+		else
+			dmg = (i ** 2) * Math.floor(mainStat/30) + 10
+		var health
+		if(i<5)
+			health = (i ** 2) * 4 * Math.floor(conStat/20) + 60
+		else
+			health = (i ** 2) * 4 * Math.floor(conStat/30) + 60
+		var armor = (i*15)/(i*60) * 100
+		var critChance = (i*15)/(i*60) * 100
+		var res1 = (i*5) / 2 //times by two for both stats
+		var newMainStat = mainStat - res1
+		var newDmg
+		if(i<5)
+			newDmg = (i ** 2) * Math.floor(newMainStat/20) + 10
+		else
+			newDmg = (i ** 2) * Math.floor(newMainStat/30) + 10
+
+		output2 += i + '\t' + dmg + '\t' + health + '\t' + armor + '\t' + critChance + '\t' + mainStat + '\t' + res1 + '\t' + newMainStat + '\t' + newDmg + '\n'// + questsNeeded + '\n'
+	}
+	document.getElementById('outputClassInfo').value = output2
 
 </script>
 </html>

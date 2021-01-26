@@ -67,9 +67,13 @@ ul{
     margin: 0px;
 }
 
+li{
+    padding: 4px;
+}
+
 label{
     display: inline-block;
-    width: 180px;
+    width: auto;
     text-align: right;
 }
 
