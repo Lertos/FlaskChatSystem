@@ -18,48 +18,48 @@
 					</li>
 					<li>
 						<label for="lightArmorPerLvl">Light</label>
-						<input type="text" id="lightArmorPerLvl" name="lightArmorPerLvl" value='12' size='2'>
+						<input type="text" id="lightArmorPerLvl" name="lightArmorPerLvl" value='0.3' size='2'>
 						<label for="mediumArmorPerLvl">Medium</label>
-						<input type="text" id="mediumArmorPerLvl" name="mediumArmorPerLvl" value='15' size='2'>
+						<input type="text" id="mediumArmorPerLvl" name="mediumArmorPerLvl" value='1' size='2'>
 						<label for="heavyArmorPerLvl">Heavy</label>
-						<input type="text" id="heavyArmorPerLvl" name="heavyArmorPerLvl" value='20' size='2'>
+						<input type="text" id="heavyArmorPerLvl" name="heavyArmorPerLvl" value='1.8' size='2'>
 					</li>
 					<li>
 						<p><strong>Stats from Armor Per Level</strong></p>
 					</li>
 					<li>
 						<label for="lightArmorStatsPerLvl">Light</label>
-						<input type="text" id="lightArmorStatsPerLvl" name="lightArmorStatsPerLvl" value='20' size='2'>
+						<input type="text" id="lightArmorStatsPerLvl" name="lightArmorStatsPerLvl" value='1.05' size='2'>
 						<label for="mediumArmorStatsPerLvl">Medium</label>
-						<input type="text" id="mediumArmorStatsPerLvl" name="mediumArmorStatsPerLvl" value='15' size='2'>
+						<input type="text" id="mediumArmorStatsPerLvl" name="mediumArmorStatsPerLvl" value='1' size='2'>
 						<label for="heavyArmorStatsPerLvl">Heavy</label>
-						<input type="text" id="heavyArmorStatsPerLvl" name="heavyArmorStatsPerLvl" value='12' size='2'>
+						<input type="text" id="heavyArmorStatsPerLvl" name="heavyArmorStatsPerLvl" value='0.95' size='2'>
 					</li>
 					<li>
 						<p><strong>Weapon Multipliers</strong></p>
 					</li>
 					<li>
-						<label for="strWeapM">STR</label>
-						<input type="text" id="strWeapM" name="strWeapM" value='1.1' size='2'>
-						<label for="dexWeapM">DEX</label>
-						<input type="text" id="dexWeapM" name="dexWeapM" value='1.5' size='2'>
-						<label for="intWeapM">INT</label>
-						<input type="text" id="intWeapM" name="intWeapM" value='2' size='2'>
+						<label for="strWeapon">STR</label>
+						<input type="text" id="strWeapon" name="strWeapon" value='1' size='2'>
+						<label for="dexWeapon">DEX</label>
+						<input type="text" id="dexWeapon" name="dexWeapon" value='1.2' size='2'>
+						<label for="intWeapon">INT</label>
+						<input type="text" id="intWeapon" name="intWeapon" value='1.5' size='2'>
 					</li>
 					<li>
-						<p><strong>Rarity Multipliers</strong></p>
+						<p><strong>Stats from Equipment Per Level</strong></p>
 					</li>
 					<li>
 						<label for="common">Common</label>
-						<input type="text" id="common" name="common" value='1.0' size='2'>
+						<input type="text" id="common" name="common" value='1' size='2'>
 						<label for="uncommon">Uncommon</label>
-						<input type="text" id="uncommon" name="uncommon" value='1.11' size='2'>
+						<input type="text" id="uncommon" name="uncommon" value='1.02' size='2'>
 						<label for="rare">Rare</label>
-						<input type="text" id="rare" name="rare" value='1.24' size='2'>
+						<input type="text" id="rare" name="rare" value='1.05' size='2'>
 						<label for="legendary">Legendary</label>
-						<input type="text" id="legendary" name="legendary" value='1.41' size='2'>
+						<input type="text" id="legendary" name="legendary" value='1.09' size='2'>
 						<label for="mythic">Mythic</label>
-						<input type="text" id="mythic" name="mythic" value='1.63' size='2'>
+						<input type="text" id="mythic" name="mythic" value='1.15' size='2'>
 					</li>
 				</ul>
 			</div>
@@ -133,14 +133,18 @@
 			</ul>
 
 		</div>
+		<!-- MAIN PANEL -->
 		<div class='mainPanel background border spacing'>
 			<div>
-				<button onclick='startSimulation()'>Fight</button>
+				<button onclick='startSimulation()'>Single</button>
+				<button onclick='startRecursiveSimulation()'>Recursive</button>
 			</div>
-			<h4>Output</h4>
+			<h4>Gold/Xp/Quests</h4>
 			<textarea id='output'></textarea>
-			<h4>Class Dmg / Armor</h4>
+			<h4>Suggested Class Dmg/Armor</h4>
 			<textarea id='outputClassInfo'></textarea>
+			<h4>Recursive Output of Player Stats</h4>
+			<textarea id='outputPlayerStats'></textarea>
 		</div>
 
 		<!-- PLAYER 2 -->
@@ -219,102 +223,196 @@
 			'mainStat': 'str',
 			'weapons': 1,
 			'twoHanded': false,
-			'healthMult': 5
+			'maxArmorReduc': 50,
+			'healthMult': 3
 		},
 		'berserker': {
 			'mainStat': 'str',
 			'weapons': 1,
 			'twoHanded': false,
-			'healthMult': 4
+			'maxArmorReduc': 40,
+			'healthMult': 2.5
 		},
 		'magicKnight': {
 			'mainStat': 'str',
 			'weapons': 1,
 			'twoHanded': false,
-			'healthMult': 5
+			'maxArmorReduc': 45,
+			'healthMult': 2.8
 		},
 		'fencer': {
 			'mainStat': 'str',
 			'weapons': 1,
 			'twoHanded': false,
-			'healthMult': 4
+			'maxArmorReduc': 35,
+			'healthMult': 2.4
 		},
 		//DEX Classes
 		'scout': {
 			'mainStat': 'dex',
 			'weapons': 1,
 			'twoHanded': true,
-			'healthMult': 3
+			'maxArmorReduc': 30,
+			'healthMult': 2.4
 		},
 		'rogue': {
 			'mainStat': 'dex',
 			'weapons': 2,
 			'twoHanded': false,
-			'healthMult': 3
+			'maxArmorReduc': 25,
+			'healthMult': 2.1
 		},
 		'demonHunter': {
 			'mainStat': 'dex',
 			'weapons': 1,
 			'twoHanded': true,
-			'healthMult': 4
+			'maxArmorReduc': 35,
+			'healthMult': 2.5
 		},
 		'assassin': {
 			'mainStat': 'dex',
 			'weapons': 1,
 			'twoHanded': false,
-			'healthMult': 3
+			'maxArmorReduc': 20,
+			'healthMult': 1.9
 		},
 		//INT Classes
 		'frostMage': {
 			'mainStat': 'int',
 			'weapons': 1,
 			'twoHanded': true,
+			'maxArmorReduc': 25,
 			'healthMult': 2
 		},
 		'fireMage': {
 			'mainStat': 'int',
 			'weapons': 1,
 			'twoHanded': true,
-			'healthMult': 2
+			'maxArmorReduc': 20,
+			'healthMult': 1.8
 		},
 		'bloodMage': {
 			'mainStat': 'int',
 			'weapons': 1,
 			'twoHanded': true,
-			'healthMult': 2
+			'maxArmorReduc': 20,
+			'healthMult': 1.8
 		},
 		'darkMage': {
 			'mainStat': 'int',
 			'weapons': 1,
 			'twoHanded': true,
-			'healthMult': 2
+			'maxArmorReduc': 20,
+			'healthMult': 1.9
 		}
 	}
 
+	function startRecursiveSimulation(){
+		var output = document.getElementById('outputPlayerStats')
+		var allClasses = Object.keys(classes)
+		var allArmorTypes = []
+		var allGearRarities = []
+		
+		var armorTypes = document.getElementById('p1GearType')
+		var rarityTypes = document.getElementById('p1GearRarity')
+
+		for(var i=0; i<armorTypes.options.length; i++)
+			allArmorTypes[i] = armorTypes.options[i].value
+
+		//COMMENT to only see end-game "Mythic" values
+		for(var i=0; i<rarityTypes.options.length; i++)
+			allGearRarities[i] = rarityTypes.options[i].value
+		//UNCOMMENT to only see end-game "Mythic" values
+		//allGearRarities = ['mythic']
+
+		//console.log(allClasses)
+		//console.log(allArmorTypes)
+		//console.log(allGearRarities)
+
+		for(var a=0; a<allClasses.length; a++){
+			document.getElementById('p1Class').value = allClasses[a]
+			//Set raatios of stats the class would want
+			getBaseStatRatios(allClasses[a])
+
+			for(var b=0; b<allArmorTypes.length; b++){
+				document.getElementById('p1GearType').value = allArmorTypes[b]
+
+				for(var c=0; c<allGearRarities.length; c++){
+					document.getElementById('p1GearRarity').value = allGearRarities[c]
+
+					var player = startSimulation()
+					var excelOutput = getExcelOutput(player)
+
+					output.value += excelOutput + ' \n'
+				}
+			}
+		}
+	}
 
 	function startSimulation(){
-		
-		var simulations = document.getElementById('simulations').value
+		var player1 = createPlayer('1')
+		var player2 = createPlayer('2')
 
-		var player1 =  createPlayer('1')
-		var player2 =  createPlayer('2')
-		
-		//Calculate Stats
+		//Calculate Base Stats
 		calculateStats(player1)
 		calculateStats(player2)
 
-		//Calculate Final Stats
+		//Multiply Armor by the Equipment Type Multiplier
+		calculateArmorMultiplier(player1)
+		calculateArmorMultiplier(player2)
+
+		//Multiply Armor by the Rarity Type Multiplier
+		calculateArmorRarityMultiplier(player1)
+		calculateArmorRarityMultiplier(player2)
+
+		//Multiply Stats by the Equipment Stats Multiplier
+		calculateStatsMultiplier(player1)
+		calculateStatsMultiplier(player2)
+
+		//Multiply Stats by the Rarity Multiplier
+		calculateStatsRarityMultiplier(player1)
+		calculateStatsRarityMultiplier(player2)
+
+		//Put everything together to get the final stats
 		calculateFinalStats(player1)
 		calculateFinalStats(player2)
 
-		console.log(player1)
-		console.log(player2)
+		//Start the battle(s)
+		setupFight(player1, player2)
+
+		return player1
+	}
+
+	function setupFight(player1, player2){
+		var simulations = document.getElementById('simulations').value
+		var player1Wins = 0
+
+		for(var i=0; i<simulations; i++){
+			var winner = combat
+		}
+	}
+
+	function processFight(player1, player2){
+		var p1Health = player1['health']
+		var p1BaseDmg = player['dmg']
+		var p1Health = player1['health']
+		var p1Dmg = player['dmg']
+
+		//check for crit in function, 
+		isCriticalHit()
+		
+	}
+
+	function isCriticalHit(baseDmg, critChance){
+		var random
 	}
 
 	//===============================
 	//	Helper Functions
 	//===============================
 
+
+	//Creates and returns the base player dictionary that we will later manipulate
 	function createPlayer(playerNum){
 		var player = {
 			'level': document.getElementById('p' + playerNum + 'Level').value,
@@ -330,6 +428,8 @@
 		return player
 	}
 
+
+	//Calculate the base stats based on given stat ratios
 	function calculateStats(player){
 		var level = player['level']
 		
@@ -338,28 +438,166 @@
 		player['int'] = level * player['intPerLvl']
 		player['con'] = level * player['conPerLvl']
 		player['luk'] = level * player['lukPerLvl']
-		player['armor'] = level * document.getElementById(player['gearType'] + 'ArmorPerLvl').value
+		player['armor'] = level * 15
 	}
 
+
+	//Apply the gear type multipliers to the players armor
+	function calculateArmorMultiplier(player){
+		var gearType = player['gearType']
+		var armorMultiplier = document.getElementById(gearType + 'ArmorPerLvl').value
+
+		player['armor'] = Math.floor(player['armor'] * armorMultiplier)
+	}
+
+
+	//Apply the rarity multipliers to the players armor
+	function calculateArmorRarityMultiplier(player){
+		var rarityType = player['gearRarity']
+		var rarityMultiplier = document.getElementById(rarityType).value
+
+		player['armor'] = Math.floor(player['armor'] * rarityMultiplier)
+	}
+
+
+	//Apply the gear type multipliers to the player stats
+	function calculateStatsMultiplier(player){
+		var gearType = player['gearType']
+		var statsMultiplier = document.getElementById(gearType + 'ArmorStatsPerLvl').value
+
+		player['str'] = Math.floor(player['str'] * statsMultiplier)
+		player['dex'] = Math.floor(player['dex'] * statsMultiplier)
+		player['int'] = Math.floor(player['int'] * statsMultiplier)
+		player['con'] = Math.floor(player['con'] * statsMultiplier)
+		player['luk'] = Math.floor(player['luk'] * statsMultiplier)
+	}
+
+
+	//Apply the rarity multipliers to the player stats
+	function calculateStatsRarityMultiplier(player){
+		var rarityType = player['gearRarity']
+		var rarityMultiplier = document.getElementById(rarityType).value
+
+		player['str'] = Math.floor(player['str'] * rarityMultiplier)
+		player['dex'] = Math.floor(player['dex'] * rarityMultiplier)
+		player['int'] = Math.floor(player['int'] * rarityMultiplier)
+		player['con'] = Math.floor(player['con'] * rarityMultiplier)
+		player['luk'] = Math.floor(player['luk'] * rarityMultiplier)
+	}
+
+
+	//After all of the base stats and multipliers are calculated, convert them into the meaningful stats (DMG, Health, Crit Chance, etc)
 	function calculateFinalStats(player){
 		var level = player['level']
 		var pClass = player['class']
 		var mainStat = classes[pClass]['mainStat']
+		var classHPMultiplier = classes[pClass]['healthMult']
+		var maxArmorReduction = classes[pClass]['maxArmorReduc']
+		 
+		var maxCritChance = 30
+		var maxCritChanceAssassin = 50
+		var maxCritChanceFencer = 60
 		
 		if(level <= 5){
-			player['dmg'] = (level ** 2) * Math.floor(player[mainStat]/20) + 10
-			player['health'] = (level ** 2) * 4 * Math.floor(player['con']/20) + 60
+			calculateDamage(player, level, pClass, mainStat, 20)
+			player['health'] = classHPMultiplier * (level ** 2) * 4 * Math.floor(player['con']/20) + 60
 		} else {
-			player['dmg'] = (level ** 2) * Math.floor(player[mainStat]/30) + 10
-			player['health'] = (level ** 2) * 4 * Math.floor(player['con']/30) + 60
+			calculateDamage(player, level, pClass, mainStat, 30)
+			player['health'] = classHPMultiplier * (level ** 2) * 4 * Math.floor(player['con']/30) + 60
 		}
 
-		player['armorReduction'] = (player['armor'])/(level * 60) * 100
-		player['critChance'] = (player['luk'])/(level * 60) * 100
+		player['armorReduction'] = ((player['armor'])/(level * 60) * 100).toFixed(1)
+
+		//Check for max armor reduction based on class
+		if(player['armorReduction'] > maxArmorReduction){
+			player['armorReduction'] = maxArmorReduction
+		}
+
+		player['critChance'] = ((player['luk'])/(level * 60) * 100).toFixed(1)
+
+		if(pClass == 'assassin'){
+			player['critChance'] = parseFloat(player['critChance']) + 15.0
+
+			if(player['critChance'] > 50)
+				player['critChance'] = 50
+
+		}
+		else if(pClass == 'fencer'){				
+			player['critChance'] = parseFloat(player['critChance']) + 25.0
+
+			if(player['critChance'] > 60)
+				player['critChance'] = 60
+		}
+		else{
+			if(player['critChance'] > 30)
+				player['critChance'] = 30
+		}
 
 		player['strResistance'] = Math.floor(player['str'] / 2)
 		player['dexResistance'] = Math.floor(player['dex'] / 2)
 		player['intResistance'] = Math.floor(player['int'] / 2)
+	}
+
+
+	//Calculates the damage of a player based on # of weapons, weapon types, and level
+	function calculateDamage(player, level, pClass, mainStat, divisor){
+		var weaponType = mainStat
+		var weaponMultiplier = document.getElementById(weaponType + 'Weapon').value
+		var numOfWeapons = classes[pClass]['weapons']
+		var isTwoHanded = classes[pClass]['twoHanded']
+
+		if(numOfWeapons == 2)
+			player['dmg'] = Math.floor(1.05 * (level ** 2) * (player[mainStat]/divisor)) + 10
+		else if(isTwoHanded)
+			player['dmg'] = Math.floor((level ** 2) * (player[mainStat]/divisor)) + 10
+		else
+			player['dmg'] = Math.floor(0.5 * (level ** 2) * (player[mainStat]/divisor)) + 10
+
+		player['dmg'] = player['dmg'] * weaponMultiplier
+	}
+
+
+	//Sets the base stats ratios based on main stat type - purely for simulation purposes
+	function getBaseStatRatios(pClass){
+		var mainStat = classes[pClass]['mainStat']
+		var statArr = [] //[str,dex,int,con,luk]
+
+		if(mainStat == 'str')
+			statArr = [20,5,5,17,13]
+		if(mainStat == 'dex')
+			statArr = [5,20,5,15,15]
+		if(mainStat == 'int')
+			statArr = [5,5,20,13,17]
+
+		document.getElementById('p1Strength').value = statArr[0]
+		document.getElementById('p1Dexterity').value = statArr[1]
+		document.getElementById('p1Intelligence').value = statArr[2]
+		document.getElementById('p1Consitution').value = statArr[3]
+		document.getElementById('p1Luck').value = statArr[4]
+	}
+
+
+	//Formats the player data specifically to output to Excel
+	function getExcelOutput(player){
+		var output = player['level'] + '\t'
+		+ player['class'] + '\t'
+		+ player['gearType'] + '\t'
+		+ player['gearRarity'] + '\t'
+		+ player['str'] + '\t'
+		+ player['dex'] + '\t'
+		+ player['int'] + '\t'
+		+ player['con'] + '\t'
+		+ player['luk'] + '\t'
+		+ player['armor'] + '\t'
+		+ player['armorReduction'] + '\t'
+		+ player['critChance'] + '\t'
+		+ player['dmg'] + '\t'
+		+ player['health'] + '\t'
+		+ player['strResistance'] + '\t'
+		+ player['dexResistance'] + '\t'
+		+ player['intResistance'] + '\t'
+
+		return output
 	}
 
 	//===============================
