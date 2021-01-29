@@ -234,29 +234,29 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 			'mainStat': 'str',
 			'weapons': 1,
 			'twoHanded': false,
-			'maxArmorReduc': 50,
-			'healthMult': 3
+			'maxArmorReduc': 60,
+			'healthMult': 3.5
 		},
 		'berserker': {
-			'mainStat': 'str',
-			'weapons': 1,
-			'twoHanded': false,
-			'maxArmorReduc': 40,
-			'healthMult': 2.5
-		},
-		'magicKnight': {
 			'mainStat': 'str',
 			'weapons': 1,
 			'twoHanded': false,
 			'maxArmorReduc': 45,
 			'healthMult': 2.8
 		},
+		'magicKnight': {
+			'mainStat': 'str',
+			'weapons': 1,
+			'twoHanded': false,
+			'maxArmorReduc': 50,
+			'healthMult': 3.0
+		},
 		'fencer': {
 			'mainStat': 'str',
 			'weapons': 1,
 			'twoHanded': false,
-			'maxArmorReduc': 35,
-			'healthMult': 2.4
+			'maxArmorReduc': 40,
+			'healthMult': 2.7
 		},
 		//DEX Classes
 		'scout': {
@@ -264,56 +264,56 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 			'weapons': 1,
 			'twoHanded': true,
 			'maxArmorReduc': 30,
-			'healthMult': 2.4
+			'healthMult': 2.3
 		},
 		'rogue': {
 			'mainStat': 'dex',
 			'weapons': 2,
 			'twoHanded': false,
-			'maxArmorReduc': 25,
-			'healthMult': 2.1
+			'maxArmorReduc': 20,
+			'healthMult': 1.8
 		},
 		'demonHunter': {
 			'mainStat': 'dex',
 			'weapons': 1,
 			'twoHanded': true,
 			'maxArmorReduc': 35,
-			'healthMult': 2.5
+			'healthMult': 2.3
 		},
 		'assassin': {
 			'mainStat': 'dex',
 			'weapons': 1,
 			'twoHanded': false,
 			'maxArmorReduc': 20,
-			'healthMult': 1.9
+			'healthMult': 1.8
 		},
 		//INT Classes
 		'frostMage': {
 			'mainStat': 'int',
 			'weapons': 1,
 			'twoHanded': true,
-			'maxArmorReduc': 25,
+			'maxArmorReduc': 20,
 			'healthMult': 2
 		},
 		'fireMage': {
 			'mainStat': 'int',
 			'weapons': 1,
 			'twoHanded': true,
-			'maxArmorReduc': 20,
-			'healthMult': 1.8
+			'maxArmorReduc': 15,
+			'healthMult': 1.7
 		},
 		'bloodMage': {
 			'mainStat': 'int',
 			'weapons': 1,
 			'twoHanded': true,
-			'maxArmorReduc': 20,
+			'maxArmorReduc': 15,
 			'healthMult': 1.8
 		},
 		'darkMage': {
 			'mainStat': 'int',
 			'weapons': 1,
 			'twoHanded': true,
-			'maxArmorReduc': 20,
+			'maxArmorReduc': 15,
 			'healthMult': 1.9
 		}
 	}
@@ -363,9 +363,6 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 	function startSimulation(){
 		var player1 = createPlayer('1')
 		var player2 = createPlayer('2')
-		//JUST FOR DEBUGGING
-		player1['name'] = '----- (' + player1['class'] + ')'
-		player2['name'] = '+++++ (' + player2['class'] + ')'
 
 		//Calculate Base Stats
 		calculateStats(player1)
@@ -396,7 +393,6 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		//Start the battle(s)
 		setupFight(player1, player2)
 
-
 		return player1
 	}
 
@@ -405,8 +401,6 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		
 		var player1Wins = 0
 
-		console.log(player1)
-		console.log(player2)
 		for(var i=0; i<simulations; i++){
 			var random = Math.random()
 			var winner
@@ -417,11 +411,11 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 			else	
 				winner = processFight(player2, player1)
 
-			if(winner['name'] == '----- (' + player1['class'] + ')')
+			if(winner['name'] == 'player1')
 				player1Wins++;
 		}
 
-		console.log("\n[FINAL] Player 1 Wins: " + player1Wins + " Player 2 Wins: " + (simulations - player1Wins) + '\n\n')
+		console.log("\n[FINAL SCORES] " + player1Wins + " : " + (simulations - player1Wins) + '\n\n')
 	}
 
 	function processFight(player1, player2){
@@ -485,7 +479,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 
 				//Magic knight reduces armor reduction by 2.5%
 				if(attacker['class'] == 'magicKnight'){
-					defender['armorReduction'] -= 2.5
+					defender['armorReduction'] -= 5.0
 					console.log('[CLASS] ' + attacker['name'] + ' has reduced the opponents armor by 2.5%. NOW: ' + defender['armorReduction'])
 				}
 				//Make sure the armor reduction isn't negative
@@ -495,7 +489,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 				var isHitCritical = checkCriticalHit(attacker, defender)
 
 				if(isHitCritical){
-					console.log(attacker['name'] + ' is going to CRITICALLY hit!')
+					console.log('[CRIT] ' + attacker['name'] + ' is going to CRITICALLY hit!')
 					processCriticalHit(attacker, defender)
 				}
 
@@ -503,13 +497,18 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 				var baseDmg = attacker['dmg']
 
 				//Berserker takes 2x damage from mages
-				if(classes[attacker['class']]['mainStat'] == 'int' && defender['class'] == 'berserker')
+				if(classes[attacker['class']]['mainStat'] == 'int' && defender['class'] == 'berserker'){
 					baseDmg *= 2
+					console.log('[CLASS] ' + defender['name'] + ' just took DOUBLE DMG from a magical attack!')
+				}
 
 				var attackerDamage = Math.floor((baseDmg + attacker['critDmg']) * attacker['turnDmg'])
+				var damageAfterArmor = Math.floor(attackerDamage * (1 - defender['armorReduction'] / 100))
+				//console.log('attackerDamage: ' + attackerDamage + " damageAfterArmor: " + damageAfterArmor)
+				var damageBlocked = attackerDamage - damageAfterArmor
 
-				defender['health'] -= attackerDamage
-				console.log('[HIT] ' + attacker['name'] + ' hits for ' + attackerDamage + ' damage || ' + defender['name'] + ' has ' + defender['health'] + ' health')
+				defender['health'] -= damageAfterArmor
+				console.log('[HIT] ' + attacker['name'] + ' hits for ' + damageAfterArmor + ' damage (' + damageBlocked + ' was blocked) || ' + defender['name'] + ' has ' + defender['health'] + ' health')
 
 				//Check resurrect
 				checkResurrection(defender)
@@ -522,18 +521,23 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 			if(attacker['class'] == 'rogue'){
 				if(hasAttackedTwice == false){
 					decider == 0 ? decider = 1 : decider = 0
-
+					
+					attacker['turnDmg'] -= 0.2
 					hasAttackedTwice = true
 				}
 				//Set the counter back for the next time its the rogue's turn
-				else
+				else{
 					hasAttackedTwice = false
+					console.log('[CLASS] ' + attacker['name'] + ' just attacked twice!')
+				}
 			}
 
 			//Berserkers have a 50% chance to attack again
 			if(attacker['class'] == 'berserker'){
-				if(Math.random() >= 0.5)
+				if(Math.random() >= 0.5){
 					decider == 0 ? decider = 1 : decider = 0
+					console.log('[CLASS] ' + attacker['name'] + ' IS ATTACKING AGAIN!')
+				}
 			}
 
 			//If attacker is a fire mage, increase damage by 35% not 20%
@@ -541,29 +545,29 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		}
 
 		if(p1['health'] <= 0){
-			console.log('[FINAL] Player 1 WINS!')
-			return player1
+			//console.log('[FINAL] ' + p2['name'] + ' WINS!')
+			return p2
 		}
 		else{
-			console.log('[FINAL] Player 2 WINS!')
-			return player2
+			//console.log('[FINAL] ' + p1['name'] + ' WINS!')
+			return p1
 		}
 		
 	}
 
 	function checkEvadeOrBlock(attacker, defender){
-		var evadeBlockChance = 0.5
+		var evadeBlockChance = 0.25
 
 		//Cannot evade magical attacks unless the defender is a scout
 		if(classes[attacker['class']]['mainStat'] == 'int' && defender['class'] != 'scout')
 			return false
 		else{
-			//Scouts can evade magical attacks, but only with a 25% chance
+			//Scouts can evade magical attacks, but only with a 15% chance
 			if(defender['class'] == 'scout')
-				evadeBlockChance -= 0.25
+				evadeBlockChance -= 0.15
 			
-			if(evadeBlockChance < Math.random()){
-				console.log(defender['name'] + ' dodged/blocked!')
+			if(evadeBlockChance > Math.random()){
+				console.log('[CLASS] ' + defender['name'] + ' dodged/blocked!')
 				return true
 			}
 			else
@@ -574,8 +578,10 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 	//Demon hunters can ressurect
 	function checkResurrection(defender){
 		if(defender['health'] <= 0 && defender['class'] == 'demonHunter'){
-			if(Math.random() < 0.25)
+			if(Math.random() < 0.25){
 				defender['health'] = defender['maxHealth']
+				console.log('[CLASS] ' + defender['name'] + ' just RESURRECTED! Spooky!')
+			}
 		}
 	}
 
@@ -588,6 +594,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		//Frost mages drop the critical chance of foes
 		if(defender['class'] == 'frostMage'){
 			critChance -= 25
+			console.log('[CLASS] ' + defender['name'] + ' just DROPPED foes CRIT CHANCE by 25!')
 		}
 
 		if(critChance > random)
@@ -606,12 +613,20 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 			else if(attacker['class'] == 'darkMage'){
 				if(Math.random() > 0.5){
 					attacker['health'] += Math.floor(baseDmg / 3)
+					console.log('[CLASS] ' + attacker['name'] + ' just STOLE LIFE equal to 1/3 of their damage!')
 					//Make sure health doesn't go over max
 					attacker['health'] > attacker['maxHealth'] ? attacker['health'] = attacker['maxHealth'] : ''
 				}
 			}
 			else if(attacker['class'] == 'bloodMage'){
 				attacker['health'] += Math.floor(baseDmg / 2)
+				console.log('[CLASS] ' + attacker['name'] + ' just HEALED for 50% of base damage!')
+
+				if(classes[defender['class']]['mainStat'] == 'int'){
+					attacker['health'] += Math.floor(baseDmg / 2)
+					console.log('[CLASS] ' + attacker['name'] + ' just HEALED for an additional 50% of base damage due to MAGE!')
+				}
+
 				//Make sure health doesn't go over max
 				attacker['health'] > attacker['maxHealth'] ? attacker['health'] = attacker['maxHealth'] : ''
 			}
@@ -820,7 +835,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		var isTwoHanded = classes[pClass]['twoHanded']
 
 		if(numOfWeapons == 2)
-			player['dmg'] = Math.floor(0.65 * (level ** 2) * (player[mainStat]/divisor)) + 10
+			player['dmg'] = Math.floor(0.3 * (level ** 2) * (player[mainStat]/divisor)) + 10
 		else if(isTwoHanded)
 			player['dmg'] = Math.floor((level ** 2) * (player[mainStat]/divisor)) + 10
 		else
