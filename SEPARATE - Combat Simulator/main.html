@@ -11,7 +11,7 @@
 				<ul>
 					<li>
 						<label for="simulations">Simulations:</label>
-						<input type="text" id="simulations" name="simulations" value='' size='2'>
+						<input type="text" id="simulations" name="simulations" value='1' size='2'>
 					</li>
 					<li>
 						<p><strong>Armor Per Level</strong></p>
@@ -62,8 +62,8 @@
 						<input type="text" id="mythic" name="mythic" value='1.15' size='2'>
 					</li>
 				</ul>
+				<button onclick='startSimulation()'>Single</button>
 			</div>
-			
 		</div>
 
 		<!-- PLAYER 1 -->
@@ -134,7 +134,8 @@
 
 		</div>
 		<!-- MAIN PANEL -->
-		<div class='mainPanel background border spacing'>
+		<!--
+		<div class='mainPanel background border spacing'> 
 			<div>
 				<button onclick='startSimulation()'>Single</button>
 				<button onclick='startRecursiveSimulation()'>Recursive</button>
@@ -146,7 +147,7 @@
 			<h4>Recursive Output of Player Stats</h4>
 			<textarea id='outputPlayerStats'></textarea>
 		</div>
-
+		-->
 		<!-- PLAYER 2 -->
 		<div class='sidePanel background border spacing'>
 			<h1>Player 2</h1>
@@ -179,7 +180,7 @@
 				</li>
 				<li>
 					<label for="p2Dexterity">DEX/Lvl:</label>
-					<input type="text" id="p2Dexterity" name="p2Dexterity" value='15' size='2'>
+					<input type="text" id="p2Dexterity" name="p2Dexterity" value='5' size='2'>
 				</li>
 				<li>
 					<label for="p2Intelligence">INT/Lvl:</label>
@@ -187,7 +188,7 @@
 				</li>
 				<li>
 					<label for="p2Consitution">CON/Lvl:</label>
-					<input type="text" id="p2Consitution" name="p2Consitution" value='5' size='2'>
+					<input type="text" id="p2Consitution" name="p2Consitution" value='15' size='2'>
 				</li>
 				<li>
 					<label for="p2Luck">LUK/Lvl:</label>
@@ -216,6 +217,16 @@
 	</div>
 </body>
 <script>
+
+/* Important Info
+
+Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
+
+
+
+
+*/
+
 
 	var classes = {
 		//STR Classes
@@ -352,6 +363,9 @@
 	function startSimulation(){
 		var player1 = createPlayer('1')
 		var player2 = createPlayer('2')
+		//JUST FOR DEBUGGING
+		player1['name'] = '----- (' + player1['class'] + ')'
+		player2['name'] = '+++++ (' + player2['class'] + ')'
 
 		//Calculate Base Stats
 		calculateStats(player1)
@@ -374,37 +388,236 @@
 		calculateStatsRarityMultiplier(player2)
 
 		//Put everything together to get the final stats
-		calculateFinalStats(player1)
-		calculateFinalStats(player2)
+		//calculateFinalStats(player1)
+		//calculateFinalStats(player2)
+		calculateFinalStatsWithResist(player1, player2)
+		calculateFinalStatsWithResist(player2, player1)
 
 		//Start the battle(s)
 		setupFight(player1, player2)
+
 
 		return player1
 	}
 
 	function setupFight(player1, player2){
 		var simulations = document.getElementById('simulations').value
+		
 		var player1Wins = 0
 
+		console.log(player1)
+		console.log(player2)
 		for(var i=0; i<simulations; i++){
-			var winner = combat
+			var random = Math.random()
+			var winner
+
+			//Decide who goes first - 50/50
+			if(random > 0.5)
+				winner = processFight(player1, player2)
+			else	
+				winner = processFight(player2, player1)
+
+			if(winner['name'] == '----- (' + player1['class'] + ')')
+				player1Wins++;
 		}
+
+		console.log("\n[FINAL] Player 1 Wins: " + player1Wins + " Player 2 Wins: " + (simulations - player1Wins) + '\n\n')
 	}
 
 	function processFight(player1, player2){
-		var p1Health = player1['health']
-		var p1BaseDmg = player['dmg']
-		var p1Health = player1['health']
-		var p1Dmg = player['dmg']
+		//Copy player arrays so we can manipulate them only for this fight
+		var p1 = {...player1}
+		var p2 = {...player2}
 
-		//check for crit in function, 
-		isCriticalHit()
+		//Goes up by 20% each turn (+0.2 each turn)
+		p1['turnDmg'] = 1.0
+		p2['turnDmg'] = 1.0
+
+		var decider = 0
+		var attacker
+		var defender
+
+		//Holds max health to ensure lifesteal/ressurection doesn't go over
+		p1['maxHealth'] = p1['health']
+		p2['maxHealth'] = p2['health']
+
+		//Tracks the turn of a rogue since they essentially take two turns
+		var hasAttackedTwice = false
+
+		//Fencer immediately removes 15% armor reduction
+		p1['class'] == 'fencer' ? p2['armorReduction'] -= 15.0 : ''
+		p2['class'] == 'fencer' ? p1['armorReduction'] -= 15.0 : ''
+
+		//Mages ignore armor
+		classes[p1['class']]['mainStat'] == 'int' ? p2['armorReduction'] = 0 : ''
+		classes[p2['class']]['mainStat'] == 'int' ? p1['armorReduction'] = 0 : ''
+
+		//Make sure armor reduction isn't negative
+		p1['armorReduction'] < 0 ? p1['armorReduction'] = 0 : ''
+		p2['armorReduction'] < 0 ? p2['armorReduction'] = 0 : ''
+
+		console.log('-------------BATTLE START-------------')
+
+		//Begin fight
+		while(p1['health'] > 0 && p2['health'] > 0){
+			if(decider == 0){
+				attacker = p1
+				defender = p2
+			}
+			else{
+				attacker = p2
+				defender = p1
+			}
+
+			//Reset crit damage every turn before damage calculation
+			p1['critDmg'] = 0
+			p2['critDmg'] = 0
+
+			//Check for evasion and blocking
+			var doesDefenderEvadeOrBlock = false
+			var defenderClass = defender['class']
+
+			if(defenderClass == 'scout' || defenderClass == 'rogue' || defenderClass == 'assassin' || defenderClass == 'warrior')
+				doesDefenderEvadeOrBlock = checkEvadeOrBlock(attacker, defender)
+
+			//If there was no evasion or block
+			if(!doesDefenderEvadeOrBlock){
+
+				//Magic knight reduces armor reduction by 2.5%
+				if(attacker['class'] == 'magicKnight'){
+					defender['armorReduction'] -= 2.5
+					console.log('[CLASS] ' + attacker['name'] + ' has reduced the opponents armor by 2.5%. NOW: ' + defender['armorReduction'])
+				}
+				//Make sure the armor reduction isn't negative
+				defender['armorReduction'] < 0 ? defender['armorReduction'] = 0 : ''
+
+				//Check for critical hits
+				var isHitCritical = checkCriticalHit(attacker, defender)
+
+				if(isHitCritical){
+					console.log(attacker['name'] + ' is going to CRITICALLY hit!')
+					processCriticalHit(attacker, defender)
+				}
+
+				//Total up the damage including ( [baseDmg + critDmg] * turnDmg )
+				var baseDmg = attacker['dmg']
+
+				//Berserker takes 2x damage from mages
+				if(classes[attacker['class']]['mainStat'] == 'int' && defender['class'] == 'berserker')
+					baseDmg *= 2
+
+				var attackerDamage = Math.floor((baseDmg + attacker['critDmg']) * attacker['turnDmg'])
+
+				defender['health'] -= attackerDamage
+				console.log('[HIT] ' + attacker['name'] + ' hits for ' + attackerDamage + ' damage || ' + defender['name'] + ' has ' + defender['health'] + ' health')
+
+				//Check resurrect
+				checkResurrection(defender)
+			}
+
+			//Change the turn over to the other player
+			decider == 0 ? decider = 1 : decider = 0
+			
+			//Rogues attack twice - so change the decider back
+			if(attacker['class'] == 'rogue'){
+				if(hasAttackedTwice == false){
+					decider == 0 ? decider = 1 : decider = 0
+
+					hasAttackedTwice = true
+				}
+				//Set the counter back for the next time its the rogue's turn
+				else
+					hasAttackedTwice = false
+			}
+
+			//Berserkers have a 50% chance to attack again
+			if(attacker['class'] == 'berserker'){
+				if(Math.random() >= 0.5)
+					decider == 0 ? decider = 1 : decider = 0
+			}
+
+			//If attacker is a fire mage, increase damage by 35% not 20%
+			attacker['class'] == 'fireMage' ? attacker['turnDmg'] += 0.35 : attacker['turnDmg'] += 0.2
+		}
+
+		if(p1['health'] <= 0){
+			console.log('[FINAL] Player 1 WINS!')
+			return player1
+		}
+		else{
+			console.log('[FINAL] Player 2 WINS!')
+			return player2
+		}
 		
 	}
 
-	function isCriticalHit(baseDmg, critChance){
-		var random
+	function checkEvadeOrBlock(attacker, defender){
+		var evadeBlockChance = 0.5
+
+		//Cannot evade magical attacks unless the defender is a scout
+		if(classes[attacker['class']]['mainStat'] == 'int' && defender['class'] != 'scout')
+			return false
+		else{
+			//Scouts can evade magical attacks, but only with a 25% chance
+			if(defender['class'] == 'scout')
+				evadeBlockChance -= 0.25
+			
+			if(evadeBlockChance < Math.random()){
+				console.log(defender['name'] + ' dodged/blocked!')
+				return true
+			}
+			else
+				return false
+		}
+	}
+
+	//Demon hunters can ressurect
+	function checkResurrection(defender){
+		if(defender['health'] <= 0 && defender['class'] == 'demonHunter'){
+			if(Math.random() < 0.25)
+				defender['health'] = defender['maxHealth']
+		}
+	}
+
+
+	//Return whether the hit was critical or not
+	function checkCriticalHit(attacker, defender){
+		var critChance = attacker['critChance']
+		var random = Math.random() * 100
+		
+		//Frost mages drop the critical chance of foes
+		if(defender['class'] == 'frostMage'){
+			critChance -= 25
+		}
+
+		if(critChance > random)
+			return true
+		else
+			return false
+	}
+
+	//
+	function processCriticalHit(attacker, defender){
+		var baseDmg = attacker['dmg']
+		
+		if(attacker['critChance'] > Math.random()){
+			if(attacker['class'] == 'assassin')
+				attacker['critDmg'] = baseDmg * 3
+			else if(attacker['class'] == 'darkMage'){
+				if(Math.random() > 0.5){
+					attacker['health'] += Math.floor(baseDmg / 3)
+					//Make sure health doesn't go over max
+					attacker['health'] > attacker['maxHealth'] ? attacker['health'] = attacker['maxHealth'] : ''
+				}
+			}
+			else if(attacker['class'] == 'bloodMage'){
+				attacker['health'] += Math.floor(baseDmg / 2)
+				//Make sure health doesn't go over max
+				attacker['health'] > attacker['maxHealth'] ? attacker['health'] = attacker['maxHealth'] : ''
+			}
+			else
+				attacker['critDmg'] = baseDmg * 2
+		}
 	}
 
 	//===============================
@@ -415,6 +628,7 @@
 	//Creates and returns the base player dictionary that we will later manipulate
 	function createPlayer(playerNum){
 		var player = {
+			'name': 'player' + playerNum,
 			'level': document.getElementById('p' + playerNum + 'Level').value,
 			'class': document.getElementById('p' + playerNum + 'Class').value,
 			'strPerLvl': document.getElementById('p' + playerNum + 'Strength').value,
@@ -539,6 +753,65 @@
 	}
 
 
+	//Same as calculateFinalStats but takes armor resistance in account for the damage calculation
+	function calculateFinalStatsWithResist(player, otherPlayer){
+		var level = player['level']
+		var pClass = player['class']
+		var mainStat = classes[pClass]['mainStat']
+		var classHPMultiplier = classes[pClass]['healthMult']
+		var maxArmorReduction = classes[pClass]['maxArmorReduc']
+		 
+		var maxCritChance = 30
+		var maxCritChanceAssassin = 50
+		var maxCritChanceFencer = 60
+		
+		otherPlayer['strResistance'] = Math.floor(otherPlayer['str'] / 2)
+		otherPlayer['dexResistance'] = Math.floor(otherPlayer['dex'] / 2)
+		otherPlayer['intResistance'] = Math.floor(otherPlayer['int'] / 2)
+
+		if(level <= 5){
+			//calculateDamage(player, level, pClass, mainStat, 20)
+			calculateDamageWithResist(player, otherPlayer, level, pClass, mainStat, 20)
+			player['health'] = classHPMultiplier * (level ** 2) * 4 * Math.floor(player['con']/20) + 60
+		} else {
+			//calculateDamage(player, level, pClass, mainStat, 30)
+			calculateDamageWithResist(player, otherPlayer, level, pClass, mainStat, 30)
+			player['health'] = classHPMultiplier * (level ** 2) * 4 * Math.floor(player['con']/30) + 60
+		}
+
+		player['armorReduction'] = ((player['armor'])/(level * 60) * 100).toFixed(1)
+
+		//Check for max armor reduction based on class
+		if(player['armorReduction'] > maxArmorReduction){
+			player['armorReduction'] = maxArmorReduction
+		}
+
+		player['critChance'] = ((player['luk'])/(level * 60) * 100).toFixed(1)
+
+		if(pClass == 'assassin'){
+			player['critChance'] = parseFloat(player['critChance']) + 15.0
+
+			if(player['critChance'] > 50)
+				player['critChance'] = 50
+
+		}
+		else if(pClass == 'fencer'){				
+			player['critChance'] = parseFloat(player['critChance']) + 25.0
+
+			if(player['critChance'] > 60)
+				player['critChance'] = 60
+		}
+		else{
+			if(player['critChance'] > 30)
+				player['critChance'] = 30
+		}
+
+		player['strResistance'] = Math.floor(player['str'] / 2)
+		player['dexResistance'] = Math.floor(player['dex'] / 2)
+		player['intResistance'] = Math.floor(player['int'] / 2)
+	}
+
+
 	//Calculates the damage of a player based on # of weapons, weapon types, and level
 	function calculateDamage(player, level, pClass, mainStat, divisor){
 		var weaponType = mainStat
@@ -547,11 +820,35 @@
 		var isTwoHanded = classes[pClass]['twoHanded']
 
 		if(numOfWeapons == 2)
-			player['dmg'] = Math.floor(1.05 * (level ** 2) * (player[mainStat]/divisor)) + 10
+			player['dmg'] = Math.floor(0.65 * (level ** 2) * (player[mainStat]/divisor)) + 10
 		else if(isTwoHanded)
 			player['dmg'] = Math.floor((level ** 2) * (player[mainStat]/divisor)) + 10
 		else
 			player['dmg'] = Math.floor(0.5 * (level ** 2) * (player[mainStat]/divisor)) + 10
+
+		player['dmg'] = player['dmg'] * weaponMultiplier
+	}
+
+	//Calculates the damage of a player based on # of weapons, weapon types, and level
+	function calculateDamageWithResist(player, otherPlayer, level, pClass, mainStat, divisor){
+		var weaponType = mainStat
+		var weaponMultiplier = document.getElementById(weaponType + 'Weapon').value
+		var newMainStat
+		var numOfWeapons = classes[pClass]['weapons']
+		var isTwoHanded = classes[pClass]['twoHanded']
+
+		//If enemy has >= of the players main stat, damage reduction is capped at 50 
+		if(otherPlayer[mainStat] >= player[mainStat])
+			newMainStat = Math.floor(player[mainStat]/2)
+		else
+			newMainStat = player[mainStat] - Math.floor(otherPlayer[mainStat + 'Resistance'])
+
+		if(numOfWeapons == 2)
+			player['dmg'] = Math.floor(1.05 * (level ** 2) * (newMainStat/divisor)) + 10
+		else if(isTwoHanded)
+			player['dmg'] = Math.floor((level ** 2) * (newMainStat/divisor)) + 10
+		else
+			player['dmg'] = Math.floor(0.5 * (level ** 2) * (newMainStat/divisor)) + 10
 
 		player['dmg'] = player['dmg'] * weaponMultiplier
 	}
@@ -621,7 +918,7 @@
 		total3 += xp
 		output += i + '\t' + gold + '\t' + total + '\t' + statCost + '\t' + total2 + '\t' + xp + '\t' + total3 + '\t' + questXp + '\t' + questsNeeded + '\n'
 	}
-	document.getElementById('output').value = output
+	//document.getElementById('output').value = output
 	
 	var output2 = ''
 
@@ -651,7 +948,7 @@
 
 		output2 += i + '\t' + dmg + '\t' + health + '\t' + armor + '\t' + critChance + '\t' + mainStat + '\t' + res1 + '\t' + newMainStat + '\t' + newDmg + '\n'// + questsNeeded + '\n'
 	}
-	document.getElementById('outputClassInfo').value = output2
+	//document.getElementById('outputClassInfo').value = output2
 
 </script>
 </html>
