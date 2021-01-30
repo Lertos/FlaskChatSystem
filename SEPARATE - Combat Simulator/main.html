@@ -11,7 +11,7 @@
 				<ul>
 					<li>
 						<label for="simulations">Simulations:</label>
-						<input type="text" id="simulations" name="simulations" value='1' size='2'>
+						<input type="text" id="simulations" name="simulations" value='10' size='2'>
 					</li>
 					<li>
 						<p><strong>Armor Per Level</strong></p>
@@ -134,20 +134,65 @@
 
 		</div>
 		<!-- MAIN PANEL -->
-		<!--
+		
 		<div class='mainPanel background border spacing'> 
 			<div>
-				<button onclick='startSimulation()'>Single</button>
-				<button onclick='startRecursiveSimulation()'>Recursive</button>
+				<button onclick='getAllClassStats()'>Excel Info</button>
 			</div>
 			<h4>Gold/Xp/Quests</h4>
 			<textarea id='output'></textarea>
-			<h4>Suggested Class Dmg/Armor</h4>
-			<textarea id='outputClassInfo'></textarea>
 			<h4>Recursive Output of Player Stats</h4>
 			<textarea id='outputPlayerStats'></textarea>
+			<div class='alignCenter'>
+				<h3>Level Up Tester</h3>
+				<ul>
+					<li>
+						<p>Level: </p>
+						<p id='testerLevel'></p>
+					</li>
+					<li>
+						<p>Gold: </p>
+						<p id='testerGold'></p>
+					</li>
+					<li>
+						<button onclick='testerLevelUp()'>LevelUp</button>
+						<button onclick='simulateStatDistribution(100)'>Auto</button>
+						<button onclick='testerReset()'>Reset</button>
+					</li>
+					<li>
+						<button onclick='upgradeStatLevel("Str")'>+</button>
+						<p>STR </p>
+						<p id='testerStrLevel'>1</p>
+						<p id='testerStrCost' class='textGreen'></p>
+					</li>
+					<li>
+						<button onclick='upgradeStatLevel("Dex")'>+</button>
+						<p>DEX </p>
+						<p id='testerDexLevel'>1</p>
+						<p id='testerDexCost' class='textGreen'></p>
+					</li>
+					<li>
+						<button onclick='upgradeStatLevel("Int")'>+</button>
+						<p>INT </p>
+						<p id='testerIntLevel'>1</p>
+						<p id='testerIntCost' class='textGreen'></p>
+					</li>
+					<li>
+						<button onclick='upgradeStatLevel("Con")'>+</button>
+						<p>CON </p>
+						<p id='testerConLevel'>1</p>
+						<p id='testerConCost' class='textGreen'></p>
+					</li>
+					<li>
+						<button onclick='upgradeStatLevel("Luk")'>+</button>
+						<p>LUK </p>
+						<p id='testerLukLevel'>1</p>
+						<p id='testerLukCost' class='textGreen'></p>
+					</li>
+				</ul>
+			</div>
 		</div>
-		-->
+		
 		<!-- PLAYER 2 -->
 		<div class='sidePanel background border spacing'>
 			<h1>Player 2</h1>
@@ -318,47 +363,6 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		}
 	}
 
-	function startRecursiveSimulation(){
-		var output = document.getElementById('outputPlayerStats')
-		var allClasses = Object.keys(classes)
-		var allArmorTypes = []
-		var allGearRarities = []
-		
-		var armorTypes = document.getElementById('p1GearType')
-		var rarityTypes = document.getElementById('p1GearRarity')
-
-		for(var i=0; i<armorTypes.options.length; i++)
-			allArmorTypes[i] = armorTypes.options[i].value
-
-		//COMMENT to only see end-game "Mythic" values
-		for(var i=0; i<rarityTypes.options.length; i++)
-			allGearRarities[i] = rarityTypes.options[i].value
-		//UNCOMMENT to only see end-game "Mythic" values
-		//allGearRarities = ['mythic']
-
-		//console.log(allClasses)
-		//console.log(allArmorTypes)
-		//console.log(allGearRarities)
-
-		for(var a=0; a<allClasses.length; a++){
-			document.getElementById('p1Class').value = allClasses[a]
-			//Set raatios of stats the class would want
-			getBaseStatRatios(allClasses[a])
-
-			for(var b=0; b<allArmorTypes.length; b++){
-				document.getElementById('p1GearType').value = allArmorTypes[b]
-
-				for(var c=0; c<allGearRarities.length; c++){
-					document.getElementById('p1GearRarity').value = allGearRarities[c]
-
-					var player = startSimulation()
-					var excelOutput = getExcelOutput(player)
-
-					output.value += excelOutput + ' \n'
-				}
-			}
-		}
-	}
 
 	function startSimulation(){
 		var player1 = createPlayer('1')
@@ -385,16 +389,31 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		calculateStatsRarityMultiplier(player2)
 
 		//Put everything together to get the final stats
-		//calculateFinalStats(player1)
-		//calculateFinalStats(player2)
 		calculateFinalStatsWithResist(player1, player2)
 		calculateFinalStatsWithResist(player2, player1)
 
 		//Start the battle(s)
 		setupFight(player1, player2)
-
-		return player1
 	}
+
+
+	//Creates and returns the base player dictionary that we will later manipulate
+	function createPlayer(playerNum){
+		var player = {
+			'name': 'player' + playerNum,
+			'level': document.getElementById('p' + playerNum + 'Level').value,
+			'class': document.getElementById('p' + playerNum + 'Class').value,
+			'strPerLvl': document.getElementById('p' + playerNum + 'Strength').value,
+			'dexPerLvl': document.getElementById('p' + playerNum + 'Dexterity').value,
+			'intPerLvl': document.getElementById('p' + playerNum + 'Intelligence').value,
+			'conPerLvl': document.getElementById('p' + playerNum + 'Consitution').value,
+			'lukPerLvl': document.getElementById('p' + playerNum + 'Luck').value,
+			'gearType': document.getElementById('p' + playerNum + 'GearType').value,
+			'gearRarity': document.getElementById('p' + playerNum + 'GearRarity').value
+		}
+		return player
+	}
+
 
 	function setupFight(player1, player2){
 		var simulations = document.getElementById('simulations').value
@@ -417,6 +436,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 
 		console.log("\n[FINAL SCORES] " + player1Wins + " : " + (simulations - player1Wins) + '\n\n')
 	}
+
 
 	function processFight(player1, player2){
 		//Copy player arrays so we can manipulate them only for this fight
@@ -443,8 +463,13 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		p2['class'] == 'fencer' ? p1['armorReduction'] -= 15.0 : ''
 
 		//Mages ignore armor
-		classes[p1['class']]['mainStat'] == 'int' ? p2['armorReduction'] = 0 : ''
-		classes[p2['class']]['mainStat'] == 'int' ? p1['armorReduction'] = 0 : ''
+		if(classes[p1['class']]['mainStat'] == 'int' && p2['class'] != 'magicKnight'){
+			p2['armorReduction'] = 0
+		}
+
+		if(classes[p2['class']]['mainStat'] == 'int' && p1['class'] != 'magicKnight'){
+			p1['armorReduction'] = 0
+		}
 
 		//Make sure armor reduction isn't negative
 		p1['armorReduction'] < 0 ? p1['armorReduction'] = 0 : ''
@@ -480,7 +505,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 				//Magic knight reduces armor reduction by 2.5%
 				if(attacker['class'] == 'magicKnight'){
 					defender['armorReduction'] -= 5.0
-					console.log('[CLASS] ' + attacker['name'] + ' has reduced the opponents armor by 2.5%. NOW: ' + defender['armorReduction'])
+					console.log('[CLASS] ' + attacker['name'] + ' has reduced the opponents armor by 5%. NOW: ' + defender['armorReduction'])
 				}
 				//Make sure the armor reduction isn't negative
 				defender['armorReduction'] < 0 ? defender['armorReduction'] = 0 : ''
@@ -510,6 +535,15 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 				defender['health'] -= damageAfterArmor
 				console.log('[HIT] ' + attacker['name'] + ' hits for ' + damageAfterArmor + ' damage (' + damageBlocked + ' was blocked) || ' + defender['name'] + ' has ' + defender['health'] + ' health')
 
+				if(attacker['class'] == 'darkMage'){
+					if(Math.random() > 0.5){
+						attacker['health'] += Math.floor(baseDmg / 3)
+						console.log('[CLASS] ' + attacker['name'] + ' just STOLE LIFE equal to 1/3 of their base damage!')
+						//Make sure health doesn't go over max
+						attacker['health'] > attacker['maxHealth'] ? attacker['health'] = attacker['maxHealth'] : ''
+					}
+				}
+
 				//Check resurrect
 				checkResurrection(defender)
 			}
@@ -536,6 +570,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 			if(attacker['class'] == 'berserker'){
 				if(Math.random() >= 0.5){
 					decider == 0 ? decider = 1 : decider = 0
+					attacker['turnDmg'] -= 0.2
 					console.log('[CLASS] ' + attacker['name'] + ' IS ATTACKING AGAIN!')
 				}
 			}
@@ -545,11 +580,9 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		}
 
 		if(p1['health'] <= 0){
-			//console.log('[FINAL] ' + p2['name'] + ' WINS!')
 			return p2
 		}
 		else{
-			//console.log('[FINAL] ' + p1['name'] + ' WINS!')
 			return p1
 		}
 		
@@ -578,7 +611,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 	//Demon hunters can ressurect
 	function checkResurrection(defender){
 		if(defender['health'] <= 0 && defender['class'] == 'demonHunter'){
-			if(Math.random() < 0.25){
+			if(Math.random() < 0.35){
 				defender['health'] = defender['maxHealth']
 				console.log('[CLASS] ' + defender['name'] + ' just RESURRECTED! Spooky!')
 			}
@@ -593,8 +626,8 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		
 		//Frost mages drop the critical chance of foes
 		if(defender['class'] == 'frostMage'){
-			critChance -= 25
-			console.log('[CLASS] ' + defender['name'] + ' just DROPPED foes CRIT CHANCE by 25!')
+			critChance -= 20
+			console.log('[CLASS] ' + defender['name'] + ' just DROPPED foes CRIT CHANCE by 20!')
 		}
 
 		if(critChance > random)
@@ -609,15 +642,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		
 		if(attacker['critChance'] > Math.random()){
 			if(attacker['class'] == 'assassin')
-				attacker['critDmg'] = baseDmg * 3
-			else if(attacker['class'] == 'darkMage'){
-				if(Math.random() > 0.5){
-					attacker['health'] += Math.floor(baseDmg / 3)
-					console.log('[CLASS] ' + attacker['name'] + ' just STOLE LIFE equal to 1/3 of their damage!')
-					//Make sure health doesn't go over max
-					attacker['health'] > attacker['maxHealth'] ? attacker['health'] = attacker['maxHealth'] : ''
-				}
-			}
+				attacker['critDmg'] = baseDmg * 2
 			else if(attacker['class'] == 'bloodMage'){
 				attacker['health'] += Math.floor(baseDmg / 2)
 				console.log('[CLASS] ' + attacker['name'] + ' just HEALED for 50% of base damage!')
@@ -631,30 +656,8 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 				attacker['health'] > attacker['maxHealth'] ? attacker['health'] = attacker['maxHealth'] : ''
 			}
 			else
-				attacker['critDmg'] = baseDmg * 2
+				attacker['critDmg'] = baseDmg
 		}
-	}
-
-	//===============================
-	//	Helper Functions
-	//===============================
-
-
-	//Creates and returns the base player dictionary that we will later manipulate
-	function createPlayer(playerNum){
-		var player = {
-			'name': 'player' + playerNum,
-			'level': document.getElementById('p' + playerNum + 'Level').value,
-			'class': document.getElementById('p' + playerNum + 'Class').value,
-			'strPerLvl': document.getElementById('p' + playerNum + 'Strength').value,
-			'dexPerLvl': document.getElementById('p' + playerNum + 'Dexterity').value,
-			'intPerLvl': document.getElementById('p' + playerNum + 'Intelligence').value,
-			'conPerLvl': document.getElementById('p' + playerNum + 'Consitution').value,
-			'lukPerLvl': document.getElementById('p' + playerNum + 'Luck').value,
-			'gearType': document.getElementById('p' + playerNum + 'GearType').value,
-			'gearRarity': document.getElementById('p' + playerNum + 'GearRarity').value
-		}
-		return player
 	}
 
 
@@ -715,6 +718,176 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 	}
 
 
+	//Same as calculateFinalStats but takes armor resistance in account for the damage calculation
+	function calculateFinalStatsWithResist(player, otherPlayer){
+		var level = player['level']
+		var pClass = player['class']
+		var mainStat = classes[pClass]['mainStat']
+		var classHPMultiplier = classes[pClass]['healthMult']
+		var maxArmorReduction = classes[pClass]['maxArmorReduc']
+		 
+		var maxCritChance = 30
+		var maxCritChanceAssassin = 50
+		var maxCritChanceFencer = 60
+		
+		otherPlayer['strResistance'] = Math.floor(otherPlayer['str'] / 2)
+		otherPlayer['dexResistance'] = Math.floor(otherPlayer['dex'] / 2)
+		otherPlayer['intResistance'] = Math.floor(otherPlayer['int'] / 2)
+
+		if(level <= 5){
+			calculateDamageWithResist(player, otherPlayer, level, pClass, mainStat, 20)
+			player['health'] = classHPMultiplier * (level ** 2) * 4 * Math.floor(player['con']/20) + 60
+		} else {
+			calculateDamageWithResist(player, otherPlayer, level, pClass, mainStat, 30)
+			player['health'] = classHPMultiplier * (level ** 2) * 4 * Math.floor(player['con']/30) + 60
+		}
+
+		player['armorReduction'] = ((player['armor'])/(level * 60) * 100).toFixed(1)
+
+		//Check for max armor reduction based on class
+		if(player['armorReduction'] > maxArmorReduction){
+			player['armorReduction'] = maxArmorReduction
+		}
+
+		player['critChance'] = ((player['luk'])/(level * 60) * 100).toFixed(1)
+
+		if(pClass == 'assassin'){
+			player['critChance'] = parseFloat(player['critChance']) + 15.0
+
+			if(player['critChance'] > 50)
+				player['critChance'] = 50
+
+		}
+		else if(pClass == 'fencer'){				
+			player['critChance'] = parseFloat(player['critChance']) + 25.0
+
+			if(player['critChance'] > 60)
+				player['critChance'] = 60
+		}
+		else{
+			if(player['critChance'] > 30)
+				player['critChance'] = 30
+		}
+
+		player['strResistance'] = Math.floor(player['str'] / 2)
+		player['dexResistance'] = Math.floor(player['dex'] / 2)
+		player['intResistance'] = Math.floor(player['int'] / 2)
+	}
+
+
+	//Calculates the damage of a player based on # of weapons, weapon types, and level
+	function calculateDamageWithResist(player, otherPlayer, level, pClass, mainStat, divisor){
+		var weaponType = mainStat
+		var weaponMultiplier = document.getElementById(weaponType + 'Weapon').value
+		var newMainStat
+		var numOfWeapons = classes[pClass]['weapons']
+		var isTwoHanded = classes[pClass]['twoHanded']
+
+		//If enemy has >= of the players main stat, damage reduction is capped at 50 
+		if(otherPlayer[mainStat] >= player[mainStat])
+			newMainStat = Math.floor(player[mainStat]/2)
+		else
+			newMainStat = player[mainStat] - Math.floor(otherPlayer[mainStat + 'Resistance'])
+
+		if(numOfWeapons == 2)
+			player['dmg'] = Math.floor(0.75 * (level ** 2) * (newMainStat/divisor)) + 10
+		else if(isTwoHanded)
+			player['dmg'] = Math.floor((level ** 2) * (newMainStat/divisor)) + 10
+		else
+			player['dmg'] = Math.floor(0.7 * (level ** 2) * (newMainStat/divisor)) + 10
+
+		player['dmg'] = player['dmg'] * weaponMultiplier
+	}
+
+
+	
+	//===============================
+	// EXCEL SPECIFIC
+	//===============================
+
+
+
+	//Recursively goes through all possibile combinations and outputs in an excel format
+	function getAllClassStats(){
+		var output = document.getElementById('outputPlayerStats')
+		var allClasses = Object.keys(classes)
+		var allArmorTypes = []
+		var allGearRarities = []
+		
+		var armorTypes = document.getElementById('p1GearType')
+		var rarityTypes = document.getElementById('p1GearRarity')
+
+		for(var i=0; i<armorTypes.options.length; i++)
+			allArmorTypes[i] = armorTypes.options[i].value
+
+		for(var i=0; i<rarityTypes.options.length; i++)
+			allGearRarities[i] = rarityTypes.options[i].value
+
+		for(var a=0; a<allClasses.length; a++){
+			document.getElementById('p1Class').value = allClasses[a]
+			//Set raatios of stats the class would want
+			getBaseStatRatios(allClasses[a])
+
+			for(var b=0; b<allArmorTypes.length; b++){
+				document.getElementById('p1GearType').value = allArmorTypes[b]
+
+				for(var c=0; c<allGearRarities.length; c++){
+					document.getElementById('p1GearRarity').value = allGearRarities[c]
+
+					var player = getExcelInformation()
+					var excelOutput = getExcelOutput(player)
+
+					output.value += excelOutput + ' \n'
+				}
+			}
+		}
+
+		getGoldXpStatCostFormulas()
+	}
+
+
+	//Formats the player data specifically to output to Excel
+	function getExcelOutput(player){
+		var output = player['level'] + '\t'
+		+ player['class'] + '\t'
+		+ player['gearType'] + '\t'
+		+ player['gearRarity'] + '\t'
+		+ player['str'] + '\t'
+		+ player['dex'] + '\t'
+		+ player['int'] + '\t'
+		+ player['con'] + '\t'
+		+ player['luk'] + '\t'
+		+ player['armor'] + '\t'
+		+ player['armorReduction'] + '\t'
+		+ player['critChance'] + '\t'
+		+ player['dmg'] + '\t'
+		+ player['health'] + '\t'
+		+ player['strResistance'] + '\t'
+		+ player['dexResistance'] + '\t'
+		+ player['intResistance'] + '\t'
+
+		return output
+	}
+
+
+	//Calculates the damage of a player based on # of weapons, weapon types, and level
+	function calculateDamage(player, level, pClass, mainStat, divisor){
+		var weaponType = mainStat
+		var weaponMultiplier = document.getElementById(weaponType + 'Weapon').value
+		var numOfWeapons = classes[pClass]['weapons']
+		var isTwoHanded = classes[pClass]['twoHanded']
+
+		if(numOfWeapons == 2)
+			player['dmg'] = Math.floor(0.3 * (level ** 2) * (player[mainStat]/divisor)) + 10
+		else if(isTwoHanded)
+			player['dmg'] = Math.floor((level ** 2) * (player[mainStat]/divisor)) + 10
+		else
+			player['dmg'] = Math.floor(0.5 * (level ** 2) * (player[mainStat]/divisor)) + 10
+
+		player['dmg'] = player['dmg'] * weaponMultiplier
+	}
+
+
 	//After all of the base stats and multipliers are calculated, convert them into the meaningful stats (DMG, Health, Crit Chance, etc)
 	function calculateFinalStats(player){
 		var level = player['level']
@@ -768,104 +941,28 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 	}
 
 
-	//Same as calculateFinalStats but takes armor resistance in account for the damage calculation
-	function calculateFinalStatsWithResist(player, otherPlayer){
-		var level = player['level']
-		var pClass = player['class']
-		var mainStat = classes[pClass]['mainStat']
-		var classHPMultiplier = classes[pClass]['healthMult']
-		var maxArmorReduction = classes[pClass]['maxArmorReduc']
-		 
-		var maxCritChance = 30
-		var maxCritChanceAssassin = 50
-		var maxCritChanceFencer = 60
-		
-		otherPlayer['strResistance'] = Math.floor(otherPlayer['str'] / 2)
-		otherPlayer['dexResistance'] = Math.floor(otherPlayer['dex'] / 2)
-		otherPlayer['intResistance'] = Math.floor(otherPlayer['int'] / 2)
+	function getExcelInformation(){
+		var player1 = createPlayer('1')
 
-		if(level <= 5){
-			//calculateDamage(player, level, pClass, mainStat, 20)
-			calculateDamageWithResist(player, otherPlayer, level, pClass, mainStat, 20)
-			player['health'] = classHPMultiplier * (level ** 2) * 4 * Math.floor(player['con']/20) + 60
-		} else {
-			//calculateDamage(player, level, pClass, mainStat, 30)
-			calculateDamageWithResist(player, otherPlayer, level, pClass, mainStat, 30)
-			player['health'] = classHPMultiplier * (level ** 2) * 4 * Math.floor(player['con']/30) + 60
-		}
+		//Calculate Base Stats
+		calculateStats(player1)
 
-		player['armorReduction'] = ((player['armor'])/(level * 60) * 100).toFixed(1)
+		//Multiply Armor by the Equipment Type Multiplier
+		calculateArmorMultiplier(player1)
 
-		//Check for max armor reduction based on class
-		if(player['armorReduction'] > maxArmorReduction){
-			player['armorReduction'] = maxArmorReduction
-		}
+		//Multiply Armor by the Rarity Type Multiplier
+		calculateArmorRarityMultiplier(player1)
 
-		player['critChance'] = ((player['luk'])/(level * 60) * 100).toFixed(1)
+		//Multiply Stats by the Equipment Stats Multiplier
+		calculateStatsMultiplier(player1)
 
-		if(pClass == 'assassin'){
-			player['critChance'] = parseFloat(player['critChance']) + 15.0
+		//Multiply Stats by the Rarity Multiplier
+		calculateStatsRarityMultiplier(player1)
 
-			if(player['critChance'] > 50)
-				player['critChance'] = 50
+		//Put everything together to get the final stats
+		calculateFinalStats(player1)
 
-		}
-		else if(pClass == 'fencer'){				
-			player['critChance'] = parseFloat(player['critChance']) + 25.0
-
-			if(player['critChance'] > 60)
-				player['critChance'] = 60
-		}
-		else{
-			if(player['critChance'] > 30)
-				player['critChance'] = 30
-		}
-
-		player['strResistance'] = Math.floor(player['str'] / 2)
-		player['dexResistance'] = Math.floor(player['dex'] / 2)
-		player['intResistance'] = Math.floor(player['int'] / 2)
-	}
-
-
-	//Calculates the damage of a player based on # of weapons, weapon types, and level
-	function calculateDamage(player, level, pClass, mainStat, divisor){
-		var weaponType = mainStat
-		var weaponMultiplier = document.getElementById(weaponType + 'Weapon').value
-		var numOfWeapons = classes[pClass]['weapons']
-		var isTwoHanded = classes[pClass]['twoHanded']
-
-		if(numOfWeapons == 2)
-			player['dmg'] = Math.floor(0.3 * (level ** 2) * (player[mainStat]/divisor)) + 10
-		else if(isTwoHanded)
-			player['dmg'] = Math.floor((level ** 2) * (player[mainStat]/divisor)) + 10
-		else
-			player['dmg'] = Math.floor(0.5 * (level ** 2) * (player[mainStat]/divisor)) + 10
-
-		player['dmg'] = player['dmg'] * weaponMultiplier
-	}
-
-	//Calculates the damage of a player based on # of weapons, weapon types, and level
-	function calculateDamageWithResist(player, otherPlayer, level, pClass, mainStat, divisor){
-		var weaponType = mainStat
-		var weaponMultiplier = document.getElementById(weaponType + 'Weapon').value
-		var newMainStat
-		var numOfWeapons = classes[pClass]['weapons']
-		var isTwoHanded = classes[pClass]['twoHanded']
-
-		//If enemy has >= of the players main stat, damage reduction is capped at 50 
-		if(otherPlayer[mainStat] >= player[mainStat])
-			newMainStat = Math.floor(player[mainStat]/2)
-		else
-			newMainStat = player[mainStat] - Math.floor(otherPlayer[mainStat + 'Resistance'])
-
-		if(numOfWeapons == 2)
-			player['dmg'] = Math.floor(1.05 * (level ** 2) * (newMainStat/divisor)) + 10
-		else if(isTwoHanded)
-			player['dmg'] = Math.floor((level ** 2) * (newMainStat/divisor)) + 10
-		else
-			player['dmg'] = Math.floor(0.5 * (level ** 2) * (newMainStat/divisor)) + 10
-
-		player['dmg'] = player['dmg'] * weaponMultiplier
+		return player1
 	}
 
 
@@ -889,81 +986,130 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 	}
 
 
-	//Formats the player data specifically to output to Excel
-	function getExcelOutput(player){
-		var output = player['level'] + '\t'
-		+ player['class'] + '\t'
-		+ player['gearType'] + '\t'
-		+ player['gearRarity'] + '\t'
-		+ player['str'] + '\t'
-		+ player['dex'] + '\t'
-		+ player['int'] + '\t'
-		+ player['con'] + '\t'
-		+ player['luk'] + '\t'
-		+ player['armor'] + '\t'
-		+ player['armorReduction'] + '\t'
-		+ player['critChance'] + '\t'
-		+ player['dmg'] + '\t'
-		+ player['health'] + '\t'
-		+ player['strResistance'] + '\t'
-		+ player['dexResistance'] + '\t'
-		+ player['intResistance'] + '\t'
+	//Outputs suggested rates for gold, stat cost, and experience
+	function getGoldXpStatCostFormulas(){
+		var output = ''
+		var totalGold = 0
+		var totalStatCost = 0
+		var totalExp = 0
 
-		return output
+		for(var i=1; i<=100; i++){
+			var gold = (i ** 3) + 300
+			var statCost = Math.floor((i ** 2.2)/20 + 1)
+			var exp = Math.floor((i ** 2) * i ** 1.3) + 50
+			var questXp = Math.floor((i ** 2)) + 10
+			var questsNeeded = Math.floor(exp / questXp)
+			var goldPerQuest = Math.floor(gold / questsNeeded)
+
+			totalGold += gold
+			totalStatCost += statCost
+			totalExp += exp
+
+			output += i + '\t' + gold + '\t' + totalGold + '\t' + statCost + '\t' + totalStatCost + '\t' + exp + '\t' + totalExp + '\t' + questXp + '\t' + questsNeeded + '\t' + goldPerQuest + '\n'
+		}
+		document.getElementById('output').value = output
 	}
+
+
 
 	//===============================
-	// CALCULATIONS
+	// LEVEL UP TESTER
 	//===============================
 
-	var output = ''
-	var total = 0
-	var total2 = 0
-	var total3 = 0
-	var questXp = 0
+	testerReset()
 
-	for(var i=1; i<=100; i++){
-		var gold = (i ** 3) + 300
-		var statCost = Math.floor((i ** 2.2)/20 + 1)
-		var xp = Math.floor((i ** 2) * i ** 1.3) + 50
-		questXp = Math.floor((i ** 2)) + 10
-		var questsNeeded = Math.floor(xp / questXp)
-		total += gold
-		total2 += statCost
-		total3 += xp
-		output += i + '\t' + gold + '\t' + total + '\t' + statCost + '\t' + total2 + '\t' + xp + '\t' + total3 + '\t' + questXp + '\t' + questsNeeded + '\n'
+	function simulateStatDistribution(level){
+		var currentLevel = parseInt(document.getElementById('testerLevel').innerText)
+		var gold = document.getElementById('testerGold')
+
+		var counter = 1 //Used to distribute them as: 5,4,3,1,1
+
+		while(parseInt(currentLevel) <= level){
+			var statsUpgraded = 0
+			
+			currentLevel = parseInt(document.getElementById('testerLevel').innerText)
+
+			//Keep spending gold until we don't have enough - then level up
+			while(true){
+				var stat
+
+				if(counter == 1 || counter == 4 || counter == 6 || counter == 7 || counter == 10)
+					stat = 'Str'
+				else if(counter == 2 || counter == 5 || counter == 8 || counter == 11)
+					stat = 'Con'
+				else if(counter == 3 || counter == 9 || counter == 14)
+					stat = 'Luk'
+				else if(counter == 12)
+					stat = 'Dex'
+				else if(counter == 13)
+					stat = 'Int'
+				else{
+					counter = 1
+					continue
+				}
+
+				counter++
+				statsUpgraded++
+
+				var cost = document.getElementById('tester' + stat + 'Cost')
+
+				if(parseInt(gold.innerText) >= parseInt(cost.innerText))
+					upgradeStatLevel(stat)
+				else{
+					console.log('Level: ' + currentLevel + ' Stats Upgraded: ' + statsUpgraded)
+					break
+				}
+			}
+
+			//Level up and add the gold for the next iteration
+			testerLevelUp()
+		}
 	}
-	//document.getElementById('output').value = output
-	
-	var output2 = ''
 
-	for(var i=1; i<=100; i++){
-		//wpn dmg * str stat + 10
-		var mainStat = (i*20)
-		var conStat = (i*15)
-		var dmg
-		if(i<5)
-			dmg = (i ** 2) * Math.floor(mainStat/20) + 10
-		else
-			dmg = (i ** 2) * Math.floor(mainStat/30) + 10
-		var health
-		if(i<5)
-			health = (i ** 2) * 4 * Math.floor(conStat/20) + 60
-		else
-			health = (i ** 2) * 4 * Math.floor(conStat/30) + 60
-		var armor = (i*15)/(i*60) * 100
-		var critChance = (i*15)/(i*60) * 100
-		var res1 = (i*5) / 2 //times by two for both stats
-		var newMainStat = mainStat - res1
-		var newDmg
-		if(i<5)
-			newDmg = (i ** 2) * Math.floor(newMainStat/20) + 10
-		else
-			newDmg = (i ** 2) * Math.floor(newMainStat/30) + 10
 
-		output2 += i + '\t' + dmg + '\t' + health + '\t' + armor + '\t' + critChance + '\t' + mainStat + '\t' + res1 + '\t' + newMainStat + '\t' + newDmg + '\n'// + questsNeeded + '\n'
+	function testerLevelUp(){
+		var level = document.getElementById('testerLevel')	
+		var gold = document.getElementById('testerGold')
+		var newGold = getGoldOfNextLevel(level.innerText)
+
+		level.innerText++
+		gold.innerText = parseInt(gold.innerText) + parseInt(newGold)
 	}
-	//document.getElementById('outputClassInfo').value = output2
+
+	function testerReset(){
+		var stats = ['Str','Dex','Int','Con','Luk']
+		
+		document.getElementById('testerLevel').innerText = 1
+		document.getElementById('testerGold').innerText = parseInt(getGoldOfNextLevel(0))
+
+		for(var i=0; i<stats.length; i++){
+			document.getElementById('tester' + stats[i] + 'Level').innerText = 1
+			document.getElementById('tester' + stats[i] + 'Cost').innerText = parseInt(getStatCostOfLevel(1))
+		}
+	}
+
+	function getGoldOfNextLevel(level){
+		var nextLevel = parseInt(level) + 1
+		return (nextLevel ** 3) + 200
+	}
+
+	function getStatCostOfLevel(level){
+		return Math.floor((level ** 2)/20 + 1)
+	}
+
+	function upgradeStatLevel(stat){
+		var statLevel = document.getElementById('tester' + stat + 'Level')
+		var cost = document.getElementById('tester' + stat + 'Cost')
+		var gold = document.getElementById('testerGold')
+
+		if(parseInt(gold.innerText) >= parseInt(cost.innerText)){
+			
+			gold.innerText = gold.innerText - cost.innerText
+			statLevel.innerText++
+			cost.innerText = parseInt(getStatCostOfLevel(statLevel.innerText))
+		}
+	}
+
 
 </script>
 </html>
