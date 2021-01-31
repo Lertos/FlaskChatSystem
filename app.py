@@ -38,6 +38,7 @@ itemRarities = [
 
 #===============================
 
+
 @app.route("/")
 def index():
     #If the session DOES exist, they are already logged in - send them to their dashboard
@@ -212,6 +213,10 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('signin'))
 
+
+@app.route('/sim')
+def simulator():
+    return render_template('main.html')
 
 
 if __name__ == "__main__":
