@@ -502,7 +502,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 			//If there was no evasion or block
 			if(!doesDefenderEvadeOrBlock){
 
-				//Magic knight reduces armor reduction by 2.5%
+				//Magic knight reduces armor reduction by 5%
 				if(attacker['class'] == 'magicKnight'){
 					defender['armorReduction'] -= 5.0
 					console.log('[CLASS] ' + attacker['name'] + ' has reduced the opponents armor by 5%. NOW: ' + defender['armorReduction'])
@@ -597,7 +597,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		else{
 			//Scouts can evade magical attacks, but only with a 15% chance
 			if(defender['class'] == 'scout')
-				evadeBlockChance -= 0.15
+				evadeBlockChance -= 0.10
 			
 			if(evadeBlockChance > Math.random()){
 				console.log('[CLASS] ' + defender['name'] + ' dodged/blocked!')
@@ -727,7 +727,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		var maxArmorReduction = classes[pClass]['maxArmorReduc']
 		 
 		var maxCritChance = 30
-		var maxCritChanceAssassin = 50
+		var maxCritChanceAssassin = 55
 		var maxCritChanceFencer = 60
 		
 		otherPlayer['strResistance'] = Math.floor(otherPlayer['str'] / 2)
@@ -752,7 +752,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		player['critChance'] = ((player['luk'])/(level * 60) * 100).toFixed(1)
 
 		if(pClass == 'assassin'){
-			player['critChance'] = parseFloat(player['critChance']) + 15.0
+			player['critChance'] = parseFloat(player['critChance']) + 20.0
 
 			if(player['critChance'] > 50)
 				player['critChance'] = 50
@@ -897,7 +897,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		var maxArmorReduction = classes[pClass]['maxArmorReduc']
 		 
 		var maxCritChance = 30
-		var maxCritChanceAssassin = 50
+		var maxCritChanceAssassin = 55
 		var maxCritChanceFencer = 60
 		
 		if(level <= 5){
@@ -918,7 +918,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 		player['critChance'] = ((player['luk'])/(level * 60) * 100).toFixed(1)
 
 		if(pClass == 'assassin'){
-			player['critChance'] = parseFloat(player['critChance']) + 15.0
+			player['critChance'] = parseFloat(player['critChance']) + 20.0
 
 			if(player['critChance'] > 50)
 				player['critChance'] = 50
@@ -1024,7 +1024,7 @@ Should get 60 stats per level - 20 from base stat upgrades, 40 from equipment
 
 		var counter = 1 //Used to distribute them as: 5,4,3,1,1
 
-		while(parseInt(currentLevel) <= level){
+		while(parseInt(currentLevel) < level){
 			var statsUpgraded = 0
 			
 			currentLevel = parseInt(document.getElementById('testerLevel').innerText)
