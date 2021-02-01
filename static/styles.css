@@ -69,7 +69,7 @@ img{
 
 ul{
     list-style-type: none;
-    width: 100%;
+    width: auto;
     padding: 0px;
     margin: 0px;
 }
