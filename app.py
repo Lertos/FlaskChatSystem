@@ -216,7 +216,7 @@ def logout():
 
 @app.route('/sim')
 def simulator():
-    return render_template('main.html')
+    return render_template('/simulator/main.html')
 
 
 if __name__ == "__main__":
