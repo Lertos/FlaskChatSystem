@@ -44,16 +44,22 @@
 
 html{
     background-color: var(--background);
+    background-image: url("/static/pattern2.png");
+    background-repeat: repeat;
 }
 
 body{
     background-color: var(--background);
+    background-image: url("/static/pattern2.png");
+    background-repeat: repeat;
     color: var(--text);
     font-family: "Tahoma";
 }
 
 div{
     background-color: var(--background);
+    background-image: url("/static/pattern2.png");
+    background-repeat: repeat;
 }
 
 hr{
@@ -82,14 +88,20 @@ ul{
 
 .background{
     background-color: var(--div);
+    background-image: url("/static/pattern.png");
+    background-repeat: repeat;
 }
 
 .backgroundDark{
     background-color: var(--background);
+    background-image: url("/static/pattern2.png");
+    background-repeat: repeat;
 }
 
 .tableColColor{
     background-color: var(--diffColorTable);
+    background-image: url("/static/pattern.png");
+    background-repeat: repeat;
 }
 
 .textColor{
@@ -114,7 +126,6 @@ ul{
 
 ===================*/
 
-/* GENERAL USE */
 .alignCenter{
     text-align: center;
 }
@@ -131,6 +142,8 @@ ul{
     width: 100%;
     text-align: center;
     background-color: var(--div);
+    background-image: url("/static/pattern.png");
+    background-repeat: repeat;
 }
 
 .spacing{
@@ -141,6 +154,28 @@ ul{
 
 .sameLine{
     display: inline;
+}
+
+.loadingScreen{
+    position:fixed;
+    padding:0;
+    margin:0;
+
+    top:0;
+    left:0;
+
+    text-align: center;
+
+    width: 100%;
+    height: 100%;
+    background-color: var(--background);
+    background-image: none;
+}
+
+.loadingScreen h1{
+    font-size: 60px;
+    line-height: 600px;
+    color:#ebb68c;
 }
 
 .leftRightTable td:nth-child(odd){
@@ -240,6 +275,8 @@ ul{
 
 .sidePanel div{
     background-color: var(--div);
+    background-image: url("/static/pattern.png");
+    background-repeat: repeat;
 }
 
 .sidePanel table{
@@ -248,6 +285,8 @@ ul{
 
 .sidePanel tr:nth-child(even) {
     background-color: var(--diffColorTable);
+    background-image: url("/static/pattern3.png");
+    background-repeat: repeat;
 }
 
 .mainPanel{
@@ -259,6 +298,8 @@ ul{
 
 .mainPanel div{
     background-color: var(--div);
+    background-image: url("/static/pattern.png");
+    background-repeat: repeat;
 }
 
 .inventory{
@@ -351,17 +392,27 @@ ul{
 .nav.navbar-nav li a {
     color: var(--background);
     background-color: var(--div);
+    background-image: url("/static/pattern.png");
+    background-repeat: repeat;
     font-weight: bold;
+}
+
+.nav.navbar-nav li a:hover {
+    background-color: var(--background);
+    background-image: url("/static/pattern2.png");
+    background-repeat: repeat;
 }
 
 .navbar-inverse .navbar-brand{ 
     color: white;
     background-color: var(--background);
+    background-image: url("/static/pattern2.png");
+    background-repeat: repeat;
     font-weight: bold;
 }
 
 .navbar-inverse .navbar-brand:hover{ 
-    background-color: #38241b;
+    filter: brightness(0.85);
 }
 
 .resizeImg128{

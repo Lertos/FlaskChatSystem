@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+
     <div class='header border spacing'>
         <h1>Dashboard</h1>
     </div>
@@ -219,7 +220,7 @@
 
                 <hr>
 
-                <h3>Current Item</h3>
+                <h3>Equipped Item</h3>
 
                 <hr>
 
@@ -229,31 +230,31 @@
                 <table class='leftRightTable'>
                     <tr>
                         <td><h5>Weapon Dmg</h5></td>
-                        <td><p id='currentItemDamage'>22</p>~</td>
+                        <td><p id='equippedItemDamage'>22</p>~</td>
                     </tr>
                     <tr>
                         <td><h5>Armor</h5></td>
-                        <td><p id='currentItemArmor'>0</p></td>
+                        <td><p id='equippedItemArmor'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Strength</h5></td>
-                        <td><p id='currentItemStrength'>0</p></td>
+                        <td><p id='equippedItemStrength'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Dexterity</h5></td>
-                        <td><p id='currentItemDexterity'>0</p></td>
+                        <td><p id='equippedItemDexterity'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Intelligence</h5></td>
-                        <td><p id='currentItemIntelligence'>0</p></td>
+                        <td><p id='equippedItemIntelligence'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Constitution</h5></td>
-                        <td><p id='currentItemConstitution'>0</p></td>
+                        <td><p id='equippedItemConstitution'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Luck</h5></td>
-                        <td><p id='currentItemLuck'>0</p></td>
+                        <td><p id='equippedItemLuck'>0</p></td>
                     </tr>
                 </table>
             </div>
@@ -268,7 +269,7 @@
 <script>
 
     var itemRarities = JSON.parse('{{itemRarities | tojson}}');
-    
+    var lvl = 1
     
 
     var double = 0.0

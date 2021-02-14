@@ -12,9 +12,16 @@
     </head>
         {% block navbar %}{% endblock %}
         {% block body %}{% endblock %}
+        <div id='loading' class='loadingScreen'>
+            <h1>Hold Tight. The Internet Is Sucking Atm</h1>   
+        </div>
     </body>
     {% block script %}{% endblock %}
     <script>
+        window.onload = function() {
+            document.getElementById('loading').hidden = true
+        }
+
         function setActiveNavBar(){
             var buttons = document.getElementById('navBarButtons').getElementsByTagName('li');
             
@@ -23,8 +30,8 @@
 
                 if(document.title.toLowerCase() == buttons[i].innerText.toLowerCase())
                     buttons[i].classList.add('active')
-            }          
+            }        
         }
-        
+
     </script>
 </html>
