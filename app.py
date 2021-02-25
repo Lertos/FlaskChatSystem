@@ -31,7 +31,6 @@ itemRarities = [
     ['unique', 0.005, 1.15, 'borderUnique']
 ]
 
-
 #===============================
 
 #Routes
