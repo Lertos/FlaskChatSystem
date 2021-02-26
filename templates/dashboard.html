@@ -26,18 +26,24 @@
                 <hr>
 
                 <div>
-                    <table class='leftRightTable'>
+                    <table class='alignLeft'>
                         <tr>
-                            <td><h5>Exp Left</h5></td>
-                            <td><p>{{ user['expUntilLevel'] }}</p></td>
+                            <td>
+                                <img class='iconImg' src='/static/icons/icon_gold.png'>
+                                <p>12323</p>
+                            </td>
                         </tr>
                         <tr>
-                            <td><h5>Gold</h5></td>
-                            <td><p id='playerGold'>{{ user['gold'] }}</p></td>
+                            <td>
+                                <img class='iconImg' src='/static/icons/icon_xp.png'>
+                                <p>{{ user['expUntilLevel'] }}</p>
+                            </td>
                         </tr>
                         <tr>
-                            <td><h5>Stamina</h5></td>
-                            <td><p>{{ user['stamina'] }}</p></td>
+                            <td>
+                                <img class='iconImg' src='/static/icons/icon_stamina.png'>
+                                <p>{{ user['stamina'] }}</p>
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -204,6 +210,8 @@
                         <td><p id='newItemLuck'>150</p></td>
                     </tr>
                 </table>
+
+                <hr>
 
                 <button class='themeMediumButton'>Sell</button>
                 <button class='themeMediumButton'>Equip</button>
