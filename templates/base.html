@@ -13,18 +13,30 @@
         {% block navbar %}{% endblock %}
         {% block body %}{% endblock %}
         <div id='loading' class='loadingScreen'>
-            <h1>Hold Tight. The Internet Is Sucking Atm</h1>   
+            <!--<h1>Loading</h1>-->
         </div>
     </body>
     {% block script %}{% endblock %}
     <script>
         window.onload = function() {
+            setActiveNavBar()
+            document.getElementById('loading').hidden = true
+            //document.getElementById('loading').classList.add('loadingScreenFade')
+            //window.setTimeout(hideLoadingScreen, 500);
+        }
+
+        function hideLoadingScreen(){
             document.getElementById('loading').hidden = true
         }
 
         function setActiveNavBar(){
-            var buttons = document.getElementById('navBarButtons').getElementsByTagName('li');
-            
+            var navBar = document.getElementById('navBarButtons')
+
+            if(navBar == null)
+                return
+
+            buttons = navBar.getElementsByTagName('li');
+
             for(var i=0;i<buttons.length;i++){
                 buttons[i].classList = ''
 

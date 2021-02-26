@@ -6,6 +6,7 @@
 -direct
 -border
 -button
+-backgrounds
 -other
 
 */
@@ -46,6 +47,7 @@ html{
     background-color: var(--background);
     background-image: url("/static/pattern2.png");
     background-repeat: repeat;
+    min-height: 100vh;
 }
 
 body{
@@ -54,13 +56,16 @@ body{
     background-repeat: repeat;
     color: var(--text);
     font-family: "Tahoma";
+    min-height: 100vh;
 }
 
+/*
 div{
     background-color: var(--background);
     background-image: url("/static/pattern2.png");
     background-repeat: repeat;
 }
+*/
 
 hr{
     border-top: 6px solid var(--horzLines);
@@ -156,6 +161,10 @@ ul{
     display: inline;
 }
 
+.blockLine{
+    display: inline;
+}
+
 .loadingScreen{
     position:fixed;
     padding:0;
@@ -170,6 +179,12 @@ ul{
     height: 100%;
     background-color: var(--background);
     background-image: none;
+    opacity: 1;
+}
+
+.loadingScreenFade{
+    opacity: 0;
+    transition: opacity 0.5s;
 }
 
 .loadingScreen h1{
@@ -199,6 +214,10 @@ ul{
     margin: 0px;
     border-radius: 2px;
     border: 1px solid #301f17;
+}
+
+.divSameLineElements h1, .divSameLineElements h2, .divSameLineElements h3, .divSameLineElements h4, .divSameLineElements h5, .divSameLineElements p, .divSameLineElements img{
+    display: inline;
 }
 
 /*===================
@@ -268,7 +287,7 @@ ul{
 
 .sidePanel{
     display: inline-block;
-    width: 20%;
+    width: 18%;
     vertical-align: top;
     height: auto;
 }
@@ -300,6 +319,13 @@ ul{
     background-color: var(--div);
     background-image: url("/static/pattern.png");
     background-repeat: repeat;
+}
+
+.infoPanel{
+    display: inline-block;
+    width: 35%;
+    height: auto;
+    text-align: center;
 }
 
 .inventory{
@@ -365,8 +391,13 @@ ul{
     border: 4px solid #301f17;
 }
 
-.themeSmallButton:hover{
-    background-color: #301f17;
+.themeMediumButton{
+    background-color: var(--background);
+    color: white;
+    font-size: 18px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 4px solid #301f17;
 }
 
 .themeBigButton{
@@ -374,12 +405,58 @@ ul{
     color: white;
     font-size: 20px;
     padding: 8px 16px;
-    border-radius: 8px;
+    border-radius: 4px;
     border: 4px solid #301f17;
 }
 
-.themeBigButton:hover{
+.themeSmallButton:hover, .themeMediumButton:hover, .themeBigButton:hover{
     background-color: #301f17;
+}
+
+/*===================
+
+    backgrounds
+
+===================*/
+
+.background_signin{
+    background-image: url('/static/backgrounds/background_signin.jpg');
+}
+
+.background_dashboard{
+    background-image: url('/static/backgrounds/background_dashboard.jpg');
+}
+
+.background_quests{
+    background-image: url('/static/backgrounds/background_quests.jpg');
+}
+
+.background_gathering{
+    background-image: url('/static/backgrounds/background_gathering.jpg');
+}
+
+.background_bounties{
+    background-image: url('/static/backgrounds/background_bounties.jpg');
+}
+
+.background_dungeons{
+    background-image: url('/static/backgrounds/background_dungeons.jpg');
+}
+
+.background_arena{
+    background-image: url('/static/backgrounds/background_arena.jpg');
+}
+
+.background_house{
+    background-image: url('/static/backgrounds/background_house.jpg');
+}
+
+.background_offerings{
+    background-image: url('/static/backgrounds/background_offerings.jpg');
+}
+
+.background_leaderboard{
+    background-image: url('/static/backgrounds/background_leaderboard.jpg');
 }
 
 /*===================
@@ -420,6 +497,14 @@ ul{
     height:auto;
     margin: 0px;
     padding: 0px;
+}
+
+.iconImg{
+    display: inline;
+    background-color: rgba(0, 0, 0, 0);
+    max-width: 32px;
+    height: auto;
+    border: none;
 }
 
 .imgLocked{

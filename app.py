@@ -187,19 +187,34 @@ def arena():
     return render_template('arena.html')
 
 
-@app.route('/tavern')
-def tavern():
-    return render_template('tavern.html')
+@app.route('/quests')
+def quests():
+    return render_template('quests.html')
 
 
-@app.route('/market')
-def market():
-    return render_template('market.html')
+@app.route('/bounties')
+def bounties():
+    return render_template('bounties.html')
 
 
-@app.route('/dungeon')
-def dungeon():
-    return render_template('dungeon.html')
+@app.route('/dungeons')
+def dungeons():
+    return render_template('dungeons.html')
+
+
+@app.route('/gathering')
+def gathering():
+    return render_template('gathering.html')
+
+
+@app.route('/house')
+def house():
+    return render_template('house.html')
+
+
+@app.route('/offerings')
+def offerings():
+    return render_template('offerings.html')
 
 
 @app.route('/leaderboard')
