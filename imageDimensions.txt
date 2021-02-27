@@ -1,1 +1,7 @@
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_key.png 512 512
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_note.png 256 256
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_summons.png 256 256
 
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_key.png
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_note.png
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_summons.png

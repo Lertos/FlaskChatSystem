@@ -16,13 +16,13 @@
         
         <div class='infoPanel background border spacing'>
             
-            <div class='spacing'>
-                <button class='themeMediumButton' onclick='changeTab("Wood")'>Woodcutting</button>
-                <button class='themeMediumButton' onclick='changeTab("Mine")'>Mining</button>
-                <button class='themeMediumButton' onclick='changeTab("Dig")'>Excavation</button>
+            <div>
+                <img class='iconImg' src='/static/icons/icon_stamina.png'>
+                <p><strong>100 / 100</strong></p>
+                <p>(Resets Daily)</p>
             </div>
             
-            <div id='resourcesWood' class='divSameLineElements spacing'>
+            <div id='resourcesWood' class='divSameLineElements'>
                 <img class='iconImg' src='/static/resources/icon_wood_oak.png'>
                 <h5>6</h5>
                 <img class='iconImg' src='/static/resources/icon_wood_maple.png'>
@@ -33,7 +33,7 @@
                 <h5>6</h5>
             </div>
 
-            <div hidden id='resourcesMine' class='divSameLineElements spacing'>
+            <div hidden id='resourcesMine' class='divSameLineElements'>
                 <img class='iconImg' src='/static/resources/icon_mine_stone.png'>
                 <h5>6</h5>
                 <img class='iconImg' src='/static/resources/icon_mine_copper.png'>
@@ -44,7 +44,7 @@
                 <h5>6</h5>
             </div>
 
-            <div hidden id='resourcesDig' class='divSameLineElements spacing'>
+            <div hidden id='resourcesDig' class='divSameLineElements'>
                 <img class='iconImg' src='/static/resources/icon_dig_dirt.png'>
                 <h5>6</h5>
                 <img class='iconImg' src='/static/resources/icon_dig_sand.png'>
@@ -53,6 +53,12 @@
                 <h5>6</h5>
                 <img class='iconImg' src='/static/resources/icon_dig_cement.png'>
                 <h5>6</h5>
+            </div>
+
+            <div class='spacing'>
+                <button class='themeMediumButton' onclick='changeTab("Wood")'>Woodcutting</button>
+                <button class='themeMediumButton' onclick='changeTab("Mine")'>Mining</button>
+                <button class='themeMediumButton' onclick='changeTab("Dig")'>Excavation</button>
             </div>
 
         </div>
