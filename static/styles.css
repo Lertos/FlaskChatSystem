@@ -352,6 +352,13 @@ ul{
     border-style: solid;
 }
 
+.borderSelected{
+    border: yellow;
+    border-radius: 8px;
+    border-width: 8px;
+    border-style: solid;
+}
+
 .itemBorderCommon{
     border: var(--borderWidth) solid var(--borderCommon);
 }
