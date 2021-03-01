@@ -1,9 +1,5 @@
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_gold.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_honor.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_key.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_loot.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_note.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_stamina.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_summons.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_time.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\icon_xp.png
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\gold.png
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\loot.png
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\resources.png
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\stat.png
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\xp.png
