@@ -7,11 +7,173 @@
 {% block body %}
 <body class='background_leaderboard'>
 
-    <div class='header border spacing'>
-        <h1>Leaderboard</h1>
-    </div>
-
     <div id='container'>
+
+        <div class='background border spacing'>
+
+            <div class='spacing'>
+                <button class='themeBigButton' onclick='changeTab("Level")'>Highest Level</button>
+                <button class='themeBigButton' onclick='changeTab("Honor")'>Highest Honor</button>
+            </div>
+
+            <hr>
+            
+            <div id='highestLevel'>    
+                <div class='spacing divSameLineElements'>
+                    <h3><strong>Your Rank: </strong></h3>
+                    <h3>1</h3>
+                </div>
+    
+                <table class='largeTable'>
+                    <thead class='tableColColor'>
+                        <th style='width:7%;'>Rank</th>
+                        <th style='width:14%;'>Name</th>
+                        <th style='width:7%;'>Level</th>
+                        <th style='width:14%;'>Class</th>
+                        <th style='width:8%;'>Honor</th>
+                        <th style='width:10%;'>Strength</th>
+                        <th style='width:10%;'>Dexterity</th>
+                        <th style='width:10%;'>Intelligence</th>
+                        <th style='width:10%;'>Constitution</th>
+                        <th style='width:10%;'>Luck</th>
+                    </thead>
+                    <tr>
+                        <td>1</td>
+                        <td>Jeffyboyy</td>
+                        <td>5</td>
+                        <td>Berserker</td>
+                        <td>570</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>P00nDoc</td>
+                        <td>4</td>
+                        <td>Fire Mage</td>
+                        <td>470</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>SillyTwister</td>
+                        <td>4</td>
+                        <td>Warrior</td>
+                        <td>460</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>NoNoSpot</td>
+                        <td>3</td>
+                        <td>Scout</td>
+                        <td>580</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                    </tr>
+                </table>
+            </div>
+
+        <div hidden id='highestHonor'>    
+            <div class='spacing divSameLineElements'>
+                <h3><strong>Your Rank: </strong></h3>
+                <h3>2</h3>
+            </div>
+
+            <table class='largeTable'>
+                <thead class='tableColColor'>
+                    <th style='width:7%;'>Rank</th>
+                    <th style='width:14%;'>Name</th>
+                    <th style='width:7%;'>Level</th>
+                    <th style='width:14%;'>Class</th>
+                    <th style='width:8%;'>Honor</th>
+                    <th style='width:10%;'>Strength</th>
+                    <th style='width:10%;'>Dexterity</th>
+                    <th style='width:10%;'>Intelligence</th>
+                    <th style='width:10%;'>Constitution</th>
+                    <th style='width:10%;'>Luck</th>
+                </thead>
+                <tr>
+                    <td>1</td>
+                    <td>NoNoSpot</td>
+                    <td>3</td>
+                    <td>Scout</td>
+                    <td>580</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Jeffyboyy</td>
+                    <td>5</td>
+                    <td>Berserker</td>
+                    <td>570</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>P00nDoc</td>
+                    <td>4</td>
+                    <td>Fire Mage</td>
+                    <td>470</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>SillyTwister</td>
+                    <td>4</td>
+                    <td>Warrior</td>
+                    <td>460</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>10</td>
+                </tr>
+            </table>
+        </div>
+
     </div>
 	
+{% endblock %}
+
+{% block script %}
+<script>
+
+    function changeTab(id) {
+        if(id == 'Level'){
+            document.getElementById('highestLevel').hidden = false
+            document.getElementById('highestHonor').hidden = true
+        } else{
+            document.getElementById('highestLevel').hidden = true
+            document.getElementById('highestHonor').hidden = false
+        }
+    }
+
+</script>
 {% endblock %}

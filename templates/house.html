@@ -7,14 +7,52 @@
 {% block body %}
 <body class='background_house'>
 
-    <div class='header border spacing'>
-        <h1>House</h1>
-    </div>
-
     <div id='container'>
 
         <div class='background border spacing'>
-            <table id='houseTable'>
+
+            <div class='divSameLineElements'>
+                <img class='iconImg' src='/static/icons/icon_gold.png'>
+                <h5>100</h5>
+                
+                <p class='sideSpacing'></p>
+
+                <img class='iconImg' src='/static/resources/icon_wood_oak.png'>
+                <h5>6</h5>
+                <img class='iconImg' src='/static/resources/icon_wood_maple.png'>
+                <h5>6</h5>
+                <img class='iconImg' src='/static/resources/icon_wood_elm.png'>
+                <h5>6</h5>
+                <img class='iconImg' src='/static/resources/icon_wood_cherry.png'>
+                <h5>6</h5>
+
+                <p class='sideSpacing'></p>
+
+                <img class='iconImg' src='/static/resources/icon_mine_stone.png'>
+                <h5>6</h5>
+                <img class='iconImg' src='/static/resources/icon_mine_copper.png'>
+                <h5>6</h5>
+                <img class='iconImg' src='/static/resources/icon_mine_iron.png'>
+                <h5>6</h5>
+                <img class='iconImg' src='/static/resources/icon_mine_diamond.png'>
+                <h5>6</h5>
+
+                <p class='sideSpacing'></p>
+
+                <img class='iconImg' src='/static/resources/icon_dig_dirt.png'>
+                <h5>6</h5>
+                <img class='iconImg' src='/static/resources/icon_dig_sand.png'>
+                <h5>6</h5>
+                <img class='iconImg' src='/static/resources/icon_dig_clay.png'>
+                <h5>6</h5>
+                <img class='iconImg' src='/static/resources/icon_dig_cement.png'>
+                <h5>6</h5>
+            </div>
+
+        </div>
+
+        <div class='background border spacing'>
+            <table class='largeTable'>
                 <thead class='tableColColor'>
                     <th>Item</th>
                     <th>Level</th>
@@ -30,7 +68,7 @@
                     <td>1</td>
                     <td>2</td>
                     <td>Additional Strength</td>
-                    <td><img class='iconImg' src='/static/icons/icon_gold.png'>5</td>
+                    <td><img class='iconImg' src='/static/icons/icon_gold.png'> 5</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr>
@@ -39,7 +77,7 @@
                     <td>1</td>
                     <td>2</td>
                     <td>Additional Dexterity</td>
-                    <td><img class='iconImg' src='/static/icons/icon_gold.png'>5</td>
+                    <td><img class='iconImg' src='/static/icons/icon_gold.png'> 5</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr>
@@ -48,7 +86,7 @@
                     <td>1</td>
                     <td>2</td>
                     <td>Additional Intelligence</td>
-                    <td><img class='iconImg' src='/static/icons/icon_gold.png'>5</td>
+                    <td><img class='iconImg' src='/static/icons/icon_gold.png'> 5</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr>
@@ -57,7 +95,7 @@
                     <td>1</td>
                     <td>2</td>
                     <td>Additional Constitution</td>
-                    <td><img class='iconImg' src='/static/icons/icon_gold.png'>5</td>
+                    <td><img class='iconImg' src='/static/icons/icon_gold.png'> 5</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr>
@@ -66,7 +104,7 @@
                     <td>1</td>
                     <td>2</td>
                     <td>Additional Luck</td>
-                    <td><img class='iconImg' src='/static/icons/icon_gold.png'>5</td>
+                    <td><img class='iconImg' src='/static/icons/icon_gold.png'> 5</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr id='blankRow'>
@@ -78,7 +116,7 @@
                     <td>1</td>
                     <td>4</td>
                     <td>Woodcutting Yield</td>
-                    <td><img class='iconImg' src='/static/resources/icon_wood_oak.png'>2 <img class='iconImg' src='/static/resources/icon_mine_stone.png'>2 <img class='iconImg' src='/static/resources/icon_dig_dirt.png'>2</td>
+                    <td><img class='iconImg' src='/static/resources/icon_wood_oak.png'> 2 <img class='iconImg' src='/static/resources/icon_mine_stone.png'> 2 <img class='iconImg' src='/static/resources/icon_dig_dirt.png'> 2</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr>
@@ -87,7 +125,7 @@
                     <td>1</td>
                     <td>4</td>
                     <td>Mining Yield</td>
-                    <td><img class='iconImg' src='/static/resources/icon_wood_oak.png'>2 <img class='iconImg' src='/static/resources/icon_mine_stone.png'>2 <img class='iconImg' src='/static/resources/icon_dig_dirt.png'>2</td>
+                    <td><img class='iconImg' src='/static/resources/icon_wood_oak.png'> 2 <img class='iconImg' src='/static/resources/icon_mine_stone.png'> 2 <img class='iconImg' src='/static/resources/icon_dig_dirt.png'> 2</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr>
@@ -96,7 +134,7 @@
                     <td>1</td>
                     <td>4</td>
                     <td>Excavation Yield</td>
-                    <td><img class='iconImg' src='/static/resources/icon_wood_oak.png'>2 <img class='iconImg' src='/static/resources/icon_mine_stone.png'>2 <img class='iconImg' src='/static/resources/icon_dig_dirt.png'>2</td>
+                    <td><img class='iconImg' src='/static/resources/icon_wood_oak.png'> 2 <img class='iconImg' src='/static/resources/icon_mine_stone.png'> 2 <img class='iconImg' src='/static/resources/icon_dig_dirt.png'> 2</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr id='blankRow'>
@@ -108,7 +146,7 @@
                     <td>0.5%</td>
                     <td>0.75%</td>
                     <td>Gold Find</td>
-                    <td><img class='iconImg' src='/static/resources/icon_wood_oak.png'>4 <img class='iconImg' src='/static/resources/icon_mine_stone.png'>2</td>
+                    <td><img class='iconImg' src='/static/resources/icon_wood_oak.png'> 4 <img class='iconImg' src='/static/resources/icon_mine_stone.png'> 2</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr>
@@ -117,7 +155,7 @@
                     <td>0.5%</td>
                     <td>0.75%</td>
                     <td>Experience Bonus</td>
-                    <td><img class='iconImg' src='/static/resources/icon_wood_oak.png'>2 <img class='iconImg' src='/static/resources/icon_mine_stone.png'>4</td>
+                    <td><img class='iconImg' src='/static/resources/icon_wood_oak.png'> 2 <img class='iconImg' src='/static/resources/icon_mine_stone.png'> 4</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr>
@@ -126,7 +164,7 @@
                     <td>0.1%</td>
                     <td>0.15%</td>
                     <td>Loot Drop Chance Bonus</td>
-                    <td><img class='iconImg' src='/static/resources/icon_mine_stone.png'>4 <img class='iconImg' src='/static/resources/icon_dig_dirt.png'>2</td>
+                    <td><img class='iconImg' src='/static/resources/icon_mine_stone.png'> 4 <img class='iconImg' src='/static/resources/icon_dig_dirt.png'> 2</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr>
@@ -135,7 +173,7 @@
                     <td>0.1%</td>
                     <td>0.15%</td>
                     <td>Travel Time Decrease</td>
-                    <td><img class='iconImg' src='/static/resources/icon_mine_stone.png'>2 <img class='iconImg' src='/static/resources/icon_dig_dirt.png'>4</td>
+                    <td><img class='iconImg' src='/static/resources/icon_mine_stone.png'> 2 <img class='iconImg' src='/static/resources/icon_dig_dirt.png'> 4</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr>
@@ -144,7 +182,7 @@
                     <td>0.5%</td>
                     <td>0.75%</td>
                     <td>Sell Price Bonus</td>
-                    <td><img class='iconImg' src='/static/resources/icon_dig_dirt.png'>4 <img class='iconImg' src='/static/resources/icon_wood_oak.png'>2</td>
+                    <td><img class='iconImg' src='/static/resources/icon_dig_dirt.png'> 4 <img class='iconImg' src='/static/resources/icon_wood_oak.png'> 2</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
                 <tr>
@@ -153,7 +191,7 @@
                     <td>1</td>
                     <td>2</td>
                     <td>Extra Holding Capacity</td>
-                    <td><img class='iconImg' src='/static/resources/icon_dig_dirt.png'>2 <img class='iconImg' src='/static/resources/icon_wood_oak.png'>4</td>
+                    <td><img class='iconImg' src='/static/resources/icon_dig_dirt.png'> 2 <img class='iconImg' src='/static/resources/icon_wood_oak.png'> 4</td>
                     <td><button class='themeSmallButton'>Upgrade</button></td>
                 </tr>
             </table>

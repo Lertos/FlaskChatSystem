@@ -157,6 +157,10 @@ ul{
     margin-right: 30px;
 }
 
+.sideSpacing{
+    margin-right: 100px;
+}
+
 .sameLine{
     display: inline;
 }
@@ -265,22 +269,32 @@ ul{
     margin: 12px;
 }
 
-#houseTable{
+.largeTable{
     width: 100%;
     text-align: center;
+    border: var(--borderAndLines);
+    border-radius: 8px;
+    border-width: 2px;
+    border-style: solid;
+    padding: 4px;
 }
 
-#houseTable th{
+.largeTable th{
     text-align: center;
+    height: 50px;
+    border: var(--borderAndLines);
+    border-radius: 8px;
+    border-width: 2px;
+    border-style: solid;
 }
 
-#houseTable tr:nth-child(even) {
+.largeTable tr:nth-child(even) {
     background-color: var(--diffColorTable);
     background-image: url("/static/pattern3.png");
     background-repeat: repeat;
 }
 
-#houseTable td:not(:first-child){
+.largeTable td:not(:first-child){
     border-left:var(--borderAndLines) 1px solid;
 }
 
@@ -503,6 +517,21 @@ ul{
     background-image: url("/static/pattern.png");
     background-repeat: repeat;
     font-weight: bold;
+}
+
+.active{
+    color: var(--background);
+    background-color: var(--div);
+    background-image: url("/static/pattern2.png");
+    background-repeat: repeat;
+    font-weight: bold;
+}
+
+ul.nav li.active a {
+    color: white !important;
+    background-color: var(--background);
+    background-image: url("/static/pattern2.png");
+    background-repeat: repeat;
 }
 
 .nav.navbar-nav li a:hover {
