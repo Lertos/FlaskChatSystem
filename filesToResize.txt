@@ -1,5 +1,4 @@
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\gold.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\loot.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\resources.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\stat.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\xp.png
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\resources\icon_dig_cement.png
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\resources\icon_dig_clay.png
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\resources\icon_dig_dirt.png
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\resources\icon_dig_sand.png

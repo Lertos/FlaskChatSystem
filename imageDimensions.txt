@@ -1,11 +1,1 @@
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\gold.png 1024 1024
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\loot.png 2048 2048
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\resources.png 1024 1024
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\stat.png 2048 2048
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\xp.png 2048 2048
 
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\gold.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\loot.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\resources.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\stat.png
-C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\offering_avatars\xp.png
