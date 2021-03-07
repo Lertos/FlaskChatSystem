@@ -12,12 +12,12 @@
         <!-- LEFT PANEL -->
         <div class='sidePanel background border spacing'>
             
-            <img class='resizeImg128' src='/static/avatars/{{ user["avatarName"] }}'>
+            <img class='resizeImg128' src='/static/avatars/{{ user["file_name"] }}'>
 
             <!-- Player Info Panel -->
             <div id='playerInfo'>
-                <h3 class='alignCenter'><strong>{{ user['displayName'] }}</strong> ({{ user['playerLevel'] }})</h3>
-                <h4><strong>{{ user['className'] }}</strong></h4>
+                <h3 class='alignCenter'><strong>{{ user['display_name'] }}</strong> ({{ user['player_level'] }})</h3>
+                <h4><strong>{{ user['class_name'] }}</strong></h4>
 
                 <hr>
 
@@ -26,19 +26,19 @@
                         <tr>
                             <td>
                                 <img class='iconImg' src='/static/icons/icon_honor.png'>
-                                <p>450</p>
+                                <p>{{ user['honor'] }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                <p>12323</p>
+                                <p>{{ user['gold'] }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                <p>{{ user['expUntilLevel'] }} / 150</p>
+                                <p>{{ user['exp_until_level'] }} / 150</p>
                             </td>
                         </tr>
                         <tr>
@@ -60,7 +60,7 @@
                             <h5>Strength</h5>
                         </td>
                         <td>
-                            <p id='playerStrength' class='sameLine'>{{ user['baseStrength'] }}</p>
+                            <p id='playerStrength' class='sameLine'>{{ user['strength'] }}</p>
                             (<p id='playerPlusStrength' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
@@ -69,7 +69,7 @@
                             <h5>Dexterity</h5>
                         </td>
                         <td>
-                            <p id='playerDexterity' class='sameLine'>{{ user['baseDexterity'] }}</p>
+                            <p id='playerDexterity' class='sameLine'>{{ user['dexterity'] }}</p>
                             (<p id='playerPlusDexterity' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
@@ -78,7 +78,7 @@
                             <h5>Intelligence</h5>
                         </td>
                         <td>
-                            <p id='playerIntelligence' class='sameLine'>{{ user['baseIntelligence'] }}</p>
+                            <p id='playerIntelligence' class='sameLine'>{{ user['intelligence'] }}</p>
                             (<p id='playerPlusIntelligence' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
@@ -87,7 +87,7 @@
                             <h5>Constitution</h5>
                         </td>
                         <td>
-                            <p id='playerConstitution' class='sameLine'>{{ user['baseConstitution'] }}</p>
+                            <p id='playerConstitution' class='sameLine'>{{ user['constitution'] }}</p>
                             (<p id='playerPlusConstitution' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
@@ -96,7 +96,7 @@
                             <h5>Luck</h5>
                         </td>
                         <td>
-                            <p id='playerLuck' class='sameLine'>{{ user['baseLuck'] }}</p>
+                            <p id='playerLuck' class='sameLine'>{{ user['luck'] }}</p>
                             (<p id='playerPlusLuck' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>

@@ -59,7 +59,7 @@ def signin():
 
         #Check if the username/password combination exists
         data = [username, password]
-        stmt = '''SELECT username, displayName, hasCharacter FROM users WHERE username = %s and password = %s;'''
+        stmt = '''SELECT username, display_name, has_character FROM players WHERE username = %s and password = %s;'''
         cursor.execute(stmt, data)
         
         results = cursor.fetchone()
@@ -67,10 +67,10 @@ def signin():
         #If the statement returned anything (meaning the combo exists) - log them in
         if(results is not None):
             session['username'] = results['username']
-            session['displayName'] = results['displayName']
+            session['display_name'] = results['display_name']
 
             #Check is the character has been created yet
-            if(results['hasCharacter'] == 1):
+            if(results['has_character'] == 1):
                 return redirect(url_for('dashboard'))
             else:
                 return redirect(url_for('characterCreation'))
@@ -117,14 +117,14 @@ def signup():
         args = [username, displayName, password]
         cursor = mysql.connection.cursor()
         
-        cursor.callproc('CreateUserAccount', args)
+        cursor.callproc('usp_create_user_account', args)
 
         user = cursor.fetchone()
 
         #Account was successfully created
-        if(user['username'] != '' and user['displayName'] != ''):
+        if(user['username'] != '' and user['display_name'] != ''):
             session['username'] = user['username']
-            session['displayName'] = user['displayName']
+            session['displayName'] = user['display_name']
         #Either the username or the displayname is already taken
         else:
             if(user['username'] == ''):
@@ -155,7 +155,7 @@ def characterCreation():
         cursor = mysql.connection.cursor()
         
         data = [className, avatarName, username]
-        stmt = '''UPDATE users SET className = %s, avatarName = %s, hasCharacter = 1 WHERE username = %s;'''
+        stmt = '''UPDATE players SET class_name = %s, file_name = %s, has_character = 1 WHERE username = %s;'''
         cursor.execute(stmt, data)
 
         mysql.connection.commit()
@@ -173,7 +173,7 @@ def dashboard():
     args = [session['username']]
     cursor = mysql.connection.cursor()
     
-    cursor.callproc('GetDashboardDetails', args)
+    cursor.callproc('usp_get_dashboard_details', args)
 
     user = cursor.fetchone()
 
