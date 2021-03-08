@@ -100,40 +100,40 @@ CREATE TABLE item_types
     armor_type TINYINT NOT NULL,
     item_type_name VARCHAR(20) NOT NULL,
     is_two_handed TINYINT NOT NULL,
-    strength_multiplier DECIMAL(4,3) NOT NULL,
-    dexterity_multiplier DECIMAL(4,3) NOT NULL,
-    intelligence_multiplier DECIMAL(4,3) NOT NULL,
-    constitution_multiplier DECIMAL(4,3) NOT NULL,
-    luck_multiplier DECIMAL(4,3) NOT NULL,
+    stat TINYINT NOT NULL,
+    damage_multiplier DECIMAL(4,3) NOT NULL,
+    armor_per_level TINYINT NOT NULL,
+    stats_per_level TINYINT NOT NULL,
     PRIMARY KEY (item_type_id)
 );
 
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 1, 'Helmet', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 2, 'Helmet', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 3, 'Helmet', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 1, 'Chestplate', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 2, 'Chestplate', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 3, 'Chestplate', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 1, 'Legs', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 2, 'Legs', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 3, 'Legs', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 1, 'Gloves', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 2, 'Gloves', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 3, 'Gloves', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 1, 'Boots', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 2, 'Boots', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 3, 'Boots', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 1, 'Helmet', 0, 'int', 1, 1, 8);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 2, 'Helmet', 0, 'dex', 1, 3, 7);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 3, 'Helmet', 0, 'str', 1, 6, 6);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 1, 'Chestplate', 0, 'int', 1, 2, 12);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 2, 'Chestplate', 0, 'dex', 1, 5, 11);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 3, 'Chestplate', 0, 'str', 1, 8, 10);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 1, 'Legs', 0, 'int', 1, 2, 10);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 2, 'Legs', 0, 'dex', 1, 4, 9);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 3, 'Legs', 0, 'str', 1, 7, 8);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 1, 'Gloves', 0, 'int', 1, 1, 5);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 2, 'Gloves', 0, 'dex', 1, 2, 4);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 3, 'Gloves', 0, 'str', 1, 3, 3);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 1, 'Boots', 0, 'int', 1, 1, 5);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 2, 'Boots', 0, 'dex', 1, 2, 5);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 3, 'Boots', 0, 'str', 1, 3, 5);
 
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Sword', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Axe', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Claws', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Maul', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Hammer', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Spear', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Shield', 0, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Staff', 1, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Bow', 1, 1, 1, 1, 1, 1);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Crossbow', 1, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Sword', 0, 'str', 1, 1, 7);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Axe', 0, 'str', 1, 1, 7);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Claws', 0, 'dex', 1.2, 1, 7);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Maul', 0, 'str', 1, 1, 7);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Hammer', 0, 'str', 1, 1, 7);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Spear', 0, 'dex', 1.2, 1, 7);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Shield', 0, 'str', 1, 1, 7);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Staff', 1, 'int', 1.5, 1, 14);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Book', 1, 'int', 1.5, 1, 14);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Bow', 1, 'dex', 1.2, 1, 14);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Crossbow', 1, 'dex', 1.2, 1, 14);
 
 #SELECT * FROM item_types;
 
