@@ -12,12 +12,12 @@
         <!-- LEFT PANEL -->
         <div class='sidePanel background border spacing'>
             
-            <img class='resizeImg128' src='/static/avatars/{{ user["file_name"] }}'>
+            <img class='resizeImg128' src='/static/avatars/{{ player["file_name"] }}'>
 
             <!-- Player Info Panel -->
             <div id='playerInfo'>
-                <h3 class='alignCenter'><strong>{{ user['display_name'] }}</strong> ({{ user['player_level'] }})</h3>
-                <h4><strong>{{ user['class_name'] }}</strong></h4>
+                <h3 class='alignCenter'><strong>{{ player['display_name'] }}</strong> ({{ player['player_level'] }})</h3>
+                <h4><strong>{{ player['class_name'] }}</strong></h4>
 
                 <hr>
 
@@ -26,25 +26,25 @@
                         <tr>
                             <td>
                                 <img class='iconImg' src='/static/icons/icon_honor.png'>
-                                <p>{{ user['honor'] }}</p>
+                                <p>{{ player['honor'] }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                <p>{{ user['gold'] }}</p>
+                                <p>{{ player['gold'] }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                <p>{{ user['exp_until_level'] }} / 150</p>
+                                <p>{{ player['exp_until_level'] }} / 150</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <img class='iconImg' src='/static/icons/icon_stamina.png'>
-                                <p>{{ user['stamina'] }} / 100</p>
+                                <p>{{ player['stamina'] }} / 100</p>
                             </td>
                         </tr>
                     </table>
@@ -60,7 +60,7 @@
                             <h5>Strength</h5>
                         </td>
                         <td>
-                            <p id='playerStrength' class='sameLine'>{{ user['strength'] }}</p>
+                            <p id='playerStrength' class='sameLine'>{{ player['strength'] }}</p>
                             (<p id='playerPlusStrength' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
@@ -69,7 +69,7 @@
                             <h5>Dexterity</h5>
                         </td>
                         <td>
-                            <p id='playerDexterity' class='sameLine'>{{ user['dexterity'] }}</p>
+                            <p id='playerDexterity' class='sameLine'>{{ player['dexterity'] }}</p>
                             (<p id='playerPlusDexterity' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
@@ -78,7 +78,7 @@
                             <h5>Intelligence</h5>
                         </td>
                         <td>
-                            <p id='playerIntelligence' class='sameLine'>{{ user['intelligence'] }}</p>
+                            <p id='playerIntelligence' class='sameLine'>{{ player['intelligence'] }}</p>
                             (<p id='playerPlusIntelligence' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
@@ -87,7 +87,7 @@
                             <h5>Constitution</h5>
                         </td>
                         <td>
-                            <p id='playerConstitution' class='sameLine'>{{ user['constitution'] }}</p>
+                            <p id='playerConstitution' class='sameLine'>{{ player['constitution'] }}</p>
                             (<p id='playerPlusConstitution' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
@@ -96,7 +96,7 @@
                             <h5>Luck</h5>
                         </td>
                         <td>
-                            <p id='playerLuck' class='sameLine'>{{ user['luck'] }}</p>
+                            <p id='playerLuck' class='sameLine'>{{ player['luck'] }}</p>
                             (<p id='playerPlusLuck' class='sameLine textGreen'>0</p>)
                         </td>
                     </tr>
@@ -128,6 +128,28 @@
 
             <div class='inventory'>
                 <div>
+
+                {% for i in range(0,28) %}
+                
+                    {% if i < player['inventory_space'] %}
+                    
+                    <!-- TODO - if inventory slot is empty
+                        <img src='/static/slots/slot_empty.png'>
+                        
+                        ELSE
+                    -->
+                    <img class='itemBorderCommon' src='/static/weapons/dagger1.png'>
+
+                    {% else %}
+                        <img class='imgLocked' src='/static/slots/slot_locked.png'>
+                    {% endif %}
+
+                {% endfor %}
+
+                </div>
+
+                <!--
+                <div>
                     <img class='itemBorderCommon' src='/static/weapons/dagger1.png'>
                     <img class='itemBorderUncommon' src='/static/weapons/dagger2.png'>
                     <img class='itemBorderRare' src='/static/weapons/maul1.png'>
@@ -136,24 +158,7 @@
                     <img class='itemBorderMythic' src='/static/weapons/maul2.png'>
                     <img src='/static/slots/slot_empty.png'>
                 </div>
-                <div>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                </div>
-                <div>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                    <img class='imgLocked' src='/static/slots/slot_locked.png'>
-                </div>
+                -->
             </div>
 
         </div>

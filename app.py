@@ -175,11 +175,11 @@ def dashboard():
     
     cursor.callproc('usp_get_dashboard_details', args)
 
-    user = cursor.fetchone()
+    player = cursor.fetchone()
 
     cursor.close()
 
-    return render_template('dashboard.html', user=user, itemRarities=itemRarities)
+    return render_template('dashboard.html', player=player, itemRarities=itemRarities)
 
 
 @app.route('/arena')

@@ -51,3 +51,447 @@ CREATE TABLE players
 
 INSERT INTO players (username,display_name,password) VALUES ('lertos','Lertos','lertos');
 #SELECT * FROM players;
+
+
+/*==============================
+	classes
+==============================*/
+
+DROP TABLE IF EXISTS classes;
+
+CREATE TABLE classes
+(
+    class_name VARCHAR(20) NOT NULL UNIQUE,
+    stat VARCHAR(20) NOT NULL,
+    weapons TINYINT NOT NULL,
+    uses_two_handed TINYINT NOT NULL,
+    uses_shield TINYINT NOT NULL,
+    max_armor_reduction DECIMAL(4,3) NOT NULL,
+    health_modifier DECIMAL(4,3) NOT NULL,
+	PRIMARY KEY (class_name)
+);
+
+INSERT INTO classes (class_name,stat,weapons,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Warrior', 'str', 1, 0, 1, 0.6, 3.5);
+INSERT INTO classes (class_name,stat,weapons,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Berserker', 'str', 1, 0, 0, 0.45, 2.8);
+INSERT INTO classes (class_name,stat,weapons,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Magic Knight', 'str', 1, 0, 0, 0.5, 3.0);
+INSERT INTO classes (class_name,stat,weapons,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Fencer', 'str', 1, 0, 0, 0.4, 2.7);
+INSERT INTO classes (class_name,stat,weapons,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Scout', 'dex', 1, 1, 0, 0.3, 2.3);
+INSERT INTO classes (class_name,stat,weapons,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Rogue', 'dex', 2, 0, 0, 0.2, 1.8);
+INSERT INTO classes (class_name,stat,weapons,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Demon Hunter', 'dex', 1, 1, 0, 0.35, 2.3);
+INSERT INTO classes (class_name,stat,weapons,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Assassin', 'dex', 1, 0, 0, 0.2, 1.8);
+INSERT INTO classes (class_name,stat,weapons,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Frost Mage', 'int', 1, 1, 0, 0.2, 2.0);
+INSERT INTO classes (class_name,stat,weapons,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Fire Mage', 'int', 1, 1, 0, 0.15, 1.7);
+INSERT INTO classes (class_name,stat,weapons,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Blood Mage', 'int', 1, 1, 0, 0.15, 1.8);
+INSERT INTO classes (class_name,stat,weapons,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Dark Mage', 'int', 1, 1, 0, 0.15, 1.9);
+
+#SELECT * FROM classes;
+
+
+/*==============================
+	item_types
+==============================*/
+
+DROP TABLE IF EXISTS item_types;
+
+CREATE TABLE item_types
+(
+	item_type_id SMALLINT NOT NULL AUTO_INCREMENT,
+	is_weapon TINYINT NOT NULL,
+    armor_type TINYINT NOT NULL,
+    item_type_name VARCHAR(20) NOT NULL,
+    is_two_handed TINYINT NOT NULL,
+    strength_multiplier DECIMAL(4,3) NOT NULL,
+    dexterity_multiplier DECIMAL(4,3) NOT NULL,
+    intelligence_multiplier DECIMAL(4,3) NOT NULL,
+    constitution_multiplier DECIMAL(4,3) NOT NULL,
+    luck_multiplier DECIMAL(4,3) NOT NULL,
+    PRIMARY KEY (item_type_id)
+);
+
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 1, 'Helmet', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 2, 'Helmet', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 3, 'Helmet', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 1, 'Chestplate', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 2, 'Chestplate', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 3, 'Chestplate', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 1, 'Legs', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 2, 'Legs', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 3, 'Legs', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 1, 'Gloves', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 2, 'Gloves', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 3, 'Gloves', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 1, 'Boots', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 2, 'Boots', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (0, 3, 'Boots', 0, 1, 1, 1, 1, 1);
+
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Sword', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Axe', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Claws', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Maul', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Hammer', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Spear', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Shield', 0, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Staff', 1, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Bow', 1, 1, 1, 1, 1, 1);
+INSERT INTO item_types (is_weapon,armor_type,item_type_name,stat,is_two_handed,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 0, 'Crossbow', 1, 1, 1, 1, 1, 1);
+
+#SELECT * FROM item_types;
+
+
+/*==============================
+	items
+==============================*/
+
+DROP TABLE IF EXISTS items;
+
+CREATE TABLE items
+(
+	item_id SMALLINT NOT NULL AUTO_INCREMENT,
+    item_type_id SMALLINT NOT NULL,
+    item_name VARCHAR(40) NOT NULL,
+    file_name VARCHAR(40) NOT NULL,
+    PRIMARY KEY (item_id)
+);
+
+#INSERT INTO items (username,display_name,password) VALUES ('lertos','Lertos','lertos');
+#SELECT * FROM items;
+
+
+/*==============================
+	item_rarities
+==============================*/
+
+DROP TABLE IF EXISTS item_rarities;
+
+CREATE TABLE item_rarities
+(
+	rarity_name VARCHAR(20) NOT NULL UNIQUE,
+    drop_chance DECIMAL(4,3) NOT NULL,
+    multiplier DECIMAL(4,3) NOT NULL,
+    css_class_name VARCHAR(30) NOT NULL,
+    PRIMARY KEY (rarity_name)
+);
+
+INSERT INTO item_rarities (rarity_name,drop_chance,multiplier,css_class_name) VALUES ('Common', 0.6, 1.0, 'borderCommon');
+INSERT INTO item_rarities (rarity_name,drop_chance,multiplier,css_class_name) VALUES ('Uncommon', 0.3, 1.05, 'borderUncommon');
+INSERT INTO item_rarities (rarity_name,drop_chance,multiplier,css_class_name) VALUES ('Rare', 0.08, 1.1, 'borderRare');
+INSERT INTO item_rarities (rarity_name,drop_chance,multiplier,css_class_name) VALUES ('Legendary', 0.01, 1.15, 'borderLegendary');
+INSERT INTO item_rarities (rarity_name,drop_chance,multiplier,css_class_name) VALUES ('Mythic', 0.005, 1.2, 'borderMythic');
+INSERT INTO item_rarities (rarity_name,drop_chance,multiplier,css_class_name) VALUES ('Unique', 0.005, 1.15, 'borderUnique');
+
+#SELECT * FROM item_rarities;
+
+
+/*==============================
+	item_prefixes
+==============================*/
+
+DROP TABLE IF EXISTS item_prefixes;
+
+CREATE TABLE item_prefixes
+(
+	item_prefix_id SMALLINT NOT NULL AUTO_INCREMENT,
+    stat VARCHAR(3) NULL,
+    item_type_id SMALLINT NULL,
+    prefix VARCHAR(20) NOT NULL,
+    strength_multiplier DECIMAL(4,3) DEFAULT 1.000,
+    dexterity_multiplier DECIMAL(4,3) DEFAULT 1.000,
+    intelligence_multiplier DECIMAL(4,3) DEFAULT 1.000,
+    constitution_multiplier DECIMAL(4,3) DEFAULT 1.000,
+    luck_multiplier DECIMAL(4,3) DEFAULT 1.000,
+    PRIMARY KEY (item_prefix_id)
+);
+
+INSERT INTO item_prefixes (stat,item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES ('str', 1, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (stat,item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES ('str', 1, 'Old', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (stat,item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES ('str', 1, 'Sharp', 1, 1, 1, 1, 1);
+
+#SELECT * FROM item_prefixes;
+
+
+/*==============================
+	player_inventories
+==============================*/
+
+DROP TABLE IF EXISTS player_inventories;
+
+CREATE TABLE player_inventories
+(
+	player_id SMALLINT NOT NULL,
+    item_id SMALLINT NOT NULL,
+    item_level SMALLINT NOT NULL,
+    rarity_name VARCHAR(20) NOT NULL,
+    item_prefix_id SMALLINT,
+    equipped TINYINT NOT NULL,
+    strength SMALLINT NOT NULL,
+    dexterity SMALLINT NOT NULL,
+    intelligence SMALLINT NOT NULL,
+    constitution SMALLINT NOT NULL,
+    luck SMALLINT NOT NULL,
+	damage SMALLINT NOT NULL,
+    armor SMALLINT NOT NULL,
+    sell_price SMALLINT NOT NULL
+);
+
+#SELECT * FROM player_inventories;
+
+
+/*==============================
+	house_items
+==============================*/
+
+DROP TABLE IF EXISTS house_items;
+
+CREATE TABLE house_items
+(
+	house_item_id SMALLINT NOT NULL UNIQUE AUTO_INCREMENT,
+    item_name VARCHAR(30) NOT NULL,
+    item_level SMALLINT NOT NULL,
+    bonus DECIMAL(6,3) NOT NULL,
+    is_bonus_percentage TINYINT NOT NULL,
+    cost_gold SMALLINT NOT NULL,
+    cost_wood_tier_1 SMALLINT NOT NULL,
+    cost_wood_tier_2 SMALLINT NOT NULL,
+    cost_wood_tier_3 SMALLINT NOT NULL,
+    cost_wood_tier_4 SMALLINT NOT NULL,
+    cost_mine_tier_1 SMALLINT NOT NULL,
+    cost_mine_tier_2 SMALLINT NOT NULL,
+    cost_mine_tier_3 SMALLINT NOT NULL,
+    cost_mine_tier_4 SMALLINT NOT NULL,
+    cost_dig_tier_1 SMALLINT NOT NULL,
+    cost_dig_tier_2 SMALLINT NOT NULL,
+    cost_dig_tier_3 SMALLINT NOT NULL,
+    cost_dig_tier_4 SMALLINT NOT NULL,
+    PRIMARY KEY (house_item_id)
+);
+
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Hatchet', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Pickaxe', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Shovel', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Fortune', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Knowledge', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Chance', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Haste', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Persuasion', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Holding', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+#SELECT * FROM house_items;
+
+
+/*==============================
+	player_houses
+==============================*/
+
+DROP TABLE IF EXISTS player_houses;
+
+CREATE TABLE player_houses
+(
+	player_id SMALLINT NOT NULL UNIQUE,
+    strength SMALLINT NOT NULL DEFAULT 1,
+    dexterity SMALLINT NOT NULL DEFAULT 1,
+    intelligence SMALLINT NOT NULL DEFAULT 1,
+    constitution SMALLINT NOT NULL DEFAULT 1,
+    luck SMALLINT NOT NULL DEFAULT 1,
+    hatchet SMALLINT NOT NULL DEFAULT 1,
+    pickaxe SMALLINT NOT NULL DEFAULT 1,
+    shovel SMALLINT NOT NULL DEFAULT 1,
+    fortune SMALLINT NOT NULL DEFAULT 1,
+    knowledge SMALLINT NOT NULL DEFAULT 1,
+    chance SMALLINT NOT NULL DEFAULT 1,
+    haste SMALLINT NOT NULL DEFAULT 1,
+    persuasion SMALLINT NOT NULL DEFAULT 1,
+    holding SMALLINT NOT NULL DEFAULT 1
+);
+
+#SELECT * FROM player_houses;
+
+
+/*==============================
+	arena_opponents
+==============================*/
+
+DROP TABLE IF EXISTS arena_opponents;
+
+CREATE TABLE arena_opponents
+(
+	player_id SMALLINT NOT NULL UNIQUE,
+    opponent_id_1 SMALLINT,
+    opponent_id_2 SMALLINT,
+    opponent_id_3 SMALLINT,
+    opponent_id_4 SMALLINT
+);
+
+#SELECT * FROM arena_opponents;
+
+
+/*==============================
+	quest_monsters
+==============================*/
+
+DROP TABLE IF EXISTS quest_monsters;
+
+CREATE TABLE quest_monsters
+(
+	quest_monster_id SMALLINT NOT NULL UNIQUE AUTO_INCREMENT,
+    monster_name VARCHAR(30),
+    class_name VARCHAR(20),
+    file_name VARCHAR(20),
+    gold_multiplier DECIMAL(4,3) NOT NULL,
+    xp_multiplier DECIMAL(4,3) NOT NULL,
+    stamina_cost TINYINT,
+    PRIMARY KEY (quest_monster_id)
+);
+
+INSERT INTO quest_monsters (monster_name,class_name,file_name,gold_multiplier,xp_multiplier,stamina_cost) VALUES ('Goblin','Warrior','goblin.png', 1.5, 0.95, 5);
+#SELECT * FROM quest_monsters;
+
+
+/*==============================
+	active_quests
+==============================*/
+
+DROP TABLE IF EXISTS active_quests;
+
+CREATE TABLE active_quests
+(
+	player_id SMALLINT NOT NULL,
+    quest_monster_id SMALLINT NOT NULL,
+    gold SMALLINT NOT NULL,
+    xp SMALLINT NOT NULL,
+    stamina SMALLINT NOT NULL,
+    travel_time SMALLINT NOT NULL,
+    strength SMALLINT NOT NULL,
+    dexterity SMALLINT NOT NULL,
+    intelligence SMALLINT NOT NULL,
+    constitution SMALLINT NOT NULL,
+    luck SMALLINT NOT NULL
+);
+
+#SELECT * FROM active_quests;
+
+
+/*==============================
+	bounty_monsters
+==============================*/
+
+DROP TABLE IF EXISTS bounty_monsters;
+
+CREATE TABLE bounty_monsters
+(
+	bounty_monster_id SMALLINT NOT NULL UNIQUE AUTO_INCREMENT,
+    monster_name VARCHAR(20),
+    monster_suffix VARCHAR(30),
+    region_name VARCHAR(30),
+    class_name VARCHAR(20),
+    file_name VARCHAR(20),
+    PRIMARY KEY (bounty_monster_id)
+);
+
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Delrath','The Devious','The Deserted Desert','Assassin','delrath.png');
+
+#SELECT * FROM bounty_monsters;
+
+
+/*==============================
+	active_bounties
+==============================*/
+
+DROP TABLE IF EXISTS active_bounties;
+
+CREATE TABLE active_bounties
+(
+	player_id SMALLINT NOT NULL,
+    bounty_monster_id SMALLINT NOT NULL,
+    gold SMALLINT NOT NULL,
+    xp SMALLINT NOT NULL,
+    drop_chance DECIMAL(4,3) NOT NULL,
+    travel_time SMALLINT NOT NULL,
+    strength SMALLINT NOT NULL,
+    dexterity SMALLINT NOT NULL,
+    intelligence SMALLINT NOT NULL,
+    constitution SMALLINT NOT NULL,
+    luck SMALLINT NOT NULL
+);
+
+#SELECT * FROM active_bounties;
+
+
+/*==============================
+	dungeon_monsters
+==============================*/
+
+DROP TABLE IF EXISTS dungeon_monsters;
+
+CREATE TABLE dungeon_monsters
+(
+    dungeon_monster_id SMALLINT NOT NULL UNIQUE AUTO_INCREMENT,
+    dungeon_tier TINYINT NOT NULL,
+    dungeon_floor TINYINT NOT NULL,
+    monster_name VARCHAR(30) NOT NULL,
+    class_name VARCHAR(20) NOT NULL,
+    file_name VARCHAR(20) NOT NULL,
+    gold SMALLINT NOT NULL,
+    xp SMALLINT NOT NULL,
+    drop_chance DECIMAL(4,3) NOT NULL,
+    item_drop_level SMALLINT NOT NULL,
+    strength SMALLINT NOT NULL,
+    dexterity SMALLINT NOT NULL,
+    intelligence SMALLINT NOT NULL,
+    constitution SMALLINT NOT NULL,
+    luck SMALLINT NOT NULL,
+    PRIMARY KEY (dungeon_monster_id)
+);
+
+INSERT INTO dungeon_monsters (dungeon_tier,dungeon_floor,monster_name,class_name,file_name,gold,xp,drop_chance,item_drop_level,strength,dexterity,intelligence,constitution,luck) VALUES (1, 1, 'Blaze', 'Fire Mage', 'blaze.png',20, 300, 0.45, 5, 10, 15, 30, 20, 10);
+
+#SELECT * FROM dungeon_monsters;
+
+
+/*==============================
+	player_dungeons
+==============================*/
+
+DROP TABLE IF EXISTS player_dungeons;
+
+CREATE TABLE player_dungeons
+(
+    player_id SMALLINT NOT NULL UNIQUE,
+    dungeon_tier_1_floor TINYINT DEFAULT 1,
+    dungeon_tier_2_floor TINYINT DEFAULT 1,
+    dungeon_tier_3_floor TINYINT DEFAULT 1,
+    dungeon_tier_4_floor TINYINT DEFAULT 1
+);
+
+#SELECT * FROM player_dungeons;
+
+
+/*==============================
+	unlocked_gather_nodes
+==============================*/
+
+DROP TABLE IF EXISTS unlocked_gather_nodes;
+
+CREATE TABLE unlocked_gather_nodes
+(
+    player_id SMALLINT NOT NULL UNIQUE,
+    wood_tier_2 TINYINT DEFAULT 0,
+    wood_tier_3 TINYINT DEFAULT 0,
+    wood_tier_4 TINYINT DEFAULT 0,
+    mine_tier_2 TINYINT DEFAULT 0,
+    mine_tier_3 TINYINT DEFAULT 0,
+    mine_tier_4 TINYINT DEFAULT 0,
+    dig_tier_2 TINYINT DEFAULT 0,
+    dig_tier_3 TINYINT DEFAULT 0,
+    dig_tier_4 TINYINT DEFAULT 0
+);
+
+#SELECT * FROM unlocked_gather_nodes;
+
+
+
+
+
+
+
+
+
