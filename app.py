@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request, url_for, session
 from flask_mysqldb import MySQL
+from modules import db_manager
 
 app = Flask(__name__)
 
@@ -21,6 +22,10 @@ mysql = MySQL(app)
 
 #===============================
 
+questMonsters = db_manager.getClasses()
+#print(questMonsters)
+
+
 #[dropChance, statMultiplier, borderClass]
 itemRarities = [
     ['common', 0.6, 1.0, 'borderCommon'],
@@ -30,6 +35,14 @@ itemRarities = [
     ['mythic', 0.005, 1.2, 'borderMythic'],
     ['unique', 0.005, 1.15, 'borderUnique']
 ]
+
+#===============================
+
+#Setup
+
+#===============================
+
+
 
 #===============================
 
@@ -235,4 +248,3 @@ def simulator():
 
 if __name__ == "__main__":
     app.run(debug=True, host="localhost", port=80)
-

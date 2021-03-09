@@ -78,6 +78,10 @@ img{
     background-color: var(--imageBackground);
 }
 
+img:hover{
+    border: white var(--borderWidth) solid;
+}
+
 ul{
     list-style-type: none;
     width: auto;
@@ -559,11 +563,19 @@ ul.nav li.active a {
     padding: 0px;
 }
 
+.resizeImg128:hover{
+    border: white var(--borderWidth) solid;
+}
+
 .iconImg{
     display: inline;
     background-color: rgba(0, 0, 0, 0);
     max-width: 32px;
     height: auto;
+    border: none;
+}
+
+.iconImg:hover{
     border: none;
 }
 

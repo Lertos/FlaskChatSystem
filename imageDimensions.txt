@@ -1,1 +1,19 @@
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (1).PNG 256 256
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (2).PNG 256 256
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (3).PNG 256 256
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (4).PNG 256 256
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (5).PNG 256 256
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (6).PNG 256 256
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (7).PNG 256 256
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (8).PNG 256 256
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (9).PNG 256 256
 
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (1).PNG
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (2).PNG
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (3).PNG
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (4).PNG
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (5).PNG
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (6).PNG
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (7).PNG
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (8).PNG
+C:\Users\Dylan\Desktop\Projects\FlaskSimpleRPG\static\icons\medium2_png (9).PNG
