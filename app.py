@@ -1,15 +1,14 @@
 from flask import Flask, render_template, redirect, request, url_for, session
 from flask_mysqldb import MySQL
-from modules import db_manager
+from modules import db_manager, helper
 
 app = Flask(__name__)
-
 app.secret_key = b'\xe4$Y2\xd5\xbb_\xab#\xfd*\x1e\xe2v\xa8J'
 
 app.config['JSON_AS_ASCII'] = False
 
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'joker420lolA!'
+app.config['MYSQL_PASSWORD'] = 'flaskrpg123'
 app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_DB'] = 'flasksimplerpg'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor' #Instead of tuples, it uses dictionary
@@ -22,19 +21,8 @@ mysql = MySQL(app)
 
 #===============================
 
-questMonsters = db_manager.getClasses()
-#print(questMonsters)
 
 
-#[dropChance, statMultiplier, borderClass]
-itemRarities = [
-    ['common', 0.6, 1.0, 'borderCommon'],
-    ['uncommon', 0.30, 1.05, 'borderUncommon'],
-    ['rare', 0.08, 1.1, 'borderRare'],
-    ['legendary', 0.01, 1.15, 'borderLegendary'],
-    ['mythic', 0.005, 1.2, 'borderMythic'],
-    ['unique', 0.005, 1.15, 'borderUnique']
-]
 
 #===============================
 
@@ -42,7 +30,7 @@ itemRarities = [
 
 #===============================
 
-
+helper.debugServerDictionaries()
 
 #===============================
 
@@ -68,22 +56,15 @@ def signin():
         username = request.form['username']
         password = request.form['password']
 
-        cursor = mysql.connection.cursor()
-
-        #Check if the username/password combination exists
-        data = [username, password]
-        stmt = '''SELECT username, display_name, has_character FROM players WHERE username = %s and password = %s;'''
-        cursor.execute(stmt, data)
-        
-        results = cursor.fetchone()
+        result = db_manager.getPlayerLogin(username, password)
         
         #If the statement returned anything (meaning the combo exists) - log them in
-        if(results is not None):
-            session['username'] = results['username']
-            session['display_name'] = results['display_name']
+        if(result != []):
+            session['username'] = result[0]['username']
+            session['display_name'] = result[0]['display_name']
 
             #Check is the character has been created yet
-            if(results['has_character'] == 1):
+            if(result[0]['has_character'] == 1):
                 return redirect(url_for('dashboard'))
             else:
                 return redirect(url_for('characterCreation'))
@@ -192,7 +173,7 @@ def dashboard():
 
     cursor.close()
 
-    return render_template('dashboard.html', player=player, itemRarities=itemRarities)
+    return render_template('dashboard.html', player=player)
 
 
 @app.route('/arena')

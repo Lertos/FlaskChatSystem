@@ -191,7 +191,6 @@ DROP TABLE IF EXISTS item_prefixes;
 CREATE TABLE item_prefixes
 (
 	item_prefix_id SMALLINT NOT NULL AUTO_INCREMENT,
-    stat VARCHAR(3) NULL,
     item_type_id SMALLINT NULL,
     prefix VARCHAR(20) NOT NULL,
     strength_multiplier DECIMAL(4,3) DEFAULT 1.000,
@@ -202,9 +201,32 @@ CREATE TABLE item_prefixes
     PRIMARY KEY (item_prefix_id)
 );
 
-INSERT INTO item_prefixes (stat,item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES ('str', 1, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (stat,item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES ('str', 1, 'Old', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (stat,item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES ('str', 1, 'Sharp', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (2, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (3, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (4, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (5, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (6, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (7, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (8, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (9, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (10, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (11, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (12, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (13, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (14, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (15, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (16, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (17, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (18, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (19, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (20, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (21, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (22, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (23, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (24, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (25, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (26, 'Rusty', 1, 1, 1, 1, 1);
 
 #SELECT * FROM item_prefixes;
 
