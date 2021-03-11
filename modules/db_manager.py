@@ -76,24 +76,42 @@ def getItemRarities():
   return result
 
 
-def getItemPrefixes():
+def getWeaponPrefixes():
   cursor = conn.cursor()
 
-  cursor.execute('''SELECT item_prefix_id, is_weapon, stat, prefix, damage_mult, armor_mult, strength_mult, dexterity_mult, intelligence_mult, constitution_mult, luck_mult FROM item_prefixes;''')
+  cursor.execute('''SELECT item_prefix_id, prefix, damage_mult, strength_mult, dexterity_mult, intelligence_mult, constitution_mult, luck_mult FROM item_prefixes WHERE is_weapon = 1;''')
   result = {}
 
   for row in cursor:
     result[row[0]] = {}
-    result[row[0]]['is_weapon'] = row[1]
-    result[row[0]]['stat'] = row[2]
-    result[row[0]]['prefix'] = row[3]
-    result[row[0]]['damage_mult'] = row[4]
-    result[row[0]]['armor_mult'] = row[5]
-    result[row[0]]['strength_mult'] = row[6]
-    result[row[0]]['dexterity_mult'] = row[7]
-    result[row[0]]['intelligence_mult'] = row[8]
-    result[row[0]]['constitution_mult'] = row[9]
-    result[row[0]]['luck_mult'] = row[10]
+    result[row[0]]['prefix'] = row[1]
+    result[row[0]]['damage_mult'] = row[2]
+    result[row[0]]['strength_mult'] = row[3]
+    result[row[0]]['dexterity_mult'] = row[4]
+    result[row[0]]['intelligence_mult'] = row[5]
+    result[row[0]]['constitution_mult'] = row[6]
+    result[row[0]]['luck_mult'] = row[7]
+
+  cursor.close()
+
+  return result
+
+
+def getArmorPrefixes():
+  cursor = conn.cursor()
+
+  cursor.execute('''SELECT item_prefix_id, prefix, armor_mult, strength_mult, dexterity_mult, intelligence_mult, constitution_mult, luck_mult FROM item_prefixes WHERE is_weapon = 0;''')
+  result = {}
+
+  for row in cursor:
+    result[row[0]] = {}
+    result[row[0]]['prefix'] = row[1]
+    result[row[0]]['armor_mult'] = row[2]
+    result[row[0]]['strength_mult'] = row[3]
+    result[row[0]]['dexterity_mult'] = row[4]
+    result[row[0]]['intelligence_mult'] = row[5]
+    result[row[0]]['constitution_mult'] = row[6]
+    result[row[0]]['luck_mult'] = row[7]
 
   cursor.close()
 
@@ -144,16 +162,56 @@ def getBountyMonsters():
 
 
 def getPlayerLogin(username, password):
-
   cursor = conn.cursor(dictionary=True)
 
   data = [username, password]
-  stmt = '''SELECT username, display_name, has_character FROM players WHERE username = %s and password = %s;'''
+  stmt = '''SELECT player_id, username, display_name, has_character FROM players WHERE username = %s and password = %s;'''
   cursor.execute(stmt, data)
   
-  result = cursor.fetchall()
-  print(result)
+  result = {}
+
+  for row in cursor.fetchall():
+    result = row
 
   cursor.close()
 
   return result
+
+
+def createPlayerAccount(username, displayName, password):
+  cursor = conn.cursor(dictionary=True)
+
+  args = [username, displayName, password]
+  cursor.callproc('usp_create_user_account', args)
+
+  result = {}
+
+  for row in cursor.stored_results():
+    users = row.fetchall()
+
+  for user in users:
+    result = user
+
+  cursor.close()
+
+  return result
+
+
+def createNewCharacter(data):
+  cursor = conn.cursor()
+
+  stmt = '''UPDATE players SET class_name = %s, file_name = %s, has_character = 1 WHERE player_id = %s;'''
+  cursor.execute(stmt, data)
+  
+  conn.commit()
+  cursor.close()
+
+
+def createNewItem(playerId, level, itemTypeId, itemPrefixId, itemRarity, itemStats, itemDamage, itemArmor, itemWorth):  
+  cursor = conn.cursor(dictionary=True)
+
+  args = [playerId, level, itemTypeId, itemPrefixId, itemRarity, itemStats[0], itemStats[1], itemStats[2], itemStats[3], itemStats[4], itemDamage, itemArmor, itemWorth]
+  cursor.callproc('usp_create_new_item', args)
+
+  conn.commit()
+  cursor.close()

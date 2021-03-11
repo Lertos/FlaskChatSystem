@@ -22,8 +22,6 @@ mysql = MySQL(app)
 #===============================
 
 
-
-
 #===============================
 
 #Setup
@@ -32,12 +30,12 @@ mysql = MySQL(app)
 
 helper.debugServerDictionaries()
 
+
 #===============================
 
 #Routes
 
 #===============================
-
 
 @app.route("/")
 def index():
@@ -59,12 +57,13 @@ def signin():
         result = db_manager.getPlayerLogin(username, password)
         
         #If the statement returned anything (meaning the combo exists) - log them in
-        if(result != []):
-            session['username'] = result[0]['username']
-            session['display_name'] = result[0]['display_name']
+        if(result != {}):
+            session['playerId'] = result['player_id']
+            session['username'] = result['username']
+            session['displayName'] = result['display_name']
 
             #Check is the character has been created yet
-            if(result[0]['has_character'] == 1):
+            if(result['has_character'] == 1):
                 return redirect(url_for('dashboard'))
             else:
                 return redirect(url_for('characterCreation'))
@@ -108,17 +107,14 @@ def signup():
             return render_template('signup.html', errorMessage=errorMessage)
 
         #Make the call to create the account to the database and check if the username and/or display name already exist
-        args = [username, displayName, password]
-        cursor = mysql.connection.cursor()
-        
-        cursor.callproc('usp_create_user_account', args)
-
-        user = cursor.fetchone()
+        user = db_manager.createPlayerAccount(username, displayName, password)
 
         #Account was successfully created
         if(user['username'] != '' and user['display_name'] != ''):
+            session['playerId'] = user['player_id']
             session['username'] = user['username']
             session['displayName'] = user['display_name']
+
         #Either the username or the displayname is already taken
         else:
             if(user['username'] == ''):
@@ -127,9 +123,6 @@ def signup():
                 errorMessage = 'That display name is already taken'
 
             return render_template('signup.html', errorMessage=errorMessage)
-
-
-        cursor.close()
 
         #Take them to the character creation screen
         return redirect(url_for('characterCreation'))
@@ -141,20 +134,8 @@ def signup():
 @app.route('/characterCreation', methods=['GET', 'POST'])
 def characterCreation():
     if request.method == 'POST':
-
-        username = session['username']
-        className = request.form['className']
-        avatarName = request.form['avatarName']
-
-        cursor = mysql.connection.cursor()
-        
-        data = [className, avatarName, username]
-        stmt = '''UPDATE players SET class_name = %s, file_name = %s, has_character = 1 WHERE username = %s;'''
-        cursor.execute(stmt, data)
-
-        mysql.connection.commit()
-
-        cursor.close()
+        data = [request.form['className'], request.form['avatarName'], session['playerId']]
+        db_manager.createNewCharacter(data)
         
         return redirect(url_for('dashboard'))
 

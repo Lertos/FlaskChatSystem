@@ -231,28 +231,6 @@
 {% block script %}
 <script>
 
-    /*
-    var itemRarities = JSON.parse('{{itemRarities | tojson}}');
-    var lvl = 1
-
-    var double = 0.0
-
-    for(var i=0; i<100; i++){
-        var dropChance = itemRarities[0][1]
-        double = Math.random().toFixed(3)
-
-        for (var x=1; x<itemRarities.length; x++) {  
-            if(double < dropChance){
-                console.log(itemRarities[x][0])
-                break
-            }
-            else{
-                dropChance += itemRarities[x][1]
-            }
-        }
-    }
-    */
-
     function increaseAttribute(id) {
         var attributeLevel = document.getElementById(id).innerText
         var gold = document.getElementById('playerGold').innerText
