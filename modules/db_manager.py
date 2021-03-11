@@ -40,20 +40,19 @@ def getClasses():
 
 def getItemTypes():
   cursor = conn.cursor()
-  cursor.execute('''SELECT item_type_id, is_weapon, armor_type, item_type_name, is_two_handed, stat, damage_multiplier, armor_per_level, stats_per_level FROM item_types;''')
+  cursor.execute('''SELECT item_type_id, is_weapon, item_type_name, is_two_handed, stat, damage_multiplier, armor_per_level, stats_per_level FROM item_types;''')
   
   result = {}
 
   for row in cursor:
     result[row[0]] = {}
     result[row[0]]['is_weapon'] = row[1]
-    result[row[0]]['armor_type'] = row[2]
-    result[row[0]]['item_type_name'] = row[3]
-    result[row[0]]['is_two_handed'] = row[4]
-    result[row[0]]['stat'] = row[5]
-    result[row[0]]['damage_multiplier'] = row[6]
-    result[row[0]]['armor_per_level'] = row[7]
-    result[row[0]]['stats_per_level'] = row[8]
+    result[row[0]]['item_type_name'] = row[2]
+    result[row[0]]['is_two_handed'] = row[3]
+    result[row[0]]['stat'] = row[4]
+    result[row[0]]['damage_multiplier'] = row[5]
+    result[row[0]]['armor_per_level'] = row[6]
+    result[row[0]]['stats_per_level'] = row[7]
 
   cursor.close()
 
@@ -80,18 +79,21 @@ def getItemRarities():
 def getItemPrefixes():
   cursor = conn.cursor()
 
-  cursor.execute('''SELECT item_prefix_id, item_type_id, prefix, strength_multiplier, dexterity_multiplier, intelligence_multiplier, constitution_multiplier, luck_multiplier FROM item_prefixes;''')
+  cursor.execute('''SELECT item_prefix_id, is_weapon, stat, prefix, damage_mult, armor_mult, strength_mult, dexterity_mult, intelligence_mult, constitution_mult, luck_mult FROM item_prefixes;''')
   result = {}
 
   for row in cursor:
     result[row[0]] = {}
-    result[row[0]]['item_type_id'] = row[1]
-    result[row[0]]['prefix'] = row[2]
-    result[row[0]]['strength_multiplier'] = row[3]
-    result[row[0]]['dexterity_multiplier'] = row[4]
-    result[row[0]]['intelligence_multiplier'] = row[5]
-    result[row[0]]['constitution_multiplier'] = row[6]
-    result[row[0]]['luck_multiplier'] = row[7]
+    result[row[0]]['is_weapon'] = row[1]
+    result[row[0]]['stat'] = row[2]
+    result[row[0]]['prefix'] = row[3]
+    result[row[0]]['damage_mult'] = row[4]
+    result[row[0]]['armor_mult'] = row[5]
+    result[row[0]]['strength_mult'] = row[6]
+    result[row[0]]['dexterity_mult'] = row[7]
+    result[row[0]]['intelligence_mult'] = row[8]
+    result[row[0]]['constitution_mult'] = row[9]
+    result[row[0]]['luck_mult'] = row[10]
 
   cursor.close()
 

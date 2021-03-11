@@ -97,7 +97,6 @@ CREATE TABLE item_types
 (
 	item_type_id SMALLINT NOT NULL AUTO_INCREMENT,
 	is_weapon TINYINT NOT NULL,
-    armor_type TINYINT NOT NULL,
     item_type_name VARCHAR(20) NOT NULL,
     is_two_handed TINYINT NOT NULL,
     stat VARCHAR(3) NOT NULL,
@@ -107,33 +106,33 @@ CREATE TABLE item_types
     PRIMARY KEY (item_type_id)
 );
 
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 1, 'Helmet', 0, 'int', 1, 1, 8);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 2, 'Helmet', 0, 'dex', 1, 3, 7);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 3, 'Helmet', 0, 'str', 1, 6, 6);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 1, 'Chestplate', 0, 'int', 1, 2, 12);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 2, 'Chestplate', 0, 'dex', 1, 5, 11);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 3, 'Chestplate', 0, 'str', 1, 8, 10);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 1, 'Legs', 0, 'int', 1, 2, 10);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 2, 'Legs', 0, 'dex', 1, 4, 9);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 3, 'Legs', 0, 'str', 1, 7, 8);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 1, 'Gloves', 0, 'int', 1, 1, 5);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 2, 'Gloves', 0, 'dex', 1, 2, 4);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 3, 'Gloves', 0, 'str', 1, 3, 3);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 1, 'Boots', 0, 'int', 1, 1, 5);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 2, 'Boots', 0, 'dex', 1, 2, 5);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 3, 'Boots', 0, 'str', 1, 3, 5);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Helmet', 0, 'int', 1, 1, 8);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Helmet', 0, 'dex', 1, 3, 7);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Helmet', 0, 'str', 1, 6, 6);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Chestplate', 0, 'int', 1, 2, 12);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Chestplate', 0, 'dex', 1, 5, 11);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Chestplate', 0, 'str', 1, 8, 10);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Legs', 0, 'int', 1, 2, 10);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Legs', 0, 'dex', 1, 4, 9);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Legs', 0, 'str', 1, 7, 8);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Gloves', 0, 'int', 1, 1, 5);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Gloves', 0, 'dex', 1, 2, 4);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Gloves', 0, 'str', 1, 3, 3);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Boots', 0, 'int', 1, 1, 5);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Boots', 0, 'dex', 1, 2, 5);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Boots', 0, 'str', 1, 3, 5);
 
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Sword', 0, 'str', 1, 1, 7);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Axe', 0, 'str', 1, 1, 7);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Claws', 0, 'dex', 1.2, 1, 7);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Maul', 0, 'str', 1, 1, 7);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Hammer', 0, 'str', 1, 1, 7);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Spear', 0, 'dex', 1.2, 1, 7);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Shield', 0, 'str', 1, 1, 7);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Staff', 1, 'int', 1.5, 1, 14);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Book', 1, 'int', 1.5, 1, 14);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Bow', 1, 'dex', 1.2, 1, 14);
-INSERT INTO item_types (is_weapon,armor_type,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 0, 'Crossbow', 1, 'dex', 1.2, 1, 14);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Sword', 0, 'str', 1, 1, 7);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Axe', 0, 'str', 1, 1, 7);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Claws', 0, 'dex', 1.2, 1, 7);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Maul', 0, 'str', 1, 1, 7);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Hammer', 0, 'str', 1, 1, 7);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Spear', 0, 'dex', 1.2, 1, 7);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Shield', 0, 'str', 1, 1, 7);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Staff', 1, 'int', 1.5, 1, 14);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Book', 1, 'int', 1.5, 1, 14);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Bow', 1, 'dex', 1.2, 1, 14);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Crossbow', 1, 'dex', 1.2, 1, 14);
 
 #SELECT * FROM item_types;
 
@@ -191,42 +190,25 @@ DROP TABLE IF EXISTS item_prefixes;
 CREATE TABLE item_prefixes
 (
 	item_prefix_id SMALLINT NOT NULL AUTO_INCREMENT,
-    item_type_id SMALLINT NULL,
+    is_weapon TINYINT NULL,
+    stat VARCHAR(3) NOT NULL,
     prefix VARCHAR(20) NOT NULL,
-    strength_multiplier DECIMAL(4,3) DEFAULT 1.000,
-    dexterity_multiplier DECIMAL(4,3) DEFAULT 1.000,
-    intelligence_multiplier DECIMAL(4,3) DEFAULT 1.000,
-    constitution_multiplier DECIMAL(4,3) DEFAULT 1.000,
-    luck_multiplier DECIMAL(4,3) DEFAULT 1.000,
+    damage_mult DECIMAL(4,3),
+    armor_mult DECIMAL(4,3),
+    strength_mult DECIMAL(4,3),
+    dexterity_mult DECIMAL(4,3),
+    intelligence_mult DECIMAL(4,3),
+    constitution_mult DECIMAL(4,3),
+    luck_mult DECIMAL(4,3),
     PRIMARY KEY (item_prefix_id)
 );
 
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (1, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (2, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (3, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (4, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (5, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (6, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (7, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (8, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (9, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (10, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (11, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (12, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (13, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (14, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (15, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (16, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (17, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (18, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (19, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (20, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (21, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (22, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (23, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (24, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (25, 'Rusty', 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (item_type_id,prefix,strength_multiplier,dexterity_multiplier,intelligence_multiplier,constitution_multiplier,luck_multiplier) VALUES (26, 'Rusty', 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (is_weapon,stat,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'int', 'Torn', 1, 1, 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (is_weapon,stat,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'dex', 'Ripped', 1, 1, 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (is_weapon,stat,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'str', 'Scratched', 1, 1, 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (is_weapon,stat,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'int', 'Broken', 1, 1, 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (is_weapon,stat,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'dex', 'Cracked', 1, 1, 1, 1, 1, 1, 1);
+INSERT INTO item_prefixes (is_weapon,stat,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'str', 'Rusty', 1, 1, 1, 1, 1, 1, 1);
 
 #SELECT * FROM item_prefixes;
 
@@ -272,30 +254,30 @@ CREATE TABLE house_items
     bonus DECIMAL(6,3) NOT NULL,
     is_bonus_percentage TINYINT NOT NULL,
     cost_gold SMALLINT NOT NULL,
-    cost_wood_tier_1 SMALLINT NOT NULL,
-    cost_wood_tier_2 SMALLINT NOT NULL,
-    cost_wood_tier_3 SMALLINT NOT NULL,
-    cost_wood_tier_4 SMALLINT NOT NULL,
-    cost_mine_tier_1 SMALLINT NOT NULL,
-    cost_mine_tier_2 SMALLINT NOT NULL,
-    cost_mine_tier_3 SMALLINT NOT NULL,
-    cost_mine_tier_4 SMALLINT NOT NULL,
-    cost_dig_tier_1 SMALLINT NOT NULL,
-    cost_dig_tier_2 SMALLINT NOT NULL,
-    cost_dig_tier_3 SMALLINT NOT NULL,
-    cost_dig_tier_4 SMALLINT NOT NULL,
+    cost_wood_1 SMALLINT NOT NULL,
+    cost_wood_2 SMALLINT NOT NULL,
+    cost_wood_3 SMALLINT NOT NULL,
+    cost_wood_4 SMALLINT NOT NULL,
+    cost_mine_1 SMALLINT NOT NULL,
+    cost_mine_2 SMALLINT NOT NULL,
+    cost_mine_3 SMALLINT NOT NULL,
+    cost_mine_4 SMALLINT NOT NULL,
+    cost_dig_1 SMALLINT NOT NULL,
+    cost_dig_2 SMALLINT NOT NULL,
+    cost_dig_3 SMALLINT NOT NULL,
+    cost_dig_4 SMALLINT NOT NULL,
     PRIMARY KEY (house_item_id)
 );
 
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Hatchet', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Pickaxe', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Shovel', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Fortune', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Knowledge', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Chance', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Haste', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Persuasion', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_tier_1,cost_wood_tier_2,cost_wood_tier_3,cost_wood_tier_4,cost_mine_tier_1,cost_mine_tier_2,cost_mine_tier_3,cost_mine_tier_4,cost_dig_tier_1,cost_dig_tier_2,cost_dig_tier_3,cost_dig_tier_4) VALUES ('Holding', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Hatchet', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Pickaxe', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Shovel', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Fortune', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Knowledge', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Chance', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Haste', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Persuasion', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Holding', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 #SELECT * FROM house_items;
 

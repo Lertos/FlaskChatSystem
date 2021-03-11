@@ -2,23 +2,23 @@ import random, math
 from modules import db_manager
 
 
-globalClasses = db_manager.getClasses()
-globalItemTypes = db_manager.getItemTypes()
-globalItemRarities = db_manager.getItemRarities()
-globalItemPrefixes = db_manager.getItemPrefixes()
-globalQuestMonsters = db_manager.getQuestMonsters()
-globalBountyMonsters = db_manager.getBountyMonsters()
+classes = db_manager.getClasses()
+itemTypes = db_manager.getItemTypes()
+itemRarities = db_manager.getItemRarities()
+itemPrefixes = db_manager.getItemPrefixes()
+questMonsters = db_manager.getQuestMonsters()
+bountyMonsters = db_manager.getBountyMonsters()
 
 
 
 def debugServerDictionaries():
     '''
-    debugSetupDictionary('Classes', globalClasses)
-    debugSetupDictionary('Item Types', globalItemTypes)
-    debugSetupDictionary('Item Rarities', globalItemRarities)
-    debugSetupDictionary('Item Prefixes', globalItemPrefixes)
-    debugSetupDictionary('Quest Monsters', globalQuestMonsters)
-    debugSetupDictionary('Bounty Monsters', globalBountyMonsters)
+    debugSetupDictionary('Classes', classes)
+    debugSetupDictionary('Item Types', itemTypes)
+    debugSetupDictionary('Item Rarities', itemRarities)
+    debugSetupDictionary('Item Prefixes', itemPrefixes)
+    debugSetupDictionary('Quest Monsters', questMonsters)
+    debugSetupDictionary('Bounty Monsters', bountyMonsters)
     '''
     createItem(1)
     createItem(10)
@@ -39,23 +39,34 @@ def debugSetupDictionary(header, givenDict):
 
 
 def createItem(level):
-    itemTypeId = random.choice(list(globalItemTypes.keys()))
-    #print(str(itemTypeId))
+    itemTypeId = random.choice(list(itemTypes.keys()))
+    print('\n=TYPE ' + str(itemTypeId) + ' ' + str(itemTypes[itemTypeId]['stat']) + ' ' + str(itemTypes[itemTypeId]['is_weapon']))
+
     itemPrefixId = getItemPrefix(itemTypeId)
-    #print(str(itemTypeId) + " " + str(itemPrefixId))
+    print('=PREFIX ' + str(itemPrefixId) + ' ' + str(itemPrefixes[itemPrefixId]['stat']) + ' ' + str(itemPrefixes[itemPrefixId]['is_weapon']))
+
     itemRarity = getItemRarity()
+
     itemStats = getItemStats(level, itemTypeId, itemPrefixId, itemRarity)
-    print(itemRarity + ' ' + str(level) + ' ' + str(itemStats))
+    print('=STATS ' + itemRarity + ' ' + str(level) + ' ' + str(itemStats))
     itemStats = trimItemStats(itemStats, itemRarity)
-    print(itemRarity + ' ' + str(level) + ' ' + str(itemStats))
+    print('=STATS-TRIMMED ' + itemRarity + ' ' + str(level) + ' ' + str(itemStats))
+
+    #damage
+
+    #armor
+
+    #sell worth
 
 
 def getItemPrefix(itemTypeId):
     trimmedDict = {}
+    stat = itemTypes[itemTypeId]['stat']
+    isWeapon = itemTypes[itemTypeId]['is_weapon']
 
-    for prefix in globalItemPrefixes:
-        if globalItemPrefixes[prefix]['item_type_id'] == itemTypeId:
-            trimmedDict[prefix] = globalItemPrefixes[prefix]
+    for prefix in itemPrefixes:
+        if itemPrefixes[prefix]['stat'] == stat and itemPrefixes[prefix]['is_weapon'] == isWeapon:
+            trimmedDict[prefix] = itemPrefixes[prefix]
 
     return random.choice(list(trimmedDict.keys()))
 
@@ -64,8 +75,8 @@ def getItemRarity():
     roll = random.random()
     dropChance = 0.0
 
-    for rarity in globalItemRarities:
-        dropChance += float(globalItemRarities[rarity]['drop_chance'])
+    for rarity in itemRarities:
+        dropChance += float(itemRarities[rarity]['drop_chance'])
 
         if roll < dropChance:
             return rarity
@@ -73,13 +84,13 @@ def getItemRarity():
 
 def getItemStats(level, itemTypeId, itemPrefixId, itemRarity):
     stats = [0,0,0,0,0]
-    statMultipliers = ['strength_multiplier','dexterity_multiplier','intelligence_multiplier','constitution_multiplier','luck_multiplier']
+    statMultipliers = ['strength_mult','dexterity_mult','intelligence_mult','constitution_mult','luck_mult']
     
-    statsPerLevel = globalItemTypes[itemTypeId]['stats_per_level']
-    rarityMultiplier = globalItemRarities[itemRarity]['multiplier']
+    statsPerLevel = itemTypes[itemTypeId]['stats_per_level']
+    rarityMultiplier = itemRarities[itemRarity]['multiplier']
 
     for x in range(0,5):
-        stats[x] = float(level * statsPerLevel * rarityMultiplier * globalItemPrefixes[itemPrefixId][statMultipliers[x]])
+        stats[x] = float(level * statsPerLevel * rarityMultiplier * itemPrefixes[itemPrefixId][statMultipliers[x]])
         #Apply a little randomization
         stats[x] *= float(random.uniform(0.9,1.1))
         stats[x] = math.floor(stats[x])
@@ -90,7 +101,7 @@ def getItemStats(level, itemTypeId, itemPrefixId, itemRarity):
 #Deals with the removal of stats based on the rarity drop chance
 def trimItemStats(itemStats, itemRarity):
     backupStats = itemStats.copy()
-    removalChance = float(globalItemRarities[itemRarity]['drop_chance'])+ 0.05
+    removalChance = float(itemRarities[itemRarity]['drop_chance'])+ 0.05
     count = 0
 
     for x in range(0,len(itemStats)):
