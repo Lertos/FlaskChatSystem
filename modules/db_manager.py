@@ -207,6 +207,39 @@ def createNewCharacter(data):
   cursor.close()
 
 
+def getDashboardDetails(playerId):
+  cursor = conn.cursor(dictionary=True)
+
+  cursor.callproc('usp_get_dashboard_details', [playerId])
+
+  result = {}
+
+  for row in cursor.stored_results():
+    users = row.fetchall()
+
+  for user in users:
+    result = user
+
+  cursor.close()
+
+  return result
+
+
+def getPlayerInventory(playerId):
+  cursor = conn.cursor(dictionary=True)
+
+  cursor.callproc('usp_get_player_inventory_items', [playerId])
+
+  result = []
+
+  for row in cursor.stored_results():
+    result = row.fetchall()
+
+  cursor.close()
+
+  return result
+
+
 def createNewItem(playerId, level, itemTypeId, itemPrefixId, itemRarity, itemStats, itemDamage, itemArmor, itemWorth):  
   cursor = conn.cursor(dictionary=True)
 

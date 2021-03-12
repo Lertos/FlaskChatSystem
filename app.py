@@ -145,16 +145,12 @@ def characterCreation():
 @app.route('/dashboard')
 def dashboard():
 
-    args = [session['username']]
-    cursor = mysql.connection.cursor()
-    
-    cursor.callproc('usp_get_dashboard_details', args)
+    playerId = session['playerId']
 
-    player = cursor.fetchone()
+    player = db_manager.getDashboardDetails(playerId)
+    items = db_manager.getPlayerInventory(playerId)
 
-    cursor.close()
-
-    return render_template('dashboard.html', player=player)
+    return render_template('dashboard.html', player=player, items=items)
 
 
 @app.route('/arena')

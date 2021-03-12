@@ -47,17 +47,17 @@ DROP PROCEDURE IF EXISTS usp_get_dashboard_details;
 DELIMITER //
 CREATE PROCEDURE usp_get_dashboard_details
 (
-	IN p_username VARCHAR(30)
+	IN p_player_id SMALLINT
 )
 BEGIN
 	SELECT display_name, class_name, file_name, player_level, exp_until_level, strength, dexterity, intelligence,
 		constitution, luck, gold, stamina, honor, inventory_space
 	FROM players
-	WHERE username = p_username;
+	WHERE player_id = p_player_id;
 END //
 DELIMITER ;
 
-#CALL usp_get_dashboard_details('lertos');
+#CALL usp_get_dashboard_details(1);
 
 
 /*==============================
@@ -73,11 +73,12 @@ CREATE PROCEDURE usp_get_player_inventory_items
 )
 BEGIN
     
-    SELECT a.inventory_item_id, a.item_level, (d.prefix + ' ' + b.item_name) AS item_name, b.file_name, c.item_type_name, c.is_weapon, c.is_two_handed, c.stat, a.equipped, a.rarity_name, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, a.damage, a.armor, a.sell_price
+    SELECT a.inventory_item_id, a.item_level, CONCAT(d.prefix, ' ', b.item_name) AS item_name, b.file_name, c.item_type_name, c.is_weapon, c.is_two_handed, c.stat, a.equipped, a.rarity_name, e.css_class_name, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, a.damage, a.armor, a.sell_price
 	FROM player_inventories a
     JOIN items b ON a.item_id = b.item_id
     JOIN item_types c on b.item_type_id = c.item_type_id
     JOIN item_prefixes d on a.item_prefix_id = d.item_prefix_id
+    JOIN item_rarities e on a.rarity_name = e.rarity_name
     WHERE a.player_id = p_player_id;
     
 END //

@@ -133,12 +133,11 @@
                 
                     {% if i < player['inventory_space'] %}
                     
-                    <!-- TODO - if inventory slot is empty
-                        <img src='/static/slots/slot_empty.png'>
-                        
-                        ELSE
-                    -->
-                    <img class='itemBorderCommon' src='/static/weapons/axe (1).png'>
+                        {% if i < items|length %}
+                            <img id='{{ items[i]["inventory_item_id"] }}' class='{{ items[i]["css_class_name"] }}' src='/static/{{ items[i]["file_name"] }}'>
+                        {% else %}
+                            <img src='/static/slots/slot_empty.png'>
+                        {% endif %}
 
                     {% else %}
                         <img class='imgLocked' src='/static/slots/slot_locked.png'>
@@ -173,11 +172,11 @@
 
                 <hr>
 
-                <img src='/static/weapons/dagger1.png'>
+                <img id='panelImage' src='/static/slots/slot_empty.png'>
 
-                <h4>Dagger of Blast</h4>
+                <h4 id='panelName'>--</h4>
 
-                <h5>Level 15</h5>
+                <h5 id='panelLevel'>--</h5>
 
                 <table class='leftRightTable'>
                     <tr>
@@ -230,6 +229,21 @@
 
 {% block script %}
 <script>
+
+    var inventoryItems = {{ items|tojson|safe }}
+
+    for(var i=0; i<inventoryItems.length; i++){
+        item = document.getElementById(inventoryItems[i]['inventory_item_id'])
+        item.itemIndex = i
+        item.addEventListener('click', showItemInPanel)
+    }
+
+    function showItemInPanel() {
+        document.getElementById('panelImage').src = 'static/' + inventoryItems[this.itemIndex]['file_name']
+        document.getElementById('panelName').innerText = inventoryItems[this.itemIndex]['item_name']
+        document.getElementById('panelLevel').innerText = inventoryItems[this.itemIndex]['item_level']
+        
+    }
 
     function increaseAttribute(id) {
         var attributeLevel = document.getElementById(id).innerText

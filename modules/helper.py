@@ -30,8 +30,8 @@ def debugServerDictionaries():
     debugSetupDictionary('Quest Monsters', questMonsters)
     debugSetupDictionary('Bounty Monsters', bountyMonsters)
     '''
-    createItem(1, 40)
     '''
+    createItem(1, 40)
     createItem(1, 10)
     createItem(1, 20)
     createItem(1, 30)

@@ -420,10 +420,6 @@ ul{
     border: var(--borderWidth) solid var(--borderMythic);
 }
 
-.itemBorderUnique{
-    border: var(--borderWidth) solid var(--borderUnique);
-}
-
 /*===================
 
     button
