@@ -21,39 +21,6 @@ additionalDamageConstant = 10
 #===============================
 
 
-def debugServerDictionaries():
-    '''
-    debugSetupDictionary('Classes', classes)
-    debugSetupDictionary('Item Types', itemTypes)
-    debugSetupDictionary('Item Rarities', itemRarities)
-    debugSetupDictionary('Item Prefixes', itemPrefixes)
-    debugSetupDictionary('Quest Monsters', questMonsters)
-    debugSetupDictionary('Bounty Monsters', bountyMonsters)
-    '''
-    '''
-    createItem(1, 40)
-    createItem(1, 10)
-    createItem(1, 20)
-    createItem(1, 30)
-    createItem(1, 40)
-    createItem(1, 50)
-    createItem(1, 60)
-    createItem(1, 70)
-    createItem(1, 80)
-    createItem(1, 90)
-    createItem(1, 100)
-    '''
-
-
-#Prints out the setup dictionaries in a readable format for debugging
-def debugSetupDictionary(header, givenDict):
-    print('\n\n == ' + header + ' == \n\n')
-
-    for row in givenDict:
-        print(str(row) + ' ' + str(givenDict[row]))
-
-    print('\n\n')
-
 
 #===============================
 
@@ -92,7 +59,7 @@ def createItem(playerId, level):
     #Create the new item in the database
     db_manager.createNewItem(playerId, level, itemTypeId, itemPrefixId, itemRarity, itemStats, itemDamage, itemArmor, itemWorth)
 
-    debug = 1
+    debug = 0
 
     #Debugging
     if debug == 1:
@@ -211,3 +178,54 @@ def getItemDamage(level, itemTypeId, itemPrefixId, itemRarity):
 #Validation
 
 #===============================
+
+
+
+#===============================
+
+#Debug/Testing Functions
+
+#===============================
+
+
+def debugServerDictionaries():
+    '''
+    debugSetupDictionary('Classes', classes)
+    debugSetupDictionary('Item Types', itemTypes)
+    debugSetupDictionary('Item Rarities', itemRarities)
+    debugSetupDictionary('Item Prefixes', itemPrefixes)
+    debugSetupDictionary('Quest Monsters', questMonsters)
+    debugSetupDictionary('Bounty Monsters', bountyMonsters)
+    '''
+    '''
+    createItem(1, 40)
+    createItem(1, 10)
+    createItem(1, 20)
+    createItem(1, 30)
+    createItem(1, 40)
+    createItem(1, 50)
+    createItem(1, 60)
+    createItem(1, 70)
+    createItem(1, 80)
+    createItem(1, 90)
+    createItem(1, 100)
+    '''
+
+
+#Simply for debugging purposes for testing new items
+def debugCreateItems(playerId, itemCount, levelMin, levelMax):
+    db_manager.debugRemoveAllPlayerItems(playerId)
+
+    for i in range(0,itemCount):
+        level = random.randint(levelMin, levelMax)
+        createItem(playerId, level)
+
+
+#Prints out the setup dictionaries in a readable format for debugging
+def debugSetupDictionary(header, givenDict):
+    print('\n\n == ' + header + ' == \n\n')
+
+    for row in givenDict:
+        print(str(row) + ' ' + str(givenDict[row]))
+
+    print('\n\n')

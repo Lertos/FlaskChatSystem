@@ -73,7 +73,7 @@ CREATE PROCEDURE usp_get_player_inventory_items
 )
 BEGIN
     
-    SELECT a.inventory_item_id, a.item_level, CONCAT(d.prefix, ' ', b.item_name) AS item_name, b.file_name, c.item_type_name, c.is_weapon, c.is_two_handed, c.stat, a.equipped, a.rarity_name, e.css_class_name, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, a.damage, a.armor, a.sell_price
+    SELECT a.inventory_item_id, a.item_level, d.prefix, b.item_name, b.file_name, c.item_type_name, c.is_weapon, c.is_two_handed, c.stat, a.equipped, a.rarity_name, e.css_class_name, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, a.damage, a.armor, a.sell_price
 	FROM player_inventories a
     JOIN items b ON a.item_id = b.item_id
     JOIN item_types c on b.item_type_id = c.item_type_id

@@ -117,14 +117,18 @@
                     <img src='/static/slots/slot_legs.png'>
                     <img src='/static/slots/slot_gloves.png'>
                     <img src='/static/slots/slot_boots.png'>
-                    <img src='/static/weapons/axe2.png'>
-                    <img src='/static/weapons/axe3.png'>
+                    <img src='/static/slots/slot_weapon.png'>
+                    <img src='/static/slots/slot_offhand.png'>
                 </div>
             </div>
 
             <hr>
 
             <h3 class='header'><strong>Inventory</strong></h3>
+
+            <form action="#" method="POST">
+                <input type="submit" class="themeMediumButton" value="Create New Items">
+            </form>
 
             <div class='inventory'>
                 <div>
@@ -174,38 +178,40 @@
 
                 <img id='panelImage' src='/static/slots/slot_empty.png'>
 
-                <h4 id='panelName'>--</h4>
+                <h4 id='panelPrefix'>--</h4>
+
+                <h4 id='panelName' class='boldText'>--</h4>
 
                 <h5 id='panelLevel'>--</h5>
 
                 <table class='leftRightTable'>
                     <tr>
                         <td><h5>Weapon Dmg</h5></td>
-                        <td><p id='newItemDamage'>22</p></td>
+                        <td><p id='panelDamage'>22</p></td>
                     </tr>
                     <tr>
                         <td><h5>Armor</h5></td>
-                        <td><p id='newItemArmor'>0</p></td>
+                        <td><p id='panelArmor'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Strength</h5></td>
-                        <td><p id='newItemStrength'>0</p></td>
+                        <td><p id='panelStrength'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Dexterity</h5></td>
-                        <td><p id='newItemDexterity'>0</p></td>
+                        <td><p id='panelDexterity'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Intelligence</h5></td>
-                        <td><p id='newItemIntelligence'>0</p></td>
+                        <td><p id='panelIntelligence'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Constitution</h5></td>
-                        <td><p id='newItemConstitution'>0</p></td>
+                        <td><p id='panelConstitution'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>Luck</h5></td>
-                        <td><p id='newItemLuck'>0</p></td>
+                        <td><p id='panelLuck'>0</p></td>
                     </tr>
                     <tr>
                         <td><h5>&nbsp;</h5></td>
@@ -213,7 +219,7 @@
                     </tr>
                     <tr>
                         <td><h5>Worth</h5></td>
-                        <td><p id='newItemLuck'>150</p></td>
+                        <td><p id='panelWorth'>150</p></td>
                     </tr>
                 </table>
 
@@ -240,9 +246,18 @@
 
     function showItemInPanel() {
         document.getElementById('panelImage').src = 'static/' + inventoryItems[this.itemIndex]['file_name']
+        document.getElementById('panelImage').classList = inventoryItems[this.itemIndex]['css_class_name']
+        document.getElementById('panelPrefix').innerText = inventoryItems[this.itemIndex]['prefix']
         document.getElementById('panelName').innerText = inventoryItems[this.itemIndex]['item_name']
-        document.getElementById('panelLevel').innerText = inventoryItems[this.itemIndex]['item_level']
-        
+        document.getElementById('panelLevel').innerText = 'Level ' + inventoryItems[this.itemIndex]['item_level']
+        document.getElementById('panelDamage').innerText = inventoryItems[this.itemIndex]['damage']
+        document.getElementById('panelArmor').innerText = inventoryItems[this.itemIndex]['armor']
+        document.getElementById('panelWorth').innerText = inventoryItems[this.itemIndex]['sell_price']
+        document.getElementById('panelStrength').innerText = inventoryItems[this.itemIndex]['strength']
+        document.getElementById('panelDexterity').innerText = inventoryItems[this.itemIndex]['dexterity']
+        document.getElementById('panelIntelligence').innerText = inventoryItems[this.itemIndex]['intelligence']
+        document.getElementById('panelConstitution').innerText = inventoryItems[this.itemIndex]['constitution']
+        document.getElementById('panelLuck').innerText = inventoryItems[this.itemIndex]['luck']
     }
 
     function increaseAttribute(id) {

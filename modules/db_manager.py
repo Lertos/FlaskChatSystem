@@ -248,3 +248,20 @@ def createNewItem(playerId, level, itemTypeId, itemPrefixId, itemRarity, itemSta
 
   conn.commit()
   cursor.close()
+
+
+#===============================
+
+#Debug/Testing Functions
+
+#===============================
+
+def debugRemoveAllPlayerItems(playerId):
+  cursor = conn.cursor()
+
+  data = [playerId]
+  stmt = '''DELETE FROM player_inventories WHERE player_id = %s;'''
+  cursor.execute(stmt, data)
+  
+  conn.commit()
+  cursor.close()

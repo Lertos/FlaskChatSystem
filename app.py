@@ -142,8 +142,20 @@ def characterCreation():
     return render_template('characterCreation.html')
 
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
+
+    #For testing new items out
+    if request.method == 'POST':
+        helper.debugCreateItems(session['playerId'], 28, 10, 100)
+        
+        playerId = session['playerId']
+
+        player = db_manager.getDashboardDetails(playerId)
+        items = db_manager.getPlayerInventory(playerId)
+
+        return render_template('dashboard.html', player=player, items=items)
+
 
     playerId = session['playerId']
 

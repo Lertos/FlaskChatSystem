@@ -173,6 +173,10 @@ ul{
     display: inline;
 }
 
+.boldText{
+    font-weight: bold;
+}
+
 .loadingScreen{
     position:fixed;
     padding:0;

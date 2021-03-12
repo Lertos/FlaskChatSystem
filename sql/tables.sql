@@ -106,34 +106,6 @@ CREATE TABLE item_types
     PRIMARY KEY (item_type_id)
 );
 
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Helmet', 0, 'int', 1, 1, 8);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Helmet', 0, 'dex', 1, 3, 7);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Helmet', 0, 'str', 1, 6, 6);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Chestplate', 0, 'int', 1, 2, 12);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Chestplate', 0, 'dex', 1, 5, 11);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Chestplate', 0, 'str', 1, 8, 10);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Legs', 0, 'int', 1, 2, 10);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Legs', 0, 'dex', 1, 4, 9);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Legs', 0, 'str', 1, 7, 8);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Gloves', 0, 'int', 1, 1, 5);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Gloves', 0, 'dex', 1, 2, 4);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Gloves', 0, 'str', 1, 3, 3);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Boots', 0, 'int', 1, 1, 5);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Boots', 0, 'dex', 1, 2, 5);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Boots', 0, 'str', 1, 3, 5);
-
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Sword', 0, 'str', 1, 1, 7);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Axe', 0, 'str', 1, 1, 7);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Claws', 0, 'dex', 1.2, 1, 7);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Maul', 0, 'str', 1, 1, 7);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Hammer', 0, 'str', 1, 1, 7);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Spear', 0, 'dex', 1.2, 1, 7);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Shield', 0, 'str', 1, 1, 7);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Staff', 1, 'int', 1.5, 1, 14);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Book', 1, 'int', 1.5, 1, 14);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Bow', 1, 'dex', 1.2, 1, 14);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Crossbow', 1, 'dex', 1.2, 1, 14);
-
 #SELECT * FROM item_types;
 
 
@@ -151,60 +123,6 @@ CREATE TABLE items
     file_name VARCHAR(40) NOT NULL,
     PRIMARY KEY (item_id)
 );
-
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (1, 'he i', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (2, 'he d', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (3, 'he s', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (4, 'c i', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (5, 'c d', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (6, 'c s', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (7, 'l i', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (8, 'l d', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (9, 'l s', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (10, 'g i', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (11, 'g d', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (12, 'g s', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (13, 'b i', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (14, 'b d', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (15, 'b s', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (16, 'sw', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (17, 'ax', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (18, 'cla', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (19, 'maul', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (20, 'ham', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (21, 'spea', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (22, 'she', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (23, 'staff', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (24, 'book', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (25, 'bow', 'armor/boot2.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (26, 'cross', 'armor/boot2.png');
-
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (1, '1he i', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (2, '1he d', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (3, '1he s', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (4, '1c i', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (5, '1c d', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (6, '1c s', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (7, '1l i', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (8, '1l d', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (9, '1l s', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (10, '1g i', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (11, '1g d', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (12, '1g s', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (13, '1b i', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (14, '1b d', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (15, '1b s', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (16, '1sw', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (17, '1ax', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (18, '1cla', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (19, '1maul', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (20, '1ham', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (21, '1spea', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (22, '1she', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (23, '1staff', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (24, '1book', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (25, '1bow', 'armor/boot1.png');
-INSERT INTO items (item_type_id, item_name, file_name) VALUES (26, '1cross', 'armor/boot1.png');
 
 #SELECT * FROM items;
 
@@ -253,71 +171,6 @@ CREATE TABLE item_prefixes
     luck_mult DECIMAL(4,3),
     PRIMARY KEY (item_prefix_id)
 );
-
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Guarding', 1, 1.05, 1, 1, 1, 1.05, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Armored', 1, 1.1, 1, 1, 1, 1.1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Warding', 1, 1.05, 1, 1, 1, 1.05, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Agile', 1, 1, 1, 1.1, 1, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Hasty', 1, 1, 1, 1.05, 1, 1, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Strapped', 1, 1.05, 1, 1, 1, 1.05, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Plated', 1, 1.05, 1, 0.95, 1, 1.05, 0.95);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Mystic', 1, 1, 1, 1, 1.1, 0.9, 1.1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Spiritual', 1, 1, 0.95, 0.95, 1.05, 1, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Enchanted', 1, 1, 1, 1, 1.05, 1, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Runic', 1, 1, 1, 1, 1.1, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Astral', 1, 1, 0.95, 0.95, 1.05, 1.05, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Godly', 1, 1.05, 1.05, 1.05, 1.05, 1.05, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Superior', 1, 1.05, 1, 1, 1, 1.05, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Strong', 1, 1.1, 1, 1, 1, 1.05, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Angelic', 1, 1, 1.05, 1.05, 1.05, 1, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Magical', 1, 1, 0.95, 0.95, 1.05, 1.05, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Nimble', 1, 1, 0.95, 1.05, 0.95, 1.05, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Hardened', 1, 1, 1.05, 0.95, 0.95, 1.05, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Light', 1, 0.95, 1, 1.05, 1, 0.95, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Lethargic', 1, 1, 1, 0.9, 1, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Deranged', 1, 0.95, 0.95, 0.95, 1.1, 0.95, 0.95);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Haunted', 1, 1, 1, 1, 0.9, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Cursed', 1, 1, 1, 1, 0.95, 1, 0.95);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Eerie', 1, 1, 1, 1, 1.05, 0.95, 0.95);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Broken', 1, 1, 0.9, 1, 1, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Shoddy', 1, 1, 1, 1, 1, 0.9, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Weak', 1, 1, 0.9, 0.9, 0.9, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Unpleasant', 1, 0.9, 1, 1, 1, 0.9, 0.9);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Awful', 1, 1, 0.9, 0.9, 0.9, 0.9, 0.9);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (0, 'Unusual', 1, 1, 0.95, 0.95, 0.95, 1.1, 0.95);
-
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Precise', 1, 1, 1, 1.05, 1, 1, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Quick', 1, 1, 1, 1.1, 1, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Rapid', 1.05, 1, 1, 1.05, 1, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Accurate', 1, 1, 1, 1, 1, 1, 1.1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Arcane', 1.05, 1, 0.95, 0.95, 1.05, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Celestial', 1, 1, 1, 1, 1.05, 1.05, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Spiritual', 1, 1, 0.95, 0.95, 1.05, 1, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Enchanted', 1, 1, 1, 1, 1.05, 1, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Astral', 1, 1, 1, 1, 1.1, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Masterful', 1, 1, 1.05, 1.05, 1.05, 1.05, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Lucky', 1, 1, 1, 1, 1, 1, 1.15);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Menacing', 1.05, 1, 1.05, 1.05, 1.05, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Violent', 1.1, 1, 1, 1, 1, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Forceful', 1.1, 1, 1, 1, 1, 1, 1.05);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Demonic', 1.15, 1, 0.95, 0.95, 0.95, 1, 0.95);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Ruthless', 1.1, 1, 1, 1, 1, 0.9, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Savage', 1.1, 1, 1, 1, 1, 1, 0.9);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Powerful', 1.1, 1, 1.05, 1.05, 1.05, 0.95, 0.95);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Bulky', 1.05, 1, 0.95, 0.95, 0.95, 1, 0.95);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Inaccurate', 1, 1, 1, 1, 1, 1, 0.9);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Heavy', 1.05, 1, 1, 0.95, 1, 1, 0.95);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Sluggish', 1, 1, 0.95, 0.95, 0.95, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Slow', 1, 1, 1, 0.9, 1, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Ignorant', 1, 1, 1, 1, 0.9, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Cursed', 1, 1, 1, 1, 0.95, 1, 0.95);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Eerie', 1, 1, 1, 1, 1.05, 0.95, 0.95);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Jagged', 1, 1, 0.9, 1, 1, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Damaged', 1, 1, 0.95, 0.95, 0.95, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Weak', 1, 1, 0.9, 0.9, 0.9, 1, 1);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Tiny', 1, 1, 0.95, 0.95, 0.95, 1, 0.95);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Large', 1.05, 1, 1, 1, 1, 1, 0.9);
-INSERT INTO item_prefixes (is_weapon,prefix,damage_mult,armor_mult,strength_mult,dexterity_mult,intelligence_mult,constitution_mult,luck_mult) VALUES (1, 'Awful', 1, 1, 0.9, 0.9, 0.9, 0.9, 0.9);
 
 #SELECT * FROM item_prefixes;
 
