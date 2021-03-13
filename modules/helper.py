@@ -29,7 +29,6 @@ additionalDamageConstant = 10
 #===============================
 
 def createItem(playerId, playerClass, level):
-    print(playerClass)
     #Item Type
     itemTypeId = random.choice(list(itemTypes.keys()))
     isWeapon = itemTypes[itemTypeId]['is_weapon']
@@ -57,12 +56,16 @@ def createItem(playerId, playerClass, level):
     #TODO - sell worth 
     itemWorth = 10
 
+    #Check for incorrect class type on item
+    if itemTypes[itemTypeId]['stat'] != classes[playerClass]['stat']:
+        itemDamage, itemArmor, itemStats = reduceItemStats(itemDamage, itemArmor, itemStats)
+
     #Create the new item in the database
     db_manager.createNewItem(playerId, level, itemTypeId, itemPrefixId, itemRarity, itemStats, itemDamage, itemArmor, itemWorth)
 
+    #Debugging
     debug = 0
 
-    #Debugging
     if debug == 1:
         print('\n=TYPE ' + str(itemTypeId) + ' ' + str(itemTypes[itemTypeId]['item_type_name']) + ' ' + str(itemTypes[itemTypeId]['stat']))
 
@@ -141,6 +144,19 @@ def trimItemStats(itemStats, itemRarity):
     return itemStats
 
 
+#If the players class type does not match the item type stat, reduce stats by a fixed %
+def reduceItemStats(itemDamage, itemArmor, itemStats):
+    reductionAmount = 0.8
+
+    itemDamage = math.floor(itemDamage * reductionAmount)
+    itemArmor = math.floor(itemArmor * reductionAmount)
+
+    for i in range(0, len(itemStats)):
+        itemStats[i] = math.floor(itemStats[i] * reductionAmount)
+
+    return [itemDamage, itemArmor, itemStats]
+
+
 #Creates the armor for an item based on multipliers and level
 def getItemArmor(level, itemTypeId, itemPrefixId, rarityMultiplier):
     armorPerLevel = itemTypes[itemTypeId]['armor_per_level']
@@ -172,6 +188,10 @@ def getItemDamage(level, itemTypeId, itemPrefixId, itemRarity):
     damage = math.floor(damage)
 
     return damage
+
+
+def getClassInfo(className):
+    return classes[className]
 
 
 #===============================

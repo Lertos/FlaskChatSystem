@@ -20,18 +20,17 @@ conn = mysql.connector.connect(
 
 def getClasses():
   cursor = conn.cursor()
-  cursor.execute('''SELECT class_name, stat, weapons, uses_two_handed, uses_shield, max_armor_reduction, health_modifier FROM classes;''')
+  cursor.execute('''SELECT class_name, stat, uses_two_handed, uses_shield, max_armor_reduction, health_modifier FROM classes;''')
   
   result = {}
 
   for row in cursor:
     result[row[0]] = {}
     result[row[0]]['stat'] = row[1]
-    result[row[0]]['weapons'] = row[2]
-    result[row[0]]['uses_two_handed'] = row[3]
-    result[row[0]]['uses_shield'] = row[4]
-    result[row[0]]['max_armor_reduction'] = row[5]
-    result[row[0]]['health_modifier'] = row[6]
+    result[row[0]]['uses_two_handed'] = row[2]
+    result[row[0]]['uses_shield'] = row[3]
+    result[row[0]]['max_armor_reduction'] = float(row[4])
+    result[row[0]]['health_modifier'] = float(row[5])
 
   cursor.close()
 
@@ -229,6 +228,21 @@ def getPlayerInventory(playerId):
   cursor = conn.cursor(dictionary=True)
 
   cursor.callproc('usp_get_player_inventory_items', [playerId])
+
+  result = []
+
+  for row in cursor.stored_results():
+    result = row.fetchall()
+
+  cursor.close()
+
+  return result
+
+
+def getPlayerEquippedItems(playerId):
+  cursor = conn.cursor(dictionary=True)
+
+  cursor.callproc('usp_get_player_equipped_items', [playerId])
 
   result = []
 

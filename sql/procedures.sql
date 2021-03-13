@@ -79,12 +79,38 @@ BEGIN
     JOIN item_types c on b.item_type_id = c.item_type_id
     JOIN item_prefixes d on a.item_prefix_id = d.item_prefix_id
     JOIN item_rarities e on a.rarity_name = e.rarity_name
-    WHERE a.player_id = p_player_id;
+    WHERE a.player_id = p_player_id and a.equipped = 0;
     
 END //
 DELIMITER ;
 
-#CALL usp_get_player_inventory_items(1);
+#CALL usp_get_player_inventory_items(18);
+
+/*==============================
+	usp_get_player_equipped_items
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_get_player_equipped_items;
+
+DELIMITER //
+CREATE PROCEDURE usp_get_player_equipped_items
+(
+	IN p_player_id SMALLINT
+)
+BEGIN
+    
+    SELECT a.inventory_item_id, a.item_level, d.prefix, b.item_name, b.file_name, c.item_type_name, c.is_weapon, c.is_two_handed, c.stat, a.equipped, a.rarity_name, e.css_class_name, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, a.damage, a.armor, a.sell_price
+	FROM player_inventories a
+    JOIN items b ON a.item_id = b.item_id
+    JOIN item_types c on b.item_type_id = c.item_type_id
+    JOIN item_prefixes d on a.item_prefix_id = d.item_prefix_id
+    JOIN item_rarities e on a.rarity_name = e.rarity_name
+    WHERE a.player_id = p_player_id and a.equipped = 1;
+    
+END //
+DELIMITER ;
+
+#CALL usp_get_player_equipped_items(18);
 
 
 /*==============================

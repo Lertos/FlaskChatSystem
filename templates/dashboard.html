@@ -112,13 +112,13 @@
 
             <div class='inventory'>
                 <div>
-                    <img src='/static/slots/slot_helmet.png'>
-                    <img src='/static/slots/slot_chest.png'>
-                    <img src='/static/slots/slot_legs.png'>
-                    <img src='/static/slots/slot_gloves.png'>
-                    <img src='/static/slots/slot_boots.png'>
-                    <img src='/static/slots/slot_weapon.png'>
-                    <img src='/static/slots/slot_offhand.png'>
+                    <img id='wornHelmet' src='/static/slots/slot_helmet.png'>
+                    <img id='wornChestplate' src='/static/slots/slot_chest.png'>
+                    <img id='wornLegs' src='/static/slots/slot_legs.png'>
+                    <img id='wornGloves' src='/static/slots/slot_gloves.png'>
+                    <img id='wornBoots' src='/static/slots/slot_boots.png'>
+                    <img id='wornWeapon' src='/static/slots/slot_weapon.png'>
+                    <img id='wornOffhand' src='/static/slots/slot_offhand.png'>
                 </div>
             </div>
 
@@ -178,40 +178,42 @@
 
                 <img id='panelImage' src='/static/slots/slot_empty.png'>
 
-                <h4 id='panelPrefix'>--</h4>
+                <h4 id='panelPrefix'></h4>
 
-                <h4 id='panelName' class='boldText'>--</h4>
+                <h4 id='panelName' class='boldText'></h4>
 
-                <h5 id='panelLevel'>--</h5>
+                <h5 id='panelLevel'></h5>
+
+                <h5 hidden id='panelWarning' class='textRed'>Stats Reduced - Wrong Class</h5>
 
                 <table class='leftRightTable'>
                     <tr>
                         <td><h5>Weapon Dmg</h5></td>
-                        <td><p id='panelDamage'>22</p></td>
+                        <td><p id='panelDamage'></p></td>
                     </tr>
                     <tr>
                         <td><h5>Armor</h5></td>
-                        <td><p id='panelArmor'>0</p></td>
+                        <td><p id='panelArmor'></p></td>
                     </tr>
                     <tr>
                         <td><h5>Strength</h5></td>
-                        <td><p id='panelStrength'>0</p></td>
+                        <td><p id='panelStrength'></p></td>
                     </tr>
                     <tr>
                         <td><h5>Dexterity</h5></td>
-                        <td><p id='panelDexterity'>0</p></td>
+                        <td><p id='panelDexterity'></p></td>
                     </tr>
                     <tr>
                         <td><h5>Intelligence</h5></td>
-                        <td><p id='panelIntelligence'>0</p></td>
+                        <td><p id='panelIntelligence'></p></td>
                     </tr>
                     <tr>
                         <td><h5>Constitution</h5></td>
-                        <td><p id='panelConstitution'>0</p></td>
+                        <td><p id='panelConstitution'></p></td>
                     </tr>
                     <tr>
                         <td><h5>Luck</h5></td>
-                        <td><p id='panelLuck'>0</p></td>
+                        <td><p id='panelLuck'></p></td>
                     </tr>
                     <tr>
                         <td><h5>&nbsp;</h5></td>
@@ -219,14 +221,14 @@
                     </tr>
                     <tr>
                         <td><h5>Worth</h5></td>
-                        <td><p id='panelWorth'>150</p></td>
+                        <td><p id='panelWorth'></p></td>
                     </tr>
                 </table>
 
                 <hr>
 
                 <button class='themeMediumButton'>Sell</button>
-                <button class='themeMediumButton'>Equip</button>
+                <button class='themeMediumButton' onclick='processEquip()'>Equip</button>
             </div>
         </div>    
     </div>
@@ -236,29 +238,221 @@
 {% block script %}
 <script>
 
+    var equippedItems = {{ equippedItems|tojson|safe }}
     var inventoryItems = {{ items|tojson|safe }}
+    var classInfo = {{ classInfo|tojson|safe }}
+    var itemInPanelId = null
+
+    resetItemPanel()
+
+    for(var i=0; i<equippedItems.length; i++){
+        item = document.getElementById(equippedItems[i]['inventory_item_id'])
+        item.itemIndex = i
+        item.equipped = 1
+        item.addEventListener('click', showItemInPanel)
+    }
 
     for(var i=0; i<inventoryItems.length; i++){
         item = document.getElementById(inventoryItems[i]['inventory_item_id'])
         item.itemIndex = i
+        item.equipped = 0
         item.addEventListener('click', showItemInPanel)
     }
 
+    
+
+
     function showItemInPanel() {
-        document.getElementById('panelImage').src = 'static/' + inventoryItems[this.itemIndex]['file_name']
-        document.getElementById('panelImage').classList = inventoryItems[this.itemIndex]['css_class_name']
-        document.getElementById('panelPrefix').innerText = inventoryItems[this.itemIndex]['prefix']
-        document.getElementById('panelName').innerText = inventoryItems[this.itemIndex]['item_name']
-        document.getElementById('panelLevel').innerText = 'Level ' + inventoryItems[this.itemIndex]['item_level']
-        document.getElementById('panelDamage').innerText = inventoryItems[this.itemIndex]['damage']
-        document.getElementById('panelArmor').innerText = inventoryItems[this.itemIndex]['armor']
-        document.getElementById('panelWorth').innerText = inventoryItems[this.itemIndex]['sell_price']
-        document.getElementById('panelStrength').innerText = inventoryItems[this.itemIndex]['strength']
-        document.getElementById('panelDexterity').innerText = inventoryItems[this.itemIndex]['dexterity']
-        document.getElementById('panelIntelligence').innerText = inventoryItems[this.itemIndex]['intelligence']
-        document.getElementById('panelConstitution').innerText = inventoryItems[this.itemIndex]['constitution']
-        document.getElementById('panelLuck').innerText = inventoryItems[this.itemIndex]['luck']
+        //Update global selected item id
+        itemInPanelId = this.itemIndex
+
+        //Holds either equipped or inventory items
+        var items
+
+        if(this.equipped == 1)
+            items = equippedItems
+        else
+            items = inventoryItems
+
+        //Update the panel information
+        document.getElementById('panelImage').src = 'static/' + items[this.itemIndex]['file_name']
+        document.getElementById('panelImage').classList = items[this.itemIndex]['css_class_name']
+        document.getElementById('panelLevel').innerText = 'Level ' + items[this.itemIndex]['item_level'] + ' ' + items[this.itemIndex]['item_type_name']
+
+        //Check for wrong class stat to item type - warn them why their stats are reduced
+        var wrongClassType
+        var classType = classInfo['stat']
+        var itemType = items[this.itemIndex]['stat']
+
+        if(classType != itemType){
+            wrongClassType = true
+            document.getElementById('panelWarning').hidden = false
+        }
+        else{
+            wrongClassType = false
+            document.getElementById('panelWarning').hidden = true
+        }
+
+        changePanelElementText(false, this.itemIndex, this.equipped, 'panelPrefix', 'prefix')
+        changePanelElementText(false, this.itemIndex, this.equipped,  'panelName', 'item_name')
+        changePanelElementText(wrongClassType, this.itemIndex, this.equipped,  'panelDamage', 'damage')
+        changePanelElementText(wrongClassType, this.itemIndex, this.equipped,  'panelArmor', 'armor')
+        changePanelElementText(wrongClassType, this.itemIndex, this.equipped,  'panelStrength', 'strength')
+        changePanelElementText(wrongClassType, this.itemIndex, this.equipped,  'panelDexterity', 'dexterity')
+        changePanelElementText(wrongClassType, this.itemIndex, this.equipped,  'panelIntelligence', 'intelligence')
+        changePanelElementText(wrongClassType, this.itemIndex, this.equipped,  'panelConstitution', 'constitution')
+        changePanelElementText(wrongClassType, this.itemIndex, this.equipped,  'panelLuck', 'luck')
+        changePanelElementText(false, this.itemIndex, this.equipped,  'panelWorth', 'sell_price')
     }
+
+
+    function changePanelElementText(wrongClassType, itemId, equipped, elementId, key){
+        var element = document.getElementById(elementId)
+        
+        if(equipped == 1)
+            element.innerText = equippedItems[itemId][key]
+        else
+            element.innerText = inventoryItems[itemId][key]
+
+        if(wrongClassType)
+            element.classList.add('textRed')
+        else
+            element.classList.remove('textRed')
+    }
+
+
+    //Handles the aaction of equipping something from the item panel (unequip, equip)
+    function processEquip(items, itemId){
+        var slotType = items[itemId]['item_type_name']
+        var slotTypeId = getItemSlotTypeId(itemSlotType)
+
+        //Unequip old item
+        unequipItem(slotType)
+
+        //Remove new item from inventory
+
+        //Equip new item
+
+
+
+        var slot = document.getElementById(itemSlotTypeId)
+
+        slot.src = 'static/' + inventoryItems[itemInPanelId]['file_name']
+        slot.classList = inventoryItems[itemInPanelId]['css_class_name']
+
+        var twoHanded = items[itemId]['is_two_handed']
+        resetItemPanel()
+
+
+    }
+
+
+    //Unequips the item, if exists, for the specified equipment slot - removing stats and adding it to the inventory
+    function unequipItem(slotType){
+        //Check if item exists in that slot
+        if(doesSlotHaveItem(slotType)){
+            //Remove the stats from the player
+
+            //Add the item to the players inventory list
+
+            //Add the item to the inventory grid
+
+            //Remove the item from the equipped items list
+
+            //Remove the item from the equipped slot
+
+            //Make AJAX request that the item is now unequipped
+        }
+    }
+
+
+    //Removes the new item from the inventory
+    function removeItemFromInventory(itemId){
+        //Remove the new item from the inventory list
+
+        //Remove the item from the inventory grid
+
+    }
+
+
+    //Equips the item for the specified equipment slot - adding stats and adding it to the equipment slot
+    function equipItem(item){
+        //Add the stats to the player
+
+        //Add the item to the equipped items list
+
+        //Add the item to the equipped slot
+
+        //Make AJAX request that the item is now equipped
+    }
+
+
+    //Check if there is an item in the specified equipment slot
+    function doesSlotHaveItem(slotType){
+        for(var item in equippedItems){
+            if(equippedItems[item]['item_type_name'] == slotType)
+                return true
+        }
+        return false
+    }
+
+
+    //Resets a panel element - setting the text to the default value and removing any styling
+    function resetPanelElementText(elementId){
+        var element = document.getElementById(elementId)
+
+        element.innerText = '--'
+        element.classList.remove('textRed')
+    }
+
+
+    //Resets all of the item panels elements to the initial values
+    function resetItemPanel(){
+        document.getElementById('panelImage').src = '/static/slots/slot_empty.png'
+        document.getElementById('panelImage').classList = '--'
+        document.getElementById('panelWarning').hidden = true
+
+        resetPanelElementText('panelLevel')
+        resetPanelElementText('panelPrefix')
+        resetPanelElementText('panelName')
+        resetPanelElementText('panelDamage')
+        resetPanelElementText('panelArmor')
+        resetPanelElementText('panelStrength')
+        resetPanelElementText('panelDexterity')
+        resetPanelElementText('panelIntelligence')
+        resetPanelElementText('panelConstitution')
+        resetPanelElementText('panelLuck')
+        resetPanelElementText('panelWorth')
+    }
+
+
+    //Given a slot type, return the element id from the document
+    function getItemSlotTypeId(itemSlotType){
+        if(itemSlotType == 'Helmet')
+            return 'wornHelmet'
+        else if(itemSlotType == 'Chestplate')
+            return 'wornChestplate'
+        else if(itemSlotType == 'Legs')
+            return 'wornLegs'
+        else if(itemSlotType == 'Gloves')
+            return 'wornGloves'
+        else if(itemSlotType == 'Boots')
+            return 'wornBoots'
+        else if(itemSlotType == 'Shield')
+            return 'wornOffhand'
+        else
+            return 'wornWeapon'
+    }
+
+
+
+
+
+
+
+
+
+
 
     function increaseAttribute(id) {
         var attributeLevel = document.getElementById(id).innerText

@@ -157,17 +157,20 @@ def dashboard():
         playerId = session['playerId']
 
         player = db_manager.getDashboardDetails(playerId)
+        classInfo = helper.getClassInfo(session['className'])
         items = db_manager.getPlayerInventory(playerId)
+        equippedItems = db_manager.getPlayerEquippedItems(playerId)
 
-        return render_template('dashboard.html', player=player, items=items)
-
+        return render_template('dashboard.html', player=player, classInfo=classInfo, items=items, equippedItems=equippedItems)
 
     playerId = session['playerId']
 
     player = db_manager.getDashboardDetails(playerId)
+    classInfo = helper.getClassInfo(session['className'])
     items = db_manager.getPlayerInventory(playerId)
+    equippedItems = db_manager.getPlayerEquippedItems(playerId)
 
-    return render_template('dashboard.html', player=player, items=items)
+    return render_template('dashboard.html', player=player, classInfo=classInfo, items=items, equippedItems=equippedItems)
 
 
 @app.route('/arena')
