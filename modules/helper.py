@@ -28,7 +28,8 @@ additionalDamageConstant = 10
 
 #===============================
 
-def createItem(playerId, level):
+def createItem(playerId, playerClass, level):
+    print(playerClass)
     #Item Type
     itemTypeId = random.choice(list(itemTypes.keys()))
     isWeapon = itemTypes[itemTypeId]['is_weapon']
@@ -213,12 +214,12 @@ def debugServerDictionaries():
 
 
 #Simply for debugging purposes for testing new items
-def debugCreateItems(playerId, itemCount, levelMin, levelMax):
+def debugCreateItems(playerId, playerClass, itemCount, levelMin, levelMax):
     db_manager.debugRemoveAllPlayerItems(playerId)
 
     for i in range(0,itemCount):
         level = random.randint(levelMin, levelMax)
-        createItem(playerId, level)
+        createItem(playerId, playerClass, level)
 
 
 #Prints out the setup dictionaries in a readable format for debugging

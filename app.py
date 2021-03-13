@@ -61,6 +61,8 @@ def signin():
             session['playerId'] = result['player_id']
             session['username'] = result['username']
             session['displayName'] = result['display_name']
+            session['className'] = result['class_name']
+            session['playerLevel'] = result['player_level']
 
             #Check is the character has been created yet
             if(result['has_character'] == 1):
@@ -137,6 +139,9 @@ def characterCreation():
         data = [request.form['className'], request.form['avatarName'], session['playerId']]
         db_manager.createNewCharacter(data)
         
+        session['className'] = request.form['className']
+        session['playerLevel'] = 1
+
         return redirect(url_for('dashboard'))
 
     return render_template('characterCreation.html')
@@ -147,7 +152,7 @@ def dashboard():
 
     #For testing new items out
     if request.method == 'POST':
-        helper.debugCreateItems(session['playerId'], 28, 10, 100)
+        helper.debugCreateItems(session['playerId'], session['className'], 28, 10, 100)
         
         playerId = session['playerId']
 

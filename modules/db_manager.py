@@ -165,7 +165,7 @@ def getPlayerLogin(username, password):
   cursor = conn.cursor(dictionary=True)
 
   data = [username, password]
-  stmt = '''SELECT player_id, username, display_name, has_character FROM players WHERE username = %s and password = %s;'''
+  stmt = '''SELECT player_id, username, display_name, class_name, player_level, has_character FROM players WHERE username = %s and password = %s;'''
   cursor.execute(stmt, data)
   
   result = {}
