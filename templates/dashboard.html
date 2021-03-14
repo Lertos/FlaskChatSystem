@@ -227,8 +227,9 @@
 
                 <hr>
 
-                <button class='themeMediumButton'>Sell</button>
-                <button class='themeMediumButton' onclick='processEquip()'>Equip</button>
+                <button hidden id='sellButton' class='themeMediumButton'>Sell</button>
+                <button hidden id='equipButton' class='themeMediumButton' onclick='processEquip()'>Equip</button>
+                <button hidden id='unequipButton' class='themeMediumButton' onclick='processUnequip()'>Unequip</button>
             </div>
         </div>    
     </div>
@@ -240,20 +241,23 @@
 
     var equippedItems = {{ equippedItems|tojson|safe }}
     var inventoryItems = {{ items|tojson|safe }}
+    console.log(inventoryItems)
     var classInfo = {{ classInfo|tojson|safe }}
-    var itemInPanelId = null
+
+    var panelItemId = null
+    var isPanelItemFromInventory = 
 
     resetItemPanel()
 
     for(var i=0; i<equippedItems.length; i++){
-        item = document.getElementById(equippedItems[i]['inventory_item_id'])
+        var item = document.getElementById(equippedItems[i]['inventory_item_id'])
         item.itemIndex = i
         item.equipped = 1
         item.addEventListener('click', showItemInPanel)
     }
 
     for(var i=0; i<inventoryItems.length; i++){
-        item = document.getElementById(inventoryItems[i]['inventory_item_id'])
+        var item = document.getElementById(inventoryItems[i]['inventory_item_id'])
         item.itemIndex = i
         item.equipped = 0
         item.addEventListener('click', showItemInPanel)
@@ -264,12 +268,18 @@
 
     function showItemInPanel() {
         //Update global selected item id
-        itemInPanelId = this.itemIndex
+        panelItemId = this.itemIndex
 
         //Holds either equipped or inventory items
         var items
 
         if(this.equipped == 1)
+            //make func for below two - using states. send the this.itemIndex to the fucn and assign it as an id to the buttons
+            //Show unequip button
+            //hide other two
+
+            //
+
             items = equippedItems
         else
             items = inventoryItems
@@ -321,8 +331,11 @@
     }
 
 
+    function getEquipItemInfo(){}
+
+
     //Handles the aaction of equipping something from the item panel (unequip, equip)
-    function processEquip(items, itemId){
+    function processEquip(item, itemId, inventoryIndex){
         var slotType = items[itemId]['item_type_name']
         var slotTypeId = getItemSlotTypeId(itemSlotType)
 
@@ -330,15 +343,16 @@
         unequipItem(slotType)
 
         //Remove new item from inventory
+        removeItemFromInventory(itemId, inventoryIndex)
 
         //Equip new item
-
+        equipItem(item)
 
 
         var slot = document.getElementById(itemSlotTypeId)
 
-        slot.src = 'static/' + inventoryItems[itemInPanelId]['file_name']
-        slot.classList = inventoryItems[itemInPanelId]['css_class_name']
+        slot.src = 'static/' + inventoryItems[panelItemId]['file_name']
+        slot.classList = inventoryItems[panelItemId]['css_class_name']
 
         var twoHanded = items[itemId]['is_two_handed']
         resetItemPanel()
@@ -350,8 +364,15 @@
     //Unequips the item, if exists, for the specified equipment slot - removing stats and adding it to the inventory
     function unequipItem(slotType){
         //Check if item exists in that slot
-        if(doesSlotHaveItem(slotType)){
+        var itemIndex = getEquippedItemIndex(slotType)
+
+        if(itemIndex != -1){
+            //Get the item being unequipped
+            var item = equippedItems[itemIndex]
+
             //Remove the stats from the player
+            var stats = [item['strength'], item['dexterity'], item['intelligence'], item['constitution'], item['luck']]
+            changePlayerPlusStats(stats, -1)
 
             //Add the item to the players inventory list
 
@@ -367,17 +388,21 @@
 
 
     //Removes the new item from the inventory
-    function removeItemFromInventory(itemId){
-        //Remove the new item from the inventory list
-
+    function removeItemFromInventory(itemId, inventoryIndex){
         //Remove the item from the inventory grid
+        var inventoryImg = document.getElementById(inventoryItems[inventoryIndex]['inventory_item_id'])
+        inventoryImg.src = '/static/slots/slot_empty.png'
 
+        //Remove the new item from the inventory list
+        inventoryItems = removeArrayItem(inventoryItems, itemId)
     }
 
 
     //Equips the item for the specified equipment slot - adding stats and adding it to the equipment slot
     function equipItem(item){
         //Add the stats to the player
+        var stats = [item['strength'], item['dexterity'], item['intelligence'], item['constitution'], item['luck']]
+        changePlayerPlusStats(stats, 1)
 
         //Add the item to the equipped items list
 
@@ -386,14 +411,24 @@
         //Make AJAX request that the item is now equipped
     }
 
+    //playerPlusLuck
 
-    //Check if there is an item in the specified equipment slot
-    function doesSlotHaveItem(slotType){
-        for(var item in equippedItems){
-            if(equippedItems[item]['item_type_name'] == slotType)
-                return true
+    function changePlayerPlusStats(stats, multiplier){
+        updateInnerText('playerPlusStrength', stats[0] * multiplier)
+        updateInnerText('playerPlusDexterity', stats[1] * multiplier)
+        updateInnerText('playerPlusIntelligence', stats[2] * multiplier)
+        updateInnerText('playerPlusConstitution', stats[3] * multiplier)
+        updateInnerText('playerPlusLuck', stats[4] * multiplier)
+    }
+
+
+    //Get the index of the equipped item (if exists) for the given slot type
+    function getEquippedItemIndex(slotType){
+        for(var i=0; i<equippedItems.length; i++){
+            if(equippedItems[i]['item_type_name'] == slotType)
+                return i
         }
-        return false
+        return -1
     }
 
 
@@ -423,6 +458,10 @@
         resetPanelElementText('panelConstitution')
         resetPanelElementText('panelLuck')
         resetPanelElementText('panelWorth')
+
+        document.getElementById('sellButton').hidden = true
+        document.getElementById('equipButton').hidden = true
+        document.getElementById('unequipButton').hidden = true
     }
 
 
@@ -444,7 +483,30 @@
             return 'wornWeapon'
     }
 
+    //===============================
 
+    //Helper Functions
+
+    //===============================
+
+    //Returns the array without the object at the given index
+    function removeArrayItem(arr, value){
+        var index = arr.indexOf(value);
+        if (index > -1){
+            arr.splice(index, 1);
+        }
+        return arr;
+    }
+
+    function updateInnerText(id, increaseBy){
+        var element = document.getElementById(id)
+        var current = parseInt(element.innerText)
+
+        if(typeof(current) !== 'number')
+            return
+
+        element.innerText = current + increaseBy
+    }
 
 
 
@@ -465,16 +527,6 @@
         updateInnerText('playerGold', -costToUpgrade)
         updateInnerText('playerPlusStrength', 2)
         updateInnerText(id, 1)
-    }
-
-    function updateInnerText(id, increaseBy) {
-        var element = document.getElementById(id)
-        var current = parseInt(element.innerText)
-
-        if(typeof(current) !== 'number')
-            return
-
-        element.innerText = current + increaseBy
     }
 
 </script>
