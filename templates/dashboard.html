@@ -456,6 +456,24 @@
     }
 
 
+    //Handles the action of equipping something from the item panel
+    function processUnequipItem(){
+        var itemIndex = document.getElementById('unequipButton').itemIndex
+        var slotType = equippedItems[itemIndex]['item_type_name']
+        var slotTypeId = getItemSlotTypeId(slotType)
+
+        //Unequip item
+        var item = unequipItem(slotType, slotTypeId)
+
+        //Add the item to the inventory only if one was unequipped
+        if(item != null)
+            setupNewInventoryItem(item)
+
+        //var twoHanded = items[itemId]['is_two_handed']
+        resetItemPanel()
+    }
+
+
     //Handles the action of selling the item in the item panel
     function processSellItem(){
         var sellButton = document.getElementById('sellButton')
@@ -595,6 +613,13 @@
 
             element.innerText = '--'
             element.classList.remove('textRed')
+
+            if(itemPanelConfig[key]['compareStats']){
+                var elementDiff = document.getElementById(key + 'Diff')
+                
+                elementDiff.innerText = '--'
+                elementDiff.classList = ''
+            }
         });
 
         document.getElementById('sellButton').hidden = true
