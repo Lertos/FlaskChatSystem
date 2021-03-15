@@ -103,6 +103,54 @@
                 </table>
 
             </div>
+
+            <hr>
+
+            <div>
+                <table class='leftRightTable'>
+                    <tr>
+                        <td>
+                            <h5>Weapon Damage</h5>
+                        </td>
+                        <td>
+                            <p id='playerDamage' class='sameLine'>0</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>Health</h5>
+                        </td>
+                        <td>
+                            <p id='playerHealth' class='sameLine'>0</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>Armor</h5>
+                        </td>
+                        <td>
+                            <p id='playerArmor' class='sameLine'>0</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>Armor Reduction (%)</h5>
+                        </td>
+                        <td>
+                            <p id='playerArmorReduc' class='sameLine'>0</p> / 100
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>Critical Chance (%)</h5>
+                        </td>
+                        <td>
+                            <p id='playerCritChance' class='sameLine'>0</p> / 100
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
         </div>
 
         <!-- Main Panel -->
@@ -275,6 +323,8 @@
     var inventoryItems = []
 
     resetItemPanel()
+    updatePlayerHealth()
+    updatePlayerCritChance()
 
     for(var i=0; i<importedEquippedItems.length; i++)
         setupNewEquippedItem(importedEquippedItems[i])
@@ -303,8 +353,7 @@
         element.addEventListener('click', showItemInPanel)
 
         //Add the equipment stats to the players total equipment stats
-        var stats = [item['strength'], item['dexterity'], item['intelligence'], item['constitution'], item['luck']]
-        changePlayerStats(stats, 1)
+        changePlayerStats(item, 1)
 
         //Add the item to the equipped items 
         equippedItems.push(item)
@@ -514,8 +563,7 @@
             var item = equippedItems[itemIndex]
 
             //Remove the stats from the player
-            var stats = [item['strength'], item['dexterity'], item['intelligence'], item['constitution'], item['luck']]
-            changePlayerStats(stats, -1)
+            changePlayerStats(item, -1)
 
             //Remove the item from the equipped items list
             equippedItems[itemIndex] = null
@@ -564,9 +612,6 @@
 
     //Equips the item for the specified equipment slot - adding stats and adding it to the equipment slot
     function equipItem(item){
-        //Add the stats to the player
-        var stats = [item['strength'], item['dexterity'], item['intelligence'], item['constitution'], item['luck']]
-
         //Add the item to the equipment slot
         setupNewEquippedItem(item)
 
@@ -575,26 +620,85 @@
 
 
     //Updates the players equipment totals by either subtracting or adding the value (based on the multipler supplied +1 or -1)
-    function changePlayerStats(stats, multiplier){
-        updateInnerText('playerStrength', stats[0] * multiplier)
-        updateInnerText('playerDexterity', stats[1] * multiplier)
-        updateInnerText('playerIntelligence', stats[2] * multiplier)
-        updateInnerText('playerConstitution', stats[3] * multiplier)
-        updateInnerText('playerLuck', stats[4] * multiplier)
+    function changePlayerStats(item, multiplier){
 
-        updateInnerText('playerPlusStrength', stats[0] * multiplier)
-        updateInnerText('playerPlusDexterity', stats[1] * multiplier)
-        updateInnerText('playerPlusIntelligence', stats[2] * multiplier)
-        updateInnerText('playerPlusConstitution', stats[3] * multiplier)
-        updateInnerText('playerPlusLuck', stats[4] * multiplier)
+
+        updatePlayerArmorAndReduction(item['armor'], multiplier)
+
+        //MAKE ITS OWN FUNCTION
+        updateInnerText('playerDamage', item['damage'] * multiplier)
+        
+        updateInnerText('playerStrength', item['strength'] * multiplier)
+        updateInnerText('playerDexterity', item['dexterity'] * multiplier)
+        updateInnerText('playerIntelligence', item['intelligence'] * multiplier)
+        updateInnerText('playerConstitution', item['constitution'] * multiplier)
+        updateInnerText('playerLuck', item['luck'] * multiplier)
+
+        updateInnerText('playerPlusStrength', item['strength'] * multiplier)
+        updateInnerText('playerPlusDexterity', item['dexterity'] * multiplier)
+        updateInnerText('playerPlusIntelligence', item['intelligence'] * multiplier)
+        updateInnerText('playerPlusConstitution', item['constitution'] * multiplier)
+        updateInnerText('playerPlusLuck', item['luck'] * multiplier)
+
+        updatePlayerHealth()
+        updatePlayerCritChance()
+    }
+
+
+    //Updates the players armor and armor reduction stats
+    function updatePlayerArmorAndReduction(itemArmor, multiplier){
+        var armor = itemArmor
+
+        if(armor != 0){
+            var classMaxArmorReduction = classInfo['max_armor_reduction'] * 100
+            
+            updateInnerText('playerArmor', armor * multiplier)
+
+            armor = document.getElementById('playerArmor').innerText
+            armorReduction = Math.floor(armor / '{{ player["player_level"] }}')
+
+            if(armorReduction > classMaxArmorReduction)
+                armorReduction = classMaxArmorReduction
+
+            document.getElementById('playerArmorReduc').innerText = armorReduction
+        }
+    }
+
+
+    //Updates the players health based on class multipler as well as constitution level
+    function updatePlayerHealth(){
+        var constitution = document.getElementById('playerConstitution').innerText
+        var level = '{{ player["player_level"] }}'
+        var health
+
+        if(level <= 5)
+			health = Math.floor(classInfo['health_modifier'] * (level ** 2) * 4 * (constitution/20) + 60)
+		else
+            health = Math.floor(classInfo['health_modifier'] * (level ** 2) * 4 * (constitution/30) + 60)
+
+        document.getElementById('playerHealth').innerText = health
+    }
+
+
+    //Updates the players critical chance based on players luck
+    function updatePlayerCritChance(){
+        var luck = document.getElementById('playerLuck').innerText
+        var critChance = Math.floor(luck / '{{ player["player_level"] }}')
+        var classMaxCritChance = classInfo['max_crit_chance'] * 100
+
+        if(critChance > classMaxCritChance)
+            critChance = classMaxCritChance
+
+        document.getElementById('playerCritChance').innerText = critChance
     }
 
 
     //Get the index of the equipped item (if exists) for the given slot type
     function getEquippedItemIndex(slotType){
+        var slotTypeId = getItemSlotTypeId(slotType)
         for(var i=0; i<equippedItems.length; i++){
             if(equippedItems[i] == null) continue
-            if(equippedItems[i]['item_type_name'] == slotType)
+            if(getItemSlotTypeId(equippedItems[i]['item_type_name']) == slotTypeId)
                 return i
         }
         return -1

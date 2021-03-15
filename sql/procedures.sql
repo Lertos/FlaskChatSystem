@@ -133,7 +133,7 @@ CREATE PROCEDURE usp_create_new_item
     IN p_luck SMALLINT,
     IN p_damage SMALLINT,
     IN p_armor SMALLINT,
-    IN p_worth SMALLINT
+    IN p_worth INT
 )
 BEGIN
 	DECLARE v_item_id SMALLINT;

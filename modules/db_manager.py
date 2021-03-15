@@ -20,7 +20,7 @@ conn = mysql.connector.connect(
 
 def getClasses():
   cursor = conn.cursor()
-  cursor.execute('''SELECT class_name, stat, uses_two_handed, uses_shield, max_armor_reduction, health_modifier FROM classes;''')
+  cursor.execute('''SELECT class_name, stat, uses_two_handed, uses_shield, max_armor_reduction, max_crit_chance, health_modifier FROM classes;''')
   
   result = {}
 
@@ -30,7 +30,8 @@ def getClasses():
     result[row[0]]['uses_two_handed'] = row[2]
     result[row[0]]['uses_shield'] = row[3]
     result[row[0]]['max_armor_reduction'] = float(row[4])
-    result[row[0]]['health_modifier'] = float(row[5])
+    result[row[0]]['max_crit_chance'] = float(row[5])
+    result[row[0]]['health_modifier'] = float(row[6])
 
   cursor.close()
 

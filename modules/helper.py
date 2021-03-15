@@ -53,8 +53,8 @@ def createItem(playerId, playerClass, level):
     else:
         itemDamage = getItemDamage(level, itemTypeId, itemPrefixId, rarityMultiplier)
 
-    #TODO - sell worth 
-    itemWorth = 10
+    #Sell Price
+    itemWorth = getSellPrice(level, rarityMultiplier)
 
     #Check for incorrect class type on item
     if itemTypes[itemTypeId]['stat'] != classes[playerClass]['stat']:
@@ -188,6 +188,11 @@ def getItemDamage(level, itemTypeId, itemPrefixId, itemRarity):
     damage = math.floor(damage)
 
     return damage
+
+
+#Calculates the sell price of an item based on level
+def getSellPrice(level, rarityMultiplier):
+    return math.floor(( ((level ** 3) * rarityMultiplier)  + 300) / 50)
 
 
 def getClassInfo(className):

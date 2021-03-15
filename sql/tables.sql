@@ -66,22 +66,23 @@ CREATE TABLE classes
     uses_two_handed TINYINT NOT NULL,
     uses_shield TINYINT NOT NULL,
     max_armor_reduction DECIMAL(4,3) NOT NULL,
+    max_crit_chance DECIMAL(4,3) NOT NULL,
     health_modifier DECIMAL(4,3) NOT NULL,
 	PRIMARY KEY (class_name)
 );
 
-INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Warrior', 'str', 0, 1, 0.6, 3.5);
-INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Berserker', 'str', 0, 0, 0.45, 2.8);
-INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Magic Knight', 'str', 0, 0, 0.5, 3.0);
-INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Fencer', 'str', 0, 0, 0.4, 2.7);
-INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Scout', 'dex', 1, 0, 0.3, 2.3);
-INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Rogue', 'dex', 0, 0, 0.2, 1.8);
-INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Demon Hunter', 'dex', 1, 0, 0.35, 2.3);
-INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Assassin', 'dex', 0, 0, 0.2, 1.8);
-INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Frost Mage', 'int', 1, 0, 0.2, 2.0);
-INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Fire Mage', 'int', 1, 0, 0.15, 1.7);
-INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Blood Mage', 'int', 1, 0, 0.15, 1.8);
-INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,health_modifier) VALUES ('Dark Mage', 'int', 1, 0, 0.15, 1.9);
+INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,max_crit_chance,health_modifier) VALUES ('Warrior', 'str', 0, 1, 0.6, 0.3, 3.5);
+INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,max_crit_chance,health_modifier) VALUES ('Berserker', 'str', 0, 0, 0.45, 0.3, 2.8);
+INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,max_crit_chance,health_modifier) VALUES ('Magic Knight', 'str', 0, 0, 0.5, 0.3, 3.0);
+INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,max_crit_chance,health_modifier) VALUES ('Fencer', 'str', 0, 0, 0.4, 0.6, 2.7);
+INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,max_crit_chance,health_modifier) VALUES ('Scout', 'dex', 1, 0, 0.3, 0.3, 2.3);
+INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,max_crit_chance,health_modifier) VALUES ('Rogue', 'dex', 0, 0, 0.2, 0.3, 1.8);
+INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,max_crit_chance,health_modifier) VALUES ('Demon Hunter', 'dex', 1, 0, 0.35, 0.3, 2.3);
+INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,max_crit_chance,health_modifier) VALUES ('Assassin', 'dex', 0, 0, 0.2, 0.5, 1.8);
+INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,max_crit_chance,health_modifier) VALUES ('Frost Mage', 'int', 1, 0, 0.2, 0.3, 2.0);
+INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,max_crit_chance,health_modifier) VALUES ('Fire Mage', 'int', 1, 0, 0.15, 0.3, 1.7);
+INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,max_crit_chance,health_modifier) VALUES ('Blood Mage', 'int', 1, 0, 0.15, 0.3, 1.8);
+INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduction,max_crit_chance,health_modifier) VALUES ('Dark Mage', 'int', 1, 0, 0.15, 0.3, 1.9);
 
 #SELECT * FROM classes;
 
@@ -196,7 +197,7 @@ CREATE TABLE player_inventories
     luck SMALLINT NOT NULL,
 	damage SMALLINT NOT NULL,
     armor SMALLINT NOT NULL,
-    sell_price SMALLINT NOT NULL,
+    sell_price INT NOT NULL,
     PRIMARY KEY (inventory_item_id)
 );
 
