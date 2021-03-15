@@ -32,7 +32,7 @@
                         <tr>
                             <td>
                                 <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                <p>{{ player['gold'] }}</p>
+                                <p id='playerGold'>{{ player['gold'] }}</p>
                             </td>
                         </tr>
                         <tr>
@@ -112,13 +112,13 @@
 
             <div class='inventory'>
                 <div>
-                    <img id='wornHelmet' src='/static/slots/slot_helmet.png'>
-                    <img id='wornChestplate' src='/static/slots/slot_chest.png'>
-                    <img id='wornLegs' src='/static/slots/slot_legs.png'>
-                    <img id='wornGloves' src='/static/slots/slot_gloves.png'>
-                    <img id='wornBoots' src='/static/slots/slot_boots.png'>
-                    <img id='wornWeapon' src='/static/slots/slot_weapon.png'>
-                    <img id='wornOffhand' src='/static/slots/slot_offhand.png'>
+                    <img id='slot_helmet' src='/static/slots/slot_helmet.png'>
+                    <img id='slot_chest' src='/static/slots/slot_chest.png'>
+                    <img id='slot_legs' src='/static/slots/slot_legs.png'>
+                    <img id='slot_gloves' src='/static/slots/slot_gloves.png'>
+                    <img id='slot_boots' src='/static/slots/slot_boots.png'>
+                    <img id='slot_weapon' src='/static/slots/slot_weapon.png'>
+                    <img id='slot_offhand' src='/static/slots/slot_offhand.png'>
                 </div>
             </div>
 
@@ -221,9 +221,9 @@
 
                 <hr>
 
-                <button hidden id='sellButton' class='themeMediumButton'>Sell</button>
-                <button hidden id='equipButton' class='themeMediumButton' onclick='processEquip()'>Equip</button>
-                <button hidden id='unequipButton' class='themeMediumButton' onclick='processUnequip()'>Unequip</button>
+                <button hidden id='sellButton' class='themeMediumButton' onclick='processSellItem()'>Sell</button>
+                <button hidden id='equipButton' class='themeMediumButton' onclick='processEquipItem()'>Equip</button>
+                <button hidden id='unequipButton' class='themeMediumButton' onclick='processUnequipItem()'>Unequip</button>
             </div>
         </div>    
     </div>
@@ -377,8 +377,8 @@
     }
 
 
-    //Handles the action of equipping something from the item panel (unequip, equip)
-    function processEquip(){
+    //Handles the action of equipping something from the item panel
+    function processEquipItem(){
         var itemIndex = document.getElementById('equipButton').itemIndex
         var slotType = inventoryItems[itemIndex]['item_type_name']
         var slotTypeId = getItemSlotTypeId(slotType)
@@ -401,6 +401,36 @@
     }
 
 
+    //Handles the action of selling the item in the item panel
+    function processSellItem(){
+        var sellButton = document.getElementById('sellButton')
+        var itemIndex = sellButton.itemIndex
+        var isEquipped = sellButton.isEquipped
+        var sellPrice = 0
+
+        if(isEquipped){
+            var slotType = equippedItems[itemIndex]['item_type_name']
+            var slotTypeId = getItemSlotTypeId(slotType)
+
+            sellPrice = equippedItems[itemIndex]['sell_price']
+
+            unequipItem(slotType, slotTypeId)
+        }
+        else{
+            sellPrice = inventoryItems[itemIndex]['sell_price']
+
+            removeItemFromInventory(itemIndex)
+        }
+
+        //Update the players gold
+        updateInnerText('playerGold', sellPrice)
+
+        resetItemPanel()
+
+        //TODO - send AJAX request that its sold
+    }
+
+
     //Unequips the item, if exists, for the specified equipment slot - removing stats and adding it to the inventory
     function unequipItem(slotType, slotTypeId){
         //Check if item exists in that slot
@@ -419,8 +449,11 @@
 
             //Remove the item from the equipped slot
             var slot = document.getElementById(slotTypeId)
-            slot.src = '/static/slots/slot_empty.png'
+            slot.src = '/static/slots/' + slotTypeId + '.png'
             slot.classList = ''
+
+            //Replaces with a deep clone - which doesn't have the event listeners
+            slot.replaceWith(slot.cloneNode(true));
 
             //Make AJAX request that the item is now unequipped
 
@@ -437,6 +470,9 @@
         var inventoryImg = document.getElementById('invSlot'+itemIndex)
         inventoryImg.src = '/static/slots/slot_empty.png'
         inventoryImg.classList = ''
+
+        //Replaces with a deep clone - which doesn't have the event listeners
+        inventoryImg.replaceWith(inventoryImg.cloneNode(true));
 
         //Remove the new item from the inventory list
         inventoryItems[itemIndex] = null
@@ -515,19 +551,19 @@
     //Given a slot type, return the element id from the document
     function getItemSlotTypeId(itemSlotType){
         if(itemSlotType == 'Helmet')
-            return 'wornHelmet'
+            return 'slot_helmet'
         else if(itemSlotType == 'Chestplate')
-            return 'wornChestplate'
+            return 'slot_chest'
         else if(itemSlotType == 'Legs')
-            return 'wornLegs'
+            return 'slot_legs'
         else if(itemSlotType == 'Gloves')
-            return 'wornGloves'
+            return 'slot_gloves'
         else if(itemSlotType == 'Boots')
-            return 'wornBoots'
+            return 'slot_boots'
         else if(itemSlotType == 'Shield')
-            return 'wornOffhand'
+            return 'slot_offhand'
         else
-            return 'wornWeapon'
+            return 'slot_weapon'
     }
 
 
@@ -564,7 +600,7 @@
     function hideButtonAndRemoveItemId(button){
         button.hidden = true
         button.itemIndex = null
-        button.equipped = null
+        button.isEquipped = null
     }
 
 
@@ -572,7 +608,7 @@
     function showButtonAndAddItemId(button, itemIndex, isEquipped){
         button.hidden = false
         button.itemIndex = itemIndex
-        button.equipped = isEquipped
+        button.isEquipped = isEquipped
     }
 
 </script>
