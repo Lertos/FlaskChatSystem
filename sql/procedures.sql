@@ -84,7 +84,7 @@ BEGIN
 END //
 DELIMITER ;
 
-#CALL usp_get_player_inventory_items(18);
+#CALL usp_get_player_inventory_items(1);
 
 /*==============================
 	usp_get_player_equipped_items
@@ -110,8 +110,7 @@ BEGIN
 END //
 DELIMITER ;
 
-#CALL usp_get_player_equipped_items(18);
-
+#CALL usp_get_player_equipped_items(1);
 
 /*==============================
 	usp_create_new_item

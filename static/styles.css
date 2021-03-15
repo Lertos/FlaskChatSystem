@@ -28,13 +28,14 @@
     --diffColorTable: #ebb68c;
     --imageBackground: rgb(27, 27, 27);
     --borderCommon: grey;
-    --borderUncommon: green;
-    --borderRare: darkblue;
-    --borderLegendary: gold;
-    --borderMythic: red;
-    --borderUnique: purple;
+    --borderUncommon: rgb(10, 117, 10);
+    --borderRare: rgb(49, 49, 209);
+    --borderLegendary: rgb(231, 204, 52);
+    --borderMythic: rgb(156, 14, 14);
+    --borderUnique: rgb(134, 8, 134);
 
     --borderWidth: 3px;
+    --rarityBorderWidth: 4px;
   }
 
 /*===================
@@ -409,23 +410,23 @@ ul{
 }
 
 .itemBorderCommon{
-    border: var(--borderWidth) solid var(--borderCommon);
+    border: var(--rarityBorderWidth) solid var(--borderCommon);
 }
 
 .itemBorderUncommon{
-    border: var(--borderWidth) solid var(--borderUncommon);
+    border: var(--rarityBorderWidth) solid var(--borderUncommon);
 }
 
 .itemBorderRare{
-    border: var(--borderWidth) solid var(--borderRare);
+    border: var(--rarityBorderWidth) solid var(--borderRare);
 }
 
 .itemBorderLegendary{
-    border: var(--borderWidth) solid var(--borderLegendary);
+    border: var(--rarityBorderWidth) solid var(--borderLegendary);
 }
 
 .itemBorderMythic{
-    border: var(--borderWidth) solid var(--borderMythic);
+    border: var(--rarityBorderWidth) solid var(--borderMythic);
 }
 
 /*===================

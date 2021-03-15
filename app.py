@@ -150,25 +150,17 @@ def characterCreation():
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
 
-    #For testing new items out
-    if request.method == 'POST':
-        helper.debugCreateItems(session['playerId'], session['className'], 28, 10, 100)
-        
-        playerId = session['playerId']
-
-        player = db_manager.getDashboardDetails(playerId)
-        classInfo = helper.getClassInfo(session['className'])
-        items = db_manager.getPlayerInventory(playerId)
-        equippedItems = db_manager.getPlayerEquippedItems(playerId)
-
-        return render_template('dashboard.html', player=player, classInfo=classInfo, items=items, equippedItems=equippedItems)
-
     playerId = session['playerId']
 
     player = db_manager.getDashboardDetails(playerId)
     classInfo = helper.getClassInfo(session['className'])
     items = db_manager.getPlayerInventory(playerId)
     equippedItems = db_manager.getPlayerEquippedItems(playerId)
+
+    #For testing new items out
+    if request.method == 'POST':
+        helper.debugCreateItems(session['playerId'], session['className'], 28, 10, 100)   
+        return render_template('dashboard.html', player=player, classInfo=classInfo, items=items, equippedItems=equippedItems)
 
     return render_template('dashboard.html', player=player, classInfo=classInfo, items=items, equippedItems=equippedItems)
 
