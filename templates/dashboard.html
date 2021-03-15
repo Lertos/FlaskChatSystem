@@ -183,31 +183,52 @@
                 <table class='leftRightTable'>
                     <tr>
                         <td><h5>Weapon Dmg</h5></td>
-                        <td><p id='panelDamage'></p></td>
+                        <td>
+                            <p id='panelDamage'></p>
+                            (<p id='panelDamageDiff'></p>)
+                        </td>
                     </tr>
                     <tr>
                         <td><h5>Armor</h5></td>
-                        <td><p id='panelArmor'></p></td>
+                        <td>
+                            <p id='panelArmor'></p>
+                             (<p id='panelArmorDiff'></p>)
+                        </td>
                     </tr>
                     <tr>
                         <td><h5>Strength</h5></td>
-                        <td><p id='panelStrength'></p></td>
+                        <td>
+                            <p id='panelStrength'></p>
+                             (<p id='panelStrengthDiff'></p>)
+                        </td>
                     </tr>
                     <tr>
                         <td><h5>Dexterity</h5></td>
-                        <td><p id='panelDexterity'></p></td>
+                        <td>
+                            <p id='panelDexterity'></p>
+                             (<p id='panelDexterityDiff'></p>)
+                        </td>
                     </tr>
                     <tr>
                         <td><h5>Intelligence</h5></td>
-                        <td><p id='panelIntelligence'></p></td>
+                        <td>
+                            <p id='panelIntelligence'></p>
+                             (<p id='panelIntelligenceDiff'></p>)
+                        </td>
                     </tr>
                     <tr>
                         <td><h5>Constitution</h5></td>
-                        <td><p id='panelConstitution'></p></td>
+                        <td>
+                            <p id='panelConstitution'></p>
+                             (<p id='panelConstitutionDiff'></p>)
+                        </td>
                     </tr>
                     <tr>
                         <td><h5>Luck</h5></td>
-                        <td><p id='panelLuck'></p></td>
+                        <td>
+                            <p id='panelLuck'></p>
+                             (<p id='panelLuckDiff'></p>)
+                        </td>
                     </tr>
                     <tr>
                         <td><h5>&nbsp;</h5></td>
@@ -234,16 +255,16 @@
 <script>
 
     var itemPanelConfig = {
-        'panelPrefix': {'listKey': 'prefix', 'addWarningCss': false},
-        'panelName': {'listKey': 'item_name', 'addWarningCss': false},
-        'panelDamage': {'listKey': 'damage', 'addWarningCss': true},
-        'panelArmor': {'listKey': 'armor', 'addWarningCss': true},
-        'panelStrength': {'listKey': 'strength', 'addWarningCss': true},
-        'panelDexterity': {'listKey': 'dexterity', 'addWarningCss': true},
-        'panelIntelligence': {'listKey': 'intelligence', 'addWarningCss': true},
-        'panelConstitution': {'listKey': 'constitution', 'addWarningCss': true},
-        'panelLuck': {'listKey': 'luck', 'addWarningCss': true},
-        'panelWorth': {'listKey': 'sell_price', 'addWarningCss': false}
+        'panelPrefix': {'listKey': 'prefix', 'compareStats': false},
+        'panelName': {'listKey': 'item_name', 'compareStats': false},
+        'panelDamage': {'listKey': 'damage', 'compareStats': true},
+        'panelArmor': {'listKey': 'armor', 'compareStats': true},
+        'panelStrength': {'listKey': 'strength', 'compareStats': true},
+        'panelDexterity': {'listKey': 'dexterity', 'compareStats': true},
+        'panelIntelligence': {'listKey': 'intelligence', 'compareStats': true},
+        'panelConstitution': {'listKey': 'constitution', 'compareStats': true},
+        'panelLuck': {'listKey': 'luck', 'compareStats': true},
+        'panelWorth': {'listKey': 'sell_price', 'compareStats': false}
     }
 
     var classInfo = {{ classInfo|tojson|safe }}
@@ -315,32 +336,66 @@
         changeDisplayedButtons(this.isEquipped, this.itemIndex)
 
         if(this.isEquipped)
-            updatePanelElements(equippedItems, this.itemIndex)
+            updatePanelElements(equippedItems, this.itemIndex, this.isEquipped)
         else
-            updatePanelElements(inventoryItems, this.itemIndex)
+            updatePanelElements(inventoryItems, this.itemIndex, this.isEquipped)
     }
 
 
     //Updates each of the item panel elements with the information of the item
-    function updatePanelElements(itemsList, itemIndex){
+    function updatePanelElements(itemsList, itemIndex, isEquipped){
+        var equippedItem
+
+        if(!isEquipped){
+            var itemType = itemsList[itemIndex]['item_type_name']
+            var slotType = getItemSlotTypeId(itemType)
+            var equippedItemIndex = getEquippedItemIndex(itemType)
+
+            if(equippedItemIndex != -1) 
+                equippedItem = equippedItems[equippedItemIndex]
+            else 
+                equippedItem = null
+        }
 
         document.getElementById('panelImage').src = 'static/' + itemsList[itemIndex]['file_name']
         document.getElementById('panelImage').classList = itemsList[itemIndex]['css_class_name']
         document.getElementById('panelLevel').innerText = 'Level ' + itemsList[itemIndex]['item_level'] + ' ' + itemsList[itemIndex]['item_type_name']
 
         //Check for wrong class stat to item type - warn them why their stats are reduced
-        var wrongClassType = isWrongClassType(itemsList[itemIndex]['stat'])
+        isWrongClassType(itemsList[itemIndex]['stat'])
 
         //Update each panel element based on the panel configuration
         Object.keys(itemPanelConfig).forEach(function(key) {
             var element = document.getElementById(key)
-            
-            element.innerText = itemsList[itemIndex][itemPanelConfig[key]['listKey']]
+            var item = itemsList[itemIndex]
+            var itemKey = itemPanelConfig[key]['listKey']
 
-            if(wrongClassType && itemPanelConfig[key]['addWarningCss'])
-                element.classList.add('textRed')
-            else
-                element.classList.remove('textRed')
+            element.innerText = item[itemKey]
+
+            //Add or remove warning css color based on class type
+            if(itemPanelConfig[key]['compareStats']){
+
+                //Show the difference of stats between equipped item and inventory item
+                var elementDiff = document.getElementById(key + 'Diff')
+
+                if(!isEquipped && equippedItem != null){
+                    var difference = item[itemKey] - equippedItem[itemKey]
+                    elementDiff.innerText = difference
+
+                    if(difference > 0)
+                        elementDiff.classList = 'textGreen'
+                    else if(difference == 0)
+                        elementDiff.classList = ''
+                    else
+                        elementDiff.classList = 'textRed'
+                    
+                }
+                //Reset the difference element text
+                else{
+                    elementDiff.innerText = '--'
+                    elementDiff.classList = ''
+                }
+            }
         });
     }
 
