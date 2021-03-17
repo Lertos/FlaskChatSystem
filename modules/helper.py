@@ -192,7 +192,9 @@ def getItemDamage(level, itemTypeId, itemPrefixId, itemRarity):
 
 #Calculates the sell price of an item based on level
 def getSellPrice(level, rarityMultiplier):
-    return math.floor(( ((level ** 3) * rarityMultiplier)  + 300) / 50)
+    price = float(( ((level ** 3) * rarityMultiplier)  + 300) / 50)
+    price *= float(random.uniform(0.9,1.1))
+    return math.floor(price)
 
 
 def getClassInfo(className):

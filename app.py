@@ -152,17 +152,17 @@ def dashboard():
 
     playerId = session['playerId']
 
-    player = db_manager.getDashboardDetails(playerId)
-    classInfo = helper.getClassInfo(session['className'])
-    items = db_manager.getPlayerInventory(playerId)
-    equippedItems = db_manager.getPlayerEquippedItems(playerId)
-
     #For testing new items out
     if request.method == 'POST':
-        helper.debugCreateItems(session['playerId'], session['className'], 28, 10, 100)   
-        return render_template('dashboard.html', player=player, classInfo=classInfo, items=items, equippedItems=equippedItems)
+        helper.debugCreateItems(playerId, session['className'], 28, 10, 100)
+        
+    player = db_manager.getDashboardDetails(playerId)
+    classInfo = helper.getClassInfo(session['className'])
+    equippedItems = db_manager.getPlayerEquippedItems(playerId)
+    items = db_manager.getPlayerInventory(playerId)
 
-    return render_template('dashboard.html', player=player, classInfo=classInfo, items=items, equippedItems=equippedItems)
+
+    return render_template('dashboard.html', player=player, classInfo=classInfo, equippedItems=equippedItems, items=items)
 
 
 @app.route('/arena')
