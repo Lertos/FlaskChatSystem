@@ -6,26 +6,31 @@
 
 <body>
 {% block body %}
+<body class='background_signin'>
 
-    <div class='header border spacing'>
-        <h1>Noxphor Account Creation</h1>
-    </div>
+    <div id='container'>
 
-    <div id='signinContainer' class='background border spacing'>
-        <div class='background'>
-            {% if errorMessage != '' %}
-                <label id='lblErrorMessage'>{{ errorMessage }}</label>
-            {% endif %}
-
-            <form action="#" method="POST">
-                <input type='text' class="form-control" name="username" placeholder="Username"></input>
-                <input type='text' class="form-control" name="displayName" placeholder="Display Name"></input>
-                <input type='password' class="form-control" name="password" placeholder="Password"></input>
-                <input type='password' class="form-control" name="passwordConfirm" placeholder="Confirm Password"></input>
-                <input type="submit" class="themeButton" value="Create">
-            </form>
-            <a href="{{ url_for('signin') }}">Have an account?</a>
+        <div class='header border spacing'>
+            <h1>Noxphor Account Creation</h1>
         </div>
+
+        <div id='signinContainer' class='background border spacing'>
+            <div class='background'>
+                {% if errorMessage != '' %}
+                    <label id='lblErrorMessage'>{{ errorMessage }}</label>
+                {% endif %}
+
+                <form action="#" method="POST">
+                    <input type='text' class="form-control" name="username" placeholder="Username"></input>
+                    <input type='text' class="form-control" name="displayName" placeholder="Display Name"></input>
+                    <input type='password' class="form-control" name="password" placeholder="Password"></input>
+                    <input type='password' class="form-control" name="passwordConfirm" placeholder="Confirm Password"></input>
+                    <input type="submit" class="themeSmallButton" value="Create">
+                </form>
+                <a href="{{ url_for('signin') }}">Have an account?</a>
+            </div>
+        </div>
+
     </div>
     
 {% endblock %}

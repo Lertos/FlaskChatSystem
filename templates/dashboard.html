@@ -12,7 +12,7 @@
         <!-- LEFT PANEL -->
         <div class='sidePanel background border spacing'>
             
-            <img class='resizeImg128' src='/static/avatars/{{ player["file_name"] }}'>
+            <img class='resizeImg128NoHover' src='/static/avatars/{{ player["file_name"] }}'>
 
             <!-- Player Info Panel -->
             <div id='playerInfo'>
@@ -110,10 +110,10 @@
                 <table class='leftRightTable'>
                     <tr>
                         <td>
-                            <h5>Weapon Damage</h5>
+                            <h5>Base Damage</h5>
                         </td>
                         <td>
-                            <p id='playerDamage' class='sameLine'>0</p>
+                            <p id='playerDamage' class='sameLine'>10</p>
                         </td>
                     </tr>
                     <tr>
@@ -137,7 +137,7 @@
                             <h5>Armor Reduction (%)</h5>
                         </td>
                         <td>
-                            <p id='playerArmorReduc' class='sameLine'>0</p> / 100
+                            <p id='playerArmorReduc' class='sameLine'>0</p>%
                         </td>
                     </tr>
                     <tr>
@@ -145,7 +145,7 @@
                             <h5>Critical Chance (%)</h5>
                         </td>
                         <td>
-                            <p id='playerCritChance' class='sameLine'>0</p> / 100
+                            <p id='playerCritChance' class='sameLine'>0</p>%
                         </td>
                     </tr>
                 </table>
@@ -166,7 +166,7 @@
                     <img id='slot_gloves' src='/static/slots/slot_gloves.png'>
                     <img id='slot_boots' src='/static/slots/slot_boots.png'>
                     <img id='slot_weapon' src='/static/slots/slot_weapon.png'>
-                    <img id='slot_offhand' src='/static/slots/slot_offhand.png'>
+                    <img id='slot_offhand' class='imgLocked' src='/static/slots/slot_locked.png'>
                 </div>
             </div>
 
@@ -325,6 +325,13 @@
     resetItemPanel()
     updatePlayerHealth()
     updatePlayerCritChance()
+
+    //If a class doesn't use their offhand, lock it to avoid confusion
+    if(classInfo['uses_shield'] == 1){
+        var offHandSlot = document.getElementById('slot_offhand')
+        offHandSlot.src = '/static/slots/slot_offhand.png'
+        offHandSlot.classList = 'borderImg'
+    }
 
     for(var i=0; i<importedEquippedItems.length; i++)
         setupNewEquippedItem(importedEquippedItems[i])
@@ -487,6 +494,11 @@
         var slotType = inventoryItems[itemIndex]['item_type_name']
         var slotTypeId = getItemSlotTypeId(slotType)
 
+        //Check for class restrictions
+        if(inventoryItems[itemIndex]['is_two_handed'] == 1 && classInfo['uses_two_handed'] == 0) return
+        if(inventoryItems[itemIndex]['is_two_handed'] == 0 && classInfo['uses_two_handed'] == 1) return
+        if(inventoryItems[itemIndex]['item_type_name'] == 'Shield' && classInfo['uses_shield'] == 0) return
+
         //Unequip old item
         var item = unequipItem(slotType, slotTypeId)
 
@@ -500,7 +512,6 @@
         if(item != null)
             setupNewInventoryItem(item)
 
-        //var twoHanded = items[itemId]['is_two_handed']
         resetItemPanel()
     }
 
@@ -625,9 +636,7 @@
 
         updatePlayerArmorAndReduction(item['armor'], multiplier)
 
-        //MAKE ITS OWN FUNCTION
         updateInnerText('playerDamage', item['damage'] * multiplier)
-        
         updateInnerText('playerStrength', item['strength'] * multiplier)
         updateInnerText('playerDexterity', item['dexterity'] * multiplier)
         updateInnerText('playerIntelligence', item['intelligence'] * multiplier)
@@ -748,6 +757,13 @@
             return 'slot_offhand'
         else
             return 'slot_weapon'
+    }
+
+
+    function getMainStat(type){
+        if(type == 'str') return 'Strength'
+        else if(type == 'dex') return 'Dexterity'
+        else return 'Intelligence'
     }
 
 

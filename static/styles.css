@@ -249,6 +249,7 @@ ul{
     text-align: center;
     margin-right: auto;
     margin-left: auto;
+    padding-top: 16px;
 }
 
 /* characterCreation.html */
@@ -397,9 +398,13 @@ ul{
 
 .border{
     border: var(--borderAndLines);
-    border-radius: 8px;
-    border-width: 8px;
+    border-radius: 4px;
+    border-width: 4px;
     border-style: solid;
+}
+
+.borderImg{
+    border: var(--text) var(--borderWidth) solid;
 }
 
 .borderSelected{
@@ -570,6 +575,17 @@ ul.nav li.active a {
 
 .resizeImg128:hover{
     border: white var(--borderWidth) solid;
+}
+
+.resizeImg128NoHover{
+    max-width:128px; 
+    height:auto;
+    margin: 0px;
+    padding: 0px;
+}
+
+.resizeImg128NoHover:hover{
+    border: var(--text) var(--borderWidth) solid;
 }
 
 .iconImg{

@@ -8,23 +8,27 @@
 {% block body %}
 <body class='background_signin'>
 
-    <div class='header border spacing'>
-        <h1>Noxphor Login</h1>
-    </div>
+    <div id='container'>
 
-    <div id='signinContainer' class='background border spacing'>
-        <div class='background'>
-            {% if errorMessage != '' %}
-                <label id='lblErrorMessage'>{{ errorMessage }}</label>
-            {% endif %}
-
-            <form action="#" method="POST">
-                <input type='text' class="form-control" name="username" placeholder="Username"></input>
-                <input type='password' class="form-control" name="password" placeholder="Password"></input>
-                <input type="submit" class="themeButton" value="Login">
-            </form>
-            <a href="{{ url_for('signup') }}">Create Account</a>
+        <div class='header border spacing'>
+            <h1>Noxphor Login</h1>
         </div>
+
+        <div id='signinContainer' class='background border spacing'>
+            <div class='background'>
+                {% if errorMessage != '' %}
+                    <label id='lblErrorMessage'>{{ errorMessage }}</label>
+                {% endif %}
+
+                <form action="#" method="POST">
+                    <input type='text' class="form-control" name="username" placeholder="Username"></input>
+                    <input type='password' class="form-control" name="password" placeholder="Password"></input>
+                    <input type="submit" class="themeSmallButton" value="Login">
+                </form>
+                <a href="{{ url_for('signup') }}">Create Account</a>
+            </div>
+        </div>
+
     </div>
     
     
