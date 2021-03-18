@@ -50,7 +50,7 @@ CREATE PROCEDURE usp_get_dashboard_details
 	IN p_player_id SMALLINT
 )
 BEGIN
-	SELECT display_name, class_name, file_name, player_level, exp_until_level, strength, dexterity, intelligence,
+	SELECT player_id, display_name, class_name, file_name, player_level, exp_until_level, strength, dexterity, intelligence,
 		constitution, luck, gold, stamina, honor, inventory_space
 	FROM players
 	WHERE player_id = p_player_id;
@@ -154,3 +154,33 @@ DELIMITER ;
 
 #CALL usp_create_new_item(1, 20, 1, 1, 'Common', 10, 15, 20, 25, 30, 0, 45, 10);
 #SELECT * FROM player_inventories;
+
+
+/*==============================
+	usp_sell_inventory_item
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_sell_inventory_item;
+
+DELIMITER //
+CREATE PROCEDURE usp_sell_inventory_item
+(
+	IN p_player_id SMALLINT,
+    IN p_sell_price INT,
+    IN p_inventory_id SMALLINT
+)
+BEGIN
+
+	UPDATE players
+    SET gold = gold + p_sell_price
+    WHERE player_id = p_player_id;
+
+	DELETE FROM player_inventories
+    WHERE player_id = p_player_id AND inventory_item_id = p_inventory_id;
+   
+END //
+DELIMITER ;
+
+#CALL usp_sell_inventory_item(1, 20, 925);
+#SELECT * FROM players where player_id = 1;
+#SELECT * FROM player_inventories where player_id = 1;

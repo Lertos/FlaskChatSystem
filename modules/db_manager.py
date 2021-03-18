@@ -265,6 +265,16 @@ def createNewItem(playerId, level, itemTypeId, itemPrefixId, itemRarity, itemSta
   cursor.close()
 
 
+def sellInventoryItem(playerId, sellPrice, inventoryId):  
+  cursor = conn.cursor()
+
+  args = [playerId, sellPrice, inventoryId]
+  cursor.callproc('usp_sell_inventory_item', args)
+
+  conn.commit()
+  cursor.close()
+
+
 #===============================
 
 #Debug/Testing Functions

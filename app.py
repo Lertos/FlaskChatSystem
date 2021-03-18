@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for, session
+from flask import Flask, render_template, redirect, request, url_for, session, Response
 from flask_mysqldb import MySQL
 from modules import db_manager, helper
 
@@ -153,9 +153,9 @@ def dashboard():
     playerId = session['playerId']
 
     #For testing new items out
-    if request.method == 'POST':
-        helper.debugCreateItems(playerId, session['className'], 28, 10, 100)
-        
+    #if request.method == 'POST':
+    #    helper.debugCreateItems(playerId, session['className'], 28, 10, 100)
+
     player = db_manager.getDashboardDetails(playerId)
     classInfo = helper.getClassInfo(session['className'])
     equippedItems = db_manager.getPlayerEquippedItems(playerId)
@@ -163,6 +163,20 @@ def dashboard():
 
 
     return render_template('dashboard.html', player=player, classInfo=classInfo, equippedItems=equippedItems, items=items)
+
+
+@app.route('/sellItem', methods=['POST'])
+def sellItem():
+
+    if request.method == "POST":
+        playerId = request.form['playerId']
+        sellPrice = request.form['sellPrice']
+        inventoryId = request.form['inventoryId']
+
+        if int(playerId) == int(session['playerId']):
+            db_manager.sellInventoryItem(playerId, sellPrice, inventoryId)
+
+    return Response('', status=201, mimetype='application/json')
 
 
 @app.route('/arena')

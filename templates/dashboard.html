@@ -300,6 +300,9 @@
 {% endblock %}
 
 {% block script %}
+
+<script type='text/javascript' src='{{ url_for("static", filename="jquery.js") }}'></script>
+
 <script>
 
     var itemPanelConfig = {
@@ -540,17 +543,20 @@
         var itemIndex = sellButton.itemIndex
         var isEquipped = sellButton.isEquipped
         var sellPrice = 0
+        var inventoryId
 
         if(isEquipped){
             var slotType = equippedItems[itemIndex]['item_type_name']
             var slotTypeId = getItemSlotTypeId(slotType)
 
             sellPrice = equippedItems[itemIndex]['sell_price']
+            inventoryId = equippedItems[itemIndex]['inventory_item_id']
 
             unequipItem(slotType, slotTypeId)
         }
         else{
             sellPrice = inventoryItems[itemIndex]['sell_price']
+            inventoryId = inventoryItems[itemIndex]['inventory_item_id']
 
             removeItemFromInventory(itemIndex)
         }
@@ -560,7 +566,15 @@
 
         resetItemPanel()
 
-        //TODO - send AJAX request that its sold
+        //Send AJAX request that the item sold and for how much
+        $(function (){
+            $.ajax({
+                type: 'POST',
+                url: '{{ url_for("sellItem") }}',
+                data: {'playerId': '{{player["player_id"]}}', 'sellPrice':sellPrice, 'inventoryId':inventoryId}
+            })
+        });
+
     }
 
 
