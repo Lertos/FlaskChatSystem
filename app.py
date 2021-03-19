@@ -15,6 +15,8 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor' #Instead of tuples, it uses dicti
 
 mysql = MySQL(app)
 
+database = db_manager.MySQLPool()
+
 #===============================
 
 #Global Variables
@@ -54,7 +56,7 @@ def signin():
         username = request.form['username']
         password = request.form['password']
 
-        result = db_manager.getPlayerLogin(username, password)
+        result = database.getPlayerLogin(username, password)
         
         #If the statement returned anything (meaning the combo exists) - log them in
         if(result != {}):
@@ -109,7 +111,7 @@ def signup():
             return render_template('signup.html', errorMessage=errorMessage)
 
         #Make the call to create the account to the database and check if the username and/or display name already exist
-        user = db_manager.createPlayerAccount(username, displayName, password)
+        user = database.createPlayerAccount(username, displayName, password)
 
         #Account was successfully created
         if(user['username'] != '' and user['display_name'] != ''):
@@ -137,7 +139,7 @@ def signup():
 def characterCreation():
     if request.method == 'POST':
         data = [request.form['className'], request.form['avatarName'], session['playerId']]
-        db_manager.createNewCharacter(data)
+        database.createNewCharacter(data)
         
         session['className'] = request.form['className']
         session['playerLevel'] = 1
@@ -156,10 +158,10 @@ def dashboard():
     #if request.method == 'POST':
     #    helper.debugCreateItems(playerId, session['className'], 28, 10, 100)
 
-    player = db_manager.getDashboardDetails(playerId)
+    player = database.getDashboardDetails(playerId)
     classInfo = helper.getClassInfo(session['className'])
-    equippedItems = db_manager.getPlayerEquippedItems(playerId)
-    items = db_manager.getPlayerInventory(playerId)
+    equippedItems = database.getPlayerEquippedItems(playerId)
+    items = database.getPlayerInventory(playerId)
 
 
     return render_template('dashboard.html', player=player, classInfo=classInfo, equippedItems=equippedItems, items=items)
@@ -174,7 +176,33 @@ def sellItem():
         inventoryId = request.form['inventoryId']
 
         if int(playerId) == int(session['playerId']):
-            db_manager.sellInventoryItem(playerId, sellPrice, inventoryId)
+            database.sellInventoryItem(playerId, sellPrice, inventoryId)
+
+    return Response('', status=201, mimetype='application/json')
+
+
+@app.route('/equipItem', methods=['POST'])
+def equipItem():
+
+    if request.method == "POST":
+        playerId = request.form['playerId']
+        inventoryId = request.form['inventoryId']
+
+        if int(playerId) == int(session['playerId']):
+            database.equipInventoryItem(playerId, inventoryId)
+
+    return Response('', status=201, mimetype='application/json')
+
+
+@app.route('/unequipItem', methods=['POST'])
+def unequipItem():
+
+    if request.method == "POST":
+        playerId = request.form['playerId']
+        inventoryId = request.form['inventoryId']
+
+        if int(playerId) == int(session['playerId']):
+            database.unequipInventoryItem(playerId, inventoryId)
 
     return Response('', status=201, mimetype='application/json')
 

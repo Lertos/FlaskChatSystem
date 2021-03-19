@@ -167,7 +167,7 @@ CREATE PROCEDURE usp_sell_inventory_item
 (
 	IN p_player_id SMALLINT,
     IN p_sell_price INT,
-    IN p_inventory_id SMALLINT
+    IN p_inventory_id INT
 )
 BEGIN
 
@@ -184,3 +184,51 @@ DELIMITER ;
 #CALL usp_sell_inventory_item(1, 20, 925);
 #SELECT * FROM players where player_id = 1;
 #SELECT * FROM player_inventories where player_id = 1;
+
+
+/*==============================
+	usp_equip_inventory_item
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_equip_inventory_item;
+
+DELIMITER //
+CREATE PROCEDURE usp_equip_inventory_item
+(
+	IN p_player_id SMALLINT,
+    IN p_inventory_id INT
+)
+BEGIN
+
+UPDATE player_inventories
+    SET equipped = 1
+    WHERE player_id = p_player_id AND inventory_item_id = p_inventory_id;
+   
+END //
+DELIMITER ;
+
+#CALL usp_equip_inventory_item(1, 925);
+
+
+/*==============================
+	usp_unequip_inventory_item
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_unequip_inventory_item;
+
+DELIMITER //
+CREATE PROCEDURE usp_unequip_inventory_item
+(
+	IN p_player_id SMALLINT,
+    IN p_inventory_id INT
+)
+BEGIN
+
+UPDATE player_inventories
+    SET equipped = 0
+    WHERE player_id = p_player_id AND inventory_item_id = p_inventory_id;
+   
+END //
+DELIMITER ;
+
+#CALL usp_unequip_inventory_item(1, 925);

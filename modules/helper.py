@@ -2,13 +2,15 @@ import random, math
 from modules import db_manager
 
 
-classes = db_manager.getClasses()
-itemTypes = db_manager.getItemTypes()
-itemRarities = db_manager.getItemRarities()
-weaponPrefixes = db_manager.getWeaponPrefixes()
-armorPrefixes = db_manager.getArmorPrefixes()
-questMonsters = db_manager.getQuestMonsters()
-bountyMonsters = db_manager.getBountyMonsters()
+database = db_manager.MySQLPool()
+
+classes = database.getClasses()
+itemTypes = database.getItemTypes()
+itemRarities = database.getItemRarities()
+weaponPrefixes = database.getWeaponPrefixes()
+armorPrefixes = database.getArmorPrefixes()
+questMonsters = database.getQuestMonsters()
+bountyMonsters = database.getBountyMonsters()
 
 #Used to buff the lower level items since exponentials mean little at low numbers
 additionalDamageConstant = 10
@@ -61,7 +63,7 @@ def createItem(playerId, playerClass, level):
         itemDamage, itemArmor, itemStats = reduceItemStats(itemDamage, itemArmor, itemStats)
 
     #Create the new item in the database
-    db_manager.createNewItem(playerId, level, itemTypeId, itemPrefixId, itemRarity, itemStats, itemDamage, itemArmor, itemWorth)
+    database.createNewItem(playerId, level, itemTypeId, itemPrefixId, itemRarity, itemStats, itemDamage, itemArmor, itemWorth)
 
     #Debugging
     debug = 0
@@ -242,7 +244,7 @@ def debugServerDictionaries():
 
 #Simply for debugging purposes for testing new items
 def debugCreateItems(playerId, playerClass, itemCount, levelMin, levelMax):
-    db_manager.debugRemoveAllPlayerItems(playerId)
+    database.debugRemoveAllPlayerItems(playerId)
 
     for i in range(0,itemCount):
         level = random.randint(levelMin, levelMax)

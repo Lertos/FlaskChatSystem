@@ -532,7 +532,6 @@
         if(item != null)
             setupNewInventoryItem(item)
 
-        //var twoHanded = items[itemId]['is_two_handed']
         resetItemPanel()
     }
 
@@ -566,12 +565,16 @@
 
         resetItemPanel()
 
-        //Send AJAX request that the item sold and for how much
+        //Send AJAX request with the item that was sold and for how much
         $(function (){
             $.ajax({
                 type: 'POST',
                 url: '{{ url_for("sellItem") }}',
-                data: {'playerId': '{{player["player_id"]}}', 'sellPrice':sellPrice, 'inventoryId':inventoryId}
+                data: {
+                    'playerId': '{{player["player_id"]}}', 
+                    'sellPrice': sellPrice, 
+                    'inventoryId': inventoryId
+                }
             })
         });
 
@@ -582,10 +585,12 @@
     function unequipItem(slotType, slotTypeId){
         //Check if item exists in that slot
         var itemIndex = getEquippedItemIndex(slotType)
+        var inventoryId
 
         if(itemIndex != -1){
             //Get the item being unequipped
             var item = equippedItems[itemIndex]
+            inventoryId = equippedItems[itemIndex]['inventory_item_id']
 
             //Remove the stats from the player
             changePlayerStats(item, -1)
@@ -601,7 +606,17 @@
             //Replaces with a deep clone - which doesn't have the event listeners
             slot.replaceWith(slot.cloneNode(true));
 
-            //Make AJAX request that the item is now unequipped
+            //Send AJAX request to unequip the item in the database
+            $(function (){
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ url_for("unequipItem") }}',
+                    data: {
+                        'playerId': '{{player["player_id"]}}',
+                        'inventoryId': inventoryId
+                    }
+                })
+            });
 
             return item
         }
@@ -640,7 +655,17 @@
         //Add the item to the equipment slot
         setupNewEquippedItem(item)
 
-        //Make AJAX request that the item is now equipped
+        //Send AJAX request to equip the item in the database
+            $(function (){
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ url_for("equipItem") }}',
+                    data: {
+                        'playerId': '{{player["player_id"]}}',
+                        'inventoryId': item['inventory_item_id']
+                    }
+                })
+            });
     }
 
 
