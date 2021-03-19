@@ -1,27 +1,13 @@
 from flask import Flask, render_template, redirect, request, url_for, session, Response
-from flask_mysqldb import MySQL
 from modules import db_manager, helper
 
 app = Flask(__name__)
+
 app.secret_key = b'\xe4$Y2\xd5\xbb_\xab#\xfd*\x1e\xe2v\xa8J'
 
 app.config['JSON_AS_ASCII'] = False
 
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'flaskrpg123'
-app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_DB'] = 'flasksimplerpg'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor' #Instead of tuples, it uses dictionary
-
-mysql = MySQL(app)
-
 database = db_manager.MySQLPool()
-
-#===============================
-
-#Global Variables
-
-#===============================
 
 
 #===============================
@@ -65,6 +51,7 @@ def signin():
             session['displayName'] = result['display_name']
             session['className'] = result['class_name']
             session['playerLevel'] = result['player_level']
+            
 
             #Check is the character has been created yet
             if(result['has_character'] == 1):

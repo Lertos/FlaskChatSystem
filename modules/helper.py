@@ -1,9 +1,10 @@
-import random, math
+import random, math, time
 from modules import db_manager
 
 
 database = db_manager.MySQLPool()
 
+#Holds the high-use backend data
 classes = database.getClasses()
 itemTypes = database.getItemTypes()
 itemRarities = database.getItemRarities()
@@ -15,6 +16,8 @@ bountyMonsters = database.getBountyMonsters()
 #Used to buff the lower level items since exponentials mean little at low numbers
 additionalDamageConstant = 10
 
+#Holds travel information when a player is in travel mode
+travellingPlayers = {}
 
 #===============================
 
@@ -201,6 +204,32 @@ def getSellPrice(level, rarityMultiplier):
 
 def getClassInfo(className):
     return classes[className]
+
+
+def getPlayerTravelInfo(playerId):
+    if playerId in travellingPlayers:
+        return travellingPlayers[playerId]
+    return {}
+
+
+def addPlayerTravelInfo(playerId, travelTimeInSeconds, typeOfEvent, eventDatabaseId):
+    travellingPlayers[playerId] = {}
+
+    timeNow = int(time.time())
+
+    localTime = time.localtime(timeNow)
+    readableTime = time.asctime(localTime)
+    print(readableTime)
+
+    endTime = timeNow + travelTimeInSeconds
+
+    localTimeEnd = time.localtime(endTime)
+    readableTimeEnd = time.asctime(localTimeEnd)
+    print(readableTimeEnd)
+    
+    travellingPlayers[playerId]['travelEnds'] = endTime
+    travellingPlayers[playerId]['typeOfEvent'] = typeOfEvent
+    travellingPlayers[playerId]['eventDatabaseId'] = eventDatabaseId
 
 
 #===============================
