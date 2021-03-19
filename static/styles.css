@@ -518,6 +518,10 @@ ul{
     background-image: url('/static/backgrounds/background_leaderboard.jpg');
 }
 
+.background_travel{
+    background-image: url('/static/backgrounds/background_travel.png');
+}
+
 /*===================
 
     other

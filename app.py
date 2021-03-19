@@ -194,6 +194,16 @@ def unequipItem():
     return Response('', status=201, mimetype='application/json')
 
 
+@app.route('/travel')
+def travel():
+
+    #If player is not travelling - redirect to dashboard
+
+    #Get the travel details and supply them to the travel page
+
+    return render_template('travel.html')
+
+
 @app.route('/arena')
 def arena():
     return render_template('arena.html')

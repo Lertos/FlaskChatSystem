@@ -1,0 +1,55 @@
+{% extends 'basePlusNavbar.html' %}
+
+{% block head %}
+    <title>Travelling</title>
+{% endblock %}
+
+{% block body %}
+<body class='background_travel'>
+
+    <div id='container'>
+
+        <div class='infoPanel background border spacing'>    
+            <h4>You Are Currently Travelling</h4>
+        </div>
+
+        <div>
+
+            <div class='sidePanel background border spacing'>
+                <div>
+
+                    <img class='resizeImg128' src='/static/offering_avatars/xp.png'>
+
+                    <h3 class='alignCenter bold'></h3>
+                    <h5 class='alignCenter'></h5>
+
+                    <hr>
+
+                    <h3 class='sameLine boldText'>Time Left: </h3>
+                    <h3 id='timeLeftCounter' class='sameLine'>40</h3>
+
+                    <hr>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+	
+{% endblock %}
+
+{% block script %}
+
+<script type='text/javascript' src='{{ url_for("static", filename="jquery.js") }}'></script>
+
+<script>
+
+
+
+    setInterval(function() { 
+         document.getElementById('timeLeftCounter').innerText -= 1
+    }, 1000);
+
+</script>
+{% endblock %}

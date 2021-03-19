@@ -202,16 +202,19 @@ def getSellPrice(level, rarityMultiplier):
     return math.floor(price)
 
 
+#Returns a dictionary containing all details of a specified class
 def getClassInfo(className):
     return classes[className]
 
 
+#If a playerId exists inside the dictionary, return the contained dictionary - else return an empty dictionary
 def getPlayerTravelInfo(playerId):
     if playerId in travellingPlayers:
         return travellingPlayers[playerId]
     return {}
 
 
+#Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
 def addPlayerTravelInfo(playerId, travelTimeInSeconds, typeOfEvent, eventDatabaseId):
     travellingPlayers[playerId] = {}
 
@@ -230,6 +233,8 @@ def addPlayerTravelInfo(playerId, travelTimeInSeconds, typeOfEvent, eventDatabas
     travellingPlayers[playerId]['travelEnds'] = endTime
     travellingPlayers[playerId]['typeOfEvent'] = typeOfEvent
     travellingPlayers[playerId]['eventDatabaseId'] = eventDatabaseId
+
+    print(travellingPlayers[playerId])
 
 
 #===============================
