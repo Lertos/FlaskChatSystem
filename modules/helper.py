@@ -242,15 +242,9 @@ def addQuestToTravelInfo(playerId, monsterId):
     #print(travellingPlayers[playerId])
 
 
-def convertTimeIntoUnixTime(timeInSeconds):
+def getTimeLeftFromEpochTime(epochTimestamp):
     timeNow = int(time.time())
-    endTime = timeNow + timeInSeconds
-
-    #localTimeEnd = time.localtime(endTime)
-    #readableTimeEnd = time.asctime(localTimeEnd)
-    #print(readableTimeEnd)
-
-    return endTime
+    return int(epochTimestamp) - timeNow
 
 
 #===============================

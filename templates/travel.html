@@ -21,7 +21,7 @@
                 <div>
 
                     {% if travelInfo['typeOfEvent'] == 'quest' %}
-                        <img class='resizeImg128' src='/static/quest_avatars/{{ travelInfo["file_name"] }}'>
+                        <img class='resizeImg128NoHover' src='/static/quest_avatars/{{ travelInfo["file_name"] }}'>
 
                         <h3 class='alignCenter boldText'>{{ travelInfo["monster_name"] }}</h3>
                         <h5 class='alignCenter'>{{ travelInfo["class_name"] }}</h5>
@@ -69,8 +69,8 @@
                         <hr>
 
                         <h3 class='boldText'>Arrival In</h3>
-                        <h3 id='timeLeftCounter' class='sameLine'>40</h3>
-                        <h4 id='timeLeftCounter' class='sameLine'> seconds</h4>
+                        <h3 id='timeLeftCounter' class='sameLine'>{{ timeLeft }}</h3>
+                        <h4 class='sameLine'> seconds</h4>
 
                         <hr>
 
@@ -90,8 +90,6 @@
 <script type='text/javascript' src='{{ url_for("static", filename="jquery.js") }}'></script>
 
 <script>
-
-
 
     setInterval(function() { 
          document.getElementById('timeLeftCounter').innerText -= 1

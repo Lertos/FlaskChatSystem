@@ -202,7 +202,10 @@ def travel():
     if travelInfo == {}:
         return redirect(url_for('dashboard'))
 
-    return render_template('travel.html', travelInfo=travelInfo)
+    #Get the time left from the end of the travel
+    timeLeft = helper.getTimeLeftFromEpochTime(travelInfo['travel_time'])
+
+    return render_template('travel.html', travelInfo=travelInfo, timeLeft=timeLeft)
 
 
 @app.route('/startQuest', methods=['POST'])
@@ -228,14 +231,23 @@ def arena():
 def quests():
 
     playerId = session['playerId']
+
+    #Check if the player is already travelling - if so, redirect them to the travel page
+    #If player is not travelling - redirect to dashboard
+    travelInfo = helper.getPlayerTravelInfo(playerId)
+
+    if travelInfo != {}:
+        return redirect(url_for('travel'))
+
+    #Check if the player has active quests
     questMonsters = database.getPlayerQuestMonsters(playerId)
 
+    #If they have active quests, load the quests page and build the quests provided
     if questMonsters != []:
-        print(questMonsters)
         return render_template('quests.html', questMonsters=questMonsters)
+    #If they do not have active quests, create some and reload the quests page
     else:
         playerStats = database.getPlayerStats(playerId)
-        print(playerStats)
         helper.createRandomQuestMonsters(playerId, session['playerLevel'], playerStats)
         
         return redirect(url_for('quests'))
