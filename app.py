@@ -205,7 +205,47 @@ def travel():
     #Get the time left from the end of the travel
     timeLeft = helper.getTimeLeftFromEpochTime(travelInfo['travel_time'])
 
+    if timeLeft <= 0:
+        return redirect(url_for('results'))
+
     return render_template('travel.html', travelInfo=travelInfo, timeLeft=timeLeft)
+
+
+@app.route('/eventDone')
+def eventDone():
+
+    playerId = session['playerId']
+
+    #If player is not travelling return an error
+    travelInfo = helper.getPlayerTravelInfo(playerId)
+
+    if travelInfo == {}:
+        return Response('', status=400)
+
+    #Get the time left from the end of the travel
+    timeLeft = helper.getTimeLeftFromEpochTime(travelInfo['travel_time'])
+
+    if timeLeft <= 0:
+        return Response('', status=201)
+
+    return Response('', status=400)
+
+
+@app.route('/results')
+def results():
+
+    playerId = session['playerId']
+
+    #If player is not travelling - redirect to dashboard
+    travelInfo = helper.getPlayerTravelInfo(playerId)
+
+    if travelInfo == {}:
+        return redirect(url_for('dashboard'))
+
+    #Get the time left from the end of the travel
+    timeLeft = helper.getTimeLeftFromEpochTime(travelInfo['travel_time'])
+
+    return render_template('results.html', travelInfo=travelInfo, timeLeft=timeLeft)
 
 
 @app.route('/startQuest', methods=['POST'])

@@ -72,8 +72,6 @@
                         <h3 id='timeLeftCounter' class='sameLine'>{{ timeLeft }}</h3>
                         <h4 class='sameLine'> seconds</h4>
 
-                        <hr>
-
                     {% endif %}
 
                 </div>
@@ -91,9 +89,28 @@
 
 <script>
 
+    //Setup the timer to go out when the travel time is up
     setInterval(function() { 
-         document.getElementById('timeLeftCounter').innerText -= 1
+        var timer = document.getElementById('timeLeftCounter')
+        var timeLeft = timer.innerText
+
+        if(timeLeft <= 0)
+            timeUp()
+        else
+            timer.innerText -= 1 
     }, 1000);
+
+    function timeUp(){
+        $(function() {
+            $.ajax({
+                type: 'GET',
+                url: '{{ url_for("eventDone") }}',
+                success: function (response) {
+                    window.location = '{{ url_for("results") }}';
+                }
+            });
+        });
+    }
 
 </script>
 {% endblock %}

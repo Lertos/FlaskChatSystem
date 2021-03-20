@@ -1,0 +1,270 @@
+{% extends 'basePlusNavbar.html' %}
+
+{% block head %}
+    <title>Event Results</title>
+{% endblock %}
+
+{% block body %}
+<body class='background_travel'>
+
+    <div id='container'>
+
+        <div>
+
+            {% if travelInfo['typeOfEvent'] == 'quest' %}
+                <div class='sidePanel background border spacing'>
+                    <div>
+           
+                        <img class='resizeImg128NoHover' src='/static/quest_avatars/{{ travelInfo["file_name"] }}'>
+
+                        <h3 class='alignCenter boldText'>{{ travelInfo["monster_name"] }}</h3>
+                        <h5 class='alignCenter'>{{ travelInfo["class_name"] }}</h5>
+
+                        <hr>
+
+                        <table class='leftRightTable'>
+                            <tr>
+                                <td><h5>Strength</h5></td>
+                                <td><p>{{ travelInfo["strength"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Dexterity</h5></td>
+                                <td><p>{{ travelInfo["dexterity"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Intelligence</h5></td>
+                                <td><p>{{ travelInfo["intelligence"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Constitution</h5></td>
+                                <td><p>{{ travelInfo["constitution"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Luck</h5></td>
+                                <td><p>{{ travelInfo["luck"] }}</p></td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+
+
+                <div class='mainPanel background border spacing'>
+                    <div>
+
+                        <h3 class='alignCenter boldText'>YOU WIN!</h3>
+                        
+                        <table class='resultsTable alignCenter'>
+                            <tr>
+                                <td>
+                                    <img class='iconImg' src='/static/icons/icon_gold.png'>
+                                    <p>{{ travelInfo["gold"] }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img class='iconImg' src='/static/icons/icon_xp.png'>
+                                    <p>{{ travelInfo["xp"] }}</p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <hr>
+
+                        <button id='toggleBattleLog' class='themeSmallButton'>Battle Log</button>
+                        
+                        <div hidden id='battleLog'>
+                            <table class='resultsTable' >
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 1</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 2</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 1</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 2</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 1</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 2</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 1</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 2</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 1</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 2</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 1</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 2</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 1</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                                <tr class='tableTurnHeader'>
+                                    <td>Turn 2</td>
+                                </tr>
+                                <tr class='tableEntity1'>
+                                    <td>Lol did X</td>
+                                </tr>
+                                <tr class='tableEntity2'>
+                                    <td>Croc blocked Y</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class='sidePanel background border spacing'>
+                    <div>
+           
+                        <img class='resizeImg128NoHover' src='/static/quest_avatars/{{ travelInfo["file_name"] }}'>
+
+                        <h3 class='alignCenter boldText'>{{ travelInfo["monster_name"] }}</h3>
+                        <h5 class='alignCenter'>{{ travelInfo["class_name"] }}</h5>
+
+                        <hr>
+
+                        <table class='leftRightTable'>
+                            <tr>
+                                <td><h5>Strength</h5></td>
+                                <td><p>{{ travelInfo["strength"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Dexterity</h5></td>
+                                <td><p>{{ travelInfo["dexterity"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Intelligence</h5></td>
+                                <td><p>{{ travelInfo["intelligence"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Constitution</h5></td>
+                                <td><p>{{ travelInfo["constitution"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Luck</h5></td>
+                                <td><p>{{ travelInfo["luck"] }}</p></td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+	
+{% endblock %}
+
+{% block script %}
+
+<script type='text/javascript' src='{{ url_for("static", filename="jquery.js") }}'></script>
+
+<script>
+
+$(function() {
+
+    $('#toggleBattleLog').on('click', function(){
+        $('#battleLog').toggle()
+    });
+
+});
+
+
+</script>
+{% endblock %}

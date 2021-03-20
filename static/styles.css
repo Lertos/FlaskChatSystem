@@ -163,6 +163,7 @@ ul{
 .spacing{
     padding: 8px 16px;
     margin-top: 16px;
+    padding-bottom: 16px;
     margin-right: 30px;
 }
 
@@ -231,6 +232,36 @@ ul{
     margin: 0px;
     border-radius: 2px;
     border: 1px solid #301f17;
+}
+
+.resultsTable{
+    width: 100%;
+}
+
+.resultsTable tr{
+    width: 100%;
+}
+
+.resultsTable td{
+    width: 100%;
+    padding: 4px 10px;
+}
+
+.tableTurnHeader{
+    text-align: center;
+    font-weight: bold;
+    outline: 2px dashed var(--horzLines);
+    outline-offset: -5px;
+}
+
+.tableEntity1{
+    text-align: left;
+    font-weight: normal;
+}
+
+.tableEntity2{
+    text-align: right;
+    font-weight: normal;
 }
 
 .divSameLineElements h1, .divSameLineElements h2, .divSameLineElements h3, .divSameLineElements h4, .divSameLineElements h5, .divSameLineElements p, .divSameLineElements img{
@@ -388,6 +419,36 @@ ul{
 
 .inventory div{
     display: block;
+}
+
+#battleLog{
+    width: 100%;
+    text-align: center;
+    overflow-y:scroll; 
+    height:300px;
+    margin-top: 20px;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--background);
+    outline: var(--borderAndLines) solid 3px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--horzLines);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--div);
 }
 
 /*===================
