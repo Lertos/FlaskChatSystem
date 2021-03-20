@@ -320,6 +320,295 @@ def createRandomQuestMonsters(playerId, playerLevel, playerStats):
 
 #===============================
 
+#Combat
+
+#===============================
+
+def setupFight(entity1, entity2):
+
+    #Calculate and insert each others resistances based on the other entities stats/level
+    calculateResistances(entity1, entity2)
+    calculateResistances(entity2, entity1)
+
+    #Process secondary stats
+    calculateSecondaryStats(entity1)
+    calculateSecondaryStats(entity2)
+
+    #Take care of class-specific bonuses
+    classSpecificBonuses(entity1, entity2)
+    classSpecificBonuses(entity2, entity1)
+
+    #Decide who goes first - 50/50
+    goesFirst = math.random()
+
+    if goesFirst > 0.5:
+        startFight(entity1, entity2)
+    else:
+        startFight(entity2, entity1)
+
+
+#Begins the fight between the two entities - having all the final stats ready
+def startFight(entity1, entity2):
+
+    #Initialize base turn damage
+    entity1['turnDamage'] = 1.0
+    entity2['turnDamage'] = 1.0
+
+    #Controls who attacks each loop iteration
+    decider = 0
+    attacker = None
+    defender = None
+
+    #Tracks the turn of a rogue since they essentially take two turns
+    hasAttackedTwice = False
+
+    while entity1['health'] > 0 and entity2['health'] > 0:
+        if decider == 0:
+            attacker = entity1
+            defender = entity2
+        else:
+            attacker = entity2
+            defender = entity1
+
+        #Reset critical damage every turn before damage calculation
+        entity1['critDamage'] = 0
+        entity2['critDamage'] = 0
+
+        #Check for evasion and blocking
+        doesDefenderEvadeOrBlock = False
+        defenderClass = defender['class_name']
+
+        if defenderClass == 'Scout' or defenderClass == 'Rogue' or defenderClass == 'Assassin' or defenderClass == 'Warrior':
+            doesDefenderEvadeOrBlock = checkEvadeOrBlock(attacker, defender)
+
+        #If there was no evasion or block
+        if not doesDefenderEvadeOrBlock:
+
+            #Magic knight reduces armor reduction by 5%
+            if attacker['class_name'] == 'Magic Knight':
+                defender['armorReduction'] -= 5.0
+                print('[CLASS] ' + attacker['name'] + ' has reduced the opponents armor by 5%. NOW: ' + defender['armorReduction'])
+            
+            #Make sure the armor reduction isn't negative
+            if defender['armorReduction'] < 0:
+                defender['armorReduction'] = 0
+
+            #Check for critical hits
+            isHitCritical = checkCriticalHit(attacker, defender)
+
+            if isHitCritical:
+                print('[CRIT] ' + attacker['name'] + ' is going to CRITICALLY hit!')
+                processCriticalHit(attacker, defender)
+
+            #Total up the damage including ( [baseDamage + critDamage] * turnDamage )
+            baseDamage = attacker['damage']
+
+            #Berserker takes 2x damage from mages
+            if classes[attacker['class_name']]['stat'] == 'int' and defender['class_name'] == 'Berserker':
+                baseDamage *= 2
+                print('[CLASS] ' + defender['name'] + ' just took DOUBLE DMG from a magical attack!')
+
+            attackerDamage = math.floor((baseDamage + attacker['critDamage']) * attacker['turnDamage'])
+            damageAfterArmor = math.floor(attackerDamage * (1 - defender['armorReduction'] / 100))
+            print('attackerDamage: ' + attackerDamage + " damageAfterArmor: " + damageAfterArmor)
+            damageBlocked = attackerDamage - damageAfterArmor
+
+            defender['health'] -= damageAfterArmor
+            print('[HIT] ' + attacker['name'] + ' hits for ' + damageAfterArmor + ' damage (' + damageBlocked + ' was blocked) || ' + defender['name'] + ' has ' + defender['health'] + ' health')
+
+            if attacker['class_name'] == 'Dark Mage':
+                if math.random() > 0.5:
+                    attacker['health'] += math.floor(baseDamage / 3)
+                    print('[CLASS] ' + attacker['name'] + ' just STOLE LIFE equal to 1/3 of their base damage!')
+                    
+                    #Make sure health doesn't go over max
+                    if attacker['health'] > attacker['maxHealth']:
+                        attacker['health'] = attacker['maxHealth']
+
+            #Check for resurrection
+            checkIfRessurected(defender)
+
+        #Change the turn over to the other player
+        if decider == 0:
+            decider = 1
+        else:
+            decider = 0
+        
+        #Rogues attack twice - so change the decider back
+        if attacker['class_name'] == 'Rogue':
+            if hasAttackedTwice == False:
+                if decider == 0:
+                    decider = 1
+                else:
+                    decider = 0
+
+                attacker['turnDamage'] -= 0.2
+                hasAttackedTwice = True
+
+            #Set the counter back for the next time its the rogue's turn
+            else:
+                hasAttackedTwice = False
+                print('[CLASS] ' + attacker['name'] + ' just attacked twice!')
+
+        #Berserkers have a 50% chance to attack again
+        if attacker['class_name'] == 'Berserker':
+            if math.random() >= 0.5:
+                if decider == 0:
+                    decider = 1
+                else:
+                    decider = 0
+
+                attacker['turnDamage'] -= 0.2
+                print('[CLASS] ' + attacker['name'] + ' IS ATTACKING AGAIN!')
+
+        #If attacker is a fire mage, increase damage by 35% not 20%
+        if attacker['class_name'] == 'fireMage':
+            attacker['turnDmg'] += 0.35
+        else:
+            attacker['turnDmg'] += 0.2
+
+    if entity1['health'] <= 0:
+        return entity1
+    else:
+        return entity2
+
+
+#Calculates all of the entities secondary stats based on base stats
+def calculateSecondaryStats(entity):
+    calculateArmorReduction(entity)
+    calculateHealth(entity)
+    calculateCritChance(entity)
+
+
+#Calculates armor reduction based on level and total armor
+def calculateArmorReduction(entity):
+    classMaxArmorReduction = classes[entity['class_name']] * 100
+            
+    armor = entity['armor']
+    armorReduction = math.floor(armor / entity['level'])
+
+    if armorReduction > classMaxArmorReduction:
+        armorReduction = classMaxArmorReduction
+
+    entity['armorReduction'] = armorReduction
+
+
+#Calculates health based on level and constitution
+def calculateHealth(entity):
+    constitution = entity['constitution']
+    level = entity['level']
+    healthModifier = classes[entity['class_name']]['health_modifier']
+    health = 0
+
+    if level <= 5:
+        health = math.floor(healthModifier * (level ** 2) * 4 * (constitution/20) + 60)
+    else:
+        health = math.floor(healthModifier * (level ** 2) * 4 * (constitution/30) + 60)
+
+    entity['health'] = health
+    entity['maxHealth'] = health
+
+
+#Calculates critical chance based on level and luck
+def calculateCritChance(entity):
+    classMaxCritChance = classes[entity['class_name']] * 100
+    
+    luck = entity['luck']
+    critChance = math.floor(luck / entity['level'])
+
+    if critChance > classMaxCritChance:
+        critChance = classMaxCritChance
+
+    entity['critChance'] = critChance
+
+
+#Adds/removes stats based on class-specific traits/abilities
+def classSpecificBonuses(entity1, entity2):
+    #Fencer immediately removes 15% armor reduction
+    if entity1['class_name'] == 'Fencer':
+        entity2['armorReduction'] -= 15.0
+
+    #Mages ignore armor
+    if classes[entity1['class_name']]['stat'] == 'int' and entity2['class_name'] != 'Magic Knight':
+        entity2['armorReduction'] = 0
+
+    #Make sure armor reduction isn't negative
+    if entity2['armorReduction'] < 0:
+        entity2['armorReduction'] = 0
+
+
+#Calculates the resistances of of the entity by using the opponents stats
+def calculateResistances(entity1, entity2):
+    entity1['strengthResistance'] = math.floor(entity2['strength'] / 2)
+    entity1['dexterityResistance'] = math.floor(entity2['dexterity'] / 2)
+    entity1['intelligenceResistance'] = math.floor(entity2['intelligence'] / 2)
+
+
+#Checks if the defender can block/evade - if so check if it is successful
+def checkEvadeOrBlock(attacker, defender):
+    evadeBlockChance = 0.25
+
+	#Cannot evade magical attacks unless the defender is a scout
+    if classes[attacker['class_name']]['stat'] == 'int' and defender['class_name'] != 'Scout':
+        return False
+    else:
+        #Scouts can evade magical attacks, but only with a 15% chance
+        if defender['class_name'] == 'Scout':
+            evadeBlockChance -= 0.10
+			
+        if evadeBlockChance > math.random():
+            #print('[CLASS] ' + defender['name'] + ' dodged/blocked!')
+            return True
+    return False
+
+
+#Checks if the attacker critically strikes
+def checkCriticalHit(attacker, defender):
+    critChance = attacker['critChance']
+    random = math.random() * 100
+    
+    #Frost mages drop the critical chance of foes
+    if defender['class_name'] == 'Frost Mage':
+        critChance -= 20
+        #print('[CLASS] ' + defender['name'] + ' just DROPPED foes CRIT CHANCE by 20!')
+
+    if critChance > random:
+        return True
+    else:
+        return False
+
+
+#If an entity critically strikes, process the critical hit for their class
+def processCriticalHit(attacker, defender):
+    baseDamage = attacker['damage']
+		
+    if attacker['critChance'] > math.random():
+        if attacker['class_name'] == 'Assassin':
+            attacker['critDamage'] = baseDamage * 2
+        elif attacker['class_name'] == 'Blood Mage':
+            attacker['health'] += math.floor(baseDamage / 2)
+            #print('[CLASS] ' + attacker['name'] + ' just HEALED for 50% of base damage!')
+
+            if classes[defender['class_name']]['stat'] == 'int':
+                attacker['health'] += math.floor(baseDamage / 2)
+                #print('[CLASS] ' + attacker['name'] + ' just HEALED for an additional 50% of base damage due to MAGE!')
+
+            #Make sure health doesn't go over max
+            if attacker['health'] > attacker['maxHealth']:
+                attacker['health'] = attacker['maxHealth']
+        else:
+            attacker['critDamage'] = baseDamage
+
+
+#Checks if the defender is a demon hunter - is so check if resurrection is successful
+def checkIfRessurected(defender):
+    if defender['health'] <= 0 and defender['class_name'] == 'Demon Hunter':
+        if math.random() < 0.35:
+            defender['health'] = defender['maxHealth']
+            #print('[CLASS] ' + defender['name'] + ' just RESURRECTED! Spooky!')
+
+#===============================
+
 #Validation
 
 #===============================
