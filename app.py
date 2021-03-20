@@ -242,10 +242,28 @@ def results():
     if travelInfo == {}:
         return redirect(url_for('dashboard'))
 
-    #Get the time left from the end of the travel
-    timeLeft = helper.getTimeLeftFromEpochTime(travelInfo['travel_time'])
+    #If the event was a monster
+    if travelInfo['typeOfEvent'] != 'gather':
+        #Get the stats of the player and the monster
+        player = database.getPlayerStats(playerId)
+        monster = helper.createMonsterForBattle(player, playerId, travelInfo['quest_monster_id'], travelInfo['typeOfEvent'])
 
-    return render_template('results.html', travelInfo=travelInfo, timeLeft=timeLeft)
+        #Fix player stats as base stats and equipment stats are separate
+        player = helper.combinePlayerStats(player)
+        
+        print(player)
+        print('\n\n\n')
+        print(monster)
+
+        test = helper.setupFight(player, monster)
+        print(test)
+        #start combat
+        pass
+    #If the event was gathering
+    else:
+        pass
+
+    return render_template('results.html', travelInfo=travelInfo)
 
 
 @app.route('/startQuest', methods=['POST'])

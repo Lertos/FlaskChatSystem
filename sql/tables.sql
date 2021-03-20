@@ -86,7 +86,6 @@ INSERT INTO classes (class_name,stat,uses_two_handed,uses_shield,max_armor_reduc
 
 #SELECT * FROM classes;
 
-
 /*==============================
 	item_types
 ==============================*/
@@ -348,7 +347,12 @@ CREATE TABLE active_quests
     dexterity SMALLINT NOT NULL,
     intelligence SMALLINT NOT NULL,
     constitution SMALLINT NOT NULL,
-    luck SMALLINT NOT NULL
+    luck SMALLINT NOT NULL,
+    strength_mult DECIMAL(4,3) NOT NULL,
+    dexterity_mult DECIMAL(4,3) NOT NULL,
+    intelligence_mult DECIMAL(4,3) NOT NULL,
+    constitution_mult DECIMAL(4,3) NOT NULL,
+    luck_mult DECIMAL(4,3) NOT NULL
 );
 
 #SELECT * FROM active_quests;

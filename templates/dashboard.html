@@ -672,10 +672,9 @@
     //Updates the players equipment totals by either subtracting or adding the value (based on the multipler supplied +1 or -1)
     function changePlayerStats(item, multiplier){
 
-
         updatePlayerArmorAndReduction(item['armor'], multiplier)
+        updatePlayerDamage(item['damage'])
 
-        updateInnerText('playerDamage', item['damage'] * multiplier)
         updateInnerText('playerStrength', item['strength'] * multiplier)
         updateInnerText('playerDexterity', item['dexterity'] * multiplier)
         updateInnerText('playerIntelligence', item['intelligence'] * multiplier)
@@ -709,6 +708,26 @@
                 armorReduction = classMaxArmorReduction
 
             document.getElementById('playerArmorReduc').innerText = armorReduction
+        }
+    }
+
+
+    //Updates the players damage
+    function updatePlayerDamage(itemDamage){
+        var classStat = classInfo['stat']
+        var mainStat = getMainStat(classStat)
+        var levelMainStat = document.getElementById('player' + mainStat).innerText
+        var level = '{{ player["player_level"] }}'
+
+        var damage = itemDamage
+
+        if(damage != 0){
+            if(level <= 5)
+                damage = Math.floor(damage/30 * (level ** 2) + 10)
+            else
+                damage = Math.floor(damage/40 * (level ** 2) + 10)
+
+            document.getElementById('playerDamage').innerText = damage
         }
     }
 

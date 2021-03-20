@@ -253,12 +253,17 @@ CREATE PROCEDURE usp_create_quest_monster_for_player
     IN p_dexterity SMALLINT,
     IN p_intelligence SMALLINT,
     IN p_constitution SMALLINT,
-    IN p_luck SMALLINT
+    IN p_luck SMALLINT,
+    IN p_strength_mult DECIMAL(4,3),
+    IN p_dexterity_mult DECIMAL(4,3),
+    IN p_intelligence_mult DECIMAL(4,3),
+    IN p_constitution_mult DECIMAL(4,3),
+    IN p_luck_mult DECIMAL(4,3)
 )
 BEGIN
 
-	INSERT INTO active_quests (player_id, quest_monster_id, gold, xp, stamina, travel_time, strength, dexterity, intelligence, constitution, luck) 
-    VALUES (p_player_id, p_quest_monster_id, p_xp, p_gold, p_stamina, p_time, p_strength, p_dexterity, p_intelligence, p_constitution, p_luck);
+	INSERT INTO active_quests (player_id, quest_monster_id, gold, xp, stamina, travel_time, strength, dexterity, intelligence, constitution, luck, strength_mult, dexterity_mult, intelligence_mult, constitution_mult, luck_mult) 
+    VALUES (p_player_id, p_quest_monster_id, p_xp, p_gold, p_stamina, p_time, p_strength, p_dexterity, p_intelligence, p_constitution, p_luck, p_strength_mult, p_dexterity_mult, p_intelligence_mult, p_constitution_mult, p_luck_mult);
 
 END //
 DELIMITER ;
@@ -289,28 +294,73 @@ DELIMITER ;
 
 #CALL usp_get_player_quest_monsters(1);
 #delete from active_quests;
+#select * from active_quests;
 
 /*==============================
-	usp_get_player_stats
+	usp_get_player_info
 ==============================*/
 
-DROP PROCEDURE IF EXISTS usp_get_player_stats;
+DROP PROCEDURE IF EXISTS usp_get_player_info;
 
 DELIMITER //
-CREATE PROCEDURE usp_get_player_stats
+CREATE PROCEDURE usp_get_player_info
 (
 	IN p_player_id SMALLINT
 )
 BEGIN
 
-	SELECT a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, SUM(b.strength) AS equip_strength, 
+	SELECT a.display_name AS name, a.class_name, a.file_name, a.player_level AS level, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, SUM(b.strength) AS equip_strength, 
 		SUM(b.dexterity) AS equip_dexterity, SUM(b.intelligence) AS equip_intelligence, SUM(b.constitution) AS equip_constitution, SUM(b.luck) AS equip_luck, SUM(b.damage) AS damage, SUM(b.armor) AS armor
 	FROM players a
 	INNER JOIN player_inventories b on a.player_id = b.player_id
-	WHERE a.player_id = 1 AND b.equipped = 1;
+	WHERE a.player_id = p_player_id AND b.equipped = 1;
 
 END //
 DELIMITER ;
 
-#CALL usp_get_player_stats(1);
+#CALL usp_get_player_info(1);
+
+
+/*==============================
+	usp_get_quest_monster_info
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_get_quest_monster_info;
+
+DELIMITER //
+CREATE PROCEDURE usp_get_quest_monster_info
+(
+	IN p_player_id SMALLINT,
+    IN p_quest_monster_id SMALLINT
+)
+BEGIN
+
+	SELECT b.monster_name AS name, b.class_name, b.file_name, a.strength_mult, a.dexterity_mult, a.intelligence_mult, a.constitution_mult, a.luck_mult
+	FROM active_quests a
+	INNER JOIN quest_monsters b on a.quest_monster_id = b.quest_monster_id
+	WHERE a.quest_monster_id = p_quest_monster_id AND a.player_id = p_player_id;
+
+END //
+DELIMITER ;
+
+#CALL usp_get_quest_monster_info(1,4);
+
+
+/*==============================
+	usp_clear_transactional_data
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_clear_transactional_data;
+
+DELIMITER //
+CREATE PROCEDURE usp_clear_transactional_data ()
+BEGIN
+
+	DELETE FROM active_quests;
+    DELETE FROM active_bounties;
+
+END //
+DELIMITER ;
+
+#CALL usp_clear_transactional_data();
 

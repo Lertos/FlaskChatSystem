@@ -47,6 +47,15 @@ class MySQLPool(object):
             self.close(conn, cursor)
             return res
 
+    def clearAllTransactionalData(self):
+      conn = self.pool.get_connection()
+      cursor = conn.cursor()
+
+      cursor.callproc('usp_clear_transactional_data')
+      conn.commit()
+
+      self.close(conn, cursor)
+
 
     def getClasses(self):
       conn = self.pool.get_connection()
@@ -270,7 +279,26 @@ class MySQLPool(object):
       conn = self.pool.get_connection()
       cursor = conn.cursor(dictionary=True)
 
-      cursor.callproc('usp_get_player_stats', [playerId])
+      cursor.callproc('usp_get_player_info', [playerId])
+
+      result = []
+
+      for row in cursor.stored_results():
+        result = row.fetchall()
+
+      self.close(conn, cursor)
+
+      return result[0]
+
+
+    def getMonsterStats(self, playerId, monsterId, monsterType):
+      conn = self.pool.get_connection()
+      cursor = conn.cursor(dictionary=True)
+
+      args = [playerId, monsterId]
+      
+      if monsterType == 'quest':
+        cursor.callproc('usp_get_quest_monster_info', args)
 
       result = []
 
@@ -358,11 +386,11 @@ class MySQLPool(object):
       self.close(conn, cursor)
 
 
-    def createQuestMonsterForPlayer(self, playerId, quest_monster_id, xp, gold, stamina, time, strength, dexterity, intelligence, constitution, luck):  
+    def createQuestMonsterForPlayer(self, playerId, quest_monster_id, xp, gold, stamina, time, strength, dexterity, intelligence, constitution, luck, strengthMult, dexterityMult, intelligenceMult, constitutionMult, luckMult):  
       conn = self.pool.get_connection()
       cursor = conn.cursor()
 
-      args = [playerId, quest_monster_id, xp, gold, stamina, time, strength, dexterity, intelligence, constitution, luck]
+      args = [playerId, quest_monster_id, xp, gold, stamina, time, strength, dexterity, intelligence, constitution, luck, strengthMult, dexterityMult, intelligenceMult, constitutionMult, luckMult]
       cursor.callproc('usp_create_quest_monster_for_player', args)
 
       conn.commit()

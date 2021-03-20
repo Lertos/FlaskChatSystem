@@ -4,6 +4,9 @@ from modules import db_manager
 
 database = db_manager.MySQLPool()
 
+#Clears all transactional data
+database.clearAllTransactionalData()
+
 #Holds the high-use backend data
 classes = database.getClasses()
 itemTypes = database.getItemTypes()
@@ -256,13 +259,8 @@ def getTimeLeftFromEpochTime(epochTimestamp):
 def createRandomQuestMonsters(playerId, playerLevel, playerStats):
     pickedMonsters = []
 
-    #Find average stat amount
-    total = 0
-    for key in playerStats:
-        if not (key == 'damage' or key == 'armor'):
-            total += int(playerStats[key])
-
-    averageStat = math.floor(total / 5)
+    #Get average stat level
+    averageStat = getAverageStatLevel(playerStats)
 
     for i in range(0,questMonstersToSpawn):
         #Get a random monster from the quest monster dictionary
@@ -290,32 +288,90 @@ def createRandomQuestMonsters(playerId, playerLevel, playerStats):
         monsterStamina = random.randint(3,8)
 
         #Get a random travel time
-        monsterTime = random.randint(30,300)
+        #monsterTime = random.randint(30,300)
+        monsterTime = 2
 
         #Get random stats based on the players average stat
         stats = []
+        statMultipliers = []
         for i in range(0,5):
-            stats.append(math.floor(averageStat * float(random.uniform(0.60,1))))
+            multiplier = float(random.uniform(0.60,1))
+            stats.append(math.floor(averageStat * multiplier))
+            statMultipliers.append(multiplier)
 
         #Give better stats based on class
         monsterClass = questMonsters[monsterId]['class_name']
         classStat = classes[monsterClass]['stat']
 
-        if classStat == 'str':
-            stats[0] = math.floor(stats[0] * 1.4)
-            stats[3] = math.floor(stats[3] * 1.35)
-            stats[4] = math.floor(stats[4] * 1.15)
-        elif classStat == 'dex':
-            stats[1] = math.floor(stats[0] * 1.5)
-            stats[3] = math.floor(stats[0] * 1.25)
-            stats[4] = math.floor(stats[4] * 1.15)
-        else:
-            stats[2] = math.floor(stats[0] * 1.6)
-            stats[3] = math.floor(stats[0] * 1.15)
-            stats[4] = math.floor(stats[0] * 1.5)
+        applyMonsterStatBoosters(stats, classStat)
 
         #Add it to the database
-        database.createQuestMonsterForPlayer(playerId, monsterId, monsterExp, monsterGold, monsterStamina, monsterTime, stats[0], stats[1], stats[2], stats[3], stats[4])
+        database.createQuestMonsterForPlayer(playerId, monsterId, monsterExp, monsterGold, monsterStamina, monsterTime, stats[0], stats[1], stats[2], stats[3], stats[4], statMultipliers[0], statMultipliers[1], statMultipliers[2], statMultipliers[3], statMultipliers[4])
+
+
+def createMonsterForBattle(playerStats, playerId, monsterId, monsterType):
+    monster = database.getMonsterStats(playerId, monsterId, monsterType)
+    stat = classes[monster['class_name']]
+
+    #Get average stat level
+    averageStat = getAverageStatLevel(playerStats)
+    
+    #Get the monster stats based on multipliers and boosters
+    stats = []
+    statNames = ['strength', 'dexterity', 'intelligence', 'constitution', 'luck']
+
+    for i in range(0, len(statNames)):
+        monster[statNames[i]] = math.floor(averageStat * monster[statNames[i] + '_mult'])
+        stats.append(monster[statNames[i]])
+
+    stats = applyMonsterStatBoosters(stats, stat)
+
+    for i in range(0, len(statNames)):
+        monster[statNames[i]] = stats[i]
+
+    monster['level'] = playerStats['level']
+    monster['damage'] = math.floor(float(playerStats['damage']) * float(random.uniform(0.8,1.05)))
+    monster['armor'] = math.floor(float(playerStats['armor']) * float(random.uniform(0.8,1.05)))
+
+    return monster
+
+
+#Returns the average level based on the players stats 
+def getAverageStatLevel(playerStats):
+    total = 0
+
+    for key in playerStats:
+        if not (key == 'damage' or key == 'armor' or key == 'name' or key == 'class_name' or key == 'file_name' or key == 'level'):
+            total += int(playerStats[key])
+
+    return math.floor(total / 5)
+
+
+#Fixes player stats as base stats and equipment stats are separate
+def combinePlayerStats(playerStats):
+    statNames = ['strength', 'dexterity', 'intelligence', 'constitution', 'luck']
+
+    for i in range(0, len(statNames)):
+        playerStats[statNames[i]] = int(playerStats[statNames[i]]) + int(playerStats['equip_' + statNames[i]])
+
+    return playerStats
+
+
+#Applies a normalized booster for stats of a monster based on a class - so they don't look so random and stand a chance
+def applyMonsterStatBoosters(stats, stat):
+    if stat == 'str':
+        stats[0] = math.floor(stats[0] * 1.4)
+        stats[3] = math.floor(stats[3] * 1.35)
+        stats[4] = math.floor(stats[4] * 1.15)
+    elif stat == 'dex':
+        stats[1] = math.floor(stats[0] * 1.5)
+        stats[3] = math.floor(stats[0] * 1.25)
+        stats[4] = math.floor(stats[4] * 1.15)
+    else:
+        stats[2] = math.floor(stats[0] * 1.6)
+        stats[3] = math.floor(stats[0] * 1.15)
+        stats[4] = math.floor(stats[0] * 1.5)
+    return stats
 
 
 #===============================
@@ -339,12 +395,16 @@ def setupFight(entity1, entity2):
     classSpecificBonuses(entity2, entity1)
 
     #Decide who goes first - 50/50
-    goesFirst = math.random()
+    goesFirst = random.random()
+
+    winner = None
 
     if goesFirst > 0.5:
-        startFight(entity1, entity2)
+        winner = startFight(entity1, entity2)
     else:
-        startFight(entity2, entity1)
+        winner = startFight(entity2, entity1)
+
+    return winner
 
 
 #Begins the fight between the two entities - having all the final stats ready
@@ -376,6 +436,7 @@ def startFight(entity1, entity2):
 
         #Check for evasion and blocking
         doesDefenderEvadeOrBlock = False
+        attackerClass = attacker['class_name']
         defenderClass = defender['class_name']
 
         if defenderClass == 'Scout' or defenderClass == 'Rogue' or defenderClass == 'Assassin' or defenderClass == 'Warrior':
@@ -385,9 +446,9 @@ def startFight(entity1, entity2):
         if not doesDefenderEvadeOrBlock:
 
             #Magic knight reduces armor reduction by 5%
-            if attacker['class_name'] == 'Magic Knight':
+            if attackerClass == 'Magic Knight':
                 defender['armorReduction'] -= 5.0
-                print('[CLASS] ' + attacker['name'] + ' has reduced the opponents armor by 5%. NOW: ' + defender['armorReduction'])
+                print('[CLASS] ' + str(attacker['name']) + ' has reduced the opponents armor by 5%. NOW: ' + str(defender['armorReduction']))
             
             #Make sure the armor reduction isn't negative
             if defender['armorReduction'] < 0:
@@ -397,29 +458,29 @@ def startFight(entity1, entity2):
             isHitCritical = checkCriticalHit(attacker, defender)
 
             if isHitCritical:
-                print('[CRIT] ' + attacker['name'] + ' is going to CRITICALLY hit!')
+                print('[CRIT] ' + str(attacker['name']) + ' is going to CRITICALLY hit!')
                 processCriticalHit(attacker, defender)
 
             #Total up the damage including ( [baseDamage + critDamage] * turnDamage )
             baseDamage = attacker['damage']
 
             #Berserker takes 2x damage from mages
-            if classes[attacker['class_name']]['stat'] == 'int' and defender['class_name'] == 'Berserker':
+            if classes[attackerClass]['stat'] == 'int' and defenderClass == 'Berserker':
                 baseDamage *= 2
-                print('[CLASS] ' + defender['name'] + ' just took DOUBLE DMG from a magical attack!')
+                print('[CLASS] ' + str(defender['name']) + ' just took DOUBLE DMG from a magical attack!')
 
-            attackerDamage = math.floor((baseDamage + attacker['critDamage']) * attacker['turnDamage'])
-            damageAfterArmor = math.floor(attackerDamage * (1 - defender['armorReduction'] / 100))
-            print('attackerDamage: ' + attackerDamage + " damageAfterArmor: " + damageAfterArmor)
+            attackerDamage = math.floor((float(baseDamage) + float(attacker['critDamage'])) * float(attacker['turnDamage']))
+            damageAfterArmor = math.floor(float(attackerDamage) * (1 - defender['armorReduction'] / 100))
+            print('attackerDamage: ' + str(attackerDamage) + " damageAfterArmor: " + str(damageAfterArmor))
             damageBlocked = attackerDamage - damageAfterArmor
 
             defender['health'] -= damageAfterArmor
-            print('[HIT] ' + attacker['name'] + ' hits for ' + damageAfterArmor + ' damage (' + damageBlocked + ' was blocked) || ' + defender['name'] + ' has ' + defender['health'] + ' health')
+            print('[HIT] ' + str(attacker['name']) + ' hits for ' + str(damageAfterArmor) + ' damage (' + str(damageBlocked) + ' was blocked) || ' + str(defender['name']) + ' has ' + str(defender['health']) + ' health')
 
-            if attacker['class_name'] == 'Dark Mage':
-                if math.random() > 0.5:
+            if attackerClass == 'Dark Mage':
+                if random.random() > 0.5:
                     attacker['health'] += math.floor(baseDamage / 3)
-                    print('[CLASS] ' + attacker['name'] + ' just STOLE LIFE equal to 1/3 of their base damage!')
+                    print('[CLASS] ' + str(attacker['name']) + ' just STOLE LIFE equal to 1/3 of their base damage!')
                     
                     #Make sure health doesn't go over max
                     if attacker['health'] > attacker['maxHealth']:
@@ -435,7 +496,7 @@ def startFight(entity1, entity2):
             decider = 0
         
         #Rogues attack twice - so change the decider back
-        if attacker['class_name'] == 'Rogue':
+        if attackerClass == 'Rogue':
             if hasAttackedTwice == False:
                 if decider == 0:
                     decider = 1
@@ -448,41 +509,42 @@ def startFight(entity1, entity2):
             #Set the counter back for the next time its the rogue's turn
             else:
                 hasAttackedTwice = False
-                print('[CLASS] ' + attacker['name'] + ' just attacked twice!')
+                print('[CLASS] ' + str(attacker['name']) + ' just attacked twice!')
 
         #Berserkers have a 50% chance to attack again
-        if attacker['class_name'] == 'Berserker':
-            if math.random() >= 0.5:
+        if attackerClass == 'Berserker':
+            if random.random() >= 0.5:
                 if decider == 0:
                     decider = 1
                 else:
                     decider = 0
 
                 attacker['turnDamage'] -= 0.2
-                print('[CLASS] ' + attacker['name'] + ' IS ATTACKING AGAIN!')
+                print('[CLASS] ' + str(attacker['name']) + ' IS ATTACKING AGAIN!')
 
         #If attacker is a fire mage, increase damage by 35% not 20%
-        if attacker['class_name'] == 'fireMage':
-            attacker['turnDmg'] += 0.35
+        if attackerClass == 'Fire Mage':
+            attacker['turnDamage'] += 0.35
         else:
-            attacker['turnDmg'] += 0.2
+            attacker['turnDamage'] += 0.2
 
     if entity1['health'] <= 0:
-        return entity1
-    else:
         return entity2
+    else:
+        return entity1
 
 
 #Calculates all of the entities secondary stats based on base stats
 def calculateSecondaryStats(entity):
     calculateArmorReduction(entity)
+    calculateDamage(entity)
     calculateHealth(entity)
     calculateCritChance(entity)
 
 
 #Calculates armor reduction based on level and total armor
 def calculateArmorReduction(entity):
-    classMaxArmorReduction = classes[entity['class_name']] * 100
+    classMaxArmorReduction = classes[entity['class_name']]['max_armor_reduction'] * 100
             
     armor = entity['armor']
     armorReduction = math.floor(armor / entity['level'])
@@ -493,10 +555,32 @@ def calculateArmorReduction(entity):
     entity['armorReduction'] = armorReduction
 
 
+def calculateDamage(entity):
+    level = entity['level']
+    classStat = classes[entity['class_name']]['stat']
+    mainStat = None
+
+    if classStat == 'str':
+        mainStat = entity['strength']
+    elif classStat == 'dex':
+        mainStat = entity['dexterity']
+    else:
+        mainStat = entity['intelligence']
+
+    damage = entity['damage']
+
+    if level <= 5:
+        damage = math.floor(damage/30 * (level ** 2) + 10)
+    else:
+        damage = math.floor(damage/40 * (level ** 2) + 10)
+
+    entity['damage'] = damage
+
+
 #Calculates health based on level and constitution
 def calculateHealth(entity):
-    constitution = entity['constitution']
-    level = entity['level']
+    constitution = int(entity['constitution'])
+    level = int(entity['level'])
     healthModifier = classes[entity['class_name']]['health_modifier']
     health = 0
 
@@ -511,10 +595,10 @@ def calculateHealth(entity):
 
 #Calculates critical chance based on level and luck
 def calculateCritChance(entity):
-    classMaxCritChance = classes[entity['class_name']] * 100
+    classMaxCritChance = classes[entity['class_name']]['max_crit_chance'] * 100
     
-    luck = entity['luck']
-    critChance = math.floor(luck / entity['level'])
+    luck = int(entity['luck'])
+    critChance = math.floor(luck / int(entity['level']))
 
     if critChance > classMaxCritChance:
         critChance = classMaxCritChance
@@ -556,8 +640,8 @@ def checkEvadeOrBlock(attacker, defender):
         if defender['class_name'] == 'Scout':
             evadeBlockChance -= 0.10
 			
-        if evadeBlockChance > math.random():
-            #print('[CLASS] ' + defender['name'] + ' dodged/blocked!')
+        if evadeBlockChance > random.random():
+            print('[CLASS] ' + str(defender['name']) + ' dodged/blocked!')
             return True
     return False
 
@@ -565,14 +649,14 @@ def checkEvadeOrBlock(attacker, defender):
 #Checks if the attacker critically strikes
 def checkCriticalHit(attacker, defender):
     critChance = attacker['critChance']
-    random = math.random() * 100
+    rand = random.random() * 100
     
     #Frost mages drop the critical chance of foes
     if defender['class_name'] == 'Frost Mage':
         critChance -= 20
-        #print('[CLASS] ' + defender['name'] + ' just DROPPED foes CRIT CHANCE by 20!')
+        print('[CLASS] ' + str(defender['name']) + ' just DROPPED foes CRIT CHANCE by 20!')
 
-    if critChance > random:
+    if critChance > rand:
         return True
     else:
         return False
@@ -582,16 +666,16 @@ def checkCriticalHit(attacker, defender):
 def processCriticalHit(attacker, defender):
     baseDamage = attacker['damage']
 		
-    if attacker['critChance'] > math.random():
+    if attacker['critChance'] > random.random():
         if attacker['class_name'] == 'Assassin':
             attacker['critDamage'] = baseDamage * 2
         elif attacker['class_name'] == 'Blood Mage':
             attacker['health'] += math.floor(baseDamage / 2)
-            #print('[CLASS] ' + attacker['name'] + ' just HEALED for 50% of base damage!')
+            print('[CLASS] ' + str(attacker['name']) + ' just HEALED for 50% of base damage!')
 
             if classes[defender['class_name']]['stat'] == 'int':
                 attacker['health'] += math.floor(baseDamage / 2)
-                #print('[CLASS] ' + attacker['name'] + ' just HEALED for an additional 50% of base damage due to MAGE!')
+                print('[CLASS] ' + str(attacker['name']) + ' just HEALED for an additional 50% of base damage due to MAGE!')
 
             #Make sure health doesn't go over max
             if attacker['health'] > attacker['maxHealth']:
@@ -603,9 +687,9 @@ def processCriticalHit(attacker, defender):
 #Checks if the defender is a demon hunter - is so check if resurrection is successful
 def checkIfRessurected(defender):
     if defender['health'] <= 0 and defender['class_name'] == 'Demon Hunter':
-        if math.random() < 0.35:
+        if random.random() < 0.35:
             defender['health'] = defender['maxHealth']
-            #print('[CLASS] ' + defender['name'] + ' just RESURRECTED! Spooky!')
+            print('[CLASS] ' + str(defender['name']) + ' just RESURRECTED! Spooky!')
 
 #===============================
 
