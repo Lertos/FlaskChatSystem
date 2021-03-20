@@ -18,13 +18,15 @@
         </div>
 
         <div>
+            {% for monster in questMonsters %}
+            
             <div class='sidePanel background border spacing'>
                 <div>
 
-                    <img class='resizeImg128' src='/static/quest_avatars/banshee.png'>
+                    <img class='resizeImg128' buttonId='{{ monster["quest_monster_id"] }}' src='/static/quest_avatars/{{ monster["file_name"] }}'>
 
-                    <h3 class='alignCenter'><strong>Banshee</strong></h3>
-                    <h5 class='alignCenter'><strong>Dark Mage</strong></h5>
+                    <h3 class='alignCenter'><strong>{{ monster["monster_name"] }}</strong></h3>
+                    <h5 class='alignCenter'><strong>{{ monster["class_name"] }}</strong></h5>
 
                     <hr>
 
@@ -32,21 +34,21 @@
                         <tr>
                             <td>
                                 <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                <p>55</p>
+                                <p>{{ monster["gold"] }}</p>
                             </td>
                             <td>
                                 <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                <p>25</p>
+                                <p>{{ monster["xp"] }}</p>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <img class='iconImg' src='/static/icons/icon_stamina.png'>
-                                <p>6</p>
+                                <p>{{ monster["stamina"] }}</p>
                             </td>
                             <td>
                                 <img class='iconImg' src='/static/icons/icon_time.png'>
-                                <p>0:50</p>
+                                <p>{{ monster["travel_time"] }}</p>
                             </td>
                         </tr>
                     </table>
@@ -56,212 +58,47 @@
                     <table class='leftRightTable'>
                         <tr>
                             <td><h5>Strength</h5></td>
-                            <td><p>8</p></td>
+                            <td><p>{{ monster["strength"] }}</p></td>
                         </tr>
                         <tr>
                             <td><h5>Dexterity</h5></td>
-                            <td><p>29</p></td>
+                            <td><p>{{ monster["dexterity"] }}</p></td>
                         </tr>
                         <tr>
                             <td><h5>Intelligence</h5></td>
-                            <td><p>9</p></td>
+                            <td><p>{{ monster["intelligence"] }}</p></td>
                         </tr>
                         <tr>
                             <td><h5>Constitution</h5></td>
-                            <td><p>22</p></td>
+                            <td><p>{{ monster["constitution"] }}</p></td>
                         </tr>
                         <tr>
                             <td><h5>Luck</h5></td>
-                            <td><p>13</p></td>
+                            <td><p>{{ monster["luck"] }}</p></td>
                         </tr>
                     </table>
 
                 </div>
             </div>
 
-            <div class='sidePanel background border spacing'>
-                <div>
+            {% endfor %}
 
-                    <img class='resizeImg128' src='/static/quest_avatars/bat.png'>
-
-                    <h3 class='alignCenter'><strong>Bat</strong></h3>
-                    <h5 class='alignCenter'><strong>Rogue</strong></h5>
-
-                    <hr>
-
-                    <table class='alignCenter'>
-                        <tr>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                <p>55</p>
-                            </td>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                <p>25</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_stamina.png'>
-                                <p>6</p>
-                            </td>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_time.png'>
-                                <p>0:50</p>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <hr>
-
-                    <table class='leftRightTable'>
-                        <tr>
-                            <td><h5>Strength</h5></td>
-                            <td><p>8</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Dexterity</h5></td>
-                            <td><p>29</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Intelligence</h5></td>
-                            <td><p>9</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Constitution</h5></td>
-                            <td><p>22</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Luck</h5></td>
-                            <td><p>13</p></td>
-                        </tr>
-                    </table>
-
-                </div>
-            </div>
-
-            <div class='sidePanel background border spacing'>
-                <div>
-
-                    <img class='resizeImg128' src='/static/quest_avatars/bird.png'>
-
-                    <h3 class='alignCenter'><strong>Bird</strong></h3>
-                    <h5 class='alignCenter'><strong>Assassin</strong></h5>
-
-                    <hr>
-
-                    <table class='alignCenter'>
-                        <tr>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                <p>55</p>
-                            </td>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                <p>25</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_stamina.png'>
-                                <p>6</p>
-                            </td>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_time.png'>
-                                <p>0:50</p>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <hr>
-
-                    <table class='leftRightTable'>
-                        <tr>
-                            <td><h5>Strength</h5></td>
-                            <td><p>8</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Dexterity</h5></td>
-                            <td><p>29</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Intelligence</h5></td>
-                            <td><p>9</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Constitution</h5></td>
-                            <td><p>22</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Luck</h5></td>
-                            <td><p>13</p></td>
-                        </tr>
-                    </table>
-
-                </div>
-            </div>
-
-            <div class='sidePanel background border spacing'>
-                <div>
-
-                    <img class='resizeImg128' src='/static/quest_avatars/goblin (5).png'>
-
-                    <h3 class='alignCenter'><strong>Goblin</strong></h3>
-                    <h5 class='alignCenter'><strong>Rogue</strong></h5>
-
-                    <hr>
-
-                    <table class='alignCenter'>
-                        <tr>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                <p>55</p>
-                            </td>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                <p>25</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_stamina.png'>
-                                <p>6</p>
-                            </td>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_time.png'>
-                                <p>0:50</p>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <hr>
-
-                    <table class='leftRightTable'>
-                        <tr>
-                            <td><h5>Strength</h5></td>
-                            <td><p>8</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Dexterity</h5></td>
-                            <td><p>29</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Intelligence</h5></td>
-                            <td><p>9</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Constitution</h5></td>
-                            <td><p>22</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Luck</h5></td>
-                            <td><p>13</p></td>
-                        </tr>
-                    </table>
-
-                </div>
-            </div>
         </div>
     </div>
 	
+{% endblock %}
+
+{% block script %}
+
+<script type='text/javascript' src='{{ url_for("static", filename="jquery.js") }}'></script>
+
+<script>
+
+    $(function() {
+        $('.resizeImg128').on('click', function(){
+            var buttonId = $(this).attr('buttonId');
+        })
+    })
+
+</script>
 {% endblock %}

@@ -19,13 +19,9 @@ additionalDamageConstant = 10
 #Holds travel information when a player is in travel mode
 travellingPlayers = {}
 
-#===============================
-
-#Setup
-
-#===============================
-
-
+#Defines how many monsters for each page to create on load
+questMonstersToSpawn = 4
+bountyMonstersToSpawn = 3
 
 #===============================
 
@@ -235,6 +231,77 @@ def addPlayerTravelInfo(playerId, travelTimeInSeconds, typeOfEvent, eventDatabas
     travellingPlayers[playerId]['eventDatabaseId'] = eventDatabaseId
 
     print(travellingPlayers[playerId])
+
+
+#===============================
+
+#Quests
+
+#===============================
+
+def createRandomQuestMonsters(playerId, playerLevel, playerStats):
+    pickedMonsters = []
+
+    #Find average stat amount
+    total = 0
+    for key in playerStats:
+        if not (key == 'damage' or key == 'armor'):
+            total += int(playerStats[key])
+
+    averageStat = math.floor(total / 5)
+
+    for i in range(0,questMonstersToSpawn):
+        #Get a random monster from the quest monster dictionary
+        monsterId = random.choice(list(questMonsters.keys()))
+
+        #Ensure the monsters are all unique
+        while monsterId in pickedMonsters:
+            monsterId = random.choice(list(questMonsters.keys()))
+        pickedMonsters.append(monsterId)
+
+        #Get the xp based on player level with randomness
+        expForLevel = math.floor((playerLevel ** 2) * playerLevel ** 1.3) + 50
+        questXp = math.floor((playerLevel ** 2)) + 10
+
+        monsterExp = math.floor(questXp * float(random.uniform(0.75,1.25)))
+   
+        #Get the gold based on player level with randomness
+        gold = (playerLevel ** 3) + 300
+        questsNeeded = math.floor(expForLevel / questXp)
+        goldPerQuest = math.floor(gold / questsNeeded)
+
+        monsterGold = math.floor(goldPerQuest * float(random.uniform(0.75,1.25)))
+
+        #Get a random stamina cost
+        monsterStamina = random.randint(3,8)
+
+        #Get a random travel time
+        monsterTime = random.randint(30,300)
+
+        #Get random stats based on the players average stat
+        stats = []
+        for i in range(0,5):
+            stats.append(math.floor(averageStat * float(random.uniform(0.60,1))))
+
+        #Give better stats based on class
+        monsterClass = questMonsters[monsterId]['class_name']
+        classStat = classes[monsterClass]['stat']
+
+        if classStat == 'str':
+            stats[0] = math.floor(stats[0] * 1.4)
+            stats[3] = math.floor(stats[3] * 1.35)
+            stats[4] = math.floor(stats[4] * 1.15)
+        elif classStat == 'dex':
+            stats[1] = math.floor(stats[0] * 1.5)
+            stats[3] = math.floor(stats[0] * 1.25)
+            stats[4] = math.floor(stats[4] * 1.15)
+        else:
+            stats[2] = math.floor(stats[0] * 1.6)
+            stats[3] = math.floor(stats[0] * 1.15)
+            stats[4] = math.floor(stats[0] * 1.5)
+
+        #Add it to the database
+        database.createQuestMonsterForPlayer(playerId, monsterId, monsterExp, monsterGold, monsterStamina, monsterTime, stats[0], stats[1], stats[2], stats[3], stats[4])
 
 
 #===============================

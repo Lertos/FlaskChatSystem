@@ -266,6 +266,22 @@ class MySQLPool(object):
       return result
 
 
+    def getPlayerStats(self, playerId):
+      conn = self.pool.get_connection()
+      cursor = conn.cursor(dictionary=True)
+
+      cursor.callproc('usp_get_player_stats', [playerId])
+
+      result = []
+
+      for row in cursor.stored_results():
+        result = row.fetchall()
+
+      self.close(conn, cursor)
+
+      return result[0]
+
+
     def getPlayerInventory(self, playerId):
       conn = self.pool.get_connection()
       cursor = conn.cursor(dictionary=True)
@@ -342,7 +358,34 @@ class MySQLPool(object):
       self.close(conn, cursor)
 
 
+    def createQuestMonsterForPlayer(self, playerId, quest_monster_id, xp, gold, stamina, time, strength, dexterity, intelligence, constitution, luck):  
+      conn = self.pool.get_connection()
+      cursor = conn.cursor()
+
+      args = [playerId, quest_monster_id, xp, gold, stamina, time, strength, dexterity, intelligence, constitution, luck]
+      cursor.callproc('usp_create_quest_monster_for_player', args)
+
+      conn.commit()
+      self.close(conn, cursor)
+
     
+    def getPlayerQuestMonsters(self, playerId):  
+      conn = self.pool.get_connection()
+      cursor = conn.cursor(dictionary=True)
+
+      cursor.callproc('usp_get_player_quest_monsters', [playerId])
+
+      result = []
+
+      for row in cursor.stored_results():
+        result = row.fetchall()
+
+      #print(result)
+
+      conn.commit()
+      self.close(conn, cursor)
+
+      return result
 
 
     #===============================

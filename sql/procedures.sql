@@ -198,9 +198,9 @@ CREATE PROCEDURE usp_equip_inventory_item
 	IN p_player_id SMALLINT,
     IN p_inventory_id INT
 )
-BEGIN
+BEGIN	
 
-UPDATE player_inventories
+	UPDATE player_inventories
     SET equipped = 1
     WHERE player_id = p_player_id AND inventory_item_id = p_inventory_id;
    
@@ -224,7 +224,7 @@ CREATE PROCEDURE usp_unequip_inventory_item
 )
 BEGIN
 
-UPDATE player_inventories
+	UPDATE player_inventories
     SET equipped = 0
     WHERE player_id = p_player_id AND inventory_item_id = p_inventory_id;
    
@@ -232,3 +232,85 @@ END //
 DELIMITER ;
 
 #CALL usp_unequip_inventory_item(1, 925);
+
+
+/*==============================
+	usp_create_quest_monster_for_player
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_create_quest_monster_for_player;
+
+DELIMITER //
+CREATE PROCEDURE usp_create_quest_monster_for_player
+(
+	IN p_player_id SMALLINT,
+    IN p_quest_monster_id SMALLINT,
+    IN p_xp INT,
+    IN p_gold INT,
+    IN p_stamina TINYINT,
+    IN p_time SMALLINT,
+    IN p_strength SMALLINT,
+    IN p_dexterity SMALLINT,
+    IN p_intelligence SMALLINT,
+    IN p_constitution SMALLINT,
+    IN p_luck SMALLINT
+)
+BEGIN
+
+	INSERT INTO active_quests (player_id, quest_monster_id, gold, xp, stamina, travel_time, strength, dexterity, intelligence, constitution, luck) 
+    VALUES (p_player_id, p_quest_monster_id, p_xp, p_gold, p_stamina, p_time, p_strength, p_dexterity, p_intelligence, p_constitution, p_luck);
+
+END //
+DELIMITER ;
+
+#CALL usp_create_quest_monster_for_player(1, 925);
+
+
+/*==============================
+	usp_get_player_quest_monsters
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_get_player_quest_monsters;
+
+DELIMITER //
+CREATE PROCEDURE usp_get_player_quest_monsters
+(
+	IN p_player_id SMALLINT
+)
+BEGIN
+
+	SELECT a.quest_monster_id, b.monster_name, b.class_name, b.file_name, a.gold, a.xp, a.stamina, a.travel_time, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck
+    FROM active_quests a
+    JOIN quest_monsters b on a.quest_monster_id = b.quest_monster_id
+	WHERE a.player_id = p_player_id;
+
+END //
+DELIMITER ;
+
+#CALL usp_get_player_quest_monsters(1);
+#delete from active_quests;
+
+/*==============================
+	usp_get_player_stats
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_get_player_stats;
+
+DELIMITER //
+CREATE PROCEDURE usp_get_player_stats
+(
+	IN p_player_id SMALLINT
+)
+BEGIN
+
+	SELECT a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, SUM(b.strength) AS equip_strength, 
+		SUM(b.dexterity) AS equip_dexterity, SUM(b.intelligence) AS equip_intelligence, SUM(b.constitution) AS equip_constitution, SUM(b.luck) AS equip_luck, SUM(b.damage) AS damage, SUM(b.armor) AS armor
+	FROM players a
+	INNER JOIN player_inventories b on a.player_id = b.player_id
+	WHERE a.player_id = 1 AND b.equipped = 1;
+
+END //
+DELIMITER ;
+
+#CALL usp_get_player_stats(1);
+

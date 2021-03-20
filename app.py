@@ -211,7 +211,20 @@ def arena():
 
 @app.route('/quests')
 def quests():
-    return render_template('quests.html')
+
+    playerId = session['playerId']
+    questMonsters = database.getPlayerQuestMonsters(playerId)
+
+    if questMonsters != []:
+        print(questMonsters)
+        return render_template('quests.html', questMonsters=questMonsters)
+    else:
+        playerStats = database.getPlayerStats(playerId)
+        print(playerStats)
+        helper.createRandomQuestMonsters(playerId, session['playerLevel'], playerStats)
+        
+        return redirect(url_for('quests'))
+
 
 
 @app.route('/bounties')
