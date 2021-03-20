@@ -9,8 +9,10 @@
 
     <div id='container'>
 
-        <div class='infoPanel background border spacing'>    
-            <h4>You Are Currently Travelling</h4>
+        <div class='infoPanel background border spacing'>
+            {% if travelInfo['typeOfEvent'] == 'quest' %}
+                <h4>You Are Currently <strong>Questing</strong></h4>
+            {% endif %}
         </div>
 
         <div>
@@ -18,17 +20,61 @@
             <div class='sidePanel background border spacing'>
                 <div>
 
-                    <img class='resizeImg128' src='/static/offering_avatars/xp.png'>
+                    {% if travelInfo['typeOfEvent'] == 'quest' %}
+                        <img class='resizeImg128' src='/static/quest_avatars/{{ travelInfo["file_name"] }}'>
 
-                    <h3 class='alignCenter bold'></h3>
-                    <h5 class='alignCenter'></h5>
+                        <h3 class='alignCenter boldText'>{{ travelInfo["monster_name"] }}</h3>
+                        <h5 class='alignCenter'>{{ travelInfo["class_name"] }}</h5>
 
-                    <hr>
+                        <hr>
 
-                    <h3 class='sameLine boldText'>Time Left: </h3>
-                    <h3 id='timeLeftCounter' class='sameLine'>40</h3>
+                        <table class='alignCenter'>
+                            <tr>
+                                <td>
+                                    <img class='iconImg' src='/static/icons/icon_gold.png'>
+                                    <p>{{ travelInfo["gold"] }}</p>
+                                </td>
+                                <td>
+                                    <img class='iconImg' src='/static/icons/icon_xp.png'>
+                                    <p>{{ travelInfo["xp"] }}</p>
+                                </td>
+                            </tr>
+                        </table>
 
-                    <hr>
+                        <hr>
+
+                        <table class='leftRightTable'>
+                            <tr>
+                                <td><h5>Strength</h5></td>
+                                <td><p>{{ travelInfo["strength"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Dexterity</h5></td>
+                                <td><p>{{ travelInfo["dexterity"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Intelligence</h5></td>
+                                <td><p>{{ travelInfo["intelligence"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Constitution</h5></td>
+                                <td><p>{{ travelInfo["constitution"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Luck</h5></td>
+                                <td><p>{{ travelInfo["luck"] }}</p></td>
+                            </tr>
+                        </table>
+
+                        <hr>
+
+                        <h3 class='boldText'>Arrival In</h3>
+                        <h3 id='timeLeftCounter' class='sameLine'>40</h3>
+                        <h4 id='timeLeftCounter' class='sameLine'> seconds</h4>
+
+                        <hr>
+
+                    {% endif %}
 
                 </div>
             </div>

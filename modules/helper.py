@@ -211,26 +211,46 @@ def getPlayerTravelInfo(playerId):
 
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
-def addPlayerTravelInfo(playerId, travelTimeInSeconds, typeOfEvent, eventDatabaseId):
-    travellingPlayers[playerId] = {}
+def addQuestToTravelInfo(playerId, monsterId):
+    questMonsters = database.getPlayerQuestMonsters(playerId)
 
+    #If the player doesn't have active quests return
+    if questMonsters == []:
+        return
+
+    monster = None
+
+    for i in range(0, len(questMonsters)):
+        if int(questMonsters[i]['quest_monster_id']) == int(monsterId):
+            monster = questMonsters[i]
+            break
+
+    #If the monsterId was changed by the player then there won't be a monster and return
+    if monster == None:
+        return
+
+    #Calculate the unix time so that it can be accurate when the travel page loads
     timeNow = int(time.time())
-
-    localTime = time.localtime(timeNow)
-    readableTime = time.asctime(localTime)
-    print(readableTime)
-
-    endTime = timeNow + travelTimeInSeconds
-
-    localTimeEnd = time.localtime(endTime)
-    readableTimeEnd = time.asctime(localTimeEnd)
-    print(readableTimeEnd)
+    endTime = timeNow + int(monster['travel_time'])
     
-    travellingPlayers[playerId]['travelEnds'] = endTime
-    travellingPlayers[playerId]['typeOfEvent'] = typeOfEvent
-    travellingPlayers[playerId]['eventDatabaseId'] = eventDatabaseId
+    #Add a new entry into the travelling dictionary
+    travellingPlayers[playerId] = {}
+    travellingPlayers[playerId] = monster
+    travellingPlayers[playerId]['travel_time'] = endTime
+    travellingPlayers[playerId]['typeOfEvent'] = 'quest'
 
-    print(travellingPlayers[playerId])
+    #print(travellingPlayers[playerId])
+
+
+def convertTimeIntoUnixTime(timeInSeconds):
+    timeNow = int(time.time())
+    endTime = timeNow + timeInSeconds
+
+    #localTimeEnd = time.localtime(endTime)
+    #readableTimeEnd = time.asctime(localTimeEnd)
+    #print(readableTimeEnd)
+
+    return endTime
 
 
 #===============================

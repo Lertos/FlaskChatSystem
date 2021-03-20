@@ -157,51 +157,66 @@ def dashboard():
 @app.route('/sellItem', methods=['POST'])
 def sellItem():
 
-    if request.method == "POST":
-        playerId = request.form['playerId']
-        sellPrice = request.form['sellPrice']
-        inventoryId = request.form['inventoryId']
+    playerId = request.form['playerId']
+    sellPrice = request.form['sellPrice']
+    inventoryId = request.form['inventoryId']
 
-        if int(playerId) == int(session['playerId']):
-            database.sellInventoryItem(playerId, sellPrice, inventoryId)
+    if int(playerId) == int(session['playerId']):
+        database.sellInventoryItem(playerId, sellPrice, inventoryId)
 
-    return Response('', status=201, mimetype='application/json')
+    return Response('', status=201)
 
 
 @app.route('/equipItem', methods=['POST'])
 def equipItem():
 
-    if request.method == "POST":
-        playerId = request.form['playerId']
-        inventoryId = request.form['inventoryId']
+    playerId = request.form['playerId']
+    inventoryId = request.form['inventoryId']
 
-        if int(playerId) == int(session['playerId']):
-            database.equipInventoryItem(playerId, inventoryId)
+    if int(playerId) == int(session['playerId']):
+        database.equipInventoryItem(playerId, inventoryId)
 
-    return Response('', status=201, mimetype='application/json')
+    return Response('', status=201)
 
 
 @app.route('/unequipItem', methods=['POST'])
 def unequipItem():
 
-    if request.method == "POST":
-        playerId = request.form['playerId']
-        inventoryId = request.form['inventoryId']
+    playerId = request.form['playerId']
+    inventoryId = request.form['inventoryId']
 
-        if int(playerId) == int(session['playerId']):
-            database.unequipInventoryItem(playerId, inventoryId)
+    if int(playerId) == int(session['playerId']):
+        database.unequipInventoryItem(playerId, inventoryId)
 
-    return Response('', status=201, mimetype='application/json')
+    return Response('', status=201)
 
 
 @app.route('/travel')
 def travel():
 
+    playerId = session['playerId']
+
     #If player is not travelling - redirect to dashboard
+    travelInfo = helper.getPlayerTravelInfo(playerId)
 
-    #Get the travel details and supply them to the travel page
+    if travelInfo == {}:
+        return redirect(url_for('dashboard'))
 
-    return render_template('travel.html')
+    return render_template('travel.html', travelInfo=travelInfo)
+
+
+@app.route('/startQuest', methods=['POST'])
+def startQuest():
+
+    playerId = session['playerId']
+
+    monsterId = request.form['monsterId']
+    helper.addQuestToTravelInfo(playerId, monsterId)
+
+    if helper.getPlayerTravelInfo(playerId) != {}:
+        return Response('', status=201)
+
+    return Response('', status=400)
 
 
 @app.route('/arena')
