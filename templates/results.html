@@ -273,6 +273,33 @@ $(function() {
 
 });
 
+function AnimateRotate(d){
+        $({deg: 0}).animate({deg: d}, {
+            step: function(now, fx){
+                $('#testbtn2').css({
+                    'transform' : 'translateX(' + now*3 + 'px)'
+                });
+                $('#testbtn').css({
+                    'transform': 'rotate(' + now + 'deg)'
+                });
+            }
+        });
+    }
+
+/*
+//MAKE SURE to use a blank div, and the image should use the resizeImg128NoBg class
+
+like you'd need:
+
+<div>
+    <img>
+</div>
+
+setInterval(function() { 
+    AnimateRotate(75); 
+}, 1000);
+*/
+
 
 </script>
 {% endblock %}

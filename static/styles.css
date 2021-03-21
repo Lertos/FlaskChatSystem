@@ -102,6 +102,12 @@ ul{
     background-repeat: repeat;
 }
 
+.noBackground{
+    background-color: none;
+    background-image: none;
+    background-repeat: none;
+}
+
 .backgroundDark{
     background-color: var(--background);
     background-image: url("/static/pattern2.png");
@@ -674,6 +680,15 @@ ul.nav li.active a {
     border: var(--text) var(--borderWidth) solid;
 }
 
+.resizeImg128NoBg{
+    max-width:128px; 
+    background-color: rgba(0, 0, 0, 0);
+    height:auto;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+}
+
 .iconImg{
     display: inline;
     background-color: rgba(0, 0, 0, 0);
@@ -685,6 +700,7 @@ ul.nav li.active a {
 .iconImg:hover{
     border: none;
 }
+
 
 .imgLocked{
     border-color: #5f5f5f;

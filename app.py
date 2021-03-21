@@ -1,11 +1,10 @@
 from flask import Flask, render_template, redirect, request, url_for, session, Response
-from modules import db_manager, helper
+from modules import db_manager, helper, combat
 
 app = Flask(__name__)
 
-app.secret_key = b'\xe4$Y2\xd5\xbb_\xab#\xfd*\x1e\xe2v\xa8J'
-
 app.config['JSON_AS_ASCII'] = False
+app.secret_key = b'\xe4$Y2\xd5\xbb_\xab#\xfd*\x1e\xe2v\xa8J'
 
 database = db_manager.MySQLPool()
 
@@ -15,8 +14,6 @@ database = db_manager.MySQLPool()
 #Setup
 
 #===============================
-
-helper.debugServerDictionaries()
 
 
 #===============================
@@ -140,10 +137,11 @@ def characterCreation():
 def dashboard():
 
     playerId = session['playerId']
+    playerLevel = session['playerLevel']
 
     #For testing new items out
-    #if request.method == 'POST':
-    #    helper.debugCreateItems(playerId, session['className'], 28, 10, 100)
+    if request.method == 'POST':
+        helper.debugCreateItems(playerId, session['className'], 28, playerLevel, playerLevel)
 
     player = database.getDashboardDetails(playerId)
     classInfo = helper.getClassInfo(session['className'])
@@ -252,7 +250,7 @@ def results():
         player = helper.combinePlayerStats(player)
 
         #Start combat
-        winner = helper.setupFight(player, monster)
+        winner = combat.setupFight(player, monster)
         print(winner)
         
         return render_template('results.html', travelInfo=travelInfo, player=player, monster=monster)
