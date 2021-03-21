@@ -250,8 +250,10 @@ def results():
         player = helper.combinePlayerStats(player)
 
         #Start combat
-        winner = combat.setupFight(player, monster)
-        print(winner)
+        battleLog = combat.setupFight(player, monster)
+        #translatedLog = translateBattleLog(battleLog)
+        combat.translateBattleLog(battleLog['log'])
+        #print(winner)
         
         return render_template('results.html', travelInfo=travelInfo, player=player, monster=monster)
     #If the event was gathering

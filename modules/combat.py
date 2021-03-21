@@ -4,31 +4,26 @@ from modules import helper
 
 #Battle log tags
 battleLogTags = {
-    'HEALTH': '',
-    'HEALTH_LEFT': '',
+    'HEALTH': '{name} has {amount} health',
+    'HEALTH_LEFT': '{name} has {amount} health left',
     'EVADE': '{name} has evaded the attack!',
     'BLOCK': '{name} has blocked the attack!',
-    'CRIT_DAMAGE': '',
-    'DAMAGE_AFTER_ARMOR': 'dealt {amount} of dmg',
-    'FENCER_FOCUS': '',
-    'IGNORE_ARMOR': '',
-    'MAGIC_KNIGHT_REDUCE_ARMOR': '5% new red is {amount}',
-    'DOUBLE_MAGIC_DAMAGE': '',
-    'STEAL_HEALTH': '1/3 of base dmg being {amount}',
-    'HEAL': '{name} has healed for 50% of base damage ( {amount}',
-    'HEAL_TWICE': 'additonal 50%',
-    'ROGUE_DOUBLE_HIT': '',
-    'RESURRECTION': '',
-    'FIRE_DAMAGE_BONUS': '15%',
-    'BERSERK': '',
-    'FROST_SHIELD': '20% crit chance reduc new is {amount}',
-    'ASSASSIN_CRIT_DAMAGE': 'doing addiitonal {amount} dmg'
+    'CRIT_DAMAGE': '{name} is hitting for an additional {amount} damage!',
+    'DAMAGE_AFTER_ARMOR': '{name} is dealth {amount} of damage',
+    'FENCER_FOCUS': '{name} has dropped their foes armor reduction by 15%',
+    'IGNORE_ARMOR': '{name} is ignoring all armor!',
+    'MAGIC_KNIGHT_REDUCE_ARMOR': '{name} reduced foes armor reduction by 5% (now {amount}%)',
+    'DOUBLE_MAGIC_DAMAGE': '{name} is taking double damage due to their magic weakness',
+    'STEAL_HEALTH': '{name} just stole {amount} health from their foe',
+    'HEAL': '{name} has healed for {amount}',
+    'HEAL_TWICE': '{name} has healed for an additional {amount}',
+    'ROGUE_DOUBLE_HIT': '{name} isn''t done attacking yet!',
+    'RESURRECTION': '{name} just resurrected!',
+    'FIRE_DAMAGE_BONUS': '{name} has increased their damage by 15%!',
+    'BERSERK': '{name} is attacking again!',
+    'FROST_SHIELD': '{name} reduced their foes crit chance by 20% (now {amount})',
+    'ASSASSIN_CRIT_DAMAGE': '{name} is doing an additional {amount} critical damage!'
 }
-'''
-name = 'Jerry'
-amount = 1
-print(battleLogTags['HEALED'].replace('{name}', name).replace('{amount}', str(amount)))
-'''
 
 #===============================
 
@@ -95,8 +90,8 @@ def startFight(entity1, entity2, battleLog):
         turnLog = []
 
         #Show the health at the start of every turn
-        turnLog.append(entity1['name'] + ':' + str(entity1['health']))
-        turnLog.append(entity2['name'] + ':' + str(entity2['health']))
+        turnLog.append(entity1['name'] + ':HEALTH:' + str(entity1['health']))
+        turnLog.append(entity2['name'] + ':HEALTH:' + str(entity2['health']))
 
         if decider == 0:
             attacker = entity1
@@ -128,7 +123,7 @@ def startFight(entity1, entity2, battleLog):
                 if defender['armorReduction'] < 0:
                     defender['armorReduction'] = 0
 
-                turnLog.append(attacker['name'] + ':' + 'MAGIC_KNIGHT_REDUCE_ARMOR' + ':' + str(defender['armorReduction']))
+                turnLog.append(attacker['name'] + ':MAGIC_KNIGHT_REDUCE_ARMOR:' + str(defender['armorReduction']))
 
             #Check for critical hits
             isHitCritical = checkCriticalHit(attacker, defender, turnLog)
@@ -143,13 +138,13 @@ def startFight(entity1, entity2, battleLog):
             if helper.classes[attackerClass]['stat'] == 'int' and defenderClass == 'Berserker':
                 baseDamage *= 2
                 
-                turnLog.append(defender['name'] + ':' + 'DOUBLE_MAGIC_DAMAGE')
+                turnLog.append(defender['name'] + ':DOUBLE_MAGIC_DAMAGE')
 
             #Damage = ( (baseDmg + critDmg) * turnDmg ) - ( damage * (1 - (armorReduction/100) )
             attackerDamage = math.floor((float(baseDamage) + float(attacker['critDamage'])) * float(attacker['turnDamage']))
             damageAfterArmor = math.floor(float(attackerDamage) * (1 - defender['armorReduction'] / 100))
 
-            turnLog.append(attacker['name'] + ':' + 'DAMAGE_AFTER_ARMOR' + ':' + str(damageAfterArmor))
+            turnLog.append(attacker['name'] + ':DAMAGE_AFTER_ARMOR:' + str(damageAfterArmor))
 
             defender['health'] -= damageAfterArmor
 
@@ -158,7 +153,7 @@ def startFight(entity1, entity2, battleLog):
                     healthStolen = math.floor(baseDamage / 3)
                     attacker['health'] += healthStolen
 
-                    turnLog.append(attacker['name'] + ':' + 'STEAL_HEALTH' + ':' + str(healthStolen))
+                    turnLog.append(attacker['name'] + ':STEAL_HEALTH:' + str(healthStolen))
                     
                     #Make sure health doesn't go over max
                     if attacker['health'] > attacker['maxHealth']:
@@ -183,7 +178,7 @@ def startFight(entity1, entity2, battleLog):
 
                 attacker['turnDamage'] -= 0.2
                 hasAttackedTwice = True
-                turnLog.append(attacker['name'] + ':' + 'ROGUE_DOUBLE_HIT')
+                turnLog.append(attacker['name'] + ':ROGUE_DOUBLE_HIT')
 
             #Set the counter back for the next time its the rogue's turn
             else:
@@ -199,18 +194,18 @@ def startFight(entity1, entity2, battleLog):
 
                 attacker['turnDamage'] -= 0.2
 
-                turnLog.append(attacker['name'] + ':' + 'BERSERK')
+                turnLog.append(attacker['name'] + ':BERSERK')
 
         #If attacker is a fire mage, increase damage by 35% not 20%
         if attackerClass == 'Fire Mage':
             attacker['turnDamage'] += 0.35
 
-            turnLog.append(attacker['name'] + ':' + 'FIRE_DAMAGE_BONUS')
+            turnLog.append(attacker['name'] + ':FIRE_DAMAGE_BONUS')
         else:
             attacker['turnDamage'] += 0.2
 
         #Show defenders health left
-        turnLog.append(defender['name'] + ':' + 'HEALTH_LEFT' + ':' + str(defender['health']))
+        turnLog.append(defender['name'] + ':HEALTH_LEFT:' + str(defender['health']))
 
         #Add the turn log to the battle log list
         battleLog['log'].append(turnLog)
@@ -298,12 +293,12 @@ def calculateCritChance(entity):
 def classSpecificBonuses(entity1, entity2, battleLog):
     #Fencer immediately removes 15% armor reduction
     if entity1['class_name'] == 'Fencer':
-        battleLog['log'][0].append([entity1['name'] + ':' + 'FENCER_FOCUS'])
+        battleLog['log'][0].append(entity1['name'] + ':FENCER_FOCUS')
         entity2['armorReduction'] -= 15.0
 
     #Mages ignore armor
     if helper.classes[entity1['class_name']]['stat'] == 'int' and entity2['class_name'] != 'Magic Knight':
-        battleLog['log'][0].append([entity1['name'] + ':' + 'IGNORE_ARMOR'])
+        battleLog['log'][0].append(entity1['name'] + ':IGNORE_ARMOR')
         entity2['armorReduction'] = 0
 
     #Make sure armor reduction isn't negative
@@ -334,9 +329,9 @@ def checkEvadeOrBlock(attacker, defender, turnLog):
 			
         if evadeBlockChance > random.random():
             if defenderClass == 'Warrior':
-                turnLog.append(defender['name'] + ':' + 'BLOCK')
+                turnLog.append(defender['name'] + ':BLOCK')
             else:
-                turnLog.append(defender['name'] + ':' + 'EVADE')
+                turnLog.append(defender['name'] + ':EVADE')
             return True
     return False
 
@@ -353,7 +348,7 @@ def checkCriticalHit(attacker, defender, turnLog):
         if critChance < 0:
             critChance = 0
 
-        turnLog.append(attacker['name'] + ':' + 'FROST_SHIELD' + ':' + str(critChance))
+        turnLog.append(attacker['name'] + ':FROST_SHIELD:' + str(critChance))
 
     if critChance > rand:
         return True
@@ -368,20 +363,20 @@ def processCriticalHit(attacker, defender, turnLog):
     #If the attacker is an assassin - your crit damage is twice as much
     if attacker['class_name'] == 'Assassin':
         attacker['critDamage'] = baseDamage * 2
-        turnLog.append(attacker['name'] + ':' + 'ASSASSIN_CRIT_DAMAGE' + ':' + str(attacker['critDamage']))
+        turnLog.append(attacker['name'] + ':ASSASSIN_CRIT_DAMAGE:' + str(attacker['critDamage']))
     
     #If the attacker is a blood mage, heal based on base damage
     elif attacker['class_name'] == 'Blood Mage':
         healAmount = math.floor(baseDamage / 2)
         attacker['health'] += healAmount
 
-        turnLog.append(attacker['name'] + ':' + 'HEAL' + ':' + str(healAmount))
+        turnLog.append(attacker['name'] + ':HEAL:' + str(healAmount))
 
         #If the enemy is a mage - heal twice as much
         if helper.classes[defender['class_name']]['stat'] == 'int':
             attacker['health'] += healAmount
 
-            turnLog.append(attacker['name'] + ':' + 'HEAL_TWICE' + ':' + str(healAmount))
+            turnLog.append(attacker['name'] + ':HEAL_TWICE:' + str(healAmount))
 
         #Make sure health doesn't go over max
         if attacker['health'] > attacker['maxHealth']:
@@ -389,7 +384,7 @@ def processCriticalHit(attacker, defender, turnLog):
         
     else:
         attacker['critDamage'] = baseDamage
-        turnLog.append(attacker['name'] + ':' + 'CRIT_DAMAGE' + ':' + str(attacker['critDamage']))
+        turnLog.append(attacker['name'] + ':CRIT_DAMAGE:' + str(attacker['critDamage']))
 
 
 #Checks if the defender is a demon hunter - is so check if resurrection is successful
@@ -398,4 +393,19 @@ def checkIfRessurected(defender, turnLog):
         if random.random() < 0.35:
             defender['health'] = defender['maxHealth']
 
-            turnLog.append(defender['name'] + ':' + 'RESURRECTION')
+            turnLog.append(defender['name'] + ':RESURRECTION')
+
+
+#Translates the battle log to human-readable text - inserting the values in when applicable
+def translateBattleLog(battleLog):
+    for i in range(0, len(battleLog)):
+        print('\n')
+        for j in range(0, len(battleLog[i])):
+            text = battleLog[i][j]
+            splitText = text.split(':')
+            keyValue = battleLogTags[splitText[1]]
+
+            if len(splitText) == 2:
+                print(keyValue.replace('{name}',splitText[0]))
+            else:
+                print(keyValue.replace('{name}',splitText[0]).replace('{amount}',splitText[2]))
