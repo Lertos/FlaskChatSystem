@@ -234,6 +234,14 @@ ul{
     border: 1px solid #301f17;
 }
 
+.lootTable{
+    width: 100%;
+}
+
+.lootTable tr{
+    width: 100%;
+}
+
 .resultsTable{
     width: 100%;
 }
@@ -398,6 +406,19 @@ ul{
 }
 
 .mainPanel div{
+    background-color: var(--div);
+    background-image: url("/static/pattern.png");
+    background-repeat: repeat;
+}
+
+.quarterEmptyPanel{
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+    height: auto;
+}
+
+.quarterEmptyPanel div{
     background-color: var(--div);
     background-image: url("/static/pattern.png");
     background-repeat: repeat;

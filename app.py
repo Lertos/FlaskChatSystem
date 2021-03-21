@@ -250,20 +250,16 @@ def results():
 
         #Fix player stats as base stats and equipment stats are separate
         player = helper.combinePlayerStats(player)
-        
-        print(player)
-        print('\n\n\n')
-        print(monster)
 
-        test = helper.setupFight(player, monster)
-        print(test)
-        #start combat
-        pass
+        #Start combat
+        winner = helper.setupFight(player, monster)
+        print(winner)
+        
+        return render_template('results.html', travelInfo=travelInfo, player=player, monster=monster)
     #If the event was gathering
     else:
         pass
 
-    return render_template('results.html', travelInfo=travelInfo)
 
 
 @app.route('/startQuest', methods=['POST'])

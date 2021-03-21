@@ -555,6 +555,7 @@ def calculateArmorReduction(entity):
     entity['armorReduction'] = armorReduction
 
 
+#Calculates damage based on level and the main stat of the class
 def calculateDamage(entity):
     level = entity['level']
     classStat = classes[entity['class_name']]['stat']
