@@ -251,11 +251,21 @@ def results():
 
         #Start combat
         battleLog = combat.setupFight(player, monster)
-        #translatedLog = translateBattleLog(battleLog)
         combat.translateBattleLog(battleLog['log'])
-        #print(winner)
-        
-        return render_template('results.html', travelInfo=travelInfo, player=player, monster=monster)
+
+        #Give winnings
+        playerWon = False
+        if battleLog['winner'] == player['name']:
+            playerWon = True
+
+        #helper.completePlayerEvent(playerId, playerWon, monster)
+
+        #Check for level ups
+
+        #Remove travel information to generate new events
+        helper.removePlayerTravelInfo(playerId)
+
+        return render_template('results.html', travelInfo=travelInfo, player=player, monster=monster, battleLog=battleLog)
     #If the event was gathering
     else:
         pass

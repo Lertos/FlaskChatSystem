@@ -1,28 +1,29 @@
-import random, math, time
+import random, math
 from modules import helper
 
 
 #Battle log tags
 battleLogTags = {
-    'HEALTH': '{name} has {amount} health',
-    'HEALTH_LEFT': '{name} has {amount} health left',
-    'EVADE': '{name} has evaded the attack!',
-    'BLOCK': '{name} has blocked the attack!',
-    'CRIT_DAMAGE': '{name} is hitting for an additional {amount} damage!',
-    'DAMAGE_AFTER_ARMOR': '{name} is dealth {amount} of damage',
-    'FENCER_FOCUS': '{name} has dropped their foes armor reduction by 15%',
-    'IGNORE_ARMOR': '{name} is ignoring all armor!',
-    'MAGIC_KNIGHT_REDUCE_ARMOR': '{name} reduced foes armor reduction by 5% (now {amount}%)',
-    'DOUBLE_MAGIC_DAMAGE': '{name} is taking double damage due to their magic weakness',
-    'STEAL_HEALTH': '{name} just stole {amount} health from their foe',
-    'HEAL': '{name} has healed for {amount}',
-    'HEAL_TWICE': '{name} has healed for an additional {amount}',
-    'ROGUE_DOUBLE_HIT': '{name} isn''t done attacking yet!',
-    'RESURRECTION': '{name} just resurrected!',
-    'FIRE_DAMAGE_BONUS': '{name} has increased their damage by 15%!',
-    'BERSERK': '{name} is attacking again!',
-    'FROST_SHIELD': '{name} reduced their foes crit chance by 20% (now {amount})',
-    'ASSASSIN_CRIT_DAMAGE': '{name} is doing an additional {amount} critical damage!'
+    'HEALTH': '<strong>{name}</strong> has <strong>{amount}</strong> health',
+    'HEALTH_LEFT': '<strong>{name}</strong> has <strong>{amount}</strong> health left',
+    'EVADE': '<strong>{name}</strong> has <strong>evaded</strong> the attack!',
+    'BLOCK': '<strong>{name}</strong> has <strong>blocked</strong> the attack!',
+    'ATTACK': '<strong>{name}</strong> is launching an attack',
+    'CRIT_DAMAGE': '<strong>{name}</strong> is hitting for an additional <strong>{amount}</strong> damage!',
+    'DAMAGE_AFTER_ARMOR': '<strong>{name}</strong> deals <strong>{amount}</strong> of damage',
+    'FENCER_FOCUS': '<strong>{name}</strong> has dropped their foes armor reduction by <strong>15%</strong>',
+    'IGNORE_ARMOR': '<strong>{name}</strong> is <strong>ignoring all armor</strong>!',
+    'MAGIC_KNIGHT_REDUCE_ARMOR': '<strong>{name}</strong> reduced foes armor reduction by <strong>5%</strong> (now <strong>{amount}</strong>%)',
+    'DOUBLE_MAGIC_DAMAGE': '<strong>{name}</strong> is taking double damage due to their magic weakness',
+    'STEAL_HEALTH': '<strong>{name}</strong> just stole <strong>{amount}</strong> health from their foe',
+    'HEAL': '<strong>{name}</strong> has healed for <strong>{amount}</strong>',
+    'HEAL_TWICE': '<strong>{name}</strong> has healed for an additional <strong>{amount}</strong>',
+    'ROGUE_DOUBLE_HIT': '<strong>{name}</strong> isn''t done attacking yet!',
+    'RESURRECTION': '<strong>{name}</strong> just <strong>resurrected</strong>!',
+    'FIRE_DAMAGE_BONUS': '<strong>{name}</strong> has increased their damage by <strong>15%</strong>!',
+    'BERSERK': '<strong>{name}</strong> is <strong>attacking again</strong>!',
+    'FROST_SHIELD': '<strong>{name}</strong> reduced their foes crit chance by 20% (now <strong>{amount}</strong>)',
+    'ASSASSIN_CRIT_DAMAGE': '<strong>{name}</strong> is doing an additional <strong>{amount}</strong> critical damage!'
 }
 
 #===============================
@@ -108,6 +109,8 @@ def startFight(entity1, entity2, battleLog):
         doesDefenderEvadeOrBlock = False
         attackerClass = attacker['class_name']
         defenderClass = defender['class_name']
+
+        turnLog.append(attacker['name'] + ':ATTACK')
 
         if defenderClass == 'Scout' or defenderClass == 'Rogue' or defenderClass == 'Assassin' or defenderClass == 'Warrior':
             doesDefenderEvadeOrBlock = checkEvadeOrBlock(attacker, defender, turnLog)
@@ -399,13 +402,16 @@ def checkIfRessurected(defender, turnLog):
 #Translates the battle log to human-readable text - inserting the values in when applicable
 def translateBattleLog(battleLog):
     for i in range(0, len(battleLog)):
-        print('\n')
+        #print('\n')
         for j in range(0, len(battleLog[i])):
             text = battleLog[i][j]
             splitText = text.split(':')
             keyValue = battleLogTags[splitText[1]]
 
             if len(splitText) == 2:
-                print(keyValue.replace('{name}',splitText[0]))
+                #print(keyValue.replace('{name}',splitText[0]))
+                battleLog[i][j] = keyValue.replace('{name}',splitText[0])
             else:
-                print(keyValue.replace('{name}',splitText[0]).replace('{amount}',splitText[2]))
+                #print(keyValue.replace('{name}',splitText[0]).replace('{amount}',splitText[2]))
+                amount = int(splitText[2])
+                battleLog[i][j] = keyValue.replace('{name}',splitText[0]).replace('{amount}', f'{amount:,}')

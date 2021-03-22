@@ -408,7 +408,23 @@ class MySQLPool(object):
       for row in cursor.stored_results():
         result = row.fetchall()
 
-      #print(result)
+      conn.commit()
+      self.close(conn, cursor)
+
+      return result
+
+    
+    def givePlayerQuestRewards(self, playerId, stamina, gold, xp):
+      conn = self.pool.get_connection()
+      cursor = conn.cursor(dictionary=True)
+
+      args = [playerId, stamina, gold, xp] 
+      cursor.callproc('usp_give_player_quest_rewards', args)
+
+      result = []
+
+      for row in cursor.stored_results():
+        result = row.fetchall()
 
       conn.commit()
       self.close(conn, cursor)

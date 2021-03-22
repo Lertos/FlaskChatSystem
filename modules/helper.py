@@ -196,6 +196,25 @@ def getPlayerTravelInfo(playerId):
     return {}
 
 
+#Remove the player from the travel info dictionary
+def removePlayerTravelInfo(playerId):
+    if playerId in travellingPlayers:
+        travellingPlayers.pop('playerId', None)
+
+
+#After a player completes an event, process the rewards/stamina usage
+def completePlayerEvent(playerId, playerWon, monsterInfo):
+    stamina = monsterInfo['stamina']
+    gold = 0
+    xp = 0
+
+    if playerWon:
+        gold = monsterInfo['gold']
+        xp = monsterInfo['xp']
+
+    return database.givePlayerQuestRewards(playerId, stamina, gold, xp)
+
+
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
 def addQuestToTravelInfo(playerId, monsterId):
     questMonsters = database.getPlayerQuestMonsters(playerId)

@@ -271,11 +271,13 @@ ul{
 .tableEntity1{
     text-align: left;
     font-weight: normal;
+    color:rgb(16, 95, 16)
 }
 
 .tableEntity2{
     text-align: right;
     font-weight: normal;
+    color: rgb(126, 19, 19)
 }
 
 .divSameLineElements h1, .divSameLineElements h2, .divSameLineElements h3, .divSameLineElements h4, .divSameLineElements h5, .divSameLineElements p, .divSameLineElements img{
@@ -452,7 +454,7 @@ ul{
     width: 100%;
     text-align: center;
     overflow-y:scroll; 
-    height:300px;
+    height:400px;
     margin-top: 20px;
 }
 

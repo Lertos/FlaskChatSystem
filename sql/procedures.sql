@@ -1,5 +1,25 @@
 USE flasksimplerpg;
 
+
+/*==============================
+	usp_clear_transactional_data
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_clear_transactional_data;
+
+DELIMITER //
+CREATE PROCEDURE usp_clear_transactional_data ()
+BEGIN
+
+	DELETE FROM active_quests;
+    DELETE FROM active_bounties;
+
+END //
+DELIMITER ;
+
+#CALL usp_clear_transactional_data();
+
+
 /*==============================
 	usp_create_user_account
 ==============================*/
@@ -335,7 +355,7 @@ CREATE PROCEDURE usp_get_quest_monster_info
 )
 BEGIN
 
-	SELECT b.monster_name AS name, b.class_name, b.file_name, a.strength_mult, a.dexterity_mult, a.intelligence_mult, a.constitution_mult, a.luck_mult
+	SELECT b.monster_name AS name, b.class_name, b.file_name, a.gold, a.xp, a.stamina, a.strength_mult, a.dexterity_mult, a.intelligence_mult, a.constitution_mult, a.luck_mult
 	FROM active_quests a
 	INNER JOIN quest_monsters b on a.quest_monster_id = b.quest_monster_id
 	WHERE a.quest_monster_id = p_quest_monster_id AND a.player_id = p_player_id;
@@ -347,20 +367,35 @@ DELIMITER ;
 
 
 /*==============================
-	usp_clear_transactional_data
+	usp_give_player_quest_rewards
 ==============================*/
 
-DROP PROCEDURE IF EXISTS usp_clear_transactional_data;
+DROP PROCEDURE IF EXISTS usp_give_player_quest_rewards;
 
 DELIMITER //
-CREATE PROCEDURE usp_clear_transactional_data ()
+CREATE PROCEDURE usp_give_player_quest_rewards
+(
+	IN p_player_id SMALLINT,
+    IN p_stamina TINYINT,
+    IN p_gold INT,
+    IN p_xp INT
+)
 BEGIN
 
-	DELETE FROM active_quests;
-    DELETE FROM active_bounties;
+	DECLARE v_exp_until_level INT;
 
+	UPDATE players
+    SET stamina = stamina - p_stamina, gold = gold + p_gold, exp_until_level = exp_until_level - p_xp
+    WHERE player_id = p_player_id;
+
+	SET v_exp_until_level = (
+		SELECT exp_until_level 
+		FROM players 
+		WHERE player_id = p_player_id
+    );
+    
 END //
 DELIMITER ;
 
-#CALL usp_clear_transactional_data();
+#CALL usp_give_player_quest_rewards(1, 20, 925);
 

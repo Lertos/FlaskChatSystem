@@ -17,7 +17,7 @@
            
                         <img class='resizeImg128NoHover' src='/static/avatars/{{ player["file_name"] }}'>
 
-                        <h3 class='alignCenter boldText'>{{ player["name"] }}</h3>
+                        <h3 id='entity1Name' class='alignCenter boldText'>{{ player["name"] }}</h3>
                         <h5 class='alignCenter'>{{ player["class_name"] }}</h5>
 
                         <hr>
@@ -52,26 +52,30 @@
                     <div class='quarterEmptyPanel background border spacing'>
                         <div>
 
-                            <h3 class='alignCenter boldText'>YOU WIN!</h3>
+                            {% if battleLog['winner'] != player['name'] %}
+                                <h3 class='alignCenter textRed boldText '>YOU LOSE...</h3>
+                            {% else %}
+                                <h3 class='alignCenter textGreen boldText'>YOU WIN!</h3>
 
-                            <hr>
+                                <hr>
 
-                            <h4 class='alignCenter boldText'>Rewards</h4>
-                            
-                            <table class='lootTable alignCenter'>
-                                <tr>
-                                    <td>
-                                        <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                        <p>{{ travelInfo["gold"] }}</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                        <p>{{ travelInfo["xp"] }}</p>
-                                    </td>
-                                </tr>
-                            </table>
+                                <h4 class='alignCenter boldText'>Rewards</h4>
+                                
+                                <table class='lootTable alignCenter'>
+                                    <tr>
+                                        <td>
+                                            <img class='iconImg' src='/static/icons/icon_gold.png'>
+                                            <p>{{ travelInfo["gold"] }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img class='iconImg' src='/static/icons/icon_xp.png'>
+                                            <p>{{ travelInfo["xp"] }}</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            {% endif %}
 
                             <hr>
 
@@ -82,133 +86,8 @@
                     <div hidden id='battleLog' class='background border spacing'>
                         <div>    
                             <div>
-                                <table class='resultsTable' >
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 1</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 2</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 1</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 2</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 1</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 2</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 1</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 2</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 1</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 2</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 1</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 2</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 1</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
-                                    <tr class='tableTurnHeader'>
-                                        <td>Turn 2</td>
-                                    </tr>
-                                    <tr class='tableEntity1'>
-                                        <td>Lol did X</td>
-                                    </tr>
-                                    <tr class='tableEntity2'>
-                                        <td>Croc blocked Y</td>
-                                    </tr>
+                                <table id='battleLogTable' class='resultsTable' >
+                                    
                                 </table>
                             </div>
                         </div>
@@ -221,7 +100,7 @@
            
                         <img class='resizeImg128NoHover' src='/static/quest_avatars/{{ monster["file_name"] }}'>
 
-                        <h3 class='alignCenter boldText'>{{ monster["name"] }}</h3>
+                        <h3 id='entity2Name' class='alignCenter boldText'>{{ monster["name"] }}</h3>
                         <h5 class='alignCenter'>{{ monster["class_name"] }}</h5>
 
                         <hr>
@@ -285,6 +164,44 @@ function AnimateRotate(d){
             }
         });
     }
+
+
+var entity1Name = document.getElementById('entity1Name').innerText
+var entity2Name = document.getElementById('entity2Name').innerText
+
+var battleLog = {{ battleLog|tojson|safe }}
+var log = battleLog['log']
+
+
+//Fill the battle log table
+var table = document.getElementById('battleLogTable');
+
+//For each turn in the battle
+for(var i=0; i<log.length; i++){
+    var row = table.insertRow();
+    var cell = row.insertCell(0);
+
+    cell.classList.add('tableTurnHeader')
+
+    if(i == 0)
+        cell.innerHTML = 'Battle Start';
+    else
+        cell.innerHTML = 'Turn ' + i;
+
+    //For each action in the turn
+    for(var j=0; j<log[i].length; j++){
+        var row = table.insertRow();
+        var cell = row.insertCell(0);
+
+        //Add the class that will dictate what side the text is on
+        if(log[i][j].includes(entity1Name))
+            cell.classList.add('tableEntity1')
+        else
+            cell.classList.add('tableEntity2')
+
+        cell.innerHTML = log[i][j];
+    }
+}   
 
 /*
 //MAKE SURE to use a blank div, and the image should use the resizeImg128NoBg class
