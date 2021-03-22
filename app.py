@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request, url_for, session, Response
 from modules import db_manager, helper, combat
+import re
 
 app = Flask(__name__)
 
@@ -87,6 +88,16 @@ def signup():
             else:
                 errorMessage = 'Your password must be more than 6 characters'
 
+            return render_template('signup.html', errorMessage=errorMessage)
+
+        #Check if there are any symbols in the players username
+        if re.match('^[\w-]+$', username) is None:
+            errorMessage = 'Your username must not have symbols in it'
+            return render_template('signup.html', errorMessage=errorMessage)
+
+        #Check if there are any symbols in the players display name
+        if re.match('^[\w-]+$', displayName) is None:
+            errorMessage = 'Your display name must not have symbols in it'
             return render_template('signup.html', errorMessage=errorMessage)
 
         #Check if passwords are the same
@@ -283,7 +294,14 @@ def startQuest():
     monsterId = request.form['monsterId']
     helper.addQuestToTravelInfo(playerId, monsterId)
 
-    if helper.getPlayerTravelInfo(playerId) != {}:
+    travelInfo = helper.getPlayerTravelInfo(playerId)
+    player = database.getPlayerStats(playerId)
+
+    if travelInfo != {}:
+        #Check if player has stamina
+        if player['stamina'] < travelInfo['stamina']:
+            return Response('', status=400)
+
         return Response('', status=201)
 
     return Response('', status=400)

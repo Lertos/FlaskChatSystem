@@ -344,7 +344,7 @@ def getAverageStatLevel(playerStats):
     total = 0
 
     for key in playerStats:
-        if not (key == 'damage' or key == 'armor' or key == 'name' or key == 'class_name' or key == 'file_name' or key == 'level'):
+        if not (key == 'damage' or key == 'armor' or key == 'name' or key == 'class_name' or key == 'file_name' or key == 'level' or key == 'stamina'):
             total += int(playerStats[key])
 
     return math.floor(total / 5)
