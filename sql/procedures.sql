@@ -329,7 +329,7 @@ CREATE PROCEDURE usp_get_player_info
 )
 BEGIN
 
-	SELECT a.display_name AS name, a.class_name, a.file_name, a.player_level AS level, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, SUM(b.strength) AS equip_strength, 
+	SELECT a.display_name AS name, a.class_name, a.file_name, a.player_level AS level, a.stamina, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, SUM(b.strength) AS equip_strength, 
 		SUM(b.dexterity) AS equip_dexterity, SUM(b.intelligence) AS equip_intelligence, SUM(b.constitution) AS equip_constitution, SUM(b.luck) AS equip_luck, SUM(b.damage) AS damage, SUM(b.armor) AS armor
 	FROM players a
 	INNER JOIN player_inventories b on a.player_id = b.player_id

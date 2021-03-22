@@ -12,8 +12,15 @@
         <div>
             <div class='infoPanel background border spacing'>
                 <img class='iconImg' src='/static/icons/icon_stamina.png'>
-                <p><strong>100 / 100</strong></p>
+                <p><strong>{{ playerStamina }} / 100</strong></p>
                 <p>(Resets Daily)</p>
+            </div>
+        </div>
+
+        <div hidden class='popupParent'>
+            <div class='background border spacing popupChild'>
+                <h3>You don't have enough stamina</h3>
+                <button id='popupButton' class='themeSmallButton'>I Get It</button>
             </div>
         </div>
 
@@ -95,6 +102,11 @@
 <script>
 
     $(function() {
+
+        $('#popupButton').on('click', function(){
+            $('.popupParent').attr('hidden', true);
+        });
+
         $('.resizeImg128').on('click', function(){
             var monsterId = $(this).attr('buttonId');
 
@@ -103,7 +115,12 @@
                 url: '{{ url_for("startQuest") }}',
                 data: {'monsterId': monsterId},
                 success: function (response) {
-                    window.location = '{{ url_for("travel") }}';
+                    if(response == 'NO_STAMINA')
+                        $('.popupParent').removeAttr('hidden');
+                    else if(response == 'ALREADY_IN_EVENT')
+                        return
+                    else
+                        window.location = '{{ url_for("travel") }}';
                 }
             });
         });

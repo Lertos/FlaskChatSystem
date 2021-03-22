@@ -285,26 +285,42 @@ def results():
         pass
 
 
+@app.route('/cancelEvent', methods=['POST'])
+def cancelEvent():
+
+    playerId = session['playerId']
+
+    #Remove the player from the travel dict
+    helper.removePlayerTravelInfo(playerId)
+
+    return Response('', status=201)
+
 
 @app.route('/startQuest', methods=['POST'])
 def startQuest():
 
     playerId = session['playerId']
-
     monsterId = request.form['monsterId']
-    helper.addQuestToTravelInfo(playerId, monsterId)
 
+    #If the player isn't travelling already, proceed
     travelInfo = helper.getPlayerTravelInfo(playerId)
-    player = database.getPlayerStats(playerId)
 
-    if travelInfo != {}:
-        #Check if player has stamina
+    if travelInfo == {}:
+        #Get the player stats and add travel info - assuming they have enough stamina
+        player = database.getPlayerStats(playerId)
+        helper.addQuestToTravelInfo(playerId, monsterId)
+
+        #Get the travel info again to ensure they have the correct stamina
+        travelInfo = helper.getPlayerTravelInfo(playerId)
+
+        #Check if player has stamina - if not remove them from the travel dict
         if player['stamina'] < travelInfo['stamina']:
-            return Response('', status=400)
+            helper.removePlayerTravelInfo(playerId)
+            return Response('NO_STAMINA', status=201)
 
-        return Response('', status=201)
+        return Response('START_QUEST', status=201)
 
-    return Response('', status=400)
+    return Response('ALREADY_IN_EVENT', status=201)
 
 
 @app.route('/arena')
@@ -328,7 +344,10 @@ def quests():
 
     #If they have active quests, load the quests page and build the quests provided
     if questMonsters != []:
-        return render_template('quests.html', questMonsters=questMonsters)
+        playerStats = database.getPlayerStats(playerId)
+        playerStamina = playerStats['stamina']
+
+        return render_template('quests.html', questMonsters=questMonsters, playerStamina=playerStamina)
     #If they do not have active quests, create some and reload the quests page
     else:
         playerStats = database.getPlayerStats(playerId)

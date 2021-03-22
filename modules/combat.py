@@ -413,5 +413,5 @@ def translateBattleLog(battleLog):
                 battleLog[i][j] = keyValue.replace('{name}',splitText[0])
             else:
                 #print(keyValue.replace('{name}',splitText[0]).replace('{amount}',splitText[2]))
-                amount = int(splitText[2])
+                amount = int(float(splitText[2]))
                 battleLog[i][j] = keyValue.replace('{name}',splitText[0]).replace('{amount}', f'{amount:,}')

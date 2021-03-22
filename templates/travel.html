@@ -72,6 +72,10 @@
                         <h3 id='timeLeftCounter' class='sameLine'>{{ timeLeft }}</h3>
                         <h4 class='sameLine'> seconds</h4>
 
+                        <hr>
+
+                        <button id='cancelQuest' class='themeSmallButton'>Cancel</button>
+
                     {% endif %}
 
                 </div>
@@ -88,6 +92,18 @@
 <script type='text/javascript' src='{{ url_for("static", filename="jquery.js") }}'></script>
 
 <script>
+
+    $(function(){
+        $('#cancelQuest').on('click', function(){
+            $.ajax({
+                type: 'POST',
+                url: '{{ url_for("cancelEvent") }}',
+                success: function (response) {
+                    window.location = '{{ url_for("quests") }}';
+                }
+            });
+        })
+    });
 
     //Setup the timer to go out when the travel time is up
     setInterval(function() { 
