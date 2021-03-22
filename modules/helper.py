@@ -199,7 +199,7 @@ def getPlayerTravelInfo(playerId):
 #Remove the player from the travel info dictionary
 def removePlayerTravelInfo(playerId):
     if playerId in travellingPlayers:
-        travellingPlayers.pop('playerId', None)
+        travellingPlayers.pop(playerId, None)
 
 
 #After a player completes an event, process the rewards/stamina usage
@@ -258,9 +258,10 @@ def getTimeLeftFromEpochTime(epochTimestamp):
 
 #===============================
 
-def createRandomQuestMonsters(playerId, playerLevel, playerStats):
+def createRandomQuestMonsters(playerId, playerStats):
     pickedMonsters = []
-
+    playerLevel = playerStats['level']
+    
     #Get average stat level
     averageStat = getAverageStatLevel(playerStats)
 

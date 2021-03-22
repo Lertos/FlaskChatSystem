@@ -16,7 +16,7 @@ CREATE TABLE players
     class_name VARCHAR(30) NULL,
     file_name VARCHAR(30) NULL,
     player_level SMALLINT DEFAULT 1,
-    exp_until_level SMALLINT DEFAULT 0,
+    exp_until_level INT DEFAULT 51,
 	strength SMALLINT DEFAULT 1,
     dexterity SMALLINT DEFAULT 1,
     intelligence SMALLINT DEFAULT 1,
@@ -474,3 +474,20 @@ CREATE TABLE unlocked_gather_nodes
 );
 
 #SELECT * FROM unlocked_gather_nodes;
+
+
+/*==============================
+	level_up_costs
+==============================*/
+
+DROP TABLE IF EXISTS level_up_costs;
+
+CREATE TABLE level_up_costs
+(
+    level SMALLINT NOT NULL UNIQUE AUTO_INCREMENT,
+    cost INT NOT NULL,
+    PRIMARY KEY (level)
+);
+
+#SELECT * FROM level_up_costs;
+#INSERT INTO level_up_costs (cost) VALUES ()

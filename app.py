@@ -258,9 +258,12 @@ def results():
         if battleLog['winner'] == player['name']:
             playerWon = True
 
-        #helper.completePlayerEvent(playerId, playerWon, monster)
+        playerLevel = helper.completePlayerEvent(playerId, playerWon, monster)
+        playerLevel = playerLevel[0]['player_level']
 
         #Check for level ups
+        if session['playerLevel'] != playerLevel:
+            session['playerLevel'] = playerLevel
 
         #Remove travel information to generate new events
         helper.removePlayerTravelInfo(playerId)
@@ -297,7 +300,6 @@ def quests():
     playerId = session['playerId']
 
     #Check if the player is already travelling - if so, redirect them to the travel page
-    #If player is not travelling - redirect to dashboard
     travelInfo = helper.getPlayerTravelInfo(playerId)
 
     if travelInfo != {}:
@@ -312,10 +314,9 @@ def quests():
     #If they do not have active quests, create some and reload the quests page
     else:
         playerStats = database.getPlayerStats(playerId)
-        helper.createRandomQuestMonsters(playerId, session['playerLevel'], playerStats)
+        helper.createRandomQuestMonsters(playerId, playerStats)
         
         return redirect(url_for('quests'))
-
 
 
 @app.route('/bounties')

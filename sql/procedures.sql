@@ -384,6 +384,8 @@ BEGIN
 
 	DECLARE v_exp_until_level INT;
 
+	DELETE FROM active_quests WHERE player_id = p_player_id;
+
 	UPDATE players
     SET stamina = stamina - p_stamina, gold = gold + p_gold, exp_until_level = exp_until_level - p_xp
     WHERE player_id = p_player_id;
@@ -394,8 +396,38 @@ BEGIN
 		WHERE player_id = p_player_id
     );
     
+    IF v_exp_until_level <= 0 THEN CALL usp_player_level_up(p_player_id);
+    END IF;
+    
+    SELECT player_level
+    FROM players
+    WHERE player_id = p_player_id;
+    
 END //
 DELIMITER ;
 
-#CALL usp_give_player_quest_rewards(1, 20, 925);
+#CALL usp_give_player_quest_rewards(1, 4, 20, 126);
+
+
+/*==============================
+	usp_player_level_up
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_player_level_up;
+
+DELIMITER //
+CREATE PROCEDURE usp_player_level_up
+(
+	IN p_player_id SMALLINT
+)
+BEGIN
+
+	UPDATE players
+    SET player_level = LEAST(player_level + 1, 100), exp_until_level = (SELECT cost FROM level_up_costs WHERE level = LEAST(player_level + 1, 100)) - exp_until_level
+    WHERE player_id = p_player_id;
+
+END //
+DELIMITER ;
+
+#CALL usp_player_level_up(1);
 
