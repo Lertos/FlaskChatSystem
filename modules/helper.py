@@ -8,6 +8,7 @@ database = db_manager.MySQLPool()
 database.clearAllTransactionalData()
 
 #Holds the high-use backend data
+seasonList = database.getSeasonList()
 classes = database.getClasses()
 itemTypes = database.getItemTypes()
 itemRarities = database.getItemRarities()

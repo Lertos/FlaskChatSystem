@@ -67,6 +67,9 @@ def signin():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    
+    seasonList = helper.seasonList
+    
     if request.method == 'POST':
 
         errorMessage = ''
@@ -75,6 +78,14 @@ def signup():
         displayName = request.form['displayName']
         password = request.form['password']
         passwordConfirm = request.form['passwordConfirm']
+        season = request.form['season']
+
+        #Check for tampering with the season value
+        try:
+            season = int(season)
+        except ValueError:
+            errorMessage = 'Dont mess with form values...'
+            return render_template('signup.html', errorMessage=errorMessage, seasonList=seasonList)
 
         #Check if the username/display name/password meets length requirements
         if(len(username) < 6 or len(displayName) < 6 or len(password) < 6):
@@ -88,25 +99,25 @@ def signup():
             else:
                 errorMessage = 'Your password must be more than 6 characters'
 
-            return render_template('signup.html', errorMessage=errorMessage)
+            return render_template('signup.html', errorMessage=errorMessage, seasonList=seasonList)
 
         #Check if there are any symbols in the players username
         if re.match('^[\w-]+$', username) is None:
             errorMessage = 'Your username must not have symbols in it'
-            return render_template('signup.html', errorMessage=errorMessage)
+            return render_template('signup.html', errorMessage=errorMessage, seasonList=seasonList)
 
         #Check if there are any symbols in the players display name
         if re.match('^[\w-]+$', displayName) is None:
             errorMessage = 'Your display name must not have symbols in it'
-            return render_template('signup.html', errorMessage=errorMessage)
+            return render_template('signup.html', errorMessage=errorMessage, seasonList=seasonList)
 
         #Check if passwords are the same
         if(password != passwordConfirm):
             errorMessage = 'Passwords do not match'
-            return render_template('signup.html', errorMessage=errorMessage)
+            return render_template('signup.html', errorMessage=errorMessage, seasonList=seasonList)
 
         #Make the call to create the account to the database and check if the username and/or display name already exist
-        user = database.createPlayerAccount(username, displayName, password)
+        user = database.createPlayerAccount(username, displayName, password, season)
 
         #Account was successfully created
         if(user['username'] != '' and user['display_name'] != ''):
@@ -121,13 +132,13 @@ def signup():
             else:
                 errorMessage = 'That display name is already taken'
 
-            return render_template('signup.html', errorMessage=errorMessage)
+            return render_template('signup.html', errorMessage=errorMessage, seasonList=seasonList)
 
         #Take them to the character creation screen
         return redirect(url_for('characterCreation'))
 
     else:
-        return render_template('signup.html', errorMessage='')
+        return render_template('signup.html', errorMessage='', seasonList=seasonList)
 
 
 @app.route('/characterCreation', methods=['GET', 'POST'])

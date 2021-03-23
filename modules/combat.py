@@ -10,7 +10,7 @@ battleLogTags = {
     'BLOCK': '<strong>{name}</strong> has <strong>blocked</strong> the attack!',
     'ATTACK': '<strong>{name}</strong> is launching an attack',
     'CRIT_DAMAGE': '<strong>{name}</strong> is hitting for an additional <strong>{amount}</strong> damage!',
-    'DAMAGE_AFTER_ARMOR': '<strong>{name}</strong> deals <strong>{amount}</strong> of damage',
+    'DAMAGE_AFTER_ARMOR': '<strong>{name}</strong> deals <strong>{amount}</strong> damage',
     'FENCER_FOCUS': '<strong>{name}</strong> has dropped their foes armor reduction by <strong>15%</strong>',
     'IGNORE_ARMOR': '<strong>{name}</strong> is <strong>ignoring all armor</strong>!',
     'MAGIC_KNIGHT_REDUCE_ARMOR': '<strong>{name}</strong> reduced foes armor reduction by <strong>5%</strong> (now <strong>{amount}</strong>%)',

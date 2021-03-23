@@ -57,6 +57,19 @@ class MySQLPool(object):
       self.close(conn, cursor)
 
 
+    def getSeasonList(self):
+      conn = self.pool.get_connection()
+      cursor = conn.cursor(dictionary=True)
+
+      cursor.execute('''SELECT season, upcoming, start_date FROM seasons;''')
+
+      result = list(cursor.fetchall())
+
+      self.close(conn, cursor)
+
+      return result
+
+
     def getClasses(self):
       conn = self.pool.get_connection()
       cursor = conn.cursor()
@@ -225,11 +238,11 @@ class MySQLPool(object):
       return result
 
 
-    def createPlayerAccount(self, username, displayName, password):
+    def createPlayerAccount(self, username, displayName, password, season):
       conn = self.pool.get_connection()
       cursor = conn.cursor(dictionary=True)
 
-      args = [username, displayName, password]
+      args = [username, displayName, password, season]
       cursor.callproc('usp_create_user_account', args)
 
       result = {}

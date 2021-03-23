@@ -15,6 +15,7 @@ CREATE TABLE players
     has_character TINYINT DEFAULT 0,
     class_name VARCHAR(30) NULL,
     file_name VARCHAR(30) NULL,
+    character_season SMALLINT NOT NULL DEFAULT 1,
     player_level SMALLINT DEFAULT 1,
     exp_until_level INT DEFAULT 51,
 	strength SMALLINT DEFAULT 1,
@@ -51,6 +52,24 @@ CREATE TABLE players
 
 INSERT INTO players (username,display_name,password) VALUES ('lertos','Lertos','lertos');
 #SELECT * FROM players;
+
+
+/*==============================
+	seasons
+==============================*/
+
+DROP TABLE IF EXISTS seasons;
+
+CREATE TABLE seasons
+(
+    season SMALLINT NOT NULL UNIQUE,
+    upcoming TINYINT NOT NULL,
+    start_date VARCHAR(40) NOT NULL,
+	PRIMARY KEY (season)
+);
+
+INSERT INTO seasons (season,upcoming,start_date) VALUES (1, 0, 'Mar-12-2021');
+INSERT INTO seasons (season,upcoming,start_date) VALUES (2, 1, 'Dec-23-2021');
 
 
 /*==============================

@@ -20,14 +20,26 @@
                     <label id='lblErrorMessage'>{{ errorMessage }}</label>
                 {% endif %}
 
-                <form action="#" method="POST">
-                    <input type='text' class="form-control" name="username" placeholder="Username"></input>
-                    <input type='text' class="form-control" name="displayName" placeholder="Display Name"></input>
-                    <input type='password' class="form-control" name="password" placeholder="Password"></input>
-                    <input type='password' class="form-control" name="passwordConfirm" placeholder="Confirm Password"></input>
-                    <input type="submit" class="themeSmallButton" value="Create">
+                <form action='#' method='POST'>
+                    <input type='text' class='form-control' name='username' placeholder='Username'></input>
+                    <input type='text' class='form-control' name='displayName' placeholder='Display Name'></input>
+                    <input type='password' class='form-control' name='password' placeholder='Password'></input>
+                    <input type='password' class='form-control' name='passwordConfirm' placeholder='Confirm Password'></input>
+                    <p class='alignCenter'>Season</p>
+                    <select name='season' id='season'>
+                        {% for season in seasonList %}
+
+                            {% if season['upcoming'] == 0 %}
+                                <option value='{{ season["season"] }}'>{{ season['season'] }} (Started {{ season['start_date'] }})</option>
+                            {% else %}
+                                <option value='{{ season["season"] }}'>{{ season['season'] }} (Starts {{ season['start_date'] }})</option>
+                            {% endif %}
+
+                        {% endfor %}
+                    </select>
+                    <input type='submit' class='themeSmallButton' value='Create'>
                 </form>
-                <a href="{{ url_for('signin') }}">Have an account?</a>
+                <a href='{{ url_for('signin') }}'>Have an account?</a>
             </div>
         </div>
 

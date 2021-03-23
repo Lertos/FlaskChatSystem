@@ -30,12 +30,13 @@ DELIMITER //
 CREATE PROCEDURE usp_create_user_account(
 	IN p_username VARCHAR(30),
     IN p_display_name VARCHAR(30),
-    IN p_password VARCHAR(30)
+    IN p_password VARCHAR(30),
+    IN p_season SMALLINT
 )
 BEGIN
 	IF NOT EXISTS (SELECT * FROM players WHERE username = p_username or display_name = p_display_name) THEN
-		INSERT INTO players (username, display_name, password)
-		VALUES (p_username, p_display_name, p_password);
+		INSERT INTO players (username, display_name, password, character_season)
+		VALUES (p_username, p_display_name, p_password, p_season);
         
         SELECT player_id, username, display_name
         FROM players
@@ -56,7 +57,7 @@ BEGIN
 END //
 DELIMITER ;
 
-#CALL usp_create_user_account('lertos99','lertos99','lertos99');
+#CALL usp_create_user_account('lertos99','lertos99','lertos99',1);
 
 /*==============================
 	usp_get_dashboard_details
