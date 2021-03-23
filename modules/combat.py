@@ -259,7 +259,7 @@ def calculateDamage(entity):
         #damage = math.floor(damage/30 * (level ** 2) + 10)
         damage = math.floor(damage/2 * (level) + 1)
     else:
-        damage = math.floor(damage/40 * (level ** 2) + 10)
+        damage = math.floor(damage/40 * (level ** 2) + 40)
 
     entity['damage'] = damage
 
@@ -272,9 +272,9 @@ def calculateHealth(entity):
     health = 0
 
     if level <= 5:
-        health = math.floor(healthModifier * (level ** 2) * 4 * (constitution/20) + 60)
+        health = math.floor(float(healthModifier) * (level ** 2) * 4 * (constitution/20) + 60)
     else:
-        health = math.floor(healthModifier * (level ** 2) * 4 * (constitution/30) + 60)
+        health = math.floor(float(healthModifier) * (level ** 2) * 4 * (constitution/30) + 60)
 
     entity['health'] = health
     entity['maxHealth'] = health

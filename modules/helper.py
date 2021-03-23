@@ -300,9 +300,9 @@ def createRandomQuestMonsters(playerId, playerStats):
         statMultipliers = []
         for i in range(0,5):
             if playerLevel <= 5:
-                multiplier = float(random.uniform(0.1,0.1))
+                multiplier = float(random.uniform(0.2,0.4))
             else:
-                multiplier = float(random.uniform(0.6,1))
+                multiplier = float(random.uniform(0.6,0.85))
 
             stats.append(math.floor(averageStat * multiplier))
             statMultipliers.append(multiplier)
@@ -342,16 +342,12 @@ def createMonsterForBattle(playerStats, playerId, monsterId, monsterType):
     monster['level'] = playerLevel
 
     if playerLevel <= 5:
-        monster['damage'] = math.floor(float(playerStats['damage']) * float(random.uniform(0.1,0.3)))
-        monster['armor'] = math.floor(float(playerStats['armor']) * float(random.uniform(0.1,0.3)))
+        monster['damage'] = math.floor(float(playerStats['damage']) * float(random.uniform(0.3,0.5)))
+        monster['armor'] = math.floor(float(playerStats['armor']) * float(random.uniform(0.3,0.5)))
     else:
-        monster['damage'] = math.floor(float(playerStats['damage']) * float(random.uniform(0.6,0.9)))
-        monster['armor'] = math.floor(float(playerStats['armor']) * float(random.uniform(0.6,0.9)))
+        monster['damage'] = math.floor(float(playerStats['damage']) * float(random.uniform(0.7,0.8)))
+        monster['armor'] = math.floor(float(playerStats['armor']) * float(random.uniform(0.7,0.8)))
 
-    print(playerStats)
-    print('\n')
-
-    print(monster)
     return monster
 
 

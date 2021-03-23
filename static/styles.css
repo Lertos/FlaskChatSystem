@@ -185,6 +185,10 @@ ul{
     display: inline;
 }
 
+.block{
+    display: block;
+}
+
 .boldText{
     font-weight: bold;
 }

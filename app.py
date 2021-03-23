@@ -40,8 +40,9 @@ def signin():
 
         username = request.form['username']
         password = request.form['password']
-
+        print(username,password)
         result = database.getPlayerLogin(username, password)
+        print(result)
         
         #If the statement returned anything (meaning the combo exists) - log them in
         if(result != {}):

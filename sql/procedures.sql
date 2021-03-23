@@ -459,3 +459,4 @@ DELIMITER ;
 
 #CALL usp_leaderboard_get_highest_level(1);
 
+
