@@ -1,6 +1,13 @@
 from flask import Flask, render_template, redirect, request, url_for, session, Response
-from modules import db_manager, helper, combat
-import re
+from modules import db_manager, helper, combat, validation
+
+
+#===============================
+
+#Setup
+
+#===============================
+
 
 app = Flask(__name__)
 
@@ -12,16 +19,10 @@ database = db_manager.MySQLPool()
 
 #===============================
 
-#Setup
-
-#===============================
-
-
-#===============================
-
 #Routes
 
 #===============================
+
 
 @app.route("/")
 def index():
@@ -45,8 +46,6 @@ def signin():
         #If the statement returned anything (meaning the combo exists) - log them in
         if(result != {}):
             session['playerId'] = result['player_id']
-            session['username'] = result['username']
-            session['displayName'] = result['display_name']
             session['className'] = result['class_name']
             session['playerLevel'] = result['player_level']
             
@@ -72,48 +71,16 @@ def signup():
     
     if request.method == 'POST':
 
-        errorMessage = ''
-
         username = request.form['username']
         displayName = request.form['displayName']
         password = request.form['password']
         passwordConfirm = request.form['passwordConfirm']
         season = request.form['season']
 
-        #Check for tampering with the season value
-        try:
-            season = int(season)
-        except ValueError:
-            errorMessage = 'Dont mess with form values...'
-            return render_template('signup.html', errorMessage=errorMessage, seasonList=seasonList)
+        errorMessage = validation.validateAccountInfo(username, displayName, password, passwordConfirm, season)
 
-        #Check if the username/display name/password meets length requirements
-        if(len(username) < 6 or len(displayName) < 6 or len(password) < 6):
-
-            if(len(username) < 6):
-                errorMessage = 'Your username must be more than 6 characters'
-
-            elif(len(displayName) < 6):
-                errorMessage = 'Your display name must be more than 6 characters'
-                
-            else:
-                errorMessage = 'Your password must be more than 6 characters'
-
-            return render_template('signup.html', errorMessage=errorMessage, seasonList=seasonList)
-
-        #Check if there are any symbols in the players username
-        if re.match('^[\w-]+$', username) is None:
-            errorMessage = 'Your username must not have symbols in it'
-            return render_template('signup.html', errorMessage=errorMessage, seasonList=seasonList)
-
-        #Check if there are any symbols in the players display name
-        if re.match('^[\w-]+$', displayName) is None:
-            errorMessage = 'Your display name must not have symbols in it'
-            return render_template('signup.html', errorMessage=errorMessage, seasonList=seasonList)
-
-        #Check if passwords are the same
-        if(password != passwordConfirm):
-            errorMessage = 'Passwords do not match'
+        #If there was an error message send it back to the page
+        if errorMessage != '':
             return render_template('signup.html', errorMessage=errorMessage, seasonList=seasonList)
 
         #Make the call to create the account to the database and check if the username and/or display name already exist
@@ -122,8 +89,6 @@ def signup():
         #Account was successfully created
         if(user['username'] != '' and user['display_name'] != ''):
             session['playerId'] = user['player_id']
-            session['username'] = user['username']
-            session['displayName'] = user['display_name']
 
         #Either the username or the displayname is already taken
         else:

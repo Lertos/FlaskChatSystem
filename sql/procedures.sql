@@ -432,3 +432,30 @@ DELIMITER ;
 
 #CALL usp_player_level_up(1);
 
+
+/*==============================
+	usp_leaderboard_get_highest_level
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_leaderboard_get_highest_level;
+
+DELIMITER //
+CREATE PROCEDURE usp_leaderboard_get_highest_level
+(
+	IN p_season SMALLINT
+)
+BEGIN
+
+	SELECT ROW_NUMBER() OVER w AS player_rank, a.display_name, a.class_name, a.player_level,
+    (a.strength + SUM(b.strength)) AS strength, (a.dexterity + SUM(b.dexterity)) AS dexterity, (a.intelligence + SUM(b.intelligence)) AS intelligence, (a.constitution + SUM(b.constitution)) AS constitution, (a.luck + SUM(b.luck)) AS luck
+	FROM players a
+	INNER JOIN player_inventories b ON a.player_id = b.player_id
+	WHERE a.character_season = p_season AND b.equipped = 1
+    GROUP BY a.player_id
+    WINDOW w AS (ORDER BY a.player_level);
+
+END //
+DELIMITER ;
+
+#CALL usp_leaderboard_get_highest_level(1);
+

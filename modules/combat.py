@@ -256,7 +256,8 @@ def calculateDamage(entity):
     damage = entity['damage']
 
     if level <= 5:
-        damage = math.floor(damage/30 * (level ** 2) + 10)
+        #damage = math.floor(damage/30 * (level ** 2) + 10)
+        damage = math.floor(damage/2 * (level) + 1)
     else:
         damage = math.floor(damage/40 * (level ** 2) + 10)
 

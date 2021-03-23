@@ -29,23 +29,31 @@ class MySQLPool(object):
         cursor.close()
         conn.close()
 
+    def executeProcedure(self):
+      pass
 
-    def execute(self, sql, args=None, commit=False):
+
+    #Executes a procedure and returns a list
+    def executeProcedureReturnList(self, procedure, commit, dictCursor, args=None):
         conn = self.pool.get_connection()
-        cursor = conn.cursor()
+        cursor = conn.cursor(dictionary=dictCursor)
         
         if args:
-            cursor.execute(sql, args)
+            cursor.callproc(procedure, args)
         else:
-            cursor.execute(sql)
+            cursor.callproc(procedure)
+        
         if commit is True:
             conn.commit()
-            self.close(conn, cursor)
-            return None
-        else:
-            res = cursor.fetchall()
-            self.close(conn, cursor)
-            return res
+
+        result = []
+
+        for row in cursor.stored_results():
+          result = row.fetchall()
+
+        self.close(conn, cursor)
+        return result
+
 
     def clearAllTransactionalData(self):
       conn = self.pool.get_connection()
@@ -288,69 +296,32 @@ class MySQLPool(object):
       return result
 
 
-    def getPlayerStats(self, playerId):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor(dictionary=True)
-
-      cursor.callproc('usp_get_player_info', [playerId])
-
-      result = []
-
-      for row in cursor.stored_results():
-        result = row.fetchall()
-
-      self.close(conn, cursor)
+    def getPlayerStats(self, playerId):   
+      args = [playerId]
+      result = self.executeProcedureReturnList('usp_get_player_info', commit=False, dictCursor=True, args=args)
 
       return result[0]
 
 
     def getMonsterStats(self, playerId, monsterId, monsterType):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor(dictionary=True)
-
       args = [playerId, monsterId]
       
       if monsterType == 'quest':
-        cursor.callproc('usp_get_quest_monster_info', args)
-
-      result = []
-
-      for row in cursor.stored_results():
-        result = row.fetchall()
-
-      self.close(conn, cursor)
+        result = self.executeProcedureReturnList('usp_get_quest_monster_info', commit=False, dictCursor=True, args=args)
 
       return result[0]
 
 
     def getPlayerInventory(self, playerId):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor(dictionary=True)
-
-      cursor.callproc('usp_get_player_inventory_items', [playerId])
-
-      result = []
-
-      for row in cursor.stored_results():
-        result = row.fetchall()
-
-      self.close(conn, cursor)
+      args = [playerId]
+      result = self.executeProcedureReturnList('usp_get_player_inventory_items', commit=False, dictCursor=True, args=args)
 
       return result
 
 
     def getPlayerEquippedItems(self, playerId):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor(dictionary=True)
-
-      cursor.callproc('usp_get_player_equipped_items', [playerId])
-
-      result = []
-
-      for row in cursor.stored_results():
-        result = row.fetchall()
-
-      self.close(conn, cursor)
+      args = [playerId]
+      result = self.executeProcedureReturnList('usp_get_player_equipped_items', commit=False, dictCursor=True, args=args)
 
       return result
 
@@ -411,36 +382,15 @@ class MySQLPool(object):
 
     
     def getPlayerQuestMonsters(self, playerId):  
-      conn = self.pool.get_connection()
-      cursor = conn.cursor(dictionary=True)
-
-      cursor.callproc('usp_get_player_quest_monsters', [playerId])
-
-      result = []
-
-      for row in cursor.stored_results():
-        result = row.fetchall()
-
-      conn.commit()
-      self.close(conn, cursor)
+      args = [playerId]
+      result = self.executeProcedureReturnList('usp_get_player_quest_monsters', commit=False, dictCursor=True, args=args)
 
       return result
 
     
     def givePlayerQuestRewards(self, playerId, stamina, gold, xp):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor(dictionary=True)
-
-      args = [playerId, stamina, gold, xp] 
-      cursor.callproc('usp_give_player_quest_rewards', args)
-
-      result = []
-
-      for row in cursor.stored_results():
-        result = row.fetchall()
-
-      conn.commit()
-      self.close(conn, cursor)
+      args = [playerId, stamina, gold, xp]
+      result = self.executeProcedureReturnList('usp_give_player_quest_rewards', commit=True, dictCursor=True, args=args)
 
       return result
 
