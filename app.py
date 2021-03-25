@@ -142,7 +142,7 @@ def dashboard():
 
     #For testing new items out
     if request.method == 'POST':
-        helper.debugCreateItems(playerId, session['className'], 28, playerLevel, playerLevel)
+        helper.debugCreateItems(playerId, session['className'], 21, playerLevel, playerLevel)
 
     player = database.getDashboardDetails(playerId)
     classInfo = helper.getClassInfo(session['className'])
@@ -367,7 +367,31 @@ def results():
 
 @app.route('/bounties')
 def bounties():
-    return render_template('bounties.html')
+
+    playerId = session['playerId']
+
+    #Check if the player is already travelling - if so, redirect them to the travel page
+    travelInfo = helper.getPlayerTravelInfo(playerId)
+
+    if travelInfo != {}:
+        return redirect(url_for('travel'))
+
+    #Check if the player has active bounties
+    bountyMonsters = database.getPlayerBountyMonsters(playerId)
+
+    #If they have active bounties, load the bounties page and build the bounties provided
+    if bountyMonsters != []:
+        playerStats = database.getPlayerStats(playerId)
+        bountyAttempts = playerStats['bounty_attempts']
+
+        return render_template('bounties.html', bountyMonsters=bountyMonsters, bountyAttempts=bountyAttempts)
+
+    #If they do not have active bounties, create some and reload the bounties page
+    else:
+        playerStats = database.getPlayerStats(playerId)
+        helper.createRandomBountyMonsters(playerId, playerStats)
+        
+        return redirect(url_for('bounties'))
 
 
 #===============================

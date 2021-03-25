@@ -330,6 +330,25 @@ class MySQLPool(object):
       return result
 
 
+    def createBountyMonsterForPlayer(self, playerId, bounty_monster_id, xp, gold, dropChance, time, strength, dexterity, intelligence, constitution, luck, strengthMult, dexterityMult, intelligenceMult, constitutionMult, luckMult):  
+      args = [playerId, bounty_monster_id, xp, gold, dropChance, time, strength, dexterity, intelligence, constitution, luck, strengthMult, dexterityMult, intelligenceMult, constitutionMult, luckMult]
+      self.executeProcedure('usp_create_bounty_monster_for_player', commit=True, args=args)
+
+    
+    def getPlayerBountyMonsters(self, playerId):  
+      args = [playerId]
+      result = self.executeProcedureReturnList('usp_get_player_bounty_monsters', commit=False, dictCursor=True, args=args)
+
+      return result
+
+    
+    def givePlayerBountyRewards(self, playerId, gold, xp):
+      args = [playerId, gold, xp]
+      result = self.executeProcedureReturnList('usp_give_player_bounty_rewards', commit=True, dictCursor=True, args=args)
+
+      return result
+
+
     #===============================
 
     #Debug/Testing Functions

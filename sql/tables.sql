@@ -30,19 +30,6 @@ CREATE TABLE players
     bounty_attempts TINYINT DEFAULT 3,
     dungeon_attempts TINYINT DEFAULT 10,
     arena_attempts TINYINT DEFAULT 10,
-    wood_tier_1 SMALLINT DEFAULT 0,
-    wood_tier_2 SMALLINT DEFAULT 0,
-    wood_tier_3 SMALLINT DEFAULT 0,
-    wood_tier_4 SMALLINT DEFAULT 0,
-    mine_tier_1 SMALLINT DEFAULT 0,
-    mine_tier_2 SMALLINT DEFAULT 0,
-    mine_tier_3 SMALLINT DEFAULT 0,
-    mine_tier_4 SMALLINT DEFAULT 0,
-    dig_tier_1 SMALLINT DEFAULT 0,
-    dig_tier_2 SMALLINT DEFAULT 0,
-    dig_tier_3 SMALLINT DEFAULT 0,
-    dig_tier_4 SMALLINT DEFAULT 0,
-    inventory_space SMALLINT DEFAULT 7,
     players_killed SMALLINT DEFAULT 0,
     monsters_killed SMALLINT DEFAULT 0,
     gold_collected INT DEFAULT 25,
@@ -356,7 +343,12 @@ CREATE TABLE active_bounties
     dexterity SMALLINT NOT NULL,
     intelligence SMALLINT NOT NULL,
     constitution SMALLINT NOT NULL,
-    luck SMALLINT NOT NULL
+    luck SMALLINT NOT NULL,
+	strength_mult DECIMAL(4,3) NOT NULL,
+    dexterity_mult DECIMAL(4,3) NOT NULL,
+    intelligence_mult DECIMAL(4,3) NOT NULL,
+    constitution_mult DECIMAL(4,3) NOT NULL,
+    luck_mult DECIMAL(4,3) NOT NULL
 );
 
 #SELECT * FROM active_bounties;

@@ -181,29 +181,11 @@
             <div class='inventory'>
                 <div>
 
-                {% for i in range(0,28) %}
-                
-                    {% if i < player['inventory_space'] %}
-                        <img id='invSlot{{i}}' src='/static/slots/slot_empty.png'>
-                    {% else %}
-                        <img id='invSlot{{i}}' class='imgLocked' src='/static/slots/slot_locked.png'>
-                    {% endif %}
-
+                {% for i in range(0,21) %}
+                    <img id='invSlot{{i}}' src='/static/slots/slot_empty.png'>
                 {% endfor %}
 
                 </div>
-
-                <!--
-                <div>
-                    <img class='itemBorderCommon' src='/static/weapons/dagger1.png'>
-                    <img class='itemBorderUncommon' src='/static/weapons/dagger2.png'>
-                    <img class='itemBorderRare' src='/static/weapons/maul1.png'>
-                    <img class='itemBorderLegendary' src='/static/weapons/axe2.png'>
-                    <img class='itemBorderUnique' src='/static/weapons/dagger1.png'>
-                    <img class='itemBorderMythic' src='/static/weapons/maul2.png'>
-                    <img src='/static/slots/slot_empty.png'>
-                </div>
-                -->
             </div>
 
         </div>
