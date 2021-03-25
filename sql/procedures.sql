@@ -284,7 +284,7 @@ CREATE PROCEDURE usp_create_quest_monster_for_player
 BEGIN
 
 	INSERT INTO active_quests (player_id, quest_monster_id, gold, xp, stamina, travel_time, strength, dexterity, intelligence, constitution, luck, strength_mult, dexterity_mult, intelligence_mult, constitution_mult, luck_mult) 
-    VALUES (p_player_id, p_quest_monster_id, p_xp, p_gold, p_stamina, p_time, p_strength, p_dexterity, p_intelligence, p_constitution, p_luck, p_strength_mult, p_dexterity_mult, p_intelligence_mult, p_constitution_mult, p_luck_mult);
+    VALUES (p_player_id, p_quest_monster_id, p_gold, p_xp, p_stamina, p_time, p_strength, p_dexterity, p_intelligence, p_constitution, p_luck, p_strength_mult, p_dexterity_mult, p_intelligence_mult, p_constitution_mult, p_luck_mult);
 
 END //
 DELIMITER ;
@@ -330,17 +330,25 @@ CREATE PROCEDURE usp_get_player_info
 )
 BEGIN
 
-	SELECT a.display_name AS name, a.class_name, a.file_name, a.player_level AS level, a.stamina, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, SUM(b.strength) AS equip_strength, 
-		SUM(b.dexterity) AS equip_dexterity, SUM(b.intelligence) AS equip_intelligence, SUM(b.constitution) AS equip_constitution, SUM(b.luck) AS equip_luck, SUM(b.damage) AS damage, SUM(b.armor) AS armor
-	FROM players a
-	INNER JOIN player_inventories b on a.player_id = b.player_id
-	WHERE a.player_id = p_player_id AND b.equipped = 1;
-
+	IF EXISTS (SELECT * FROM player_inventories WHERE player_id = p_player_id AND equipped = 1) THEN
+		SELECT a.display_name AS name, a.class_name, a.file_name, a.player_level AS level, a.stamina, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, 
+			SUM(b.strength) AS equip_strength, SUM(b.dexterity) AS equip_dexterity, SUM(b.intelligence) AS equip_intelligence, SUM(b.constitution) AS equip_constitution, SUM(b.luck) AS equip_luck, 
+			SUM(b.damage) AS damage, SUM(b.armor) AS armor
+		FROM players a
+		LEFT JOIN player_inventories b on a.player_id = b.player_id
+		WHERE a.player_id = p_player_id AND b.equipped = 1;
+	ELSE
+		SELECT display_name AS name, class_name, file_name, player_level AS level, stamina, strength, dexterity, intelligence, constitution, luck, 
+			0 AS equip_strength, 0 AS equip_dexterity, 0 AS equip_intelligence, 0 AS equip_constitution, 0 AS equip_luck, 
+			0 AS damage, 0 AS armor
+		FROM players
+		WHERE player_id = p_player_id;
+	END IF;
+    
 END //
 DELIMITER ;
 
 #CALL usp_get_player_info(1);
-
 
 /*==============================
 	usp_get_quest_monster_info
@@ -459,4 +467,4 @@ DELIMITER ;
 
 #CALL usp_leaderboard_get_highest_level(1);
 
-
+select * from player_houses;

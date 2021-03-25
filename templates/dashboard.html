@@ -113,7 +113,7 @@
                             <h5>Base Damage</h5>
                         </td>
                         <td>
-                            <p id='playerDamage' class='sameLine'>10</p>
+                            <p id='playerDamage' class='sameLine'>0</p>
                         </td>
                     </tr>
                     <tr>
@@ -328,6 +328,7 @@
     resetItemPanel()
     updatePlayerHealth()
     updatePlayerCritChance()
+    updatePlayerDamage(1)
 
     //If a class doesn't use their offhand, lock it to avoid confusion
     if(classInfo['uses_shield'] == 1){
@@ -722,10 +723,12 @@
         var damage = itemDamage
 
         if(damage != 0){
+            if(level <= 2)
+                damage = Math.floor(damage/10 * ((level) * (levelMainStat/2)) + 1)
             if(level <= 5)
-                damage = Math.floor(damage/2 * (level) + 1)
+                damage = Math.floor(damage/10 * ((level) * (levelMainStat/2)) + 5)
             else
-                damage = Math.floor(damage/40 * (level ** 2) + 40)
+                damage = Math.floor((damage/(level ** 1.9)) * (level ** 2) * (levelMainStat/30) + 40)
 
             document.getElementById('playerDamage').innerText = damage
         }

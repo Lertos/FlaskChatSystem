@@ -307,6 +307,11 @@ def createRandomQuestMonsters(playerId, playerStats):
             stats.append(math.floor(averageStat * multiplier))
             statMultipliers.append(multiplier)
 
+        #If the player is under level 3 - make the monsters really easy as the players stats are too low to make it one sided
+        if playerLevel < 3:
+            for i in range(0,5):
+                stats[i] = 1
+
         #Give better stats based on class
         monsterClass = questMonsters[monsterId]['class_name']
         classStat = classes[monsterClass]['stat']
@@ -341,7 +346,15 @@ def createMonsterForBattle(playerStats, playerId, monsterId, monsterType):
 
     monster['level'] = playerLevel
 
-    if playerLevel <= 5:
+    if playerLevel <= 2:
+        monster['strength'] = 1
+        monster['dexterity'] = 1
+        monster['intelligence'] = 1
+        monster['constitution'] = 1
+        monster['luck'] = 1
+        monster['damage'] = 0
+        monster['armor'] = 0
+    elif playerLevel <= 5:
         monster['damage'] = math.floor(float(playerStats['damage']) * float(random.uniform(0.3,0.5)))
         monster['armor'] = math.floor(float(playerStats['armor']) * float(random.uniform(0.3,0.5)))
     else:
@@ -353,11 +366,12 @@ def createMonsterForBattle(playerStats, playerId, monsterId, monsterType):
 
 #Returns the average level based on the players stats 
 def getAverageStatLevel(playerStats):
+    statNames = ['strength', 'dexterity', 'intelligence', 'constitution', 'luck']
     total = 0
 
-    for key in playerStats:
-        if not (key == 'damage' or key == 'armor' or key == 'name' or key == 'class_name' or key == 'file_name' or key == 'level' or key == 'stamina'):
-            total += int(playerStats[key])
+    for i in range(0, len(statNames)):
+        total += int(playerStats[statNames[i]])
+        total += int(playerStats['equip_' + statNames[i]])
 
     return math.floor(total / 5)
 

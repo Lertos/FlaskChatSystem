@@ -18,18 +18,18 @@ CREATE TABLE players
     character_season SMALLINT NOT NULL DEFAULT 1,
     player_level SMALLINT DEFAULT 1,
     exp_until_level INT DEFAULT 51,
-	strength SMALLINT DEFAULT 1,
-    dexterity SMALLINT DEFAULT 1,
-    intelligence SMALLINT DEFAULT 1,
-    constitution SMALLINT DEFAULT 1,
-    luck SMALLINT DEFAULT 1,
-    gold INT DEFAULT 5,
+	strength SMALLINT DEFAULT 10,
+    dexterity SMALLINT DEFAULT 10,
+    intelligence SMALLINT DEFAULT 10,
+    constitution SMALLINT DEFAULT 10,
+    luck SMALLINT DEFAULT 10,
+    gold INT DEFAULT 25,
     stamina SMALLINT DEFAULT 100,
     honor SMALLINT DEFAULT 100,
     blessing VARCHAR(10) NULL,
     bounty_attempts TINYINT DEFAULT 3,
-    dungeon_attempts TINYINT DEFAULT 3,
-    arena_attempts TINYINT DEFAULT 3,
+    dungeon_attempts TINYINT DEFAULT 10,
+    arena_attempts TINYINT DEFAULT 10,
     wood_tier_1 SMALLINT DEFAULT 0,
     wood_tier_2 SMALLINT DEFAULT 0,
     wood_tier_3 SMALLINT DEFAULT 0,
@@ -45,14 +45,23 @@ CREATE TABLE players
     inventory_space SMALLINT DEFAULT 7,
     players_killed SMALLINT DEFAULT 0,
     monsters_killed SMALLINT DEFAULT 0,
-    gold_collected INT DEFAULT 5,
+    gold_collected INT DEFAULT 25,
 	quests_done SMALLINT DEFAULT 0,
     PRIMARY KEY (player_id)
 );
 
-INSERT INTO players (username,display_name,password) VALUES ('lertos','Lertos','lertos');
-#SELECT * FROM players;
+DELIMITER //
+CREATE TRIGGER create_player_dungeons AFTER INSERT ON players FOR EACH ROW
+BEGIN
+	INSERT INTO player_dungeons (player_id) VALUES (NEW.player_id);
+END //
+DELIMITER ;
 
+DELETE FROM player_inventories;
+DELETE FROM player_dungeons;
+DELETE FROM arena_opponents;
+DELETE FROM active_quests;
+DELETE FROM active_bounties;
 
 /*==============================
 	seasons
@@ -220,76 +229,6 @@ CREATE TABLE player_inventories
 );
 
 #SELECT * FROM player_inventories;
-
-
-/*==============================
-	house_items
-==============================*/
-
-DROP TABLE IF EXISTS house_items;
-
-CREATE TABLE house_items
-(
-	house_item_id SMALLINT NOT NULL UNIQUE AUTO_INCREMENT,
-    item_name VARCHAR(30) NOT NULL,
-    item_level SMALLINT NOT NULL,
-    bonus DECIMAL(6,3) NOT NULL,
-    is_bonus_percentage TINYINT NOT NULL,
-    cost_gold SMALLINT NOT NULL,
-    cost_wood_1 SMALLINT NOT NULL,
-    cost_wood_2 SMALLINT NOT NULL,
-    cost_wood_3 SMALLINT NOT NULL,
-    cost_wood_4 SMALLINT NOT NULL,
-    cost_mine_1 SMALLINT NOT NULL,
-    cost_mine_2 SMALLINT NOT NULL,
-    cost_mine_3 SMALLINT NOT NULL,
-    cost_mine_4 SMALLINT NOT NULL,
-    cost_dig_1 SMALLINT NOT NULL,
-    cost_dig_2 SMALLINT NOT NULL,
-    cost_dig_3 SMALLINT NOT NULL,
-    cost_dig_4 SMALLINT NOT NULL,
-    PRIMARY KEY (house_item_id)
-);
-
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Hatchet', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Pickaxe', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Shovel', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Fortune', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Knowledge', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Chance', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Haste', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Persuasion', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO house_items (item_name,item_level,bonus,is_bonus_percentage,cost_gold,cost_wood_1,cost_wood_2,cost_wood_3,cost_wood_4,cost_mine_1,cost_mine_2,cost_mine_3,cost_mine_4,cost_dig_1,cost_dig_2,cost_dig_3,cost_dig_4) VALUES ('Holding', 1, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-
-#SELECT * FROM house_items;
-
-
-/*==============================
-	player_houses
-==============================*/
-
-DROP TABLE IF EXISTS player_houses;
-
-CREATE TABLE player_houses
-(
-	player_id SMALLINT NOT NULL UNIQUE,
-    strength SMALLINT NOT NULL DEFAULT 1,
-    dexterity SMALLINT NOT NULL DEFAULT 1,
-    intelligence SMALLINT NOT NULL DEFAULT 1,
-    constitution SMALLINT NOT NULL DEFAULT 1,
-    luck SMALLINT NOT NULL DEFAULT 1,
-    hatchet SMALLINT NOT NULL DEFAULT 1,
-    pickaxe SMALLINT NOT NULL DEFAULT 1,
-    shovel SMALLINT NOT NULL DEFAULT 1,
-    fortune SMALLINT NOT NULL DEFAULT 1,
-    knowledge SMALLINT NOT NULL DEFAULT 1,
-    chance SMALLINT NOT NULL DEFAULT 1,
-    haste SMALLINT NOT NULL DEFAULT 1,
-    persuasion SMALLINT NOT NULL DEFAULT 1,
-    holding SMALLINT NOT NULL DEFAULT 1
-);
-
-#SELECT * FROM player_houses;
 
 
 /*==============================
@@ -470,29 +409,6 @@ CREATE TABLE player_dungeons
 );
 
 #SELECT * FROM player_dungeons;
-
-
-/*==============================
-	unlocked_gather_nodes
-==============================*/
-
-DROP TABLE IF EXISTS unlocked_gather_nodes;
-
-CREATE TABLE unlocked_gather_nodes
-(
-    player_id SMALLINT NOT NULL UNIQUE,
-    wood_tier_2 TINYINT DEFAULT 0,
-    wood_tier_3 TINYINT DEFAULT 0,
-    wood_tier_4 TINYINT DEFAULT 0,
-    mine_tier_2 TINYINT DEFAULT 0,
-    mine_tier_3 TINYINT DEFAULT 0,
-    mine_tier_4 TINYINT DEFAULT 0,
-    dig_tier_2 TINYINT DEFAULT 0,
-    dig_tier_3 TINYINT DEFAULT 0,
-    dig_tier_4 TINYINT DEFAULT 0
-);
-
-#SELECT * FROM unlocked_gather_nodes;
 
 
 /*==============================

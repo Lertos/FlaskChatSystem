@@ -67,16 +67,18 @@ class MySQLPool(object):
           cursor.execute(statement)
       
       #Check whether the results are in list or dictionary form
-      if makeList:
+      result = None
+      
+      if returnList:
         result = []
       else:
         result = {}
 
-      for row in cursor.fetchall():
-        result = row
-
       if makeList:
         result = list(cursor.fetchall())
+      else:
+        for row in cursor.fetchall():
+          result = row
 
       if commit is True:
           conn.commit()
@@ -177,123 +179,49 @@ class MySQLPool(object):
 
 
     def getItemTypes(self):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor()
-      cursor.execute('''SELECT item_type_id, is_weapon, item_type_name, is_two_handed, stat, damage_multiplier, armor_per_level, stats_per_level FROM item_types;''')
-      
-      result = {}
-
-      for row in cursor:
-        result[row[0]] = {}
-        result[row[0]]['is_weapon'] = row[1]
-        result[row[0]]['item_type_name'] = row[2]
-        result[row[0]]['is_two_handed'] = row[3]
-        result[row[0]]['stat'] = row[4]
-        result[row[0]]['damage_multiplier'] = row[5]
-        result[row[0]]['armor_per_level'] = row[6]
-        result[row[0]]['stats_per_level'] = row[7]
-
-      self.close(conn, cursor)
+      statement = '''SELECT item_type_id, is_weapon, item_type_name, is_two_handed, stat, damage_multiplier, armor_per_level, stats_per_level FROM item_types;'''
+      attributeList = ['is_weapon', 'item_type_name', 'is_two_handed', 'stat', 'damage_multiplier', 'armor_per_level', 'stats_per_level']
+      result = self.executeStatementServerSetup(statement, attributeList)
 
       return result
 
 
     def getItemRarities(self):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor()
-      cursor.execute('''SELECT rarity_name, drop_chance, multiplier, css_class_name FROM item_rarities;''')
-      
-      result = {}
-
-      for row in cursor:
-        result[row[0]] = {}
-        result[row[0]]['drop_chance'] = row[1]
-        result[row[0]]['multiplier'] = row[2]
-        result[row[0]]['css_class_name'] = row[3]
-
-      self.close(conn, cursor)
+      statement = '''SELECT rarity_name, drop_chance, multiplier, css_class_name FROM item_rarities;'''
+      attributeList = ['drop_chance', 'multiplier', 'css_class_name']
+      result = self.executeStatementServerSetup(statement, attributeList)
 
       return result
 
 
     def getWeaponPrefixes(self):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor()
-
-      cursor.execute('''SELECT item_prefix_id, prefix, damage_mult, strength_mult, dexterity_mult, intelligence_mult, constitution_mult, luck_mult FROM item_prefixes WHERE is_weapon = 1;''')
-      result = {}
-
-      for row in cursor:
-        result[row[0]] = {}
-        result[row[0]]['prefix'] = row[1]
-        result[row[0]]['damage_mult'] = row[2]
-        result[row[0]]['strength_mult'] = row[3]
-        result[row[0]]['dexterity_mult'] = row[4]
-        result[row[0]]['intelligence_mult'] = row[5]
-        result[row[0]]['constitution_mult'] = row[6]
-        result[row[0]]['luck_mult'] = row[7]
-
-      self.close(conn, cursor)
+      statement = '''SELECT item_prefix_id, prefix, damage_mult, strength_mult, dexterity_mult, intelligence_mult, constitution_mult, luck_mult FROM item_prefixes WHERE is_weapon = 1;'''
+      attributeList = ['prefix', 'damage_mult', 'strength_mult', 'dexterity_mult', 'intelligence_mult', 'constitution_mult', 'luck_mult']
+      result = self.executeStatementServerSetup(statement, attributeList)
 
       return result
 
 
     def getArmorPrefixes(self):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor()
-
-      cursor.execute('''SELECT item_prefix_id, prefix, armor_mult, strength_mult, dexterity_mult, intelligence_mult, constitution_mult, luck_mult FROM item_prefixes WHERE is_weapon = 0;''')
-      result = {}
-
-      for row in cursor:
-        result[row[0]] = {}
-        result[row[0]]['prefix'] = row[1]
-        result[row[0]]['armor_mult'] = row[2]
-        result[row[0]]['strength_mult'] = row[3]
-        result[row[0]]['dexterity_mult'] = row[4]
-        result[row[0]]['intelligence_mult'] = row[5]
-        result[row[0]]['constitution_mult'] = row[6]
-        result[row[0]]['luck_mult'] = row[7]
-
-      self.close(conn, cursor)
+      statement = '''SELECT item_prefix_id, prefix, armor_mult, strength_mult, dexterity_mult, intelligence_mult, constitution_mult, luck_mult FROM item_prefixes WHERE is_weapon = 0;'''
+      attributeList = ['prefix', 'armor_mult', 'strength_mult', 'dexterity_mult', 'intelligence_mult', 'constitution_mult', 'luck_mult']
+      result = self.executeStatementServerSetup(statement, attributeList)
 
       return result
 
 
     def getQuestMonsters(self):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor()
-      cursor.execute('''SELECT quest_monster_id, monster_name, class_name, file_name FROM quest_monsters;''')
-      
-      result = {}
-
-      for row in cursor:
-        result[row[0]] = {}
-        result[row[0]]['monster_name'] = row[1]
-        result[row[0]]['class_name'] = row[2]
-        result[row[0]]['file_name'] = row[3]
-
-      self.close(conn, cursor)
+      statement = '''SELECT quest_monster_id, monster_name, class_name, file_name FROM quest_monsters;'''
+      attributeList = ['monster_name', 'class_name', 'file_name']
+      result = self.executeStatementServerSetup(statement, attributeList)
 
       return result
 
 
     def getBountyMonsters(self):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor()
-      cursor.execute('''SELECT bounty_monster_id, monster_name, monster_suffix, region_name, class_name, file_name FROM bounty_monsters;''')
-      
-      result = {}
-
-      for row in cursor:
-        result[row[0]] = {}
-        result[row[0]]['monster_name'] = row[1]
-        result[row[0]]['monster_suffix'] = row[2]
-        result[row[0]]['region_name'] = row[3]
-        result[row[0]]['class_name'] = row[4]
-        result[row[0]]['file_name'] = row[5]
-
-      self.close(conn, cursor)
+      statement = '''SELECT bounty_monster_id, monster_name, monster_suffix, region_name, class_name, file_name FROM bounty_monsters;'''
+      attributeList = ['monster_name', 'monster_suffix', 'region_name', 'class_name', 'file_name']
+      result = self.executeStatementServerSetup(statement, attributeList)
 
       return result
 

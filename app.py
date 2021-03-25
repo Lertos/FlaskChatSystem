@@ -34,15 +34,21 @@ def index():
         return redirect(url_for('signin'))
 
 
+#===============================
+
+#Signin / Signup / Character Creation
+
+#===============================
+
+
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
 
         username = request.form['username']
         password = request.form['password']
-        print(username,password)
+
         result = database.getPlayerLogin(username, password)
-        print(result)
         
         #If the statement returned anything (meaning the combo exists) - log them in
         if(result != {}):
@@ -69,7 +75,7 @@ def signin():
 def signup():
     
     seasonList = helper.seasonList
-    
+
     if request.method == 'POST':
 
         username = request.form['username']
@@ -119,6 +125,13 @@ def characterCreation():
         return redirect(url_for('dashboard'))
 
     return render_template('characterCreation.html')
+
+
+#===============================
+
+#Dashboard
+
+#===============================
 
 
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -177,6 +190,76 @@ def unequipItem():
     return Response('', status=201)
 
 
+#===============================
+
+#Quests
+
+#===============================
+
+
+@app.route('/quests')
+def quests():
+
+    playerId = session['playerId']
+
+    #Check if the player is already travelling - if so, redirect them to the travel page
+    travelInfo = helper.getPlayerTravelInfo(playerId)
+
+    if travelInfo != {}:
+        return redirect(url_for('travel'))
+
+    #Check if the player has active quests
+    questMonsters = database.getPlayerQuestMonsters(playerId)
+
+    #If they have active quests, load the quests page and build the quests provided
+    if questMonsters != []:
+        playerStats = database.getPlayerStats(playerId)
+        playerStamina = playerStats['stamina']
+
+        return render_template('quests.html', questMonsters=questMonsters, playerStamina=playerStamina)
+
+    #If they do not have active quests, create some and reload the quests page
+    else:
+        playerStats = database.getPlayerStats(playerId)
+        helper.createRandomQuestMonsters(playerId, playerStats)
+        
+        return redirect(url_for('quests'))
+
+
+@app.route('/startQuest', methods=['POST'])
+def startQuest():
+
+    playerId = session['playerId']
+    monsterId = request.form['monsterId']
+
+    #If the player isn't travelling already, proceed
+    travelInfo = helper.getPlayerTravelInfo(playerId)
+
+    if travelInfo == {}:
+        #Get the player stats and add travel info - assuming they have enough stamina
+        player = database.getPlayerStats(playerId)
+        helper.addQuestToTravelInfo(playerId, monsterId)
+
+        #Get the travel info again to ensure they have the correct stamina
+        travelInfo = helper.getPlayerTravelInfo(playerId)
+
+        #Check if player has stamina - if not remove them from the travel dict
+        if player['stamina'] < travelInfo['stamina']:
+            helper.removePlayerTravelInfo(playerId)
+            return Response('NO_STAMINA', status=201)
+
+        return Response('START_QUEST', status=201)
+
+    return Response('ALREADY_IN_EVENT', status=201)
+
+
+#===============================
+
+#Travel
+
+#===============================
+
+
 @app.route('/travel')
 def travel():
 
@@ -217,51 +300,6 @@ def eventDone():
     return Response('', status=400)
 
 
-@app.route('/results')
-def results():
-
-    playerId = session['playerId']
-
-    #If player is not travelling - redirect to dashboard
-    travelInfo = helper.getPlayerTravelInfo(playerId)
-
-    if travelInfo == {}:
-        return redirect(url_for('dashboard'))
-
-    #If the event was a monster
-    if travelInfo['typeOfEvent'] != 'gather':
-        #Get the stats of the player and the monster
-        player = database.getPlayerStats(playerId)
-        monster = helper.createMonsterForBattle(player, playerId, travelInfo['quest_monster_id'], travelInfo['typeOfEvent'])
-
-        #Fix player stats as base stats and equipment stats are separate
-        player = helper.combinePlayerStats(player)
-
-        #Start combat
-        battleLog = combat.setupFight(player, monster)
-        combat.translateBattleLog(battleLog['log'])
-
-        #Give winnings
-        playerWon = False
-        if battleLog['winner'] == player['name']:
-            playerWon = True
-
-        playerLevel = helper.completePlayerEvent(playerId, playerWon, monster)
-        playerLevel = playerLevel[0]['player_level']
-
-        #Check for level ups
-        if session['playerLevel'] != playerLevel:
-            session['playerLevel'] = playerLevel
-
-        #Remove travel information to generate new events
-        helper.removePlayerTravelInfo(playerId)
-
-        return render_template('results.html', travelInfo=travelInfo, player=player, monster=monster, battleLog=battleLog)
-    #If the event was gathering
-    else:
-        pass
-
-
 @app.route('/cancelEvent', methods=['POST'])
 def cancelEvent():
 
@@ -273,64 +311,58 @@ def cancelEvent():
     return Response('', status=201)
 
 
-@app.route('/startQuest', methods=['POST'])
-def startQuest():
+#===============================
+
+#Results
+
+#===============================
+
+
+@app.route('/results')
+def results():
 
     playerId = session['playerId']
-    monsterId = request.form['monsterId']
 
-    #If the player isn't travelling already, proceed
+    #If player is not travelling - redirect to dashboard
     travelInfo = helper.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
-        #Get the player stats and add travel info - assuming they have enough stamina
-        player = database.getPlayerStats(playerId)
-        helper.addQuestToTravelInfo(playerId, monsterId)
+        return redirect(url_for('dashboard'))
 
-        #Get the travel info again to ensure they have the correct stamina
-        travelInfo = helper.getPlayerTravelInfo(playerId)
+    #Get the stats of the player and the monster
+    player = database.getPlayerStats(playerId)
+    monster = helper.createMonsterForBattle(player, playerId, travelInfo['quest_monster_id'], travelInfo['typeOfEvent'])
 
-        #Check if player has stamina - if not remove them from the travel dict
-        if player['stamina'] < travelInfo['stamina']:
-            helper.removePlayerTravelInfo(playerId)
-            return Response('NO_STAMINA', status=201)
+    #Fix player stats as base stats and equipment stats are separate
+    player = helper.combinePlayerStats(player)
 
-        return Response('START_QUEST', status=201)
+    #Start combat
+    battleLog = combat.setupFight(player, monster)
+    combat.translateBattleLog(battleLog['log'])
 
-    return Response('ALREADY_IN_EVENT', status=201)
+    #Give winnings
+    playerWon = False
+    if battleLog['winner'] == player['name']:
+        playerWon = True
+
+    playerLevel = helper.completePlayerEvent(playerId, playerWon, monster)
+    playerLevel = playerLevel[0]['player_level']
+
+    #Check for level ups
+    if session['playerLevel'] != playerLevel:
+        session['playerLevel'] = playerLevel
+
+    #Remove travel information to generate new events
+    helper.removePlayerTravelInfo(playerId)
+
+    return render_template('results.html', travelInfo=travelInfo, player=player, monster=monster, battleLog=battleLog)
 
 
-@app.route('/arena')
-def arena():
-    return render_template('arena.html')
+#===============================
 
+#Bounties
 
-@app.route('/quests')
-def quests():
-
-    playerId = session['playerId']
-
-    #Check if the player is already travelling - if so, redirect them to the travel page
-    travelInfo = helper.getPlayerTravelInfo(playerId)
-
-    if travelInfo != {}:
-        return redirect(url_for('travel'))
-
-    #Check if the player has active quests
-    questMonsters = database.getPlayerQuestMonsters(playerId)
-
-    #If they have active quests, load the quests page and build the quests provided
-    if questMonsters != []:
-        playerStats = database.getPlayerStats(playerId)
-        playerStamina = playerStats['stamina']
-
-        return render_template('quests.html', questMonsters=questMonsters, playerStamina=playerStamina)
-    #If they do not have active quests, create some and reload the quests page
-    else:
-        playerStats = database.getPlayerStats(playerId)
-        helper.createRandomQuestMonsters(playerId, playerStats)
-        
-        return redirect(url_for('quests'))
+#===============================
 
 
 @app.route('/bounties')
@@ -338,19 +370,21 @@ def bounties():
     return render_template('bounties.html')
 
 
+#===============================
+
+#Arena
+
+#===============================
+
+
+@app.route('/arena')
+def arena():
+    return render_template('arena.html')
+
+
 @app.route('/dungeons')
 def dungeons():
     return render_template('dungeons.html')
-
-
-@app.route('/gathering')
-def gathering():
-    return render_template('gathering.html')
-
-
-@app.route('/house')
-def house():
-    return render_template('house.html')
 
 
 @app.route('/offerings')
