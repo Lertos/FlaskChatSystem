@@ -368,7 +368,7 @@ CREATE PROCEDURE usp_get_player_bounty_monsters
 )
 BEGIN
 
-	SELECT a.bounty_monster_id, b.monster_name, b.class_name, b.file_name, a.gold, a.xp, a.drop_chance, a.travel_time, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck
+	SELECT a.bounty_monster_id, b.monster_name, b.monster_suffix, b.region_name, b.class_name, b.file_name, a.gold, a.xp, a.drop_chance, a.travel_time, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck
     FROM active_bounties a
     JOIN bounty_monsters b on a.bounty_monster_id = b.bounty_monster_id
 	WHERE a.player_id = p_player_id;

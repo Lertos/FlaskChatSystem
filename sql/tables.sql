@@ -251,26 +251,6 @@ CREATE TABLE quest_monsters
     PRIMARY KEY (quest_monster_id)
 );
 
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Grizzly Bear','Berserker','bear.png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Bogard','Warrior','bogard.png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Kree','Rogue','bug (1).png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Pincee','Assassin','bug (2).png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Gorbol','Fencer','bug (3).png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Arkny','Demon Hunter','bug (4).png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Swilly','Magic Knight','bug (5).png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Garner','Dark Mage','bug (6).png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Bourner','Fire Mage','bug (7).png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Saucie','Blood Mage','bug (8).png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Klayrie','Scout','bug (9).png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Blobber','Dark Mage','bug (10).png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Morphie','Magic Knight','cat.png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Evil Clucker','Fencer','chicken.png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Crocodile','Berserker','crocodile.png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Crow','Assassin','crow.png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Ice Golem','Frost Mage','crystal_golem.png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Cursed Doll','Dark Mage','cursed_doll.png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Cyclops','Warrior','cyclop.png');
-
 #SELECT * FROM quest_monsters;
 
 
@@ -319,8 +299,6 @@ CREATE TABLE bounty_monsters
     file_name VARCHAR(40),
     PRIMARY KEY (bounty_monster_id)
 );
-
-INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Delrath','The Devious','The Deserted Desert','Assassin','delrath.png');
 
 #SELECT * FROM bounty_monsters;
 

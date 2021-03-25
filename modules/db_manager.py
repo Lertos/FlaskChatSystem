@@ -339,6 +339,10 @@ class MySQLPool(object):
       args = [playerId]
       result = self.executeProcedureReturnList('usp_get_player_bounty_monsters', commit=False, dictCursor=True, args=args)
 
+      for i in range(0, len(result)):
+        result[i]['drop_chance'] = float(result[i]['drop_chance'])
+
+
       return result
 
     

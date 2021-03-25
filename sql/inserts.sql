@@ -669,3 +669,78 @@ INSERT INTO level_up_costs (cost) VALUES (3600416);
 INSERT INTO level_up_costs (cost) VALUES (3724361);
 INSERT INTO level_up_costs (cost) VALUES (3851250);
 INSERT INTO level_up_costs (cost) VALUES (3981121);
+
+
+/*==============================
+	Bounty Monsters
+==============================*/
+
+
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Kree-arah','The Keen','The Kinetic Kiln','Scout','1.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Largen','The Lumpy','The Lethal Lands','Dark Mage','2.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Herg','The Hasty','The Hazardous Hive','Assassin','3.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Lainto','The Lucky','The Lethal Lands','Blood Mage','4.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Hayart','The Harsh','The Hazardous Hive','Fire Mage','5.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Varkon','The Vain','The Volatile Volcano','Fire Mage','6.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Tali','The Tortuous','The Toxic Tundra','Rogue','7.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Phakar','The Phantom','The Perilous Peaks','Fencer','8.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Boris','The Bone-Breaker','The Barren Boneyard','Dark Mage','9.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Ayliar','The Aged','The Abandoned Abbey','Warrior','10.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Rakayn','The Ritualist','The Rampant Ruins','Demon Hunter','11.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Monk-el','The Mad','The Mutated Mountains','Warrior','12.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Urie','The Unseen','The Unnerving Underground','Assassin','13.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Veetah','The Vicious','The Volatile Volcano','Fire Mage','14.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Skal','The Slimy','The Sickening Swamp','Rogue','15.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Erklo','The Eerie','The Evil Estate','Blood Mage','16.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Isotarie','The Innocent','The Icy Islands','Frost Mage','17.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Gord','The Gassy','The Gnawing Grounds','Magic Knight','18.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Zain','The Zero','The Zealous Zone','Fencer','19.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Crakle','The Clunky','The Cursed Cove','Warrior','20.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Delrath','The Devious','The Deserted Desert','Fencer','21.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Carn','The Calculated','The Cursed Cove','Demon Hunter','22.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Filpang','The Fatal','The Forsaken Forest','Warrior','23.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Wareth','The Woozy','The Warped Wastelands','Demon Hunter','24.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Wiplak','The Wise','The Warped Wastelands','Fencer','25.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Serath','The Satanic','The Sickening Swamp','Berserker','26.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Argny','The Aberrant','The Abandoned Abbey','Magic Knight','27.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Irnok','The Impure','The Icy Islands','Frost Mage','28.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Mork-el','The Menace','The Mutated Mountains','Berserker','29.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Jool','The Jittery','The Jarring Jungle','Rogue','30.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Drednaw','The Deadly','The Deserted Desert','Assassin','31.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Eurali','The Elder','The Evil Estate','Dark Mage','32.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Greenab','The Giant','The Gnawing Grounds','Berserker','33.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Fray-la','The Fearsome','The Forsaken Forest','Demon Hunter','34.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Edgor','The Erratic','The Evil Estate','Demon Hunter','35.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Oola','The Odd','The Ominous Opening','Rogue','36.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Thran','The Tainted','The Toxic Tundra','Dark Mage','37.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Urkna','The Unwavering','The Unnerving Underground','Magic Knight','38.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Arnt','The Aggressive','The Abandoned Abbey','Warrior','39.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Brekka','The Brutal','The Barren Boneyard','Assassin','40.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Nerfta','The Naughty','The Neurotic Nest','Scout','41.png');
+INSERT INTO bounty_monsters (monster_name,monster_suffix,region_name,class_name,file_name) VALUES ('Raantar','The Rotten','The Rampant Ruins','Berserker','42.png');
+
+
+/*==============================
+	Bounty Monsters
+==============================*/
+
+
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Grizzly Bear','Berserker','bear.png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Bogard','Warrior','bogard.png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Kree','Rogue','bug (1).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Pincee','Assassin','bug (2).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Gorbol','Fencer','bug (3).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Arkny','Demon Hunter','bug (4).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Swilly','Magic Knight','bug (5).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Garner','Dark Mage','bug (6).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Bourner','Fire Mage','bug (7).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Saucie','Blood Mage','bug (8).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Klayrie','Scout','bug (9).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Blobber','Dark Mage','bug (10).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Morphie','Magic Knight','cat.png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Evil Clucker','Fencer','chicken.png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Crocodile','Berserker','crocodile.png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Crow','Assassin','crow.png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Ice Golem','Frost Mage','crystal_golem.png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Cursed Doll','Dark Mage','cursed_doll.png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Cyclops','Warrior','cyclop.png');

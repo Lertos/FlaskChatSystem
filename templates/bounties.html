@@ -12,7 +12,7 @@
         <div class='infoPanel background border spacing'>
             
             <img class='iconImg' src='/static/icons/icon_note.png'>
-            <p><strong>3 / 3</strong></p>
+            <p><strong>{{ bountyAttempts }} / 3</strong></p>
             <p>(Resets Daily)</p>
 
             <h4>Difficulty Modifier</h4>
@@ -20,197 +20,90 @@
 
         </div>
 
-        <!-- Woodcutting -->
         <div id='optionsWood'>
 
-            <div class='sidePanel background border spacing'>
+            {% for monster in bountyMonsters %}
+                <div class='sidePanel background border spacing'>
 
-                <div>
-                    <img class='resizeImg128' src='/static/non_quest_avatars/demon.png'>
-    
-                    <h3 class='alignCenter'><strong>Bulwark</strong></h3>
-                    <h4 class='alignCenter'><strong>The Brutal</strong></h4>
-                    <h5 class='alignCenter'>Rogue</h5>
-                    <h5 class='alignCenter'>-The Mossy Lowlands-</h5>
-    
-                    <hr>
-    
-                    <table>
-                        <tr>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                <p id='bounty1Gold' class='textGreen'>55</p>
-                            </td>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                <p id='bounty1Exp'>25</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_loot.png'>
-                                <p id='bounty1DropChance'>50%</p>%
-                            </td>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_time.png'>
-                                <p id='bounty1Time'>0:50</p>
-                            </td>
-                        </tr>
-                    </table>
+                    <div>
+                        <img class='resizeImg128' src='/static/bounty_avatars/{{ monster["file_name"] }}'>
+        
+                        <h3 class='alignCenter'><strong>{{ monster['monster_name'] }}</strong></h3>
+                        <h4 class='alignCenter'><strong>{{ monster['monster_suffix'] }}</strong></h4>
+                        <h5 class='alignCenter'>{{ monster['class_name'] }}</h5>
+                        <h5 class='alignCenter'>-{{ monster['region_name'] }}-</h5>
+        
+                        <hr>
+        
+                        <table>
+                            <tr>
+                                <td>
+                                    <img class='iconImg' src='/static/icons/icon_gold.png'>
+                                    {% if loop.index0 == 0 %}
+                                        <p id='bounty{{loop.index0}}gold' class='textGreen'>{{ monster['gold'] }}</p>
+                                    {% else %}
+                                        <p id='bounty{{loop.index0}}gold'>{{ monster['gold'] }}</p>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <img class='iconImg' src='/static/icons/icon_xp.png'>
+                                    {% if loop.index0 == 1 %}
+                                        <p id='bounty{{loop.index0}}xp' class='textGreen'>{{ monster['xp'] }}</p>
+                                    {% else %}
+                                        <p id='bounty{{loop.index0}}xp'>{{ monster['xp'] }}</p>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img class='iconImg' src='/static/icons/icon_loot.png'>
+                                    {% if loop.index0 == 2 %}
+                                        <p id='bounty{{loop.index0}}dropChance' class='textGreen'>{{ monster['drop_chance'] * 100 }}</p>%
+                                    {% else %}
+                                        <p id='bounty{{loop.index0}}dropChance'>{{ monster['drop_chance'] * 100 }}</p>%
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <img class='iconImg' src='/static/icons/icon_time.png'>
+                                    <p id='bounty{{loop.index0}}time'>{{ monster['travel_time'] }}</p>
+                                </td>
+                            </tr>
+                        </table>
 
-                    <h5><strong>Bonus:</strong> 50% More Gold</h5>
+                        {% if loop.index0 == 0 %}
+                            <h5><strong>Bonus:</strong> 50% More Gold</h5>
+                        {% elif loop.index0 == 1 %}
+                            <h5><strong>Bonus:</strong> 50% More Exp</h5>
+                        {% else %}
+                            <h5><strong>Bonus:</strong> 100% Drop Chance</h5>
+                        {% endif %}
 
-                    <table class='leftRightTable'>
-                        <tr>
-                            <td><h5>Strength</h5></td>
-                            <td><p id='bounty1Str'>8</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Dexterity</h5></td>
-                            <td><p id='bounty1Dex'>29</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Intelligence</h5></td>
-                            <td><p id='bounty1Int'>9</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Constitution</h5></td>
-                            <td><p id='bounty1Con'>22</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Luck</h5></td>
-                            <td><p id='bounty1Luk'>13</p></td>
-                        </tr>
-                    </table>
+                        <table class='leftRightTable'>
+                            <tr>
+                                <td><h5>Strength</h5></td>
+                                <td><p id='bounty{{loop.index0}}strength'>{{ monster['strength'] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Dexterity</h5></td>
+                                <td><p id='bounty{{loop.index0}}dexterity'>{{ monster['dexterity'] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Intelligence</h5></td>
+                                <td><p id='bounty{{loop.index0}}intelligence'>{{ monster['intelligence'] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Constitution</h5></td>
+                                <td><p id='bounty{{loop.index0}}constitution'>{{ monster['constitution'] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Luck</h5></td>
+                                <td><p id='bounty{{loop.index0}}luck'>{{ monster['luck'] }}</p></td>
+                            </tr>
+                        </table>
 
+                    </div>
                 </div>
-            </div>
-
-            <div class='sidePanel background border spacing'>
-
-                <div>
-                    <img class='resizeImg128' src='/static/non_quest_avatars/orc.png'>
-    
-                    <h3 class='alignCenter'><strong>Delrath</strong></h3>
-                    <h4 class='alignCenter'><strong>The Devious</strong></h4>
-                    <h5 class='alignCenter'>Warrior</h5>
-                    <h5 class='alignCenter'>-The Burning Forest-</h5>
-    
-                    <hr>
-    
-                    <table>
-                        <tr>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                <p id='bounty2Gold'>55</p>
-                            </td>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                <p id='bounty2Exp' class='textGreen'>25</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_loot.png'>
-                                <p id='bounty2DropChance'>50%</p>%
-                            </td>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_time.png'>
-                                <p id='bounty2Time'>0:50</p>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <h5><strong>Bonus:</strong> 50% More Exp</h5>
-
-                    <table class='leftRightTable'>
-                        <tr>
-                            <td><h5>Strength</h5></td>
-                            <td><p id='bounty2Str'>8</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Dexterity</h5></td>
-                            <td><p id='bounty2Dex'>29</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Intelligence</h5></td>
-                            <td><p id='bounty2Int'>9</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Constitution</h5></td>
-                            <td><p id='bounty2Con'>22</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Luck</h5></td>
-                            <td><p id='bounty2Luk'>13</p></td>
-                        </tr>
-                    </table>
-
-                </div>
-            </div>
-
-            <div class='sidePanel background border spacing'>
-
-                <div>
-                    <img class='resizeImg128' src='/static/non_quest_avatars/murloc.png'>
-    
-                    <h3 class='alignCenter'><strong>Treelor</strong></h3>
-                    <h4 class='alignCenter'><strong>The Twisted</strong></h4>
-                    <h5 class='alignCenter'>Fire Mage</h5>
-                    <h5 class='alignCenter'>-The Secret Swamp-</h5>
-    
-                    <hr>
-    
-                    <table>
-                        <tr>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                <p id='bounty3Gold'>55</p>
-                            </td>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                <p id='bounty3Exp'>25</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_loot.png'>
-                                <p id='bounty3DropChance' class='textGreen'>100%</p>%
-                            </td>
-                            <td>
-                                <img class='iconImg' src='/static/icons/icon_time.png'>
-                                <p id='bounty3Time'>0:50</p>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <h5><strong>Bonus:</strong> 100% Drop Chance</h5>
-
-                    <table class='leftRightTable'>
-                        <tr>
-                            <td><h5>Strength</h5></td>
-                            <td><p id='bounty3Str'>8</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Dexterity</h5></td>
-                            <td><p id='bounty3Dex'>29</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Intelligence</h5></td>
-                            <td><p id='bounty3Int'>9</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Constitution</h5></td>
-                            <td><p id='bounty3Con'>22</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Luck</h5></td>
-                            <td><p id='bounty3Luk'>13</p></td>
-                        </tr>
-                    </table>
-
-                </div>
-            </div>
+            {% endfor %}
 
         </div>
 
@@ -221,74 +114,25 @@
 {% block script %}
 <script>
 
-    var bounties = {
-        '1': {
-            'gold': 750,
-            'exp': 450,
-            'dropChance': 50,
-            'time': '0:45',
-            'str': 200,
-            'dex': 200,
-            'int': 200,
-            'con': 200,
-            'luk': 200
-        },
-        '2': {
-            'gold': 500,
-            'exp': 750,
-            'dropChance': 50,
-            'time': '0:50',
-            'str': 300,
-            'dex': 300,
-            'int': 300,
-            'con': 300,
-            'luk': 300
-        },
-        '3': {
-            'gold': 500,
-            'exp': 450,
-            'dropChance': 100,
-            'time': '0:55',
-            'str': 400,
-            'dex': 400,
-            'int': 400,
-            'con': 400,
-            'luk': 400
-        }
-    }
+    var bountyMonsters = {{ bountyMonsters|tojson|safe }}
 
-    var slider = document.getElementById('difficultySlider');
-    updateDifficulty(slider.value)
+    //Add functionality to the slider
+    document.getElementById('difficultySlider').oninput = function(){ updateDifficulty(this.value)}
 
-    slider.oninput = function(){
-        updateDifficulty(this.value)
-    }
 
+    //Handles the difficulty multiplier for each of the changable stats
     function updateDifficulty(val){
 
         //Val is from -10 to 10 - and the multiplier is (val / 100). Max is -10% or +10%. This makes it so it's -20% or +20%
-        multiplier = val * 2
+        var multiplier = val * 2
+        var attributes = ['gold', 'xp', 'strength', 'dexterity', 'intelligence', 'constitution', 'luck']
 
-        for (var bounty in bounties) {
-            document.getElementById('bounty' + bounty + 'Gold').innerText = Math.floor(bounties[bounty]['gold'] * (1 + (multiplier/100)))
-            document.getElementById('bounty' + bounty + 'Exp').innerText = Math.floor(bounties[bounty]['exp'] * (1 + (multiplier/100)))
-            document.getElementById('bounty' + bounty + 'DropChance').innerText = returnValOrMax(Math.floor(bounties[bounty]['dropChance'] * (1 + (multiplier/100))), 100)
-            document.getElementById('bounty' + bounty + 'Time').innerText = bounties[bounty]['time']
-            document.getElementById('bounty' + bounty + 'Str').innerText = Math.floor(bounties[bounty]['str'] * (1 + (multiplier/100)))
-            document.getElementById('bounty' + bounty + 'Dex').innerText = Math.floor(bounties[bounty]['dex'] * (1 + (multiplier/100)))
-            document.getElementById('bounty' + bounty + 'Int').innerText = Math.floor(bounties[bounty]['int'] * (1 + (multiplier/100)))
-            document.getElementById('bounty' + bounty + 'Con').innerText = Math.floor(bounties[bounty]['con'] * (1 + (multiplier/100)))
-            document.getElementById('bounty' + bounty + 'Luk').innerText = Math.floor(bounties[bounty]['luk'] * (1 + (multiplier/100)))
+        for (var i=0; i<3; i++) {
+            for(var j=0; j<attributes.length; j++){
+                var element = document.getElementById('bounty' + i + attributes[j])
+                element.innerText = Math.floor(bountyMonsters[i][attributes[j]] * (1 + (multiplier/100)))
+            }
         }
-        //The third bounty always had 100% drop chance
-        document.getElementById('bounty3DropChance').innerText = 100
-    }
-
-    function returnValOrMax(val, max){
-        if(val > max)
-            return max
-        else
-            return val
     }
 
 </script>
