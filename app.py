@@ -331,7 +331,11 @@ def results():
 
     #Get the stats of the player and the monster
     player = database.getPlayerStats(playerId)
-    monster = helper.createMonsterForBattle(player, playerId, travelInfo['quest_monster_id'], travelInfo['typeOfEvent'])
+
+    if travelInfo['typeOfEvent'] == 'quest':
+        monster = helper.createMonsterForBattle(player, playerId, travelInfo['quest_monster_id'], travelInfo['typeOfEvent'])
+    elif travelInfo['typeOfEvent'] == 'bounty':
+        monster = helper.createMonsterForBattle(player, playerId, travelInfo['bounty_monster_id'], travelInfo['typeOfEvent'])
 
     #Fix player stats as base stats and equipment stats are separate
     player = helper.combinePlayerStats(player)
@@ -345,7 +349,7 @@ def results():
     if battleLog['winner'] == player['name']:
         playerWon = True
 
-    playerLevel = helper.completePlayerEvent(playerId, playerWon, monster)
+    playerLevel = helper.completePlayerEvent(playerId, playerWon, monster, travelInfo)
     playerLevel = playerLevel[0]['player_level']
 
     #Check for level ups
@@ -355,6 +359,7 @@ def results():
     #Remove travel information to generate new events
     helper.removePlayerTravelInfo(playerId)
 
+    print(travelInfo, player, monster, battleLog)
     return render_template('results.html', travelInfo=travelInfo, player=player, monster=monster, battleLog=battleLog)
 
 
@@ -392,6 +397,34 @@ def bounties():
         helper.createRandomBountyMonsters(playerId, playerStats)
         
         return redirect(url_for('bounties'))
+
+
+@app.route('/startBounty', methods=['POST'])
+def startBounty():
+
+    playerId = session['playerId']
+    monsterId = request.form['monsterId']
+    multiplier = request.form['multiplier']
+
+    #If the player isn't travelling already, proceed
+    travelInfo = helper.getPlayerTravelInfo(playerId)
+
+    if travelInfo == {}:
+        #Get the player stats and add travel info - assuming they have enough attempts
+        player = database.getPlayerStats(playerId)
+        helper.addBountyToTravelInfo(playerId, monsterId, multiplier)
+
+        #Get the travel info again to ensure they have bounty attempts
+        travelInfo = helper.getPlayerTravelInfo(playerId)
+
+        #Check if player has bounty attempts - if not remove them from the travel dict
+        if player['bounty_attempts'] <= 0:
+            helper.removePlayerTravelInfo(playerId)
+            return Response('NO_ATTEMPTS', status=201)
+
+        return Response('START_BOUNTY', status=201)
+
+    return Response('ALREADY_IN_EVENT', status=201)
 
 
 #===============================

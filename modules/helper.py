@@ -204,14 +204,18 @@ def removePlayerTravelInfo(playerId):
 
 
 #After a player completes an event, process the rewards/stamina usage
-def completePlayerEvent(playerId, playerWon, monsterInfo):
-    stamina = monsterInfo['stamina']
+def completePlayerEvent(playerId, playerWon, monsterInfo, travelInfo):
     gold = 0
     xp = 0
 
     if playerWon:
         gold = monsterInfo['gold']
         xp = monsterInfo['xp']
+
+    if travelInfo['typeOfEvent'] == 'quest':
+        stamina = monsterInfo['stamina']
+    elif travelInfo['typeOfEvent'] == 'bounty':
+        stamina = 0
 
     return database.givePlayerQuestRewards(playerId, stamina, gold, xp)
 
@@ -244,6 +248,39 @@ def addQuestToTravelInfo(playerId, monsterId):
     travellingPlayers[playerId] = monster
     travellingPlayers[playerId]['travel_time'] = endTime
     travellingPlayers[playerId]['typeOfEvent'] = 'quest'
+
+    #print(travellingPlayers[playerId])
+
+
+#Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
+def addBountyToTravelInfo(playerId, monsterId, multiplier):
+    bountyMonsters = database.getPlayerBountyMonsters(playerId)
+
+    #If the player doesn't have active bounties return
+    if bountyMonsters == []:
+        return
+
+    monster = None
+
+    for i in range(0, len(bountyMonsters)):
+        if int(bountyMonsters[i]['bounty_monster_id']) == int(monsterId):
+            monster = bountyMonsters[i]
+            break
+
+    #If the monsterId was changed by the player then there won't be a monster and return
+    if monster == None:
+        return
+
+    #Calculate the unix time so that it can be accurate when the travel page loads
+    timeNow = int(time.time())
+    endTime = timeNow + int(monster['travel_time'])
+    
+    #Add a new entry into the travelling dictionary
+    travellingPlayers[playerId] = {}
+    travellingPlayers[playerId] = monster
+    travellingPlayers[playerId]['multiplier'] = multiplier
+    travellingPlayers[playerId]['travel_time'] = endTime
+    travellingPlayers[playerId]['typeOfEvent'] = 'bounty'
 
     #print(travellingPlayers[playerId])
 

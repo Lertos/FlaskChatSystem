@@ -442,6 +442,31 @@ DELIMITER ;
 
 
 /*==============================
+	usp_get_bounty_monster_info
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_get_bounty_monster_info;
+
+DELIMITER //
+CREATE PROCEDURE usp_get_bounty_monster_info
+(
+	IN p_player_id SMALLINT,
+    IN p_bounty_monster_id SMALLINT
+)
+BEGIN
+
+	SELECT b.monster_name AS name, b.class_name, b.file_name, a.gold, a.xp, a.drop_chance, a.strength_mult, a.dexterity_mult, a.intelligence_mult, a.constitution_mult, a.luck_mult
+	FROM active_bounties a
+	INNER JOIN bounty_monsters b on a.bounty_monster_id = b.bounty_monster_id
+	WHERE a.bounty_monster_id = p_bounty_monster_id AND a.player_id = p_player_id;
+
+END //
+DELIMITER ;
+
+#CALL usp_get_quest_monster_info(1,4);
+
+
+/*==============================
 	usp_give_player_quest_rewards
 ==============================*/
 
@@ -494,6 +519,7 @@ DELIMITER //
 CREATE PROCEDURE usp_give_player_bounty_rewards
 (
 	IN p_player_id SMALLINT,
+    IN p_stamina TINYINT,
     IN p_gold INT,
     IN p_xp INT
 )
@@ -504,7 +530,7 @@ BEGIN
 	DELETE FROM active_bounties WHERE player_id = p_player_id;
 
 	UPDATE players
-    SET gold = gold + p_gold, exp_until_level = exp_until_level - p_xp
+    SET bounty_attempts = bounty_attempts - 1, gold = gold + p_gold, exp_until_level = exp_until_level - p_xp
     WHERE player_id = p_player_id;
 
 	SET v_exp_until_level = (

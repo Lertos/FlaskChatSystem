@@ -12,6 +12,8 @@
         <div class='infoPanel background border spacing'>
             {% if travelInfo['typeOfEvent'] == 'quest' %}
                 <h4>You Are Currently <strong>Questing</strong></h4>
+            {% elif travelInfo['typeOfEvent'] == 'bounty' %}
+                <h4>You Are Currently <strong>Bounty Hunting</strong></h4>
             {% endif %}
         </div>
 
@@ -22,60 +24,74 @@
 
                     {% if travelInfo['typeOfEvent'] == 'quest' %}
                         <img class='resizeImg128NoHover' src='/static/quest_avatars/{{ travelInfo["file_name"] }}'>
+                    {% elif travelInfo['typeOfEvent'] == 'bounty' %}
+                        <img class='resizeImg128NoHover' src='/static/bounty_avatars/{{ travelInfo["file_name"] }}'>
+                    {% endif %}
 
-                        <h3 class='alignCenter boldText'>{{ travelInfo["monster_name"] }}</h3>
-                        <h5 class='alignCenter'>{{ travelInfo["class_name"] }}</h5>
+                    <h3 class='alignCenter boldText'>{{ travelInfo["monster_name"] }}</h3>
 
-                        <hr>
+                    {% if travelInfo['typeOfEvent'] == 'bounty' %}
+                        <h4 class='alignCenter'><strong>{{ travelInfo['monster_suffix'] }}</strong></h4>
+                    {% endif %}
 
-                        <table class='alignCenter'>
-                            <tr>
-                                <td>
-                                    <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                    <p>{{ travelInfo["gold"] }}</p>
-                                </td>
-                                <td>
-                                    <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                    <p>{{ travelInfo["xp"] }}</p>
-                                </td>
-                            </tr>
-                        </table>
+                    <h5 class='alignCenter'>{{ travelInfo["class_name"] }}</h5>
 
-                        <hr>
+                    {% if travelInfo['typeOfEvent'] == 'bounty' %}
+                        <h5 class='alignCenter'>-{{ travelInfo["region_name"] }}-</h5>
+                    {% endif %}
 
-                        <table class='leftRightTable'>
-                            <tr>
-                                <td><h5>Strength</h5></td>
-                                <td><p>{{ travelInfo["strength"] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Dexterity</h5></td>
-                                <td><p>{{ travelInfo["dexterity"] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Intelligence</h5></td>
-                                <td><p>{{ travelInfo["intelligence"] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Constitution</h5></td>
-                                <td><p>{{ travelInfo["constitution"] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Luck</h5></td>
-                                <td><p>{{ travelInfo["luck"] }}</p></td>
-                            </tr>
-                        </table>
+                    <hr>
 
-                        <hr>
+                    <table class='alignCenter'>
+                        <tr>
+                            <td>
+                                <img class='iconImg' src='/static/icons/icon_gold.png'>
+                                <p>{{ travelInfo["gold"] }}</p>
+                            </td>
+                            <td>
+                                <img class='iconImg' src='/static/icons/icon_xp.png'>
+                                <p>{{ travelInfo["xp"] }}</p>
+                            </td>
+                        </tr>
+                    </table>
 
-                        <h3 class='boldText'>Arrival In</h3>
-                        <h3 id='timeLeftCounter' class='sameLine'>{{ timeLeft }}</h3>
-                        <h4 class='sameLine'> seconds</h4>
+                    <hr>
 
-                        <hr>
+                    <table class='leftRightTable'>
+                        <tr>
+                            <td><h5>Strength</h5></td>
+                            <td><p>{{ travelInfo["strength"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Dexterity</h5></td>
+                            <td><p>{{ travelInfo["dexterity"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Intelligence</h5></td>
+                            <td><p>{{ travelInfo["intelligence"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Constitution</h5></td>
+                            <td><p>{{ travelInfo["constitution"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Luck</h5></td>
+                            <td><p>{{ travelInfo["luck"] }}</p></td>
+                        </tr>
+                    </table>
 
+                    <hr>
+
+                    <h3 class='boldText'>Arrival In</h3>
+                    <h3 id='timeLeftCounter' class='sameLine'>{{ timeLeft }}</h3>
+                    <h4 class='sameLine'> seconds</h4>
+
+                    <hr>
+
+                    {% if travelInfo['typeOfEvent'] == 'quest' %}
                         <button id='cancelQuest' class='themeSmallButton'>Cancel</button>
-
+                    {% elif travelInfo['typeOfEvent'] == 'bounty' %}
+                        <button id='cancelBounty' class='themeSmallButton'>Cancel</button>
                     {% endif %}
 
                 </div>
@@ -102,7 +118,17 @@
                     window.location = '{{ url_for("quests") }}';
                 }
             });
-        })
+        });
+
+        $('#cancelBounty').on('click', function(){
+            $.ajax({
+                type: 'POST',
+                url: '{{ url_for("cancelEvent") }}',
+                success: function (response) {
+                    window.location = '{{ url_for("bounties") }}';
+                }
+            });
+        });
     });
 
     //Setup the timer to go out when the travel time is up

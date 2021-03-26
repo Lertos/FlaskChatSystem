@@ -273,6 +273,8 @@ class MySQLPool(object):
       
       if monsterType == 'quest':
         result = self.executeProcedureReturnList('usp_get_quest_monster_info', commit=False, dictCursor=True, args=args)
+      elif monsterType == 'bounty':
+        result = self.executeProcedureReturnList('usp_get_bounty_monster_info', commit=False, dictCursor=True, args=args)
 
       return result[0]
 
@@ -325,7 +327,11 @@ class MySQLPool(object):
     
     def givePlayerQuestRewards(self, playerId, stamina, gold, xp):
       args = [playerId, stamina, gold, xp]
-      result = self.executeProcedureReturnList('usp_give_player_quest_rewards', commit=True, dictCursor=True, args=args)
+
+      if stamina == 0:
+        result = self.executeProcedureReturnList('usp_give_player_bounty_rewards', commit=True, dictCursor=True, args=args)
+      else:
+        result = self.executeProcedureReturnList('usp_give_player_quest_rewards', commit=True, dictCursor=True, args=args)
 
       return result
 

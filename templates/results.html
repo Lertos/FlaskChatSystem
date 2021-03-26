@@ -11,126 +11,128 @@
 
         <div>
 
-            {% if travelInfo['typeOfEvent'] == 'quest' %}
-                <div class='sidePanel background border spacing'>
-                    <div>
-           
-                        <img class='resizeImg128NoHover' src='/static/avatars/{{ player["file_name"] }}'>
+            <div class='sidePanel background border spacing'>
+                <div>
+        
+                    <img class='resizeImg128NoHover' src='/static/avatars/{{ player["file_name"] }}'>
 
-                        <h3 id='entity1Name' class='alignCenter boldText'>{{ player["name"] }}</h3>
-                        <h5 class='alignCenter'>{{ player["class_name"] }}</h5>
+                    <h3 id='entity1Name' class='alignCenter boldText'>{{ player["name"] }}</h3>
+                    <h5 class='alignCenter'>{{ player["class_name"] }}</h5>
 
-                        <hr>
+                    <hr>
 
-                        <table class='leftRightTable'>
-                            <tr>
-                                <td><h5>Strength</h5></td>
-                                <td><p>{{ player["strength"] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Dexterity</h5></td>
-                                <td><p>{{ player["dexterity"] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Intelligence</h5></td>
-                                <td><p>{{ player["intelligence"] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Constitution</h5></td>
-                                <td><p>{{ player["constitution"] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Luck</h5></td>
-                                <td><p>{{ player["luck"] }}</p></td>
-                            </tr>
-                        </table>
+                    <table class='leftRightTable'>
+                        <tr>
+                            <td><h5>Strength</h5></td>
+                            <td><p>{{ player["strength"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Dexterity</h5></td>
+                            <td><p>{{ player["dexterity"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Intelligence</h5></td>
+                            <td><p>{{ player["intelligence"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Constitution</h5></td>
+                            <td><p>{{ player["constitution"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Luck</h5></td>
+                            <td><p>{{ player["luck"] }}</p></td>
+                        </tr>
+                    </table>
 
-                    </div>
                 </div>
+            </div>
 
-                <div class='mainPanel spacing'>
-                    <div class='quarterEmptyPanel background border spacing'>
-                        <div>
+            <div class='mainPanel spacing'>
+                <div class='quarterEmptyPanel background border spacing'>
+                    <div>
 
-                            {% if battleLog['winner'] != player['name'] %}
-                                <h3 class='alignCenter textRed boldText '>YOU LOSE...</h3>
-                            {% else %}
-                                <h3 class='alignCenter textGreen boldText'>YOU WIN!</h3>
-
-                                <hr>
-
-                                <h4 class='alignCenter boldText'>Rewards</h4>
-                                
-                                <table class='lootTable alignCenter'>
-                                    <tr>
-                                        <td>
-                                            <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                            <p>{{ travelInfo["gold"] }}</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                            <p>{{ travelInfo["xp"] }}</p>
-                                        </td>
-                                    </tr>
-                                </table>
-                            {% endif %}
+                        {% if battleLog['winner'] != player['name'] %}
+                            <h3 class='alignCenter textRed boldText '>YOU LOSE...</h3>
+                        {% else %}
+                            <h3 class='alignCenter textGreen boldText'>YOU WIN!</h3>
 
                             <hr>
 
-                            <button id='toggleBattleLog' class='themeSmallButton'>Battle Log</button>
-                        </div>
-                    </div>
-
-                    <div hidden id='battleLog' class='background border spacing'>
-                        <div>    
-                            <div>
-                                <table id='battleLogTable' class='resultsTable' >
-                                    
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class='sidePanel background border spacing'>
-                    <div>
-           
-                        <img class='resizeImg128NoHover' src='/static/quest_avatars/{{ monster["file_name"] }}'>
-
-                        <h3 id='entity2Name' class='alignCenter boldText'>{{ monster["name"] }}</h3>
-                        <h5 class='alignCenter'>{{ monster["class_name"] }}</h5>
+                            <h4 class='alignCenter boldText'>Rewards</h4>
+                            
+                            <table class='lootTable alignCenter'>
+                                <tr>
+                                    <td>
+                                        <img class='iconImg' src='/static/icons/icon_gold.png'>
+                                        <p>{{ travelInfo["gold"] }}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img class='iconImg' src='/static/icons/icon_xp.png'>
+                                        <p>{{ travelInfo["xp"] }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        {% endif %}
 
                         <hr>
 
-                        <table class='leftRightTable'>
-                            <tr>
-                                <td><h5>Strength</h5></td>
-                                <td><p>{{ monster["strength"] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Dexterity</h5></td>
-                                <td><p>{{ monster["dexterity"] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Intelligence</h5></td>
-                                <td><p>{{ monster["intelligence"] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Constitution</h5></td>
-                                <td><p>{{ monster["constitution"] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Luck</h5></td>
-                                <td><p>{{ monster["luck"] }}</p></td>
-                            </tr>
-                        </table>
-
+                        <button id='toggleBattleLog' class='themeSmallButton'>Battle Log</button>
                     </div>
                 </div>
-            {% endif %}
+
+                <div hidden id='battleLog' class='background border spacing'>
+                    <div>    
+                        <div>
+                            <table id='battleLogTable' class='resultsTable' >
+                                
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class='sidePanel background border spacing'>
+                <div>
+        
+                    {% if travelInfo['typeOfEvent'] == 'quest' %}
+                        <img class='resizeImg128NoHover' src='/static/quest_avatars/{{ monster["file_name"] }}'>
+                    {% elif travelInfo['typeOfEvent'] == 'bounty' %}
+                        <img class='resizeImg128NoHover' src='/static/bounty_avatars/{{ monster["file_name"] }}'>
+                    {% endif %}
+
+                    <h3 id='entity2Name' class='alignCenter boldText'>{{ monster["name"] }}</h3>
+                    <h5 class='alignCenter'>{{ monster["class_name"] }}</h5>
+
+                    <hr>
+
+                    <table class='leftRightTable'>
+                        <tr>
+                            <td><h5>Strength</h5></td>
+                            <td><p>{{ monster["strength"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Dexterity</h5></td>
+                            <td><p>{{ monster["dexterity"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Intelligence</h5></td>
+                            <td><p>{{ monster["intelligence"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Constitution</h5></td>
+                            <td><p>{{ monster["constitution"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Luck</h5></td>
+                            <td><p>{{ monster["luck"] }}</p></td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
 
         </div>
 
