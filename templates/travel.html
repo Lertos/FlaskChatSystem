@@ -58,26 +58,69 @@
                     <hr>
 
                     <table class='leftRightTable'>
-                        <tr>
-                            <td><h5>Strength</h5></td>
-                            <td><p>{{ travelInfo["strength"] }}</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Dexterity</h5></td>
-                            <td><p>{{ travelInfo["dexterity"] }}</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Intelligence</h5></td>
-                            <td><p>{{ travelInfo["intelligence"] }}</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Constitution</h5></td>
-                            <td><p>{{ travelInfo["constitution"] }}</p></td>
-                        </tr>
-                        <tr>
-                            <td><h5>Luck</h5></td>
-                            <td><p>{{ travelInfo["luck"] }}</p></td>
-                        </tr>
+
+                        {% if travelInfo['typeOfEvent'] == 'quest' %}
+                            <tr>
+                                <td><h5>Strength</h5></td>
+                                <td><p>{{ travelInfo["strength"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Dexterity</h5></td>
+                                <td><p>{{ travelInfo["dexterity"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Intelligence</h5></td>
+                                <td><p>{{ travelInfo["intelligence"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Constitution</h5></td>
+                                <td><p>{{ travelInfo["constitution"] }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Luck</h5></td>
+                                <td><p>{{ travelInfo["luck"] }}</p></td>
+                            </tr>
+                        {% elif travelInfo['typeOfEvent'] == 'bounty' %}
+                            {% set multiplierInt = travelInfo["multiplier"] | float %}
+                            {% set multiplier = 1 + (multiplierInt / 100 ) | float %}
+                            <tr>
+                                <td><h5>Difficulty</h5></td>
+                                <td>{{ multiplier }}x</td>
+                            </tr>
+
+                            <tr>
+                                <td><h5>Strength</h5></td>
+                                {% set strengthFloat = travelInfo["strength"] | float %}
+                                {% set strength = strengthFloat * multiplier | float %}
+                                <td><p>{{ strength | int }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Dexterity</h5></td>
+                                {% set dexterityFloat = travelInfo["dexterity"] | float %}
+                                {% set dexterity = dexterityFloat * multiplier | float %}
+                                <td><p>{{ dexterity | int }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Intelligence</h5></td>
+                                {% set intelligenceFloat = travelInfo["intelligence"] | float %}
+                                {% set intelligence = intelligenceFloat * multiplier | float %}
+                                <td><p>{{ intelligence | int }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Constitution</h5></td>
+                                {% set constitutionFloat = travelInfo["constitution"] | float %}
+                                {% set constitution = constitutionFloat * multiplier | float %}
+                                <td><p>{{ constitution | int }}</p></td>
+                            </tr>
+                            <tr>
+                                <td><h5>Luck</h5></td>
+                                {% set luckFloat = travelInfo["luck"] | float %}
+                                {% set luck = luckFloat * multiplier | float %}
+                                <td><p>{{ luck | int }}</p></td>
+                            </tr>
+
+                        {% endif %}
+
                     </table>
 
                     <hr>

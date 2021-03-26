@@ -429,9 +429,16 @@ def createRandomBountyMonsters(playerId, playerStats):
 
 
 #Creates a new monster for the battle which uses current stats (incase the player equipped new items since the monsters were generated - or leveled up)
-def createMonsterForBattle(playerStats, playerId, monsterId, monsterType):
+def createMonsterForBattle(playerStats, playerId, travelInfo):
+    monsterType = travelInfo['typeOfEvent']
+    
+    if monsterType == 'quest':
+        monsterId = travelInfo['quest_monster_id']
+    elif monsterType == 'bounty':
+        monsterId = travelInfo['bounty_monster_id']
+
     monster = database.getMonsterStats(playerId, monsterId, monsterType)
-    stat = classes[monster['class_name']]
+    stat = classes[monster['class_name']]['stat']
 
     #Get average stat level
     averageStat = getAverageStatLevel(playerStats)
@@ -441,7 +448,11 @@ def createMonsterForBattle(playerStats, playerId, monsterId, monsterType):
     statNames = ['strength', 'dexterity', 'intelligence', 'constitution', 'luck']
 
     for i in range(0, len(statNames)):
-        monster[statNames[i]] = math.floor(averageStat * monster[statNames[i] + '_mult'])
+        if monsterType == 'quest':
+            monster[statNames[i]] = math.floor(float(averageStat) * float(monster[statNames[i] + '_mult']))
+        elif monsterType == 'bounty':
+            monster[statNames[i]] = math.floor(float(averageStat) * float(monster[statNames[i] + '_mult']) * float((1 + (float(travelInfo['multiplier']) / 100))))
+
         stats.append(monster[statNames[i]])
 
     stats = applyMonsterStatBoosters(stats, stat)

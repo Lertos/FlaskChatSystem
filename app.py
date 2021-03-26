@@ -331,11 +331,7 @@ def results():
 
     #Get the stats of the player and the monster
     player = database.getPlayerStats(playerId)
-
-    if travelInfo['typeOfEvent'] == 'quest':
-        monster = helper.createMonsterForBattle(player, playerId, travelInfo['quest_monster_id'], travelInfo['typeOfEvent'])
-    elif travelInfo['typeOfEvent'] == 'bounty':
-        monster = helper.createMonsterForBattle(player, playerId, travelInfo['bounty_monster_id'], travelInfo['typeOfEvent'])
+    monster = helper.createMonsterForBattle(player, playerId, travelInfo)
 
     #Fix player stats as base stats and equipment stats are separate
     player = helper.combinePlayerStats(player)
@@ -359,7 +355,6 @@ def results():
     #Remove travel information to generate new events
     helper.removePlayerTravelInfo(playerId)
 
-    print(travelInfo, player, monster, battleLog)
     return render_template('results.html', travelInfo=travelInfo, player=player, monster=monster, battleLog=battleLog)
 
 

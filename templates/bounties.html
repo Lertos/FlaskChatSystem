@@ -158,7 +158,7 @@
             $.ajax({
                 type: 'POST',
                 url: '{{ url_for("startBounty") }}',
-                data: {'monsterId': monsterId, 'multiplier': document.getElementById('difficultySlider').value},
+                data: {'monsterId': monsterId, 'multiplier': document.getElementById('difficultySlider').value * 2},
                 success: function (response) {
                     if(response == 'NO_ATTEMPTS')
                         $('.popupParent').removeAttr('hidden');
