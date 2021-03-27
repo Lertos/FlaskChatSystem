@@ -358,6 +358,17 @@ class MySQLPool(object):
 
       return result
 
+  
+    def doesPlayerHaveInventorySpace(self, playerId):
+      args = [playerId]
+      statement = '''SELECT COUNT(*) AS space FROM player_inventories WHERE player_id = %s and equipped = 0;'''
+      result = self.executeStatement(statement, commit=False, dictCursor=False, makeList=False, returnList=True, args=args)
+
+      if result[0] < 21:
+        return True
+      else:
+        return False
+
 
     #===============================
 

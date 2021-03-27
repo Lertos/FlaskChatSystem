@@ -369,6 +369,10 @@ def results():
 def bounties():
 
     playerId = session['playerId']
+    
+    #Check if the player is high enough level to try bounties
+    if session['playerLevel'] < 10:
+        return render_template('bounties.html', bountyMonsters=None, bountyAttempts=None, unlocked=False)
 
     #Check if the player is already travelling - if so, redirect them to the travel page
     travelInfo = helper.getPlayerTravelInfo(playerId)
@@ -384,7 +388,7 @@ def bounties():
         playerStats = database.getPlayerStats(playerId)
         bountyAttempts = playerStats['bounty_attempts']
 
-        return render_template('bounties.html', bountyMonsters=bountyMonsters, bountyAttempts=bountyAttempts)
+        return render_template('bounties.html', bountyMonsters=bountyMonsters, bountyAttempts=bountyAttempts, unlocked=True)
 
     #If they do not have active bounties, create some and reload the bounties page
     else:
@@ -434,8 +438,18 @@ def arena():
     return render_template('arena.html')
 
 
+#===============================
+
+#Dungeons
+
+#===============================
+
+
 @app.route('/dungeons')
 def dungeons():
+
+    playerId = session['playerId']
+
     return render_template('dungeons.html')
 
 

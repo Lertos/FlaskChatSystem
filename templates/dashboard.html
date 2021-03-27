@@ -9,6 +9,14 @@
 
     <div id='container'>
 
+        <div hidden class='popupParent'>
+            <div class='background border spacing popupChild'>
+                <h3>You don't have enough inventory space</h3>
+                <button id='popupButton' class='themeSmallButton'>But.. But..</button>
+            </div>
+        </div>
+
+
         <!-- LEFT PANEL -->
         <div class='sidePanel background border spacing'>
             
@@ -307,10 +315,13 @@
     var equippedItems = []
     var inventoryItems = []
 
+
+    $('#popupButton').on('click', function(){
+        $('.popupParent').attr('hidden', true);
+    });
+
+
     resetItemPanel()
-    updatePlayerHealth()
-    updatePlayerCritChance()
-    updatePlayerDamage(1)
 
     //If a class doesn't use their offhand, lock it to avoid confusion
     if(classInfo['uses_shield'] == 1){
@@ -325,6 +336,10 @@
     for(var i=0; i<importedInventoryItems.length; i++)
         setupNewInventoryItem(importedInventoryItems[i])
 
+
+    updatePlayerHealth()
+    updatePlayerCritChance()
+    updatePlayerDamage(0)
 
     //Adds the event listener to the item slot as well as assigns needed attributes
     function setupNewEquippedItem(item){
@@ -345,11 +360,11 @@
         element.removeEventListener('click', showItemInPanel)
         element.addEventListener('click', showItemInPanel)
 
-        //Add the equipment stats to the players total equipment stats
-        changePlayerStats(item, 1)
-
         //Add the item to the equipped items 
         equippedItems.push(item)
+
+        //Add the equipment stats to the players total equipment stats
+        changePlayerStats(item, 1)
     }
 
 
@@ -502,8 +517,27 @@
     }
 
 
+    //Checks the amount of inventory spaces that are open
+    function amountOfEmptyInventorySlots(){
+        var total = 0
+
+        for(var i=0; i<inventoryItems.length; i++){
+            if(inventoryItems[i] != null)
+                total++
+        }
+        return total
+    }
+
+
     //Handles the action of equipping something from the item panel
     function processUnequipItem(){
+
+        //Make sure the player actually has the inventory space to unequip an item
+        if(amountOfEmptyInventorySlots() >= 21){
+            $('.popupParent').removeAttr('hidden');
+            return
+        }
+
         var itemIndex = document.getElementById('unequipButton').itemIndex
         var slotType = equippedItems[itemIndex]['item_type_name']
         var slotTypeId = getItemSlotTypeId(slotType)
@@ -575,9 +609,6 @@
             var item = equippedItems[itemIndex]
             inventoryId = equippedItems[itemIndex]['inventory_item_id']
 
-            //Remove the stats from the player
-            changePlayerStats(item, -1)
-
             //Remove the item from the equipped items list
             equippedItems[itemIndex] = null
 
@@ -585,6 +616,9 @@
             var slot = document.getElementById(slotTypeId)
             slot.src = '/static/slots/' + slotTypeId + '.png'
             slot.classList = ''
+
+            //Remove the stats from the player
+            changePlayerStats(item, -1)
 
             //Replaces with a deep clone - which doesn't have the event listeners
             slot.replaceWith(slot.cloneNode(true));
@@ -656,7 +690,6 @@
     function changePlayerStats(item, multiplier){
 
         updatePlayerArmorAndReduction(item['armor'], multiplier)
-        updatePlayerDamage(item['damage'])
 
         updateInnerText('playerStrength', item['strength'] * multiplier)
         updateInnerText('playerDexterity', item['dexterity'] * multiplier)
@@ -670,6 +703,7 @@
         updateInnerText('playerPlusConstitution', item['constitution'] * multiplier)
         updateInnerText('playerPlusLuck', item['luck'] * multiplier)
 
+        updatePlayerDamage(item['damage'], multiplier)
         updatePlayerHealth()
         updatePlayerCritChance()
     }
@@ -695,25 +729,47 @@
     }
 
 
+    //Gets the players main weapon Dmg
+    function getPlayerWeaponDamage(){
+        var weaponIndex = document.getElementById('slot_weapon').itemIndex
+        if(weaponIndex == null || weaponIndex == undefined) return
+        console.log(equippedItems[weaponIndex])
+        return equippedItems[weaponIndex]['damage']
+    }
+
+
     //Updates the players damage
-    function updatePlayerDamage(itemDamage){
+    function updatePlayerDamage(itemDamage, multiplier){
         var classStat = classInfo['stat']
         var mainStat = getMainStat(classStat)
-        var levelMainStat = document.getElementById('player' + mainStat).innerText
-        var level = '{{ player["player_level"] }}'
+        var levelMainStat = parseInt(document.getElementById('player' + mainStat).innerText)
+        var level = parseInt('{{ player["player_level"] }}')
+        console.log(mainStat)
+        console.log(levelMainStat)
+        console.log('itmdmg ' + itemDamage)
+        var damage = 0
 
-        var damage = itemDamage
+        if(itemDamage == 0){
+            damage = getPlayerWeaponDamage()
 
-        if(damage != 0){
-            if(level <= 2)
-                damage = Math.floor(damage/10 * ((level) * (levelMainStat/2)) + 1)
-            if(level <= 5)
-                damage = Math.floor(damage/10 * ((level) * (levelMainStat/2)) + 5)
-            else
-                damage = Math.floor((damage/(level ** 1.9)) * (level ** 2) * (levelMainStat/30) + 40)
-
-            document.getElementById('playerDamage').innerText = damage
+            if(damage == null) damage = 0
         }
+        else{
+            if(multiplier == -1) damage = 0
+            else damage = itemDamage
+        }
+
+        if(level <= 2){
+            console.log(damage + ' ' + level + ' ' + levelMainStat)
+            damage = Math.floor((damage/10) * ((level) * (levelMainStat/2)) + 1)
+            console.log(damage + ' ' + level + ' ' + levelMainStat)
+        }
+        else if(level <= 5)
+            damage = Math.floor(damage/10 * ((level) * (levelMainStat/2)) + 5)
+        else
+            damage = Math.floor((damage/(level ** 1.9)) * (level ** 2) * (levelMainStat/30) + 40)
+
+        document.getElementById('playerDamage').innerText = damage
     }
 
 

@@ -403,7 +403,7 @@ BEGIN
 		LEFT JOIN player_inventories b on a.player_id = b.player_id
 		WHERE a.player_id = p_player_id AND b.equipped = 1;
 	ELSE
-		SELECT display_name AS name, class_name, file_name, player_level AS level, stamina, a.honor, a.blessing, a.bounty_attempts, a.dungeon_attempts, a.arena_attempts,
+		SELECT display_name AS name, class_name, file_name, player_level AS level, stamina, honor, blessing, bounty_attempts, dungeon_attempts, arena_attempts,
 			strength, dexterity, intelligence, constitution, luck, 
 			0 AS equip_strength, 0 AS equip_dexterity, 0 AS equip_intelligence, 0 AS equip_constitution, 0 AS equip_luck, 
 			0 AS damage, 0 AS armor
@@ -601,4 +601,6 @@ DELIMITER ;
 
 #CALL usp_leaderboard_get_highest_level(1);
 
-select * from player_houses;
+
+
+

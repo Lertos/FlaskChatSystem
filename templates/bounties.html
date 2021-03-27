@@ -9,110 +9,122 @@
 
     <div id='container'>
         
-        <div class='infoPanel background border spacing'>
-            
-            <img class='iconImg' src='/static/icons/icon_note.png'>
-            <p><strong>{{ bountyAttempts }} / 3</strong></p>
-            <p>(Resets Daily)</p>
+        {% if unlocked == true %}
 
-            <h4>Difficulty Modifier</h4>
-            <input id='difficultySlider' type='range' min='-10' max='10' value='0' class='slider'>
+            <div class='infoPanel background border spacing'>
+                
+                <img class='iconImg' src='/static/icons/icon_note.png'>
+                <p><strong>{{ bountyAttempts }} / 3</strong></p>
+                <p>(Resets Daily)</p>
 
-        </div>
+                <h4>Difficulty Modifier</h4>
+                <input id='difficultySlider' type='range' min='-10' max='10' value='0' class='slider'>
 
-        <div hidden class='popupParent'>
-            <div class='background border spacing popupChild'>
-                <h3>You don't have enough bounty attempts</h3>
-                <button id='popupButton' class='themeSmallButton'>Ok Jimmy</button>
             </div>
-        </div>
 
-        <div>
-
-            {% for monster in bountyMonsters %}
-                <div class='sidePanel background border spacing'>
-
-                    <div>
-                        <img class='resizeImg128' buttonId='{{ monster["bounty_monster_id"] }}' src='/static/bounty_avatars/{{ monster["file_name"] }}'>
-        
-                        <h3 class='alignCenter'><strong>{{ monster['monster_name'] }}</strong></h3>
-                        <h4 class='alignCenter'><strong>{{ monster['monster_suffix'] }}</strong></h4>
-                        <h5 class='alignCenter'>{{ monster['class_name'] }}</h5>
-                        <h5 class='alignCenter'>-{{ monster['region_name'] }}-</h5>
-        
-                        <hr>
-        
-                        <table>
-                            <tr>
-                                <td>
-                                    <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                    {% if loop.index0 == 0 %}
-                                        <p id='bounty{{loop.index0}}gold' class='textGreen'>{{ monster['gold'] }}</p>
-                                    {% else %}
-                                        <p id='bounty{{loop.index0}}gold'>{{ monster['gold'] }}</p>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                    {% if loop.index0 == 1 %}
-                                        <p id='bounty{{loop.index0}}xp' class='textGreen'>{{ monster['xp'] }}</p>
-                                    {% else %}
-                                        <p id='bounty{{loop.index0}}xp'>{{ monster['xp'] }}</p>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img class='iconImg' src='/static/icons/icon_loot.png'>
-                                    {% if loop.index0 == 2 %}
-                                        <p id='bounty{{loop.index0}}dropChance' class='textGreen'>{{ monster['drop_chance'] * 100 }}</p>%
-                                    {% else %}
-                                        <p id='bounty{{loop.index0}}dropChance'>{{ monster['drop_chance'] * 100 }}</p>%
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <img class='iconImg' src='/static/icons/icon_time.png'>
-                                    <p id='bounty{{loop.index0}}time'>{{ monster['travel_time'] }}</p>
-                                </td>
-                            </tr>
-                        </table>
-
-                        {% if loop.index0 == 0 %}
-                            <h5><strong>Bonus:</strong> 50% More Gold</h5>
-                        {% elif loop.index0 == 1 %}
-                            <h5><strong>Bonus:</strong> 50% More Exp</h5>
-                        {% else %}
-                            <h5><strong>Bonus:</strong> 100% Drop Chance</h5>
-                        {% endif %}
-
-                        <table class='leftRightTable'>
-                            <tr>
-                                <td><h5>Strength</h5></td>
-                                <td><p id='bounty{{loop.index0}}strength'>{{ monster['strength'] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Dexterity</h5></td>
-                                <td><p id='bounty{{loop.index0}}dexterity'>{{ monster['dexterity'] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Intelligence</h5></td>
-                                <td><p id='bounty{{loop.index0}}intelligence'>{{ monster['intelligence'] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Constitution</h5></td>
-                                <td><p id='bounty{{loop.index0}}constitution'>{{ monster['constitution'] }}</p></td>
-                            </tr>
-                            <tr>
-                                <td><h5>Luck</h5></td>
-                                <td><p id='bounty{{loop.index0}}luck'>{{ monster['luck'] }}</p></td>
-                            </tr>
-                        </table>
-
-                    </div>
+            <div hidden class='popupParent'>
+                <div class='background border spacing popupChild'>
+                    <h3>You don't have enough bounty attempts</h3>
+                    <button id='popupButton' class='themeSmallButton'>Ok Jimmy</button>
                 </div>
-            {% endfor %}
+            </div>
 
-        </div>
+            <div>
+
+                {% for monster in bountyMonsters %}
+                    <div class='sidePanel background border spacing'>
+
+                        <div>
+                            <img class='resizeImg128' buttonId='{{ monster["bounty_monster_id"] }}' src='/static/bounty_avatars/{{ monster["file_name"] }}'>
+            
+                            <h3 class='alignCenter'><strong>{{ monster['monster_name'] }}</strong></h3>
+                            <h4 class='alignCenter'><strong>{{ monster['monster_suffix'] }}</strong></h4>
+                            <h5 class='alignCenter'>{{ monster['class_name'] }}</h5>
+                            <h5 class='alignCenter'>-{{ monster['region_name'] }}-</h5>
+            
+                            <hr>
+            
+                            <table>
+                                <tr>
+                                    <td>
+                                        <img class='iconImg' src='/static/icons/icon_gold.png'>
+                                        {% if loop.index0 == 0 %}
+                                            <p id='bounty{{loop.index0}}gold' class='textGreen'>{{ monster['gold'] }}</p>
+                                        {% else %}
+                                            <p id='bounty{{loop.index0}}gold'>{{ monster['gold'] }}</p>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <img class='iconImg' src='/static/icons/icon_xp.png'>
+                                        {% if loop.index0 == 1 %}
+                                            <p id='bounty{{loop.index0}}xp' class='textGreen'>{{ monster['xp'] }}</p>
+                                        {% else %}
+                                            <p id='bounty{{loop.index0}}xp'>{{ monster['xp'] }}</p>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img class='iconImg' src='/static/icons/icon_loot.png'>
+                                        {% if loop.index0 == 2 %}
+                                            <p id='bounty{{loop.index0}}dropChance' class='textGreen'>{{ monster['drop_chance'] * 100 }}</p>%
+                                        {% else %}
+                                            <p id='bounty{{loop.index0}}dropChance'>{{ monster['drop_chance'] * 100 }}</p>%
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <img class='iconImg' src='/static/icons/icon_time.png'>
+                                        <p id='bounty{{loop.index0}}time'>{{ monster['travel_time'] }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            {% if loop.index0 == 0 %}
+                                <h5><strong>Bonus:</strong> 50% More Gold</h5>
+                            {% elif loop.index0 == 1 %}
+                                <h5><strong>Bonus:</strong> 50% More Exp</h5>
+                            {% else %}
+                                <h5><strong>Bonus:</strong> 100% Drop Chance</h5>
+                            {% endif %}
+
+                            <table class='leftRightTable'>
+                                <tr>
+                                    <td><h5>Strength</h5></td>
+                                    <td><p id='bounty{{loop.index0}}strength'>{{ monster['strength'] }}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><h5>Dexterity</h5></td>
+                                    <td><p id='bounty{{loop.index0}}dexterity'>{{ monster['dexterity'] }}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><h5>Intelligence</h5></td>
+                                    <td><p id='bounty{{loop.index0}}intelligence'>{{ monster['intelligence'] }}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><h5>Constitution</h5></td>
+                                    <td><p id='bounty{{loop.index0}}constitution'>{{ monster['constitution'] }}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><h5>Luck</h5></td>
+                                    <td><p id='bounty{{loop.index0}}luck'>{{ monster['luck'] }}</p></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class='popupParent'>
+                <div class='background border spacing popupChild'>
+                    <h3>You need to be level 10</h3>
+                </div>
+            </div>
+
+        {% endif %}
 
     </div>
 	
