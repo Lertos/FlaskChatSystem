@@ -470,9 +470,40 @@ def dungeons():
     return render_template('dungeons.html')
 
 
+#===============================
+
+#Offerings
+
+#===============================
+
+
 @app.route('/offerings')
 def offerings():
-    return render_template('offerings.html')
+    playerId = session['playerId']
+    active = database.getActiveBlessing(playerId)
+
+    return render_template('offerings.html', active=active)
+
+
+@app.route('/applyBlessing', methods=['POST'])
+def applyBlessing():
+    playerId = session['playerId']
+    blessing = request.form['blessingType']
+    active = database.getActiveBlessing(playerId)
+
+    if active != '':
+        return Response('ALREADY_BLESSED', status=201)
+
+    database.applyBlessing(playerId, blessing)
+
+    return Response('', status=201)
+
+
+#===============================
+
+#Leaderboards
+
+#===============================
 
 
 @app.route('/leaderboard', methods=['GET','POST'])

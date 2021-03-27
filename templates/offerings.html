@@ -13,12 +13,23 @@
             <h4>Pick Your Daily Blessing</h4>
         </div>
 
+        <div hidden class='popupParent'>
+            <div class='background border spacing popupChild'>
+                <h3>You have already been blessed for today</h3>
+                <button id='popupButton' class='themeSmallButton'>No U</button>
+            </div>
+        </div>
+
         <div>
 
-            <div class='sidePanel background border spacing'>
+            {% if active == 'xp' %}
+                <div class='sidePanel background borderSelected spacing'>
+            {% else %}
+                <div id='lol' class='sidePanel background border spacing'>
+            {% endif %}
                 <div>
 
-                    <img class='resizeImg128' src='/static/offering_avatars/xp.png'>
+                    <img class='resizeImg128' blessing='xp' src='/static/offering_avatars/xp.png'>
 
                     <h3 class='alignCenter'><strong>Kli'Far</strong></h3>
                     <h5 class='alignCenter'>Wisdom</h5>
@@ -30,10 +41,14 @@
                 </div>
             </div>
 
-            <div class='sidePanel background borderSelected spacing'>
+            {% if active == 'gold' %}
+                <div class='sidePanel background borderSelected spacing'>
+            {% else %}
+                <div class='sidePanel background border spacing'>
+            {% endif %}
                 <div>
 
-                    <img class='resizeImg128' src='/static/offering_avatars/gold.png'>
+                    <img class='resizeImg128' blessing='gold' src='/static/offering_avatars/gold.png'>
 
                     <h3 class='alignCenter'><strong>Trax'Or</strong></h3>
                     <h5 class='alignCenter'>Pleasure</h5>
@@ -45,29 +60,18 @@
                 </div>
             </div>
 
-            <div class='sidePanel background border spacing'>
-                <div>
-
-                    <img class='resizeImg128' src='/static/offering_avatars/resources.png'>
-
-                    <h3 class='alignCenter'><strong>Mal'Ik</strong></h3>
-                    <h5 class='alignCenter'>Nature</h5>
-
-                    <hr>
-
-                    <p>2x Resources from Gathering</p>
-
-                </div>
-            </div>
-
         </div>
 
         <div>
 
-            <div class='sidePanel background border spacing'>
+            {% if active == 'stats' %}
+                <div class='sidePanel background borderSelected spacing'>
+            {% else %}
+                <div class='sidePanel background border spacing'>
+            {% endif %}
                 <div>
 
-                    <img class='resizeImg128' src='/static/offering_avatars/stat.png'>
+                    <img class='resizeImg128' blessing='stats' src='/static/offering_avatars/stat.png'>
 
                     <h3 class='alignCenter'><strong>Shree'La</strong></h3>
                     <h5 class='alignCenter'>Strength</h5>
@@ -79,10 +83,14 @@
                 </div>
             </div>
 
-            <div class='sidePanel background border spacing'>
+            {% if active == 'drops' %}
+                <div class='sidePanel background borderSelected spacing'>
+            {% else %}
+                <div class='sidePanel background border spacing'>
+            {% endif %}
                 <div>
 
-                    <img class='resizeImg128' src='/static/offering_avatars/loot.png'>
+                    <img class='resizeImg128' blessing='drops' src='/static/offering_avatars/loot.png'>
 
                     <h3 class='alignCenter'><strong>Pron'Fre</strong></h3>
                     <h5 class='alignCenter'>Treasure</h5>
@@ -98,4 +106,41 @@
 
     </div>
 	
+{% endblock %}
+
+{% block script %}
+
+<script type='text/javascript' src='{{ url_for("static", filename="jquery.js") }}'></script>
+
+<script>
+
+$(function() {
+
+    $('#popupButton').on('click', function(){
+        $('.popupParent').attr('hidden', true);
+    });
+
+    $('.resizeImg128').on('click', function(){
+        var blessingType = $(this).attr('blessing')
+        var blessingImg = $(this)
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ url_for("applyBlessing") }}',
+            data: {'blessingType': blessingType},
+            success: function (response) {
+                if(response == 'ALREADY_BLESSED')
+                    $('.popupParent').removeAttr('hidden');
+                else{
+                    $(blessingImg).parent().parent().addClass('borderSelected')
+
+                }
+            }
+        });
+    });
+
+});
+
+</script>
+
 {% endblock %}

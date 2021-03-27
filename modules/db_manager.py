@@ -377,6 +377,20 @@ class MySQLPool(object):
       return result
 
 
+    def getActiveBlessing(self, playerId):
+      args = [playerId]
+      statement = '''SELECT IFNULL(blessing, '') AS blessing FROM players WHERE player_id = %s;'''
+      result = self.executeStatement(statement, commit=False, dictCursor=False, makeList=False, returnList=True, args=args)
+
+      return result[0]
+
+
+    def applyBlessing(self, playerId, blessing):
+      args = [blessing, playerId]
+      statement = '''UPDATE players SET blessing = %s WHERE player_id = %s;'''
+      self.executeStatement(statement, commit=True, dictCursor=False, makeList=False, returnList=False, args=args)
+
+
     #===============================
 
     #Debug/Testing Functions
