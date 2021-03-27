@@ -733,7 +733,7 @@
     function getPlayerWeaponDamage(){
         var weaponIndex = document.getElementById('slot_weapon').itemIndex
         if(weaponIndex == null || weaponIndex == undefined) return
-        console.log(equippedItems[weaponIndex])
+
         return equippedItems[weaponIndex]['damage']
     }
 
@@ -744,9 +744,7 @@
         var mainStat = getMainStat(classStat)
         var levelMainStat = parseInt(document.getElementById('player' + mainStat).innerText)
         var level = parseInt('{{ player["player_level"] }}')
-        console.log(mainStat)
-        console.log(levelMainStat)
-        console.log('itmdmg ' + itemDamage)
+
         var damage = 0
 
         if(itemDamage == 0){
@@ -759,11 +757,8 @@
             else damage = itemDamage
         }
 
-        if(level <= 2){
-            console.log(damage + ' ' + level + ' ' + levelMainStat)
+        if(level <= 2)
             damage = Math.floor((damage/10) * ((level) * (levelMainStat/2)) + 1)
-            console.log(damage + ' ' + level + ' ' + levelMainStat)
-        }
         else if(level <= 5)
             damage = Math.floor(damage/10 * ((level) * (levelMainStat/2)) + 5)
         else

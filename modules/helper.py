@@ -204,13 +204,16 @@ def removePlayerTravelInfo(playerId):
 
 
 #After a player completes an event, process the rewards/stamina usage
-def completePlayerEvent(playerId, playerWon, monsterInfo, travelInfo):
+def completePlayerEvent(playerId, playerWon, playerInfo, monsterInfo, travelInfo):
     gold = 0
     xp = 0
 
     if playerWon:
         gold = monsterInfo['gold']
         xp = monsterInfo['xp']
+        
+        if travelInfo['droppedLoot'] == 1:
+            createItem(playerId, playerInfo['class_name'], playerInfo['level'])
 
     if travelInfo['typeOfEvent'] == 'quest':
         stamina = monsterInfo['stamina']

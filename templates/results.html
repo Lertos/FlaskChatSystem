@@ -73,6 +73,14 @@
                                         <p>{{ travelInfo["xp"] }}</p>
                                     </td>
                                 </tr>
+                                {% if travelInfo['droppedLoot'] == 1 %}
+                                    <tr>
+                                        <td>
+                                            <img class='iconImg' src='/static/icons/icon_loot.png'>
+                                            <p>1</p>
+                                        </td>
+                                    </tr>
+                                {% endif %}
                             </table>
                         {% endif %}
 

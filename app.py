@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, request, url_for, session, Response
 from modules import db_manager, helper, combat, validation
+import random
 
 
 #===============================
@@ -345,7 +346,22 @@ def results():
     if battleLog['winner'] == player['name']:
         playerWon = True
 
-    playerLevel = helper.completePlayerEvent(playerId, playerWon, monster, travelInfo)
+        #Check if the entity will drop something
+        if travelInfo['typeOfEvent'] == 'bounty':
+            dropChance = monster['drop_chance']
+        else:
+            dropChance = 0.25
+
+        if random.uniform(0,1) <= dropChance:
+            if database.doesPlayerHaveInventorySpace(playerId):
+                travelInfo['droppedLoot'] = 1
+            else:
+                travelInfo['droppedLoot'] = 0
+        else:
+            travelInfo['droppedLoot'] = 0
+
+    #Give the player the rewards
+    playerLevel = helper.completePlayerEvent(playerId, playerWon, player, monster, travelInfo)
     playerLevel = playerLevel[0]['player_level']
 
     #Check for level ups
