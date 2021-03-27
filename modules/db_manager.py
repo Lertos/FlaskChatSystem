@@ -370,6 +370,13 @@ class MySQLPool(object):
         return False
 
 
+    def getLeaderboardData(self, procedure, season):
+      args = [season]
+      result = self.executeProcedureReturnList(procedure, commit=False, dictCursor=True, args=args)
+
+      return result
+
+
     #===============================
 
     #Debug/Testing Functions

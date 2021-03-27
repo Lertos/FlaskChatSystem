@@ -9,171 +9,122 @@
 
     <div id='container'>
 
-        <div class='background border spacing'>
-
-            <div class='spacing'>
-                <button class='themeBigButton' onclick='changeTab("Level")'>Highest Level</button>
-                <button class='themeBigButton' onclick='changeTab("Honor")'>Highest Honor</button>
-            </div>
+        <div class='background border spacing' style = 'display: inline-block;'>
+            <form id='form' action='#' method='POST'>
+                <div>
+                    <h3>Season </h3>
+                    <select name='season' id='season'>
+                        {% for season in seasonList %}
+                            <option value='{{ season["season"] }}'>{{ season['season'] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class='divSameLineElements spacing'>
+                    <button class='themeMediumButton' boardType='level'>Level</button>
+                    <button class='themeMediumButton' boardType='honor'>Honor</button>
+                    <button class='themeMediumButton' boardType='arena'>Arena Wins</button>
+                    <button class='themeMediumButton' boardType='quest'>Quest Wins</button>
+                    <button class='themeMediumButton' boardType='bounty'>Bounty Wins</button>
+                    <button class='themeMediumButton' boardType='gold'>Gold Collected</button>
+                    <button class='themeMediumButton' boardType='items'>Items Collected</button>
+                </div>
+            </form>
 
             <hr>
-            
-            <div id='highestLevel'>    
-                <div class='spacing divSameLineElements'>
-                    <h3><strong>Your Rank: </strong></h3>
-                    <h3>1</h3>
-                </div>
-    
-                <table class='largeTable'>
+
+            <div>
+                {% if boardType == '' %}
+                    <h3 class='boldText'>Press a Button Above</h3>
+                {% else %}
+                    <h3 class='boldText'>{{ header }}</h3>
+                    <h5>Season {{ season }}</h5>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if boardType != '' %}
+            <div class='spacing'>    
+
+                <table class='largeTable background'>
                     <thead class='tableColColor'>
                         <th style='width:7%;'>Rank</th>
+                        {% if boardType == 'arena' %}
+                            <th style='width:8%;'>Wins</th>
+                        {% elif boardType == 'quest' %}
+                            <th style='width:8%;'>Quests</th>
+                        {% elif boardType == 'bounty' %}
+                            <th style='width:8%;'>Bounties</th>
+                        {% elif boardType == 'gold' %}
+                            <th style='width:8%;'>Gold</th>
+                        {% elif boardType == 'items' %}
+                            <th style='width:8%;'>Items</th>
+                        {% endif %}
                         <th style='width:14%;'>Name</th>
                         <th style='width:7%;'>Level</th>
                         <th style='width:14%;'>Class</th>
                         <th style='width:8%;'>Honor</th>
-                        <th style='width:10%;'>Strength</th>
-                        <th style='width:10%;'>Dexterity</th>
-                        <th style='width:10%;'>Intelligence</th>
-                        <th style='width:10%;'>Constitution</th>
-                        <th style='width:10%;'>Luck</th>
+                        <th style='width:8%;'>Strength</th>
+                        <th style='width:8%;'>Dexterity</th>
+                        <th style='width:8%;'>Intelligence</th>
+                        <th style='width:8%;'>Constitution</th>
+                        <th style='width:8%;'>Luck</th>
                     </thead>
-                    <tr>
-                        <td>1</td>
-                        <td>Jeffyboyy</td>
-                        <td>5</td>
-                        <td>Berserker</td>
-                        <td>570</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>P00nDoc</td>
-                        <td>4</td>
-                        <td>Fire Mage</td>
-                        <td>470</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>SillyTwister</td>
-                        <td>4</td>
-                        <td>Warrior</td>
-                        <td>460</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>NoNoSpot</td>
-                        <td>3</td>
-                        <td>Scout</td>
-                        <td>580</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                        <td>10</td>
-                    </tr>
+                    {% for player in data %}
+                        {% if displayName == player['display_name'] %}
+                            <tr class='boldText'>
+                        {% else %}
+                            <tr>
+                        {% endif %}
+                            <td>{{ player['player_rank'] }}</td>
+                            {% if boardType == 'arena' %}
+                                <td>{{ player['arena_wins'] }}</td>
+                            {% elif boardType == 'quest' %}
+                                <td>{{ player['quests_finished'] }}</td>
+                            {% elif boardType == 'bounty' %}
+                                <td>{{ player['bounties_finished'] }}</td>
+                            {% elif boardType == 'gold' %}
+                                <td>{{ player['gold_collected'] }}</td>
+                            {% elif boardType == 'items' %}
+                                <td>{{ player['items_collected'] }}</td>
+                            {% endif %}
+                            <td>{{ player['display_name'] }}</td>
+                            <td>{{ player['player_level'] }}</td>
+                            <td>{{ player['class_name'] }}</td>
+                            <td>{{ player['honor'] }}</td>
+                            <td>{{ player['strength'] }}</td>
+                            <td>{{ player['dexterity'] }}</td>
+                            <td>{{ player['intelligence'] }}</td>
+                            <td>{{ player['constitution'] }}</td>
+                            <td>{{ player['luck'] }}</td>
+                        </tr>
+                    {% endfor %}
                 </table>
             </div>
-
-        <div hidden id='highestHonor'>    
-            <div class='spacing divSameLineElements'>
-                <h3><strong>Your Rank: </strong></h3>
-                <h3>2</h3>
-            </div>
-
-            <table class='largeTable'>
-                <thead class='tableColColor'>
-                    <th style='width:7%;'>Rank</th>
-                    <th style='width:14%;'>Name</th>
-                    <th style='width:7%;'>Level</th>
-                    <th style='width:14%;'>Class</th>
-                    <th style='width:8%;'>Honor</th>
-                    <th style='width:10%;'>Strength</th>
-                    <th style='width:10%;'>Dexterity</th>
-                    <th style='width:10%;'>Intelligence</th>
-                    <th style='width:10%;'>Constitution</th>
-                    <th style='width:10%;'>Luck</th>
-                </thead>
-                <tr>
-                    <td>1</td>
-                    <td>NoNoSpot</td>
-                    <td>3</td>
-                    <td>Scout</td>
-                    <td>580</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jeffyboyy</td>
-                    <td>5</td>
-                    <td>Berserker</td>
-                    <td>570</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>P00nDoc</td>
-                    <td>4</td>
-                    <td>Fire Mage</td>
-                    <td>470</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>SillyTwister</td>
-                    <td>4</td>
-                    <td>Warrior</td>
-                    <td>460</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                    <td>10</td>
-                </tr>
-            </table>
-        </div>
+        {% endif %}
 
     </div>
 	
 {% endblock %}
 
 {% block script %}
+
+<script type='text/javascript' src='{{ url_for("static", filename="jquery.js") }}'></script>
+
 <script>
 
-    function changeTab(id) {
-        if(id == 'Level'){
-            document.getElementById('highestLevel').hidden = false
-            document.getElementById('highestHonor').hidden = true
-        } else{
-            document.getElementById('highestLevel').hidden = true
-            document.getElementById('highestHonor').hidden = false
-        }
-    }
+    $(function(){
+        $('.themeMediumButton').on('click', function(){
+            var boardType = $(this).attr('boardType')
+            var season = $('#season option:selected').text()
+
+            $('#form').submit(function(eventObj) {
+                $(this).append('<input type="hidden" name="season" value="' + season + '" /> ');
+                $(this).append('<input type="hidden" name="boardType" value="' + boardType + '" /> ');
+                return true;
+            });
+        })
+    });
+
 
 </script>
 {% endblock %}

@@ -170,6 +170,10 @@ BEGIN
     INSERT INTO player_inventories (player_id, item_id, item_level, rarity_name, item_prefix_id, equipped, strength, dexterity, intelligence, constitution, luck, damage, armor, sell_price)
     VALUES (p_player_id, v_item_id, p_level, p_rarity_name, p_item_prefix_id, 0, p_strength, p_dexterity, p_intelligence, p_constitution, p_luck, p_damage, p_armor, p_worth);
     
+    UPDATE players
+    SET items_collected = items_collected + 1
+    WHERE player_id = p_player_id;
+    
 END //
 DELIMITER ;
 
@@ -193,7 +197,7 @@ CREATE PROCEDURE usp_sell_inventory_item
 BEGIN
 
 	UPDATE players
-    SET gold = gold + p_sell_price
+    SET gold = gold + p_sell_price, gold_collected = gold_collected + p_sell_price
     WHERE player_id = p_player_id;
 
 	DELETE FROM player_inventories
@@ -487,7 +491,7 @@ BEGIN
 	DELETE FROM active_quests WHERE player_id = p_player_id;
 
 	UPDATE players
-    SET stamina = stamina - p_stamina, gold = gold + p_gold, exp_until_level = exp_until_level - p_xp
+    SET stamina = stamina - p_stamina, gold = gold + p_gold, exp_until_level = exp_until_level - p_xp, quests_finished = quests_finished + 1, gold_collected = gold_collected + p_gold
     WHERE player_id = p_player_id;
 
 	SET v_exp_until_level = (
@@ -530,7 +534,7 @@ BEGIN
 	DELETE FROM active_bounties WHERE player_id = p_player_id;
 
 	UPDATE players
-    SET bounty_attempts = bounty_attempts - 1, gold = gold + p_gold, exp_until_level = exp_until_level - p_xp
+    SET bounty_attempts = bounty_attempts - 1, gold = gold + p_gold, exp_until_level = exp_until_level - p_xp, bounties_finished = bounties_finished + 1, gold_collected = gold_collected + p_gold
     WHERE player_id = p_player_id;
 
 	SET v_exp_until_level = (
@@ -588,19 +592,187 @@ CREATE PROCEDURE usp_leaderboard_get_highest_level
 )
 BEGIN
 
-	SELECT ROW_NUMBER() OVER w AS player_rank, a.display_name, a.class_name, a.player_level,
-    (a.strength + SUM(b.strength)) AS strength, (a.dexterity + SUM(b.dexterity)) AS dexterity, (a.intelligence + SUM(b.intelligence)) AS intelligence, (a.constitution + SUM(b.constitution)) AS constitution, (a.luck + SUM(b.luck)) AS luck
+	SELECT ROW_NUMBER() OVER w AS player_rank, a.display_name, a.class_name, a.player_level, a.honor,
+    (a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
 	FROM players a
-	INNER JOIN player_inventories b ON a.player_id = b.player_id
-	WHERE a.character_season = p_season AND b.equipped = 1
+	LEFT JOIN player_inventories b ON a.player_id = b.player_id
+	WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
     GROUP BY a.player_id
-    WINDOW w AS (ORDER BY a.player_level);
+    WINDOW w AS (ORDER BY a.player_level DESC, a.honor DESC)
+    LIMIT 100;
 
 END //
 DELIMITER ;
 
 #CALL usp_leaderboard_get_highest_level(1);
 
+
+/*==============================
+	usp_leaderboard_get_highest_honor
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_leaderboard_get_highest_honor;
+
+DELIMITER //
+CREATE PROCEDURE usp_leaderboard_get_highest_honor
+(
+	IN p_season SMALLINT
+)
+BEGIN
+
+	SELECT ROW_NUMBER() OVER w AS player_rank, a.display_name, a.class_name, a.player_level, a.honor,
+    (a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
+	FROM players a
+	LEFT JOIN player_inventories b ON a.player_id = b.player_id
+	WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+    GROUP BY a.player_id
+    WINDOW w AS (ORDER BY a.honor DESC, a.player_level DESC)
+    LIMIT 100;
+
+END //
+DELIMITER ;
+
+#CALL usp_leaderboard_get_highest_honor(1);
+
+
+/*==============================
+	usp_leaderboard_get_highest_arena_wins
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_leaderboard_get_highest_arena_wins;
+
+DELIMITER //
+CREATE PROCEDURE usp_leaderboard_get_highest_arena_wins
+(
+	IN p_season SMALLINT
+)
+BEGIN
+
+	SELECT ROW_NUMBER() OVER w AS player_rank, a.display_name, a.class_name, a.arena_wins, a.player_level, a.honor,
+    (a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
+	FROM players a
+	LEFT JOIN player_inventories b ON a.player_id = b.player_id
+	WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+    GROUP BY a.player_id
+    WINDOW w AS (ORDER BY a.arena_wins DESC, a.player_level DESC, a.honor DESC)
+    LIMIT 100;
+
+END //
+DELIMITER ;
+
+#CALL usp_leaderboard_get_highest_arena_wins(1);
+
+
+/*==============================
+	usp_leaderboard_get_highest_quests_finished
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_leaderboard_get_highest_quests_finished;
+
+DELIMITER //
+CREATE PROCEDURE usp_leaderboard_get_highest_quests_finished
+(
+	IN p_season SMALLINT
+)
+BEGIN
+
+	SELECT ROW_NUMBER() OVER w AS player_rank, a.display_name, a.class_name, a.quests_finished, a.player_level, a.honor,
+    (a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
+	FROM players a
+	LEFT JOIN player_inventories b ON a.player_id = b.player_id
+	WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+    GROUP BY a.player_id
+    WINDOW w AS (ORDER BY a.quests_finished DESC, a.player_level DESC, a.honor DESC)
+    LIMIT 100;
+
+END //
+DELIMITER ;
+
+#CALL usp_leaderboard_get_highest_quests_finished(1);
+
+
+/*==============================
+	usp_leaderboard_get_highest_bounties_finished
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_leaderboard_get_highest_bounties_finished;
+
+DELIMITER //
+CREATE PROCEDURE usp_leaderboard_get_highest_bounties_finished
+(
+	IN p_season SMALLINT
+)
+BEGIN
+
+	SELECT ROW_NUMBER() OVER w AS player_rank, a.display_name, a.class_name, a.bounties_finished, a.player_level, a.honor,
+    (a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
+	FROM players a
+	LEFT JOIN player_inventories b ON a.player_id = b.player_id
+	WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+    GROUP BY a.player_id
+    WINDOW w AS (ORDER BY a.bounties_finished DESC, a.player_level DESC, a.honor DESC)
+    LIMIT 100;
+
+END //
+DELIMITER ;
+
+#CALL usp_leaderboard_get_highest_bounties_finished(1);
+
+
+/*==============================
+	usp_leaderboard_get_highest_gold_collected
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_leaderboard_get_highest_gold_collected;
+
+DELIMITER //
+CREATE PROCEDURE usp_leaderboard_get_highest_gold_collected
+(
+	IN p_season SMALLINT
+)
+BEGIN
+
+	SELECT ROW_NUMBER() OVER w AS player_rank, a.display_name, a.class_name, a.gold_collected, a.player_level, a.honor,
+    (a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
+	FROM players a
+	LEFT JOIN player_inventories b ON a.player_id = b.player_id
+	WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+    GROUP BY a.player_id
+    WINDOW w AS (ORDER BY a.gold_collected DESC, a.player_level DESC, a.honor DESC)
+    LIMIT 100;
+
+END //
+DELIMITER ;
+
+#CALL usp_leaderboard_get_highest_gold_collected(1);
+
+
+/*==============================
+	usp_leaderboard_get_highest_items_collected
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_leaderboard_get_highest_items_collected;
+
+DELIMITER //
+CREATE PROCEDURE usp_leaderboard_get_highest_items_collected
+(
+	IN p_season SMALLINT
+)
+BEGIN
+
+	SELECT ROW_NUMBER() OVER w AS player_rank, a.display_name, a.class_name, a.items_collected, a.player_level, a.honor,
+    (a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
+	FROM players a
+	LEFT JOIN player_inventories b ON a.player_id = b.player_id
+	WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+    GROUP BY a.player_id
+    WINDOW w AS (ORDER BY a.items_collected DESC, a.player_level DESC, a.honor DESC)
+    LIMIT 100;
+
+END //
+DELIMITER ;
+
+#CALL usp_leaderboard_get_highest_items_collected(1);
 
 
 

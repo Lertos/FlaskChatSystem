@@ -56,7 +56,7 @@ def signin():
             session['playerId'] = result['player_id']
             session['className'] = result['class_name']
             session['playerLevel'] = result['player_level']
-            
+            session['displayName'] = result['display_name']
 
             #Check is the character has been created yet
             if(result['has_character'] == 1):
@@ -97,6 +97,7 @@ def signup():
         #Account was successfully created
         if(user['username'] != '' and user['display_name'] != ''):
             session['playerId'] = user['player_id']
+            session['displayName'] = user['display_name']
 
         #Either the username or the displayname is already taken
         else:
@@ -474,9 +475,22 @@ def offerings():
     return render_template('offerings.html')
 
 
-@app.route('/leaderboard')
+@app.route('/leaderboard', methods=['GET','POST'])
 def leaderboard():
-    return render_template('leaderboard.html')
+    seasonList = helper.seasonList
+
+    if request.method == 'POST':
+        boardType = request.form['boardType']
+        season = request.form['season']
+
+        boardData = helper.getLeaderboardData(boardType, season)
+
+        header = boardData[0]
+        data = boardData[1]
+        
+        return render_template('leaderboard.html', seasonList=seasonList, boardType=boardType, season=season, header=header, data=data, displayName=session['displayName'])
+
+    return render_template('leaderboard.html', seasonList=seasonList, boardType='')
 
 
 @app.route('/logout')

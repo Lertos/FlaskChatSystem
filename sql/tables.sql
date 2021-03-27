@@ -28,12 +28,13 @@ CREATE TABLE players
     honor SMALLINT DEFAULT 100,
     blessing VARCHAR(10) NULL,
     bounty_attempts TINYINT DEFAULT 3,
-    dungeon_attempts TINYINT DEFAULT 10,
+    dungeon_attempts TINYINT DEFAULT 5,
     arena_attempts TINYINT DEFAULT 10,
-    players_killed SMALLINT DEFAULT 0,
-    monsters_killed SMALLINT DEFAULT 0,
+    arena_wins INT DEFAULT 0,
+    quests_finished INT DEFAULT 0,
+    bounties_finished INT DEFAULT 0,
     gold_collected INT DEFAULT 25,
-	quests_done SMALLINT DEFAULT 0,
+	items_collected SMALLINT DEFAULT 0,
     PRIMARY KEY (player_id)
 );
 

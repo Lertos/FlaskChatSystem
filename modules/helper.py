@@ -27,6 +27,38 @@ travellingPlayers = {}
 questMonstersToSpawn = 4
 bountyMonstersToSpawn = 3
 
+#Holds the leaderboard-specific information
+leaderboardInfo = {
+        'level': {
+            'header': 'Highest Level',
+            'procedure': 'usp_leaderboard_get_highest_level'   
+        },
+        'honor': {
+            'header': 'Highest Honor',
+            'procedure': 'usp_leaderboard_get_highest_honor'   
+        },
+        'arena': {
+            'header': 'Most Arena Wins',
+            'procedure': 'usp_leaderboard_get_highest_arena_wins'   
+        },
+        'quest': {
+            'header': 'Most Quests Completed',
+            'procedure': 'usp_leaderboard_get_highest_quests_finished'   
+        },
+        'bounty': {
+            'header': 'Most Bounties Completed',
+            'procedure': 'usp_leaderboard_get_highest_bounties_finished'   
+        },
+        'gold': {
+            'header': 'Most Gold Collected',
+            'procedure': 'usp_leaderboard_get_highest_gold_collected'   
+        },
+        'items': {
+            'header': 'Most Items Collected',
+            'procedure': 'usp_leaderboard_get_highest_items_collected'   
+        }
+    } 
+
 #===============================
 
 #Items
@@ -523,6 +555,15 @@ def applyMonsterStatBoosters(stats, stat):
         stats[4] = math.floor(stats[0] * 1.5)
     return stats
 
+
+#Returns the data needed when a leaderboard is called (header and board data)
+def getLeaderboardData(boardType, season):
+    header = leaderboardInfo[boardType]['header']
+    procedure = leaderboardInfo[boardType]['procedure']
+
+    data = database.getLeaderboardData(procedure, season)
+
+    return [header, data]
 
 #===============================
 
