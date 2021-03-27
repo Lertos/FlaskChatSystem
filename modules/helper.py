@@ -390,6 +390,14 @@ def createRandomQuestMonsters(playerId, playerStats):
 
         applyMonsterStatBoosters(stats, classStat)
 
+        #Apply any blessings of the player
+        blessing = database.getActiveBlessing(playerId)
+
+        if blessing == 'gold':
+            monsterGold = math.floor(monsterGold * 1.5)
+        elif blessing == 'xp':
+            monsterExp = math.floor(monsterExp * 1.5)
+
         #Add it to the database
         database.createQuestMonsterForPlayer(playerId, monsterId, monsterExp, monsterGold, monsterStamina, monsterTime, stats[0], stats[1], stats[2], stats[3], stats[4], statMultipliers[0], statMultipliers[1], statMultipliers[2], statMultipliers[3], statMultipliers[4])
 
@@ -458,6 +466,16 @@ def createRandomBountyMonsters(playerId, playerStats):
             monsterExp = math.floor(monsterExp * 1.5)
         else:
             monsterDropChance = 1.0
+
+        #Apply any blessings of the player
+        blessing = database.getActiveBlessing(playerId)
+
+        if blessing == 'gold':
+            monsterGold = math.floor(monsterGold * 1.5)
+        elif blessing == 'xp':
+            monsterExp = math.floor(monsterExp * 1.5)
+        elif blessing == 'drops':
+            monsterDropChance += 0.1
 
         #Add it to the database
         database.createBountyMonsterForPlayer(playerId, monsterId, monsterExp, monsterGold, monsterDropChance, monsterTime, stats[0], stats[1], stats[2], stats[3], stats[4], statMultipliers[0], statMultipliers[1], statMultipliers[2], statMultipliers[3], statMultipliers[4])

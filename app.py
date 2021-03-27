@@ -351,7 +351,13 @@ def results():
         if travelInfo['typeOfEvent'] == 'bounty':
             dropChance = monster['drop_chance']
         else:
-            dropChance = 0.25
+            #Apply any blessings of the player
+            blessing = database.getActiveBlessing(playerId)
+
+            if blessing == 'drops':
+                dropChance = 0.43
+            else:
+                dropChance = 0.33
 
         if random.uniform(0,1) <= dropChance:
             if database.doesPlayerHaveInventorySpace(playerId):

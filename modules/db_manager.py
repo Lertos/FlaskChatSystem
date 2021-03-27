@@ -1,6 +1,7 @@
 from multiprocessing import Pool
 import mysql.connector
 import mysql.connector.pooling
+import math
 
 
 dbconfig = {
@@ -264,7 +265,19 @@ class MySQLPool(object):
     def getPlayerStats(self, playerId):   
       args = [playerId]
       result = self.executeProcedureReturnList('usp_get_player_info', commit=False, dictCursor=True, args=args)
+      
+      #Apply any blessings of the player
+      blessing = self.getActiveBlessing(playerId)
 
+      if blessing == 'stats':
+        print(result)
+        statNames = ['strength', 'dexterity', 'intelligence', 'constitution', 'luck']
+
+        for i in range(0, len(statNames)):
+            result[0][statNames[i]] = math.floor(float(result[0][statNames[i]]) * 1.1)
+            result[0]['equip_' + statNames[i]] = math.floor(float(result[0]['equip_' + statNames[i]]) * 1.1)
+
+        print(result)
       return result[0]
 
 

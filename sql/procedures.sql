@@ -13,6 +13,8 @@ BEGIN
 
 	DELETE FROM active_quests;
     DELETE FROM active_bounties;
+    
+    UPDATE players SET blessing = null;
 
 END //
 DELIMITER ;
