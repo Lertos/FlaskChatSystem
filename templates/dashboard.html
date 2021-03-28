@@ -9,10 +9,101 @@
 
     <div id='container'>
 
-        <div hidden class='popupParent'>
+        <div hidden id='noSpace' class='popupParent'>
             <div class='background border spacing popupChild'>
                 <h3>You don't have enough inventory space</h3>
-                <button id='popupButton' class='themeSmallButton'>But.. But..</button>
+                <button id='noSpacePopupButton' class='themeSmallButton'>But.. But..</button>
+            </div>
+        </div>
+
+        <div hidden id='updateStats' class='popupParent'>
+            <div class='background border spacing popupChild'>
+                <h3>Upgrade Base Stats</h3>
+
+                <h4 class='sameLine'>Current Gold </h4>
+                <h4 id='statPanelCurrentGold' class='sameLine textYellow boldText'>50</h4>
+
+                <h5 hidden id='notEnoughWarning' class='textRed'>You do not have enough gold to upgrade that</h5>
+
+                <hr>
+
+                <table class='table50Percent leftRightTable'>
+                    <tr>
+                        <td>
+                            <button class='themePlusButton' stat='Strength'>+</button>
+                            <h5>Strength</h5>
+                            <p id='statPanelBaseStrength' class='sameLine'>{{ player['strength'] }}</p>
+                            (<p id='statPanelStrength' class='sameLine textYellow boldText'>0</p>)
+                        </td>
+                        <td>
+                            <p class='sameLine'>Next Lvl Cost: </p>
+                            <p id='statPanelStrengthNextCost' class='sameLine textYellow boldText'>2</p>
+                            <p class='sameLine'>(Total Cost: </p>
+                            <p id='statPanelStrengthTotalCost' class='sameLine textYellow boldText'>0</p>)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='themePlusButton' stat='Dexterity'>+</button>
+                            <h5>Dexterity</h5>
+                            <p id='statPanelBaseDexterity' class='sameLine'>{{ player['dexterity'] }}</p>
+                            (<p id='statPanelDexterity' class='sameLine textYellow boldText'>0</p>)
+                        </td>
+                        <td>
+                            <p class='sameLine'>Next Lvl Cost: </p>
+                            <p id='statPanelDexterityNextCost' class='sameLine textYellow boldText'>2</p>
+                            <p class='sameLine'>(Total Cost: </p>
+                            <p id='statPanelDexterityTotalCost' class='sameLine textYellow boldText'>0</p>)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='themePlusButton' stat='Intelligence'>+</button>
+                            <h5>Intelligence</h5>
+                            <p id='statPanelBaseIntelligence' class='sameLine'>{{ player['intelligence'] }}</p>
+                            (<p id='statPanelIntelligence' class='sameLine textYellow boldText'>0</p>)
+                        </td>
+                        <td>
+                            <p class='sameLine'>Next Lvl Cost: </p>
+                            <p id='statPanelIntelligenceNextCost' class='sameLine textYellow boldText'>2</p>
+                            <p class='sameLine'>(Total Cost: </p>
+                            <p id='statPanelIntelligenceTotalCost' class='sameLine textYellow boldText'>0</p>)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='themePlusButton' stat='Constitution'>+</button>
+                            <h5>Constitution</h5>
+                            <p id='statPanelBaseConstitution' class='sameLine'>{{ player['constitution'] }}</p>
+                            (<p id='statPanelConstitution' class='sameLine textYellow boldText'>0</p>)
+                        </td>
+                        <td>
+                            <p class='sameLine'>Next Lvl Cost: </p>
+                            <p id='statPanelConstitutionNextCost' class='sameLine textYellow boldText'>2</p>
+                            <p class='sameLine'>(Total Cost: </p>
+                            <p id='statPanelConstitutionTotalCost' class='sameLine textYellow boldText'>0</p>)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='themePlusButton' stat='Luck'>+</button>
+                            <h5>Luck</h5>
+                            <p id='statPanelBaseLuck' class='sameLine'>{{ player['luck'] }}</p>
+                            (<p id='statPanelLuck' class='sameLine textYellow boldText'>0</p>)
+                        </td>
+                        <td>
+                            <p class='sameLine'>Next Lvl Cost: </p>
+                            <p id='statPanelLuckNextCost' class='sameLine textYellow boldText'>2</p>
+                            <p class='sameLine'>(Total Cost: </p>
+                            <p id='statPanelLuckTotalCost' class='sameLine textYellow boldText'>0</p>)
+                        </td>
+                    </tr>
+                </table>
+
+                <hr>
+
+                <button id='statsPopupUpgradeButton' class='themeSmallButton'>Upgrade</button>
+                <button id='statsPopupCancelButton' class='themeSmallButton'>Cancel</button>
             </div>
         </div>
 
@@ -109,6 +200,8 @@
                         </td>
                     </tr>
                 </table>
+
+                <button id='upgradeStatsPopupButton' class='themeSmallButton'>Upgrade Stats</button>
 
             </div>
 
@@ -311,15 +404,107 @@
     var classInfo = {{ classInfo|tojson|safe }}
     var importedEquippedItems = {{ equippedItems|tojson|safe }}
     var importedInventoryItems = {{ items|tojson|safe }}
+    var playerInfo = {{ player|tojson|safe }}
 
     var equippedItems = []
     var inventoryItems = []
 
+    $(function(){
 
-    $('#popupButton').on('click', function(){
-        $('.popupParent').attr('hidden', true);
+        var stats = ['Strength', 'Dexterity', 'Intelligence', 'Constitution', 'Luck']
+
+        //Setup the initial stat upgrade screen
+        $('#statPanelCurrentGold').text(playerInfo['gold'])
+
+        for(var i=0; i<stats.length; i++){
+            $('#statPanelBase' + stats[i]).text(playerInfo[stats[i].toLowerCase()])
+            $('#statPanel' + stats[i]).text(0)
+            $('#statPanel' + stats[i] + 'NextCost').text(costOfNextStatLevel(playerInfo[stats[i].toLowerCase()] + 1))
+            $('#statPanel' + stats[i] + 'TotalCost').text(0)
+        }
+
+        //Hides the inventory space popup when acknowledged
+        $('#noSpacePopupButton').on('click', function(){
+            $('#noSpace').attr('hidden', true);
+        });
+
+        //Shows the upgrade stats popup when "upgrade stats" is clicked
+        $('#upgradeStatsPopupButton').on('click', function(){
+            $('#updateStats').attr('hidden', false);
+        });
+
+        //Hides the upgrade stats popup when "cancel" is clicked
+        $('#statsPopupCancelButton').on('click', function(){
+            $('#updateStats').attr('hidden', true);
+
+            $('#statPanelCurrentGold').text(playerInfo['gold'])
+
+            for(var i=0; i<stats.length; i++){
+                $('#statPanelBase' + stats[i]).text(playerInfo[stats[i].toLowerCase()])
+                $('#statPanel' + stats[i]).text(0)
+                $('#statPanel' + stats[i] + 'NextCost').text(costOfNextStatLevel(playerInfo[stats[i].toLowerCase()] + 1))
+                $('#statPanel' + stats[i] + 'TotalCost').text(0)
+            }
+        });
+
+        //Sends a post request when the "upgrade" button is clicked in the upgrade stats popup
+        $('#statsPopupUpgradeButton').on('click', function(){
+            var totalStrength = parseInt($('#statPanelBaseStrength').text()) + parseInt($('#statPanelStrength').text())
+            var totalDexterity = parseInt($('#statPanelBaseDexterity').text()) + parseInt($('#statPanelDexterity').text())
+            var totalIntelligence = parseInt($('#statPanelBaseIntelligence').text()) + parseInt($('#statPanelIntelligence').text())
+            var totalConstitution = parseInt($('#statPanelBaseConstitution').text()) + parseInt($('#statPanelConstitution').text())
+            var totalLuck = parseInt($('#statPanelBaseLuck').text()) + parseInt($('#statPanelLuck').text())
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ url_for("upgradeStats") }}',
+                data: {
+                    'totalStrength': totalStrength,
+                    'totalDexterity': totalDexterity,
+                    'totalIntelligence': totalIntelligence,
+                    'totalConstitution': totalConstitution,
+                    'totalLuck': totalLuck
+                },
+                success: function (response) {
+                    window.location = '{{ url_for("dashboard") }}';
+                }
+            });
+        });
+
+        //Updates values in the upgrade stats popup when the upgrade button is hit for a stat
+        $('.themePlusButton').on('click', function(){
+            var stat = $(this).attr('stat')
+            var currentGoldElement = $('#statPanelCurrentGold')
+            var nextCostElement = $('#statPanel' + stat + 'NextCost')
+            var plusLevelElement = $('#statPanel' + stat)
+            var totalCostElement = $('#statPanel' + stat + 'TotalCost')
+
+            //Check if the player has enough gold to level up
+            var currentGold = parseInt(currentGoldElement.text())
+            var currentCost = parseInt(nextCostElement.text())
+
+            if(currentGold < currentCost){
+                $('#notEnoughWarning').attr('hidden', false)
+                return
+            }
+            //Remove the warning is still aactive
+            $('#notEnoughWarning').attr('hidden', true)
+
+            //Update the cost, the level upgraded, current gold, and the total cost
+            var plusLevel = parseInt(plusLevelElement.text())
+            plusLevelElement.text(plusLevel + 1)
+            
+            var totalLevel = parseInt(playerInfo[stat.toLowerCase()]) + plusLevel + 1
+            
+            var nextCost = parseInt(costOfNextStatLevel(totalLevel + 1))
+            var totalCost = parseInt(totalCostElement.text())
+            
+            nextCostElement.text(nextCost)
+            totalCostElement.text(totalCost + currentCost)     
+            currentGoldElement.text(currentGold - currentCost)
+        });
+
     });
-
 
     resetItemPanel()
 
@@ -534,7 +719,7 @@
 
         //Make sure the player actually has the inventory space to unequip an item
         if(amountOfEmptyInventorySlots() >= 21){
-            $('.popupParent').removeAttr('hidden');
+            $('#noSpace').removeAttr('hidden');
             return
         }
 
@@ -903,6 +1088,12 @@
         button.hidden = false
         button.itemIndex = itemIndex
         button.isEquipped = isEquipped
+    }
+
+
+    //Get the cost of the next stat level
+    function costOfNextStatLevel(level){
+        return Math.floor((level ** 2)/20 + 1)
     }
 
 </script>

@@ -227,11 +227,8 @@ DROP TABLE IF EXISTS arena_opponents;
 
 CREATE TABLE arena_opponents
 (
-	player_id SMALLINT NOT NULL UNIQUE,
-    opponent_id_1 SMALLINT,
-    opponent_id_2 SMALLINT,
-    opponent_id_3 SMALLINT,
-    opponent_id_4 SMALLINT
+	player_id SMALLINT NOT NULL,
+    opponent_id SMALLINT NOT NULL
 );
 
 #SELECT * FROM arena_opponents;

@@ -401,7 +401,7 @@ CREATE PROCEDURE usp_get_player_info
 BEGIN
 
 	IF EXISTS (SELECT * FROM player_inventories WHERE player_id = p_player_id AND equipped = 1) THEN
-		SELECT a.display_name AS name, a.class_name, a.file_name, a.player_level AS level, a.stamina, a.honor, a.blessing, a.bounty_attempts, a.dungeon_attempts, a.arena_attempts,
+		SELECT a.display_name AS name, a.class_name, a.file_name, a.player_level AS level, a.stamina, a.honor, a.gold, a.blessing, a.bounty_attempts, a.dungeon_attempts, a.arena_attempts,
 			a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, 
 			SUM(b.strength) AS equip_strength, SUM(b.dexterity) AS equip_dexterity, SUM(b.intelligence) AS equip_intelligence, SUM(b.constitution) AS equip_constitution, SUM(b.luck) AS equip_luck, 
 			SUM(b.damage) AS damage, SUM(b.armor) AS armor
@@ -409,7 +409,7 @@ BEGIN
 		LEFT JOIN player_inventories b on a.player_id = b.player_id
 		WHERE a.player_id = p_player_id AND b.equipped = 1;
 	ELSE
-		SELECT display_name AS name, class_name, file_name, player_level AS level, stamina, honor, blessing, bounty_attempts, dungeon_attempts, arena_attempts,
+		SELECT display_name AS name, class_name, file_name, player_level AS level, stamina, honor, gold, blessing, bounty_attempts, dungeon_attempts, arena_attempts,
 			strength, dexterity, intelligence, constitution, luck, 
 			0 AS equip_strength, 0 AS equip_dexterity, 0 AS equip_intelligence, 0 AS equip_constitution, 0 AS equip_luck, 
 			0 AS damage, 0 AS armor
@@ -777,4 +777,37 @@ DELIMITER ;
 #CALL usp_leaderboard_get_highest_items_collected(1);
 
 
+/*==============================
+	usp_create_arena_opponents
+==============================*/
 
+DROP PROCEDURE IF EXISTS usp_create_arena_opponents;
+
+DELIMITER //
+CREATE PROCEDURE usp_create_arena_opponents
+(
+	IN p_player_id SMALLINT,
+    IN p_season SMALLINT
+)
+BEGIN
+
+	DECLARE v_honor INT;
+    
+    SET v_honor = (
+		SELECT honor
+        FROM players
+        WHERE player_id = p_player_id
+    );
+
+	INSERT INTO arena_opponents
+	(SELECT p_player_id, player_id FROM players WHERE honor >= v_honor AND player_id <> p_player_id AND character_season = p_season ORDER BY honor DESC LIMIT 2)
+	UNION
+	(SELECT p_player_id, player_id FROM players WHERE honor < v_honor AND player_id <> p_player_id AND character_season = p_season ORDER BY honor DESC LIMIT 2);
+
+END //
+DELIMITER ;
+
+#CALL usp_create_arena_opponents(4, 1);
+
+#DO THE GET ARENA OPPOENTS
+#IN THE CODE JUST GET PLAYER STATS ON THE ENMY PLAYER ID THEN START COMBAT

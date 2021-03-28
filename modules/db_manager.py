@@ -404,6 +404,14 @@ class MySQLPool(object):
       self.executeStatement(statement, commit=True, dictCursor=False, makeList=False, returnList=False, args=args)
 
 
+    def upgradePlayerStats(self, playerId, spentGold, stats):
+      stats.append(spentGold)
+      stats.append(playerId)
+      args = stats
+      statement = '''UPDATE players SET strength = %s, dexterity = %s, intelligence = %s, constitution = %s, luck = %s, gold = gold - %s WHERE player_id = %s;'''
+      self.executeStatement(statement, commit=True, dictCursor=False, makeList=False, returnList=False, args=args)
+
+
     #===============================
 
     #Debug/Testing Functions

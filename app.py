@@ -192,6 +192,24 @@ def unequipItem():
     return Response('', status=201)
 
 
+@app.route('/upgradeStats', methods=['POST'])
+def upgradeStats():
+
+    playerId = session['playerId']
+    stats = [request.form['totalStrength'], request.form['totalDexterity'], request.form['totalIntelligence'], request.form['totalConstitution'], request.form['totalLuck']]
+
+    #Check to make sure the player can actually afford the upgrades
+    spentGold = validation.canAffordUpgrades(playerId, stats)
+
+    if spentGold != -1:
+        #Make the changes in the database
+        database.upgradePlayerStats(playerId, spentGold, stats)
+        return Response('', status=201)
+    else:
+        #Dont make the changes and just reload the page - they know what they did -.-
+        return Response('', status=201)
+
+
 #===============================
 
 #Quests

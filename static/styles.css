@@ -140,6 +140,14 @@ ul{
     color: red;
 }
 
+.textYellow{
+    color: yellow;
+}
+
+.textBrown{
+    color: var(--borderAndLines)
+}
+
 /*===================
 
     position
@@ -220,6 +228,14 @@ ul{
     font-size: 60px;
     line-height: 600px;
     color:#ebb68c;
+}
+
+.table50Percent{
+    width: 50%;
+}
+
+.leftRightTable{
+    width: 100%;
 }
 
 .leftRightTable td:nth-child(odd){
@@ -552,6 +568,14 @@ ul{
     button
 
 ===================*/
+
+.themePlusButton{
+    background-color: var(--background);
+    color: white;
+    font-size: 16px;
+    padding: 2px 4px;
+    margin: 1px;
+}
 
 .themeSmallButton{
     background-color: var(--background);

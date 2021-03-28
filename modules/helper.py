@@ -583,6 +583,7 @@ def getLeaderboardData(boardType, season):
 
     return [header, data]
 
+
 #===============================
 
 #Debug/Testing Functions

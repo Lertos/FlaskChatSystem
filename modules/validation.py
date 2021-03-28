@@ -1,5 +1,7 @@
-import re
+import re, math
 from modules import db_manager
+
+database = db_manager.MySQLPool()
 
 
 #Validates the account creation info provided by the new player
@@ -33,3 +35,33 @@ def validateAccountInfo(username, displayName, password, passwordConfirm, season
         return 'Passwords do not match'
 
     return ''
+
+
+#Checks if the player can actually afford the levels the page sent (to check for page tampering)
+def canAffordUpgrades(playerId, stats):
+    playerStats = database.getPlayerStats(playerId)
+    playerGold = playerStats['gold']
+    spentGold = 0
+
+    statNames = ['strength', 'dexterity', 'intelligence', 'constitution', 'luck']
+
+    for i in range(0, len(statNames)):
+        currentStatLevel = int(playerStats[statNames[i]])
+        upgradedStatLevel = int(stats[i])
+
+        for j in range(currentStatLevel, upgradedStatLevel):
+            levelUpCost = getStatLevelCost(j + 1)
+            playerGold -= levelUpCost
+            spentGold += levelUpCost
+
+        #Check if the player gold is zero yet
+        if playerGold < 0:
+            return -1
+
+    return spentGold
+
+
+
+#Gets the cost of the next stat level
+def getStatLevelCost(level):
+    return math.floor((level ** 2)/20 + 1)
