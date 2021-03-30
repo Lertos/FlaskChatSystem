@@ -476,7 +476,31 @@ def startBounty():
 
 @app.route('/arena')
 def arena():
-    return render_template('arena.html')
+
+    playerId = session['playerId']
+
+    #Check if the player is already travelling - if so, redirect them to the travel page
+    travelInfo = helper.getPlayerTravelInfo(playerId)
+
+    if travelInfo != {}:
+        return redirect(url_for('travel'))
+
+    #Check if the player has active opponents
+    opponents = database.getPlayerArenaOpponents(playerId)
+
+    #If they have active opponents, load the arena page and build the opponents provided
+    if opponents != []:
+        playerStats = database.getPlayerStats(playerId)
+        playerHonor = playerStats['honor']
+        arenaAttempts = playerStats['arena_attempts']
+
+        return render_template('arena.html', playerHonor=playerHonor, opponents=opponents, arenaAttempts=arenaAttempts)
+
+    #If they do not have active opponents, create some and reload the arena page
+    else:
+        helper.createArenaOpponents(playerId)
+        
+        return redirect(url_for('arena'))
 
 
 #===============================

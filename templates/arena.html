@@ -13,13 +13,13 @@
             <div class='infoPanel background border spacing'>
                 <div>
                     <img class='iconImg' src='/static/icons/icon_summons.png'>
-                    <p><strong>10 / 10</strong></p>
+                    <p><strong>{{ arenaAttempts }} / 10</strong></p>
                     <p>(Resets Daily)</p>
                 </div>
                 
                 <div>
                     <img class='iconImg' src='/static/icons/icon_honor.png'>
-                    <p>500</p>
+                    <p>{{ playerHonor }}</p>
                 </div>
             </div>
 
@@ -27,12 +27,13 @@
 
         <div>
 
-            <div class='sidePanel background border spacing'>
-                
-                <img class='resizeImg128' src='/static/avatars/avatar_male1.png'>
+            {% for opponent in opponents %}
+                <div class='sidePanel background border spacing'>
+            
+                <img class='resizeImg128' src='/static/avatars/{{ opponent["file_name"] }}'>
 
-                <h4 class='alignCenter'><strong>JaredKills</strong> (1)</h4>
-                <h5>Berserker</h5>
+                <h4 class='alignCenter'><strong>{{ opponent["display_name"] }}</strong> ({{ opponent["player_level"] }})</h4>
+                <h5>{{ opponent["class_name"] }}</h5>
 
                 <hr>
 
@@ -40,11 +41,7 @@
                     <tr>
                         <td>
                             <img class='iconImg' src='/static/icons/icon_honor.png'>
-                            <p>370</p>                          
-                        </td>
-                        <td>
-                            <img class='iconImg' src='/static/icons/icon_gold.png'>
-                            <p>190</p>
+                            <p>{{ opponent["honor"] }}</p>                          
                         </td>
                     </tr>
                 </table>
@@ -57,7 +54,7 @@
                             <h5>Strength</h5>
                         </td>
                         <td>
-                            <p id='playerStrength' class='sameLine'>1</p>
+                            <p id='playerStrength' class='sameLine'>{{ opponent["strength"] }}</p>
                         </td>
                     </tr>
                     <tr>
@@ -65,7 +62,7 @@
                             <h5>Dexterity</h5>
                         </td>
                         <td>
-                            <p id='playerDexterity' class='sameLine'>2</p>
+                            <p id='playerDexterity' class='sameLine'>{{ opponent["dexterity"] }}</p>
                         </td>
                     </tr>
                     <tr>
@@ -73,7 +70,7 @@
                             <h5>Intelligence</h5>
                         </td>
                         <td>
-                            <p id='playerIntelligence' class='sameLine'>3</p>
+                            <p id='playerIntelligence' class='sameLine'>{{ opponent["intelligence"] }}</p>
                         </td>
                     </tr>
                     <tr>
@@ -81,7 +78,7 @@
                             <h5>Constitution</h5>
                         </td>
                         <td>
-                            <p id='playerConstitution' class='sameLine'>4</p>
+                            <p id='playerConstitution' class='sameLine'>{{ opponent["constitution"] }}</p>
                         </td>
                     </tr>
                     <tr>
@@ -89,222 +86,48 @@
                             <h5>Luck</h5>
                         </td>
                         <td>
-                            <p id='playerLuck' class='sameLine'>5</p>
+                            <p id='playerLuck' class='sameLine'>{{ opponent["luck"] }}</p>
                         </td>
                     </tr>
                 </table>
 
             </div>
-
-            <div class='sidePanel background border spacing'>
-                
-                <img class='resizeImg128' src='/static/avatars/avatar_female3.png'>
-
-                <h4 class='alignCenter'><strong>DeadlyArrow</strong> (4)</h4>
-                <h5>Scout</h5>
-
-                <hr>
-
-                <table class='alignCenter'>
-                    <tr>
-                        <td>
-                            <img class='iconImg' src='/static/icons/icon_honor.png'>
-                            <p>520</p>                          
-                        </td>
-                        <td>
-                            <img class='iconImg' src='/static/icons/icon_gold.png'>
-                            <p>330</p>
-                        </td>
-                    </tr>
-                </table>
-
-                <hr>
-
-                <table class='leftRightTable'>
-                    <tr>
-                        <td>
-                            <h5>Strength</h5>
-                        </td>
-                        <td>
-                            <p id='playerStrength' class='sameLine'>1</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Dexterity</h5>
-                        </td>
-                        <td>
-                            <p id='playerDexterity' class='sameLine'>2</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Intelligence</h5>
-                        </td>
-                        <td>
-                            <p id='playerIntelligence' class='sameLine'>3</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Constitution</h5>
-                        </td>
-                        <td>
-                            <p id='playerConstitution' class='sameLine'>4</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Luck</h5>
-                        </td>
-                        <td>
-                            <p id='playerLuck' class='sameLine'>5</p>
-                        </td>
-                    </tr>
-                </table>
-
-            </div>
-
-            <div class='sidePanel background border spacing'>
-                
-                <img class='resizeImg128' src='/static/avatars/avatar_female1.png'>
-
-                <h4 class='alignCenter'><strong>SillyWitch</strong> (3)</h4>
-                <h5>Fencer</h5>
-
-                <hr>
-
-                <table class='alignCenter'>
-                    <tr>
-                        <td>
-                            <img class='iconImg' src='/static/icons/icon_honor.png'>
-                            <p>470</p>                          
-                        </td>
-                        <td>
-                            <img class='iconImg' src='/static/icons/icon_gold.png'>
-                            <p>300</p>
-                        </td>
-                    </tr>
-                </table>
-
-                <hr>
-
-                <table class='leftRightTable'>
-                    <tr>
-                        <td>
-                            <h5>Strength</h5>
-                        </td>
-                        <td>
-                            <p id='playerStrength' class='sameLine'>1</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Dexterity</h5>
-                        </td>
-                        <td>
-                            <p id='playerDexterity' class='sameLine'>2</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Intelligence</h5>
-                        </td>
-                        <td>
-                            <p id='playerIntelligence' class='sameLine'>3</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Constitution</h5>
-                        </td>
-                        <td>
-                            <p id='playerConstitution' class='sameLine'>4</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Luck</h5>
-                        </td>
-                        <td>
-                            <p id='playerLuck' class='sameLine'>5</p>
-                        </td>
-                    </tr>
-                </table>
-
-            </div>
-
-            <div class='sidePanel background border spacing'>
-                
-                <img class='resizeImg128' src='/static/avatars/avatar_male2.png'>
-
-                <h4 class='alignCenter'><strong>P00nDoc420</strong> (3)</h4>
-                <h5>Fire Mage</h5>
-
-                <hr>
-
-                <table class='alignCenter'>
-                    <tr>
-                        <td>
-                            <img class='iconImg' src='/static/icons/icon_honor.png'>
-                            <p>390</p>                          
-                        </td>
-                        <td>
-                            <img class='iconImg' src='/static/icons/icon_gold.png'>
-                            <p>290</p>
-                        </td>
-                    </tr>
-                </table>
-
-                <hr>
-
-                <table class='leftRightTable'>
-                    <tr>
-                        <td>
-                            <h5>Strength</h5>
-                        </td>
-                        <td>
-                            <p id='playerStrength' class='sameLine'>1</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Dexterity</h5>
-                        </td>
-                        <td>
-                            <p id='playerDexterity' class='sameLine'>2</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Intelligence</h5>
-                        </td>
-                        <td>
-                            <p id='playerIntelligence' class='sameLine'>3</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Constitution</h5>
-                        </td>
-                        <td>
-                            <p id='playerConstitution' class='sameLine'>4</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Luck</h5>
-                        </td>
-                        <td>
-                            <p id='playerLuck' class='sameLine'>5</p>
-                        </td>
-                    </tr>
-                </table>
-
-            </div>
+        {% endfor %}
 
         </div>
 
     </div>
 	
+{% endblock %}
+
+{% block script %}
+
+<script type='text/javascript' src='{{ url_for("static", filename="jquery.js") }}'></script>
+
+<script>
+
+    $(function() {
+
+        $('#popupButton').on('click', function(){
+            $('.popupParent').attr('hidden', true);
+        });
+
+        $('.resizeImg128').on('click', function(){
+            var opponentId = $(this).attr('opponentId');
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ url_for("startArenaFight") }}',
+                data: {'opponentId': opponentId},
+                success: function (response) {
+                    if(response == 'NO_ATTEMPTS')
+                        $('.popupParent').removeAttr('hidden');
+                    else
+                        window.location = '{{ url_for("travel") }}';
+                }
+            });
+        });
+    });
+
+</script>
 {% endblock %}

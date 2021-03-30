@@ -364,10 +364,22 @@ class MySQLPool(object):
 
       return result
 
+
+    def createArenaOpponents(self, playerId):  
+      args = [playerId]
+      self.executeProcedure('usp_create_arena_opponents', commit=True, args=args)
+
     
     def givePlayerBountyRewards(self, playerId, gold, xp):
       args = [playerId, gold, xp]
       result = self.executeProcedureReturnList('usp_give_player_bounty_rewards', commit=True, dictCursor=True, args=args)
+
+      return result
+
+
+    def getPlayerArenaOpponents(self, playerId):  
+      args = [playerId]
+      result = self.executeProcedureReturnList('usp_get_arena_opponents', commit=False, dictCursor=True, args=args)
 
       return result
 

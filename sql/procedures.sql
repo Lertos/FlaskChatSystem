@@ -786,28 +786,58 @@ DROP PROCEDURE IF EXISTS usp_create_arena_opponents;
 DELIMITER //
 CREATE PROCEDURE usp_create_arena_opponents
 (
-	IN p_player_id SMALLINT,
-    IN p_season SMALLINT
+	IN p_player_id SMALLINT
 )
 BEGIN
 
 	DECLARE v_honor INT;
+    DECLARE v_season INT;
     
     SET v_honor = (
 		SELECT honor
         FROM players
         WHERE player_id = p_player_id
     );
+    
+    SET v_season = (
+		SELECT character_season
+        FROM players
+        WHERE player_id = p_player_id
+    );
 
 	INSERT INTO arena_opponents
-	(SELECT p_player_id, player_id FROM players WHERE honor >= v_honor AND player_id <> p_player_id AND character_season = p_season ORDER BY honor DESC LIMIT 2)
+	(SELECT p_player_id, player_id FROM players WHERE honor >= v_honor AND player_id <> p_player_id AND character_season = v_season ORDER BY honor DESC LIMIT 2)
 	UNION
-	(SELECT p_player_id, player_id FROM players WHERE honor < v_honor AND player_id <> p_player_id AND character_season = p_season ORDER BY honor DESC LIMIT 2);
+	(SELECT p_player_id, player_id FROM players WHERE honor < v_honor AND player_id <> p_player_id AND character_season = v_season ORDER BY honor DESC LIMIT 2);
 
 END //
 DELIMITER ;
 
-#CALL usp_create_arena_opponents(4, 1);
+#CALL usp_create_arena_opponents(4);
 
-#DO THE GET ARENA OPPOENTS
-#IN THE CODE JUST GET PLAYER STATS ON THE ENMY PLAYER ID THEN START COMBAT
+
+/*==============================
+	usp_get_arena_opponents
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_get_arena_opponents;
+
+DELIMITER //
+CREATE PROCEDURE usp_get_arena_opponents
+(
+	IN p_player_id SMALLINT
+)
+BEGIN
+
+	SELECT a.player_id, a.display_name, a.class_name, a.file_name, a.player_level, a.honor,
+    (a.strength + SUM(IFNULL(c.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(c.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(c.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(c.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(c.luck,0))) AS luck
+	FROM players a
+    INNER JOIN arena_opponents b ON b.opponent_id = a.player_id
+	LEFT OUTER JOIN player_inventories c ON b.opponent_id  = c.player_id
+	WHERE b.player_id = p_player_id AND IFNULL(c.equipped,1) = 1
+    GROUP BY a.player_id;
+
+END //
+DELIMITER ;
+
+#CALL usp_get_arena_opponents(4);

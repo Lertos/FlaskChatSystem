@@ -680,21 +680,13 @@
         var slotType = inventoryItems[itemIndex]['item_type_name']
         var slotTypeId = getItemSlotTypeId(slotType)
 
-        console.log('heyu')
-        console.log(inventoryItems)
-        console.log(equippedItems)
-
-        console.log(inventoryItems[itemIndex]['is_two_handed'])
-
         //Check for class restrictions
         if(inventoryItems[itemIndex]['damage'] > 0){
             if(inventoryItems[itemIndex]['is_two_handed'] == 1 && classInfo['uses_two_handed'] == 0) return
             if(inventoryItems[itemIndex]['is_two_handed'] == 0 && classInfo['uses_two_handed'] == 1) return
         }
-        
-        if(inventoryItems[itemIndex]['item_type_name'] == 'Shield' && classInfo['uses_shield'] == 0) return
 
-        console.log('heyu2')
+        if(inventoryItems[itemIndex]['item_type_name'] == 'Shield' && classInfo['uses_shield'] == 0) return
 
         //Unequip old item
         var item = unequipItem(slotType, slotTypeId)
@@ -702,17 +694,12 @@
         //Equip new item
         equipItem(inventoryItems[itemIndex])
 
-        console.log('heyu3')
-
         //Remove new item from inventory
         removeItemFromInventory(itemIndex)
-
-        console.log('heyu4')
 
         //Add the item to the inventory only if one was unequipped
         if(item != null){
             setupNewInventoryItem(item)
-            console.log('heyu5')
         }
 
         resetItemPanel()
