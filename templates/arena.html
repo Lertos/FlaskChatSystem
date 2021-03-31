@@ -25,12 +25,19 @@
 
         </div>
 
+        <div hidden class='popupParent'>
+            <div class='background border spacing popupChild'>
+                <h3>You don't have enough invitations</h3>
+                <button id='popupButton' class='themeSmallButton'>Plz Sir</button>
+            </div>
+        </div>
+
         <div>
 
             {% for opponent in opponents %}
                 <div class='sidePanel background border spacing'>
             
-                <img class='resizeImg128' src='/static/avatars/{{ opponent["file_name"] }}'>
+                <img class='resizeImg128' opponentId='{{ opponent["player_id"] }}' src='/static/avatars/{{ opponent["file_name"] }}'>
 
                 <h4 class='alignCenter'><strong>{{ opponent["display_name"] }}</strong> ({{ opponent["player_level"] }})</h4>
                 <h5>{{ opponent["class_name"] }}</h5>
@@ -122,8 +129,10 @@
                 success: function (response) {
                     if(response == 'NO_ATTEMPTS')
                         $('.popupParent').removeAttr('hidden');
+                    else if(response == 'ALREADY_IN_EVENT')
+                        return
                     else
-                        window.location = '{{ url_for("travel") }}';
+                        window.location = '{{ url_for("results") }}';
                 }
             });
         });

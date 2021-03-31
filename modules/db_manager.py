@@ -377,6 +377,11 @@ class MySQLPool(object):
       return result
 
 
+    def processArenaHonor(self, playerId, winnerId, loserId, winnerHonor, loserHonor):
+      args = [playerId, winnerId, loserId, winnerHonor, loserHonor]
+      result = self.executeProcedureReturnList('usp_process_arena_honor', commit=True, dictCursor=False, args=args)
+
+
     def getPlayerArenaOpponents(self, playerId):  
       args = [playerId]
       result = self.executeProcedureReturnList('usp_get_arena_opponents', commit=False, dictCursor=True, args=args)

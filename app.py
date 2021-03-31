@@ -351,7 +351,16 @@ def results():
 
     #Get the stats of the player and the monster
     player = database.getPlayerStats(playerId)
-    monster = helper.createMonsterForBattle(player, playerId, travelInfo)
+
+    if travelInfo['typeOfEvent'] == 'arena':
+        monster = database.getPlayerStats(travelInfo['player_id'])
+        monster = helper.combinePlayerStats(monster)
+    elif travelInfo['typeOfEvent'] == 'dungeon':
+        #monster = helper.createMonsterForBattle(player, playerId, travelInfo)
+        pass
+    else:
+        monster = helper.createMonsterForBattle(player, playerId, travelInfo)
+
 
     #Fix player stats as base stats and equipment stats are separate
     player = helper.combinePlayerStats(player)
@@ -362,7 +371,7 @@ def results():
 
     #Give winnings
     playerWon = False
-    if battleLog['winner'] == player['name']:
+    if battleLog['winner'] == player['name'] and travelInfo['typeOfEvent'] != 'arena':
         playerWon = True
 
         #Check if the entity will drop something
@@ -386,12 +395,22 @@ def results():
             travelInfo['droppedLoot'] = 0
 
     #Give the player the rewards
-    playerLevel = helper.completePlayerEvent(playerId, playerWon, player, monster, travelInfo)
-    playerLevel = playerLevel[0]['player_level']
+    if travelInfo['typeOfEvent'] == 'arena':
+        if battleLog['winner'] == player['name']:
+            winnerId = player['player_id']
+            loserId = monster['player_id']
+        else:
+            loserId = player['player_id']
+            winnerId = monster['player_id']
 
-    #Check for level ups
-    if session['playerLevel'] != playerLevel:
-        session['playerLevel'] = playerLevel
+        database.processArenaHonor(player['player_id'], winnerId, loserId, travelInfo['honor'], travelInfo['honor'] - 3)
+    else:
+        playerLevel = helper.completePlayerEvent(playerId, playerWon, player, monster, travelInfo)
+        playerLevel = playerLevel[0]['player_level']
+
+        #Check for level ups
+        if session['playerLevel'] != playerLevel:
+            session['playerLevel'] = playerLevel
 
     #Remove travel information to generate new events
     helper.removePlayerTravelInfo(playerId)
@@ -498,9 +517,36 @@ def arena():
 
     #If they do not have active opponents, create some and reload the arena page
     else:
-        helper.createArenaOpponents(playerId)
+        database.createArenaOpponents(playerId)
         
         return redirect(url_for('arena'))
+
+
+@app.route('/startArenaFight', methods=['POST'])
+def startArenaFight():
+
+    playerId = session['playerId']
+    opponentId = request.form['opponentId']
+
+    #If the player isn't travelling already, proceed
+    travelInfo = helper.getPlayerTravelInfo(playerId)
+
+    if travelInfo == {}:
+        #Get the player stats and add travel info - assuming they have enough attempts
+        player = database.getPlayerStats(playerId)
+        helper.addArenaFightToTravelInfo(player, playerId, opponentId)
+
+        #Get the travel info again to ensure they have arena attempts
+        travelInfo = helper.getPlayerTravelInfo(playerId)
+
+        #Check if player has bounty attempts - if not remove them from the travel dict
+        if player['arena_attempts'] <= 0:
+            helper.removePlayerTravelInfo(playerId)
+            return Response('NO_ATTEMPTS', status=201)
+
+        return Response('START_ARENA', status=201)
+
+    return Response('ALREADY_IN_EVENT', status=201)
 
 
 #===============================

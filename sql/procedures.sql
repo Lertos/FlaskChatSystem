@@ -401,7 +401,7 @@ CREATE PROCEDURE usp_get_player_info
 BEGIN
 
 	IF EXISTS (SELECT * FROM player_inventories WHERE player_id = p_player_id AND equipped = 1) THEN
-		SELECT a.display_name AS name, a.class_name, a.file_name, a.player_level AS level, a.stamina, a.honor, a.gold, a.blessing, a.bounty_attempts, a.dungeon_attempts, a.arena_attempts,
+		SELECT a.player_id, a.display_name AS name, a.class_name, a.file_name, a.player_level AS level, a.stamina, a.honor, a.gold, a.blessing, a.bounty_attempts, a.dungeon_attempts, a.arena_attempts,
 			a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, 
 			SUM(b.strength) AS equip_strength, SUM(b.dexterity) AS equip_dexterity, SUM(b.intelligence) AS equip_intelligence, SUM(b.constitution) AS equip_constitution, SUM(b.luck) AS equip_luck, 
 			SUM(b.damage) AS damage, SUM(b.armor) AS armor
@@ -409,7 +409,7 @@ BEGIN
 		LEFT JOIN player_inventories b on a.player_id = b.player_id
 		WHERE a.player_id = p_player_id AND b.equipped = 1;
 	ELSE
-		SELECT display_name AS name, class_name, file_name, player_level AS level, stamina, honor, gold, blessing, bounty_attempts, dungeon_attempts, arena_attempts,
+		SELECT player_id, display_name AS name, class_name, file_name, player_level AS level, stamina, honor, gold, blessing, bounty_attempts, dungeon_attempts, arena_attempts,
 			strength, dexterity, intelligence, constitution, luck, 
 			0 AS equip_strength, 0 AS equip_dexterity, 0 AS equip_intelligence, 0 AS equip_constitution, 0 AS equip_luck, 
 			0 AS damage, 0 AS armor
@@ -830,7 +830,8 @@ CREATE PROCEDURE usp_get_arena_opponents
 BEGIN
 
 	SELECT a.player_id, a.display_name, a.class_name, a.file_name, a.player_level, a.honor,
-    (a.strength + SUM(IFNULL(c.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(c.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(c.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(c.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(c.luck,0))) AS luck
+    (a.strength + SUM(IFNULL(c.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(c.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(c.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(c.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(c.luck,0))) AS luck,
+    SUM(IFNULL(c.damage,0)) AS damage, SUM(IFNULL(c.armor,0)) AS armor
 	FROM players a
     INNER JOIN arena_opponents b ON b.opponent_id = a.player_id
 	LEFT OUTER JOIN player_inventories c ON b.opponent_id  = c.player_id
@@ -841,3 +842,38 @@ END //
 DELIMITER ;
 
 #CALL usp_get_arena_opponents(4);
+
+
+/*==============================
+	usp_process_arena_honor
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_process_arena_honor;
+
+DELIMITER //
+CREATE PROCEDURE usp_process_arena_honor
+(
+	IN p_player_id SMALLINT,
+    IN p_winner_id SMALLINT,
+    IN p_loser_id SMALLINT,
+    IN p_winner_honor SMALLINT,
+    IN p_loser_honor SMALLINT
+)
+BEGIN
+
+	UPDATE players
+    SET arena_attempts = arena_attempts - 1
+    WHERE player_id = p_player_id;
+    
+    UPDATE players
+    SET honor = honor + p_winner_honor, arena_wins = arena_wins + 1
+    WHERE player_id = p_winner_id;
+    
+    UPDATE players
+    SET honor = honor - p_loser_honor
+    WHERE player_id = p_loser_id;
+    
+END //
+DELIMITER ;
+
+#CALL usp_process_arena_honor(1, 4, 20, 126);

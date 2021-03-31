@@ -320,6 +320,38 @@ def addBountyToTravelInfo(playerId, monsterId, multiplier):
     #print(travellingPlayers[playerId])
 
 
+#Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
+def addArenaFightToTravelInfo(player, playerId, opponentId):
+    opponents = database.getPlayerArenaOpponents(playerId)
+
+    #If the player doesn't have active opponents return
+    if opponents == []:
+        return
+
+    opponent = None
+
+    for i in range(0, len(opponents)):
+        if int(opponents[i]['player_id']) == int(opponentId):
+            opponent = opponents[i]
+            break
+
+    #If the opponentId was changed by the player then there won't be a opponent and return
+    if opponent == None:
+        return
+ 
+    #Add a new entry into the travelling dictionary
+    travellingPlayers[playerId] = {}
+    travellingPlayers[playerId] = opponent
+    travellingPlayers[playerId]['typeOfEvent'] = 'arena'
+
+    if player['honor'] > opponent['honor']:
+        honor = 9
+    else:
+        honor = 13
+
+    travellingPlayers[playerId]['honor'] = honor
+
+
 def getTimeLeftFromEpochTime(epochTimestamp):
     timeNow = int(time.time())
     return int(epochTimestamp) - timeNow

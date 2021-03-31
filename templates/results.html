@@ -53,6 +53,20 @@
 
                         {% if battleLog['winner'] != player['name'] %}
                             <h3 class='alignCenter textRed boldText '>YOU LOSE...</h3>
+
+                            {% if travelInfo['typeOfEvent'] == 'arena' %}
+                                <hr>
+
+                                <table class='lootTable alignCenter'>
+                                        <tr>
+                                            <td>
+                                                <img class='iconImg' src='/static/icons/icon_honor.png'>
+                                                <p class='textRed'>-{{ travelInfo["honor"] - 3 }}</p>
+                                            </td>
+                                        </tr>
+                                </table>
+                            {% endif %}
+
                         {% else %}
                             <h3 class='alignCenter textGreen boldText'>YOU WIN!</h3>
 
@@ -61,18 +75,27 @@
                             <h4 class='alignCenter boldText'>Rewards</h4>
                             
                             <table class='lootTable alignCenter'>
-                                <tr>
-                                    <td>
-                                        <img class='iconImg' src='/static/icons/icon_gold.png'>
-                                        <p>{{ travelInfo["gold"] }}</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img class='iconImg' src='/static/icons/icon_xp.png'>
-                                        <p>{{ travelInfo["xp"] }}</p>
-                                    </td>
-                                </tr>
+                                {% if travelInfo['typeOfEvent'] == 'arena' %}
+                                    <tr>
+                                        <td>
+                                            <img class='iconImg' src='/static/icons/icon_honor.png'>
+                                            <p class='textGreen'>+{{ travelInfo["honor"] }}</p>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td>
+                                            <img class='iconImg' src='/static/icons/icon_gold.png'>
+                                            <p>{{ travelInfo["gold"] }}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <img class='iconImg' src='/static/icons/icon_xp.png'>
+                                            <p>{{ travelInfo["xp"] }}</p>
+                                        </td>
+                                    </tr>
+                                {% endif %}
                                 {% if travelInfo['droppedLoot'] == 1 %}
                                     <tr>
                                         <td>
@@ -109,6 +132,8 @@
                         <img class='resizeImg128NoHover' src='/static/quest_avatars/{{ monster["file_name"] }}'>
                     {% elif travelInfo['typeOfEvent'] == 'bounty' %}
                         <img class='resizeImg128NoHover' src='/static/bounty_avatars/{{ monster["file_name"] }}'>
+                    {% elif travelInfo['typeOfEvent'] == 'arena' %}
+                        <img class='resizeImg128NoHover' src='/static/avatars/{{ monster["file_name"] }}'>
                     {% endif %}
 
                     <h3 id='entity2Name' class='alignCenter boldText'>{{ monster["name"] }}</h3>
