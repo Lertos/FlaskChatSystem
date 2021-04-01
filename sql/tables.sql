@@ -344,19 +344,18 @@ CREATE TABLE dungeon_monsters
     monster_name VARCHAR(30) NOT NULL,
     class_name VARCHAR(20) NOT NULL,
     file_name VARCHAR(40) NOT NULL,
-    gold SMALLINT NOT NULL,
-    xp SMALLINT NOT NULL,
-    drop_chance DECIMAL(4,3) NOT NULL,
-    item_drop_level SMALLINT NOT NULL,
+    monster_level SMALLINT NOT NULL,
+    gold INT NOT NULL,
+    xp INT NOT NULL,
     strength SMALLINT NOT NULL,
     dexterity SMALLINT NOT NULL,
     intelligence SMALLINT NOT NULL,
     constitution SMALLINT NOT NULL,
     luck SMALLINT NOT NULL,
+    damage SMALLINT NOT NULL,
+    armor SMALLINT NOT NULL,
     PRIMARY KEY (dungeon_monster_id)
 );
-
-INSERT INTO dungeon_monsters (dungeon_tier,dungeon_floor,monster_name,class_name,file_name,gold,xp,drop_chance,item_drop_level,strength,dexterity,intelligence,constitution,luck) VALUES (1, 1, 'Blaze', 'Fire Mage', 'blaze.png',20, 300, 0.45, 5, 10, 15, 30, 20, 10);
 
 #SELECT * FROM dungeon_monsters;
 

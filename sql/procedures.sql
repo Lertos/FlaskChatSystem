@@ -877,3 +877,59 @@ END //
 DELIMITER ;
 
 #CALL usp_process_arena_honor(1, 4, 20, 126);
+
+
+/*==============================
+	usp_get_player_dungeon_info
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_get_player_dungeon_info;
+
+DELIMITER //
+CREATE PROCEDURE usp_get_player_dungeon_info
+(
+	IN p_player_id SMALLINT
+)
+BEGIN
+
+	(SELECT a.* FROM dungeon_monsters a INNER JOIN player_dungeons b ON a.dungeon_floor = b.dungeon_tier_1_floor WHERE a.dungeon_tier = 1 AND b.player_id = p_player_id)
+    UNION
+    (SELECT a.* FROM dungeon_monsters a INNER JOIN player_dungeons b ON a.dungeon_floor = b.dungeon_tier_2_floor WHERE a.dungeon_tier = 2 AND b.player_id = p_player_id)
+    UNION
+    (SELECT a.* FROM dungeon_monsters a INNER JOIN player_dungeons b ON a.dungeon_floor = b.dungeon_tier_3_floor WHERE a.dungeon_tier = 3 AND b.player_id = p_player_id)
+    UNION
+    (SELECT a.* FROM dungeon_monsters a INNER JOIN player_dungeons b ON a.dungeon_floor = b.dungeon_tier_4_floor WHERE a.dungeon_tier = 4 AND b.player_id = p_player_id);
+
+END //
+DELIMITER ;
+
+#CALL usp_get_player_dungeon_info(4);
+
+
+/*==============================
+	usp_get_dungeon_monster_info
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_get_dungeon_monster_info;
+
+DELIMITER //
+CREATE PROCEDURE usp_get_dungeon_monster_info
+(
+	IN p_player_id SMALLINT,
+    IN p_tier_id TINYINT
+)
+BEGIN
+
+	SET @s = CONCAT(
+		'SELECT a.* ',
+        'FROM dungeon_monsters a ',
+        'INNER JOIN player_dungeons b ON a.dungeon_floor = b.dungeon_tier_', p_tier_id, '_floor ',
+        'WHERE a.dungeon_tier = ', p_tier_id, ' AND b.player_id = ', p_player_id, ';');
+
+	PREPARE stmt FROM @s;
+	EXECUTE stmt;
+
+END //
+DELIMITER ;
+
+#CALL usp_get_dungeon_monster_info(4,2);
