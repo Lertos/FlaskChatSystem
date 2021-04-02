@@ -10,28 +10,6 @@
     <div id='container'>
 
         <div class='background border spacing' style = 'display: inline-block;'>
-            <form id='form' action='#' method='POST'>
-                <div>
-                    <h3>Season </h3>
-                    <select name='season' id='season'>
-                        {% for season in seasonList %}
-                            <option value='{{ season["season"] }}'>{{ season['season'] }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class='divSameLineElements spacing'>
-                    <button class='themeMediumButton' boardType='level'>Level</button>
-                    <button class='themeMediumButton' boardType='honor'>Honor</button>
-                    <button class='themeMediumButton' boardType='arena'>Arena Wins</button>
-                    <button class='themeMediumButton' boardType='quest'>Quest Wins</button>
-                    <button class='themeMediumButton' boardType='bounty'>Bounty Wins</button>
-                    <button class='themeMediumButton' boardType='gold'>Gold Collected</button>
-                    <button class='themeMediumButton' boardType='items'>Items Collected</button>
-                </div>
-            </form>
-
-            <hr>
-
             <div>
                 {% if boardType == '' %}
                     <h3 class='boldText'>Press a Button Above</h3>
@@ -40,6 +18,27 @@
                     <h5>Season {{ season }}</h5>
                 {% endif %}
             </div>
+
+            <hr>
+
+            <form id='form' action='#' method='POST'>
+                <div>
+                    <select name='season' id='season'>
+                        {% for season in seasonList %}
+                            <option value='{{ season["season"] }}'>Season {{ season['season'] }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name='boardType' id='boardType'>
+                        <option value='level'>Level</option>
+                        <option value='honor'>Honor</option>
+                        <option value='arena'>Arena Wins</option>
+                        <option value='quest'>Quest Wins</option>
+                        <option value='bounty'>Bounty Wins</option>
+                        <option value='gold'>Gold Collected</option>
+                        <option value='items'>Items Collected</option>
+                    </select>
+                </div>
+            </form>
         </div>
 
         {% if boardType != '' %}
@@ -113,15 +112,14 @@
 <script>
 
     $(function(){
-        $('.themeMediumButton').on('click', function(){
-            var boardType = $(this).attr('boardType')
-            var season = $('#season option:selected').text()
+        $('#boardType').on('change', function() {
+            var boardType = this.value
+            var season = $('#season option:selected').val()
 
-            $('#form').submit(function(eventObj) {
-                $(this).append('<input type="hidden" name="season" value="' + season + '" /> ');
-                $(this).append('<input type="hidden" name="boardType" value="' + boardType + '" /> ');
-                return true;
-            });
+            var form = $('#form')
+            form.append('<input type="hidden" name="season" value="' + season + '" /> ');
+            form.append('<input type="hidden" name="boardType" value="' + boardType + '" /> ');
+            form.submit();
         })
     });
 

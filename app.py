@@ -561,7 +561,24 @@ def dungeons():
 
     playerId = session['playerId']
 
-    return render_template('dungeons.html')
+    #Check if the player is already travelling - if so, redirect them to the travel page
+    travelInfo = helper.getPlayerTravelInfo(playerId)
+
+    if travelInfo != {}:
+        return redirect(url_for('travel'))
+
+    #Get the players dungeon info
+    dungeonMonsters = database.getPlayerDungeonMonsters(playerId)
+    
+    #If they don't have it setup - return them to the dashboard gracefully
+    if dungeonMonsters == []:
+        return redirect(url_for('dashboard'))
+
+    #Get the player dungeon attempts
+    playerStats = database.getPlayerStats(playerId)
+    dungeonAttempts = playerStats['dungeon_attempts']
+
+    return render_template('dungeons.html', dungeonMonsters=dungeonMonsters, dungeonAttempts=dungeonAttempts)
 
 
 #===============================

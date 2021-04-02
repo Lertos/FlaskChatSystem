@@ -365,6 +365,13 @@ class MySQLPool(object):
       return result
 
 
+    def getPlayerDungeonMonsters(self, playerId):  
+      args = [playerId]
+      result = self.executeProcedureReturnList('usp_get_player_dungeon_info', commit=False, dictCursor=True, args=args)
+
+      return result
+
+
     def createArenaOpponents(self, playerId):  
       args = [playerId]
       self.executeProcedure('usp_create_arena_opponents', commit=True, args=args)
