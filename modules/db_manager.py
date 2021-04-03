@@ -160,7 +160,7 @@ class MySQLPool(object):
 
 
     def getSeasonList(self):
-      statement = '''SELECT season, upcoming, start_date FROM seasons;'''
+      statement = '''SELECT season, start_date FROM seasons;'''
       result = self.executeStatement(statement, commit=False, dictCursor=True, makeList=True, returnList=True, args=None)
 
       return result

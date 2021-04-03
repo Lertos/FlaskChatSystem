@@ -14,7 +14,7 @@ BEGIN
 	DELETE FROM active_quests;
     DELETE FROM active_bounties;
     
-    UPDATE players SET blessing = null;
+    UPDATE players SET blessing = null, stamina = 100, bounty_attempts = 3, dungeon_attempts = 5, arena_attempts = 10;
 
 END //
 DELIMITER ;

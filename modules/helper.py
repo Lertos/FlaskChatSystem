@@ -413,8 +413,7 @@ def createRandomQuestMonsters(playerId, playerStats):
         monsterStamina = random.randint(3,8)
 
         #Get a random travel time
-        #monsterTime = random.randint(30,300)
-        monsterTime = 2
+        monsterTime = random.randint(30,300)
 
         #Get random stats based on the players average stat
         stats = []
@@ -490,8 +489,7 @@ def createRandomBountyMonsters(playerId, playerStats):
         monsterDropChance = 0.5
 
         #Get a random travel time
-        #monsterTime = random.randint(30,300)
-        monsterTime = 2
+        monsterTime = random.randint(30,300)
 
         #Get random stats based on the players average stat
         stats = []

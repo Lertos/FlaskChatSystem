@@ -60,13 +60,11 @@ DROP TABLE IF EXISTS seasons;
 CREATE TABLE seasons
 (
     season SMALLINT NOT NULL UNIQUE,
-    upcoming TINYINT NOT NULL,
     start_date VARCHAR(40) NOT NULL,
 	PRIMARY KEY (season)
 );
 
-INSERT INTO seasons (season,upcoming,start_date) VALUES (1, 0, 'Mar-12-2021');
-INSERT INTO seasons (season,upcoming,start_date) VALUES (2, 1, 'Dec-23-2021');
+INSERT INTO seasons (season,start_date) VALUES (1, 'Mar-12-2021');
 
 
 /*==============================
