@@ -144,7 +144,8 @@ def dashboard():
 
     #For testing new items out
     if request.method == 'POST':
-        helper.debugCreateItems(playerId, session['className'], 21, playerLevel, playerLevel)
+        pass
+        #helper.debugCreateItems(playerId, session['className'], 21, playerLevel, playerLevel)
 
     player = database.getDashboardDetails(playerId)
     classInfo = helper.getClassInfo(session['className'])

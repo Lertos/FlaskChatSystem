@@ -38,13 +38,6 @@ CREATE TABLE players
     PRIMARY KEY (player_id)
 );
 
-DELIMITER //
-CREATE TRIGGER create_player_dungeons AFTER INSERT ON players FOR EACH ROW
-BEGIN
-	INSERT INTO player_dungeons (player_id) VALUES (NEW.player_id);
-END //
-DELIMITER ;
-
 DELETE FROM player_inventories;
 DELETE FROM player_dungeons;
 DELETE FROM arena_opponents;
