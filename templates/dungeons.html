@@ -22,13 +22,13 @@
             {% for monster in dungeonMonsters %}
                 <div class='sidePanel background border spacing'>
                     <div>
-                        {% if loop.index0 == 0 %}
+                        {% if monster['dungeon_tier'] == 1 %}
                             <h4 class='alignCenter'><strong>Forgotten Dungeon</strong></h4>
-                        {% elif loop.index0 == 1 %}
+                        {% elif monster['dungeon_tier'] == 2 %}
                             <h4 class='alignCenter'><strong>Magical Dungeon</strong></h4>
-                        {% elif loop.index0 == 2 %}
+                        {% elif monster['dungeon_tier'] == 3 %}
                             <h4 class='alignCenter'><strong>Dark Dungeon</strong></h4>
-                        {% elif loop.index0 == 3 %}
+                        {% elif monster['dungeon_tier'] == 4 %}
                             <h4 class='alignCenter'><strong>Mystical Dungeon</strong></h4>
                         {% endif %}
                         <h5 class='alignCenter'><strong>Floor</strong> {{ monster['dungeon_floor'] }} / 13</h5>

@@ -905,7 +905,6 @@ DELIMITER ;
 
 #CALL usp_get_player_dungeon_info(4);
 
-
 /*==============================
 	usp_get_dungeon_monster_info
 ==============================*/

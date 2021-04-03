@@ -844,9 +844,9 @@ INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Many-Eye
 INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Demon Spoder','Blood Mage','spider (2).png');
 INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Spitter Spoder','Scout','spider (3).png');
 INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Hint-ai','Rogue','tentacle.png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Cyclops','Berserker','troll (1).png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Cyclops','Fencer','troll (2).png');
-INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Cyclops','Magic Knight','troll (3).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Troll Brawler','Berserker','troll (1).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Troll Thief','Fencer','troll (2).png');
+INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Troll Chief','Magic Knight','troll (3).png');
 INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('The Wise One','Warrior','turtle.png');
 INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Damned King','Demon Hunter','vampire.png');
 INSERT INTO quest_monsters (monster_name,class_name,file_name) VALUES ('Were-bear','Berserker','werewolf.png');
