@@ -17,6 +17,13 @@
             </div>
         </div>
 
+        <div hidden class='popupParent'>
+            <div class='background border spacing popupChild'>
+                <h3>You don't have enough dungeon keys</h3>
+                <button id='popupButton' class='themeSmallButton'>Go Away</button>
+            </div>
+        </div>
+
         <div>
 
             {% for monster in dungeonMonsters %}
@@ -35,7 +42,7 @@
 
                         <hr>
 
-                        <img class='resizeImg128' src='/static/dungeon_avatars/{{ monster["file_name"] }}'>
+                        <img class='resizeImg128' dungeonTier='{{ monster["dungeon_tier"] }}' src='/static/dungeon_avatars/{{ monster["file_name"] }}'>
 
                         <h3 class='alignCenter'><strong>{{ monster['monster_name'] }}</strong> ({{ monster['monster_level'] }})</h3>
                         <h5 class='alignCenter'><strong>{{ monster['class_name'] }}</strong></h5>
@@ -96,4 +103,38 @@
         </div>
     </div>
 	
+{% endblock %}
+
+{% block script %}
+
+<script type='text/javascript' src='{{ url_for("static", filename="jquery.js") }}'></script>
+
+<script>
+
+    $(function() {
+
+        $('#popupButton').on('click', function(){
+            $('.popupParent').attr('hidden', true);
+        });
+
+        $('.resizeImg128').on('click', function(){
+            var dungeonTier = $(this).attr('dungeonTier');
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ url_for("startDungeon") }}',
+                data: {'dungeonTier': dungeonTier},
+                success: function (response) {
+                    if(response == 'NO_KEYS')
+                        $('.popupParent').removeAttr('hidden');
+                    else if(response == 'ALREADY_IN_EVENT')
+                        return
+                    else
+                        window.location = '{{ url_for("results") }}';
+                }
+            });
+        });
+    })
+
+</script>
 {% endblock %}

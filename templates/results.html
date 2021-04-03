@@ -134,6 +134,8 @@
                         <img class='resizeImg128NoHover' src='/static/bounty_avatars/{{ monster["file_name"] }}'>
                     {% elif travelInfo['typeOfEvent'] == 'arena' %}
                         <img class='resizeImg128NoHover' src='/static/avatars/{{ monster["file_name"] }}'>
+                    {% elif travelInfo['typeOfEvent'] == 'dungeon' %}
+                        <img class='resizeImg128NoHover' src='/static/dungeon_avatars/{{ monster["file_name"] }}'>
                     {% endif %}
 
                     <h3 id='entity2Name' class='alignCenter boldText'>{{ monster["name"] }}</h3>

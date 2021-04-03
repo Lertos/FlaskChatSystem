@@ -338,11 +338,14 @@ class MySQLPool(object):
       return result
 
     
-    def givePlayerQuestRewards(self, playerId, stamina, gold, xp):
+    def givePlayerQuestRewards(self, playerId, stamina, gold, xp, travelType, dungeonTier):
       args = [playerId, stamina, gold, xp]
 
-      if stamina == 0:
+      if travelType == 'bounty':
         result = self.executeProcedureReturnList('usp_give_player_bounty_rewards', commit=True, dictCursor=True, args=args)
+      elif travelType == 'dungeon':
+        args.append(dungeonTier)
+        result = self.executeProcedureReturnList('usp_give_player_dungeon_rewards', commit=True, dictCursor=True, args=args)
       else:
         result = self.executeProcedureReturnList('usp_give_player_quest_rewards', commit=True, dictCursor=True, args=args)
 
@@ -394,6 +397,13 @@ class MySQLPool(object):
       result = self.executeProcedureReturnList('usp_get_arena_opponents', commit=False, dictCursor=True, args=args)
 
       return result
+
+
+    def getDungeonMonsterInfo(self, playerId, dungeonTier):
+      args = [playerId, dungeonTier]
+      result = self.executeProcedureReturnList('usp_get_dungeon_monster_info', commit=False, dictCursor=True, args=args)
+
+      return result[0]
 
   
     def doesPlayerHaveInventorySpace(self, playerId):

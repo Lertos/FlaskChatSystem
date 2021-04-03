@@ -559,6 +559,55 @@ DELIMITER ;
 
 
 /*==============================
+	usp_give_player_dungeon_rewards
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_give_player_dungeon_rewards;
+
+DELIMITER //
+CREATE PROCEDURE usp_give_player_dungeon_rewards
+(
+	IN p_player_id SMALLINT,
+    IN p_stamina TINYINT,
+    IN p_gold INT,
+    IN p_xp INT,
+    IN p_dungeon_tier TINYINT
+)
+BEGIN
+
+	DECLARE v_exp_until_level INT;
+
+	SET @s = CONCAT('UPDATE player_dungeons SET dungeon_tier_', p_dungeon_tier, '_floor = dungeon_tier_', p_dungeon_tier, '_floor + 1 WHERE player_id = ', p_player_id, ';');
+
+	PREPARE stmt FROM @s;
+    
+	IF (p_gold > 0 AND p_xp > 0) THEN EXECUTE stmt;
+    END IF;
+
+	UPDATE players
+    SET dungeon_attempts = dungeon_attempts - 1, gold = gold + p_gold, exp_until_level = exp_until_level - p_xp, gold_collected = gold_collected + p_gold
+    WHERE player_id = p_player_id;
+
+	SET v_exp_until_level = (
+		SELECT exp_until_level 
+		FROM players 
+		WHERE player_id = p_player_id
+    );
+    
+    IF v_exp_until_level <= 0 THEN CALL usp_player_level_up(p_player_id);
+    END IF;
+    
+    SELECT player_level
+    FROM players
+    WHERE player_id = p_player_id;
+    
+END //
+DELIMITER ;
+
+#CALL usp_give_player_dungeon_rewards(1, 4, 20, 126);
+
+
+/*==============================
 	usp_player_level_up
 ==============================*/
 
@@ -920,7 +969,7 @@ CREATE PROCEDURE usp_get_dungeon_monster_info
 BEGIN
 
 	SET @s = CONCAT(
-		'SELECT a.* ',
+		'SELECT a.*, a.monster_level AS level, a.monster_name AS name ',
         'FROM dungeon_monsters a ',
         'INNER JOIN player_dungeons b ON a.dungeon_floor = b.dungeon_tier_', p_tier_id, '_floor ',
         'WHERE a.dungeon_tier = ', p_tier_id, ' AND b.player_id = ', p_player_id, ';');

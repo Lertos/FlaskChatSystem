@@ -239,6 +239,7 @@ def removePlayerTravelInfo(playerId):
 def completePlayerEvent(playerId, playerWon, playerInfo, monsterInfo, travelInfo):
     gold = 0
     xp = 0
+    dungeonTier = None
 
     if playerWon:
         gold = monsterInfo['gold']
@@ -249,10 +250,12 @@ def completePlayerEvent(playerId, playerWon, playerInfo, monsterInfo, travelInfo
 
     if travelInfo['typeOfEvent'] == 'quest':
         stamina = monsterInfo['stamina']
-    elif travelInfo['typeOfEvent'] == 'bounty':
+    elif travelInfo['typeOfEvent'] == 'bounty' or travelInfo['typeOfEvent'] == 'dungeon':
+        if travelInfo['typeOfEvent'] == 'dungeon':
+            dungeonTier = travelInfo['dungeon_tier']
         stamina = 0
 
-    return database.givePlayerQuestRewards(playerId, stamina, gold, xp)
+    return database.givePlayerQuestRewards(playerId, stamina, gold, xp, travelInfo['typeOfEvent'], dungeonTier)
 
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
@@ -350,6 +353,20 @@ def addArenaFightToTravelInfo(player, playerId, opponentId):
         honor = 13
 
     travellingPlayers[playerId]['honor'] = honor
+
+
+#Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
+def addDungeonToTravelInfo(playerId, dungeonTier):
+    monster = database.getDungeonMonsterInfo(playerId, dungeonTier)
+
+    #If the dungeon monster doesn't exist return
+    if monster == []:
+        return
+ 
+    #Add a new entry into the travelling dictionary
+    travellingPlayers[playerId] = {}
+    travellingPlayers[playerId] = monster
+    travellingPlayers[playerId]['typeOfEvent'] = 'dungeon'
 
 
 def getTimeLeftFromEpochTime(epochTimestamp):

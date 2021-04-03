@@ -356,8 +356,7 @@ def results():
         monster = database.getPlayerStats(travelInfo['player_id'])
         monster = helper.combinePlayerStats(monster)
     elif travelInfo['typeOfEvent'] == 'dungeon':
-        #monster = helper.createMonsterForBattle(player, playerId, travelInfo)
-        pass
+        monster = travelInfo
     else:
         monster = helper.createMonsterForBattle(player, playerId, travelInfo)
 
@@ -377,6 +376,8 @@ def results():
         #Check if the entity will drop something
         if travelInfo['typeOfEvent'] == 'bounty':
             dropChance = monster['drop_chance']
+        elif travelInfo['typeOfEvent'] == 'dungeon':
+            dropChance = 1.0
         else:
             #Apply any blessings of the player
             blessing = database.getActiveBlessing(playerId)
@@ -579,6 +580,33 @@ def dungeons():
     dungeonAttempts = playerStats['dungeon_attempts']
 
     return render_template('dungeons.html', dungeonMonsters=dungeonMonsters, dungeonAttempts=dungeonAttempts)
+
+
+@app.route('/startDungeon', methods=['POST'])
+def startDungeon():
+
+    playerId = session['playerId']
+    dungeonTier = request.form['dungeonTier']
+
+    #If the player isn't travelling already, proceed
+    travelInfo = helper.getPlayerTravelInfo(playerId)
+
+    if travelInfo == {}:
+        #Get the player stats and add travel info - assuming they have enough keys
+        player = database.getPlayerStats(playerId)
+        helper.addDungeonToTravelInfo(playerId, dungeonTier)
+
+        #Get the travel info again to ensure they have dungeon keys
+        travelInfo = helper.getPlayerTravelInfo(playerId)
+
+        #Check if player has bounty attempts - if not remove them from the travel dict
+        if player['dungeon_attempts'] <= 0:
+            helper.removePlayerTravelInfo(playerId)
+            return Response('NO_KEYS', status=201)
+
+        return Response('START_DUNGEON', status=201)
+
+    return Response('ALREADY_IN_EVENT', status=201)
 
 
 #===============================
