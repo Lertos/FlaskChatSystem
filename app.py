@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request, url_for, session, Response
 from modules import db_manager, helper, combat, validation
-import random
+import random, time, os
 
 
 #===============================
@@ -13,9 +13,11 @@ import random
 app = Flask(__name__)
 
 app.config['JSON_AS_ASCII'] = False
-app.secret_key = b'\xe4$Y2\xd5\xbb_\xab#\xfd*\x1e\xe2v\xa8J'
+app.secret_key = os.urandom(24)
+
 
 database = db_manager.mysql_pool
+
 
 
 #===============================
@@ -27,7 +29,7 @@ database = db_manager.mysql_pool
 
 @app.route("/")
 def index():
-    #If the session DOES exist, they are already logged in - send them to their dashboard
+    #If session exists - they are already logged in; send to dashboard
     if 'playerId' in session:
         return redirect(url_for('dashboard'))
     else:
@@ -42,13 +44,20 @@ def index():
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
+
     if request.method == 'POST':
+
+        if 'playerId' in session:
+            session.pop('playerId', None)
+            session.pop('className', None)
+            session.pop('playerLevel', None)
+            session.pop('displayName', None)
 
         username = request.form['username']
         password = request.form['password']
 
         result = database.getPlayerLogin(username, password)
-        
+
         #If the statement returned anything (meaning the combo exists) - log them in
         if(result != {}):
             session['playerId'] = result['player_id']
@@ -72,9 +81,6 @@ def signin():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    
-    if 'playerId' not in session:
-        return redirect(url_for('signin'))
 
     seasonList = helper.seasonList
 
@@ -110,7 +116,7 @@ def signup():
             return render_template('signup.html', errorMessage=errorMessage, seasonList=seasonList)
 
         #Take them to the character creation screen
-        return redirect(url_for('characterCreation'))
+        return redirect(url_for('signin'))
 
     else:
         return render_template('signup.html', errorMessage='', seasonList=seasonList)
@@ -121,7 +127,7 @@ def characterCreation():
     if request.method == 'POST':
         data = [request.form['className'], request.form['avatarName'], session['playerId']]
         database.createNewCharacter(data)
-        
+
         session['className'] = request.form['className']
         session['playerLevel'] = 1
 
@@ -137,25 +143,25 @@ def characterCreation():
 #===============================
 
 
-@app.route('/dashboard', methods=['GET', 'POST'])
+#@app.route('/dashboard', methods=['GET','POST'])
+@app.route('/dashboard', methods=['GET'])
 def dashboard():
 
     if 'playerId' not in session:
         return redirect(url_for('signin'))
 
     playerId = session['playerId']
-    playerLevel = session['playerLevel']
+    #playerLevel = session['playerLevel']
 
     #For testing new items out
-    if request.method == 'POST':
-        pass
+    #if request.method == 'POST':
+    #    pass
         #helper.debugCreateItems(playerId, session['className'], 21, playerLevel, playerLevel)
 
     player = database.getDashboardDetails(playerId)
     classInfo = helper.getClassInfo(session['className'])
     equippedItems = database.getPlayerEquippedItems(playerId)
     items = database.getPlayerInventory(playerId)
-
 
     return render_template('dashboard.html', player=player, classInfo=classInfo, equippedItems=equippedItems, items=items)
 
@@ -212,6 +218,7 @@ def upgradeStats():
     if 'playerId' not in session:
         return redirect(url_for('signin'))
 
+
     playerId = session['playerId']
     stats = [request.form['totalStrength'], request.form['totalDexterity'], request.form['totalIntelligence'], request.form['totalConstitution'], request.form['totalLuck']]
 
@@ -219,13 +226,10 @@ def upgradeStats():
     spentGold = validation.canAffordUpgrades(playerId, stats)
 
     if spentGold != -1:
-        #Make the changes in the database
+        #Only make the changes in the database if they didn't alter anything
         database.upgradePlayerStats(playerId, spentGold, stats)
-        return Response('', status=201)
-    else:
-        #Dont make the changes and just reload the page - they know what they did -.-
-        return Response('', status=201)
 
+    return Response('', status=201)
 
 #===============================
 
@@ -242,11 +246,15 @@ def quests():
 
     playerId = session['playerId']
 
-    #Check if the player is already travelling - if so, redirect them to the travel page
+    #Check if the player travelling for another event
     travelInfo = helper.getPlayerTravelInfo(playerId)
 
     if travelInfo != {}:
-        return redirect(url_for('travel'))
+
+        if travelInfo['typeOfEvent'] == 'arena' or travelInfo['typeOfEvent'] == 'dungeon':
+            return redirect(url_for('results'))
+        elif travelInfo['typeOfEvent'] == 'bounty' or travelInfo['typeOfEvent'] == 'quest':
+            return redirect(url_for('travel'))
 
     #Check if the player has active quests
     questMonsters = database.getPlayerQuestMonsters(playerId)
@@ -262,7 +270,7 @@ def quests():
     else:
         playerStats = database.getPlayerStats(playerId)
         helper.createRandomQuestMonsters(playerId, playerStats)
-        
+
         return redirect(url_for('quests'))
 
 
@@ -291,9 +299,9 @@ def startQuest():
             helper.removePlayerTravelInfo(playerId)
             return Response('NO_STAMINA', status=201)
 
-        return Response('START_QUEST', status=201)
+        return Response('START_QUEST', status=203)
 
-    return Response('ALREADY_IN_EVENT', status=201)
+    return Response('ALREADY_IN_EVENT', status=202)
 
 
 #===============================
@@ -310,17 +318,39 @@ def travel():
         return redirect(url_for('signin'))
 
     playerId = session['playerId']
+
     #If player is not travelling - redirect to dashboard
     travelInfo = helper.getPlayerTravelInfo(playerId)
-    
 
     if travelInfo == {}:
+        '''
+        #Try again but cap it so it isn't infinite
+        retryAttemtps = 1
+
+        while(travelInfo == {}):
+            time.sleep(1)
+            travelInfo = helper.getPlayerTravelInfo(playerId)
+
+            if retryAttemtps == 0:
+                break
+            retryAttemtps -= 1
+
+        if retryAttemtps == 0:
+            print('==ERROR: Travel timed out')
+        '''
+        print('==ERROR: Travel redirect to dashboard')
         return redirect(url_for('dashboard'))
+
+    #Check for travel types that should not be here
+    if travelInfo['typeOfEvent'] == 'arena' or travelInfo['typeOfEvent'] == 'dungeon':
+        print('==ERROR: Arena and/or dungeon travel info trying to be used in /travel')
+        return redirect(url_for('results'))
 
     #Get the time left from the end of the travel
     timeLeft = helper.getTimeLeftFromEpochTime(travelInfo['travel_time'])
 
     if timeLeft <= 0:
+        print('==GOOD: Travel redirect to result as time is up')
         return redirect(url_for('results'))
 
     return render_template('travel.html', travelInfo=travelInfo, timeLeft=timeLeft)
@@ -338,7 +368,22 @@ def eventDone():
     travelInfo = helper.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
-        return Response('', status=400)
+        #Try again but cap it so it isn't infinite
+        '''
+        retryAttemtps = 1
+
+        while(travelInfo == {}):
+            time.sleep(1)
+            travelInfo = helper.getPlayerTravelInfo(playerId)
+
+            if retryAttemtps == 0:
+                break
+            retryAttemtps -= 1
+
+        if retryAttemtps == 0:
+        '''
+        print('==ERROR: /eventDone had no travel info')
+        return Response('', status=202)
 
     #Get the time left from the end of the travel
     timeLeft = helper.getTimeLeftFromEpochTime(travelInfo['travel_time'])
@@ -346,7 +391,7 @@ def eventDone():
     if timeLeft <= 0:
         return Response('', status=201)
 
-    return Response('', status=400)
+    return Response('', status=203)
 
 
 @app.route('/cancelEvent', methods=['POST'])
@@ -357,6 +402,7 @@ def cancelEvent():
 
     playerId = session['playerId']
 
+    print('==GOOD: Cancelling Event', playerId)
     #Remove the player from the travel dict
     helper.removePlayerTravelInfo(playerId)
 
@@ -451,6 +497,8 @@ def results():
         if session['playerLevel'] != playerLevel:
             session['playerLevel'] = playerLevel
 
+    print('==GOOD: RESULTS - Removing Travel Info', playerId)
+
     #Remove travel information to generate new events
     helper.removePlayerTravelInfo(playerId)
 
@@ -471,16 +519,19 @@ def bounties():
         return redirect(url_for('signin'))
 
     playerId = session['playerId']
-    
+
     #Check if the player is high enough level to try bounties
     if session['playerLevel'] < 10:
         return render_template('bounties.html', bountyMonsters=None, bountyAttempts=None, unlocked=False)
 
-    #Check if the player is already travelling - if so, redirect them to the travel page
+    #Check if the player travelling for another event
     travelInfo = helper.getPlayerTravelInfo(playerId)
 
     if travelInfo != {}:
-        return redirect(url_for('travel'))
+        if travelInfo['typeOfEvent'] == 'arena' or travelInfo['typeOfEvent'] == 'dungeon':
+            return redirect(url_for('results'))
+        elif travelInfo['typeOfEvent'] == 'quest' or travelInfo['typeOfEvent'] == 'bounty':
+            return redirect(url_for('travel'))
 
     #Check if the player has active bounties
     bountyMonsters = database.getPlayerBountyMonsters(playerId)
@@ -496,7 +547,7 @@ def bounties():
     else:
         playerStats = database.getPlayerStats(playerId)
         helper.createRandomBountyMonsters(playerId, playerStats)
-        
+
         return redirect(url_for('bounties'))
 
 
@@ -546,11 +597,14 @@ def arena():
 
     playerId = session['playerId']
 
-    #Check if the player is already travelling - if so, redirect them to the travel page
+    #Check if the player travelling for another event
     travelInfo = helper.getPlayerTravelInfo(playerId)
 
     if travelInfo != {}:
-        return redirect(url_for('travel'))
+        if travelInfo['typeOfEvent'] == 'dungeon' or travelInfo['typeOfEvent'] == 'arena':
+            return redirect(url_for('results'))
+        elif travelInfo['typeOfEvent'] == 'quest' or travelInfo['typeOfEvent'] == 'bounty':
+            return redirect(url_for('travel'))
 
     #Check if the player has active opponents
     opponents = database.getPlayerArenaOpponents(playerId)
@@ -566,7 +620,7 @@ def arena():
     #If they do not have active opponents, create some and reload the arena page
     else:
         database.createArenaOpponents(playerId)
-        
+
         return redirect(url_for('arena'))
 
 
@@ -595,9 +649,9 @@ def startArenaFight():
             helper.removePlayerTravelInfo(playerId)
             return Response('NO_ATTEMPTS', status=201)
 
-        return Response('START_ARENA', status=201)
+        return Response('START_ARENA', status=203)
 
-    return Response('ALREADY_IN_EVENT', status=201)
+    return Response('ALREADY_IN_EVENT', status=202)
 
 
 #===============================
@@ -615,17 +669,21 @@ def dungeons():
 
     playerId = session['playerId']
 
-    #Check if the player is already travelling - if so, redirect them to the travel page
+    #Check if the player travelling for another event
     travelInfo = helper.getPlayerTravelInfo(playerId)
 
     if travelInfo != {}:
-        return redirect(url_for('travel'))
+        if travelInfo['typeOfEvent'] == 'arena' or travelInfo['typeOfEvent'] == 'dungeon':
+            return redirect(url_for('results'))
+        elif travelInfo['typeOfEvent'] == 'quest' or travelInfo['typeOfEvent'] == 'bounty':
+            return redirect(url_for('travel'))
 
     #Get the players dungeon info
     dungeonMonsters = database.getPlayerDungeonMonsters(playerId)
-    
+
     #If they don't have it setup - return them to the dashboard gracefully
     if dungeonMonsters == []:
+        print('==ERROR: Player doesnt have dungeons...')
         return redirect(url_for('dashboard'))
 
     #Get the player dungeon attempts
@@ -660,9 +718,9 @@ def startDungeon():
             helper.removePlayerTravelInfo(playerId)
             return Response('NO_KEYS', status=201)
 
-        return Response('START_DUNGEON', status=201)
+        return Response('START_DUNGEON', status=203)
 
-    return Response('ALREADY_IN_EVENT', status=201)
+    return Response('ALREADY_IN_EVENT', status=202)
 
 
 #===============================
@@ -725,7 +783,7 @@ def leaderboard():
 
         header = boardData[0]
         data = boardData[1]
-        
+
         return render_template('leaderboard.html', seasonList=seasonList, boardType=boardType, season=season, header=header, data=data, displayName=session['displayName'])
 
     return render_template('leaderboard.html', seasonList=seasonList, boardType='')
@@ -737,7 +795,6 @@ def logout():
     session.pop('className', None)
     session.pop('playerLevel', None)
     session.pop('displayName', None)
-
     return redirect(url_for('signin'))
 
 

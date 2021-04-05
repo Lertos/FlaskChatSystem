@@ -33,33 +33,33 @@ bountyMonstersToSpawn = 3
 leaderboardInfo = {
         'level': {
             'header': 'Highest Level',
-            'procedure': 'usp_leaderboard_get_highest_level'   
+            'procedure': 'usp_leaderboard_get_highest_level'
         },
         'honor': {
             'header': 'Highest Honor',
-            'procedure': 'usp_leaderboard_get_highest_honor'   
+            'procedure': 'usp_leaderboard_get_highest_honor'
         },
         'arena': {
             'header': 'Most Arena Wins',
-            'procedure': 'usp_leaderboard_get_highest_arena_wins'   
+            'procedure': 'usp_leaderboard_get_highest_arena_wins'
         },
         'quest': {
             'header': 'Most Quests Completed',
-            'procedure': 'usp_leaderboard_get_highest_quests_finished'   
+            'procedure': 'usp_leaderboard_get_highest_quests_finished'
         },
         'bounty': {
             'header': 'Most Bounties Completed',
-            'procedure': 'usp_leaderboard_get_highest_bounties_finished'   
+            'procedure': 'usp_leaderboard_get_highest_bounties_finished'
         },
         'gold': {
             'header': 'Most Gold Collected',
-            'procedure': 'usp_leaderboard_get_highest_gold_collected'   
+            'procedure': 'usp_leaderboard_get_highest_gold_collected'
         },
         'items': {
             'header': 'Most Items Collected',
-            'procedure': 'usp_leaderboard_get_highest_items_collected'   
+            'procedure': 'usp_leaderboard_get_highest_items_collected'
         }
-    } 
+    }
 
 #===============================
 
@@ -74,7 +74,7 @@ def createItem(playerId, playerClass, level):
 
     #Item Prefix
     itemPrefixId = getItemPrefix(isWeapon)
-    
+
     #Item Rarity
     itemRarity = getItemRarity()
     rarityMultiplier = itemRarities[itemRarity]['multiplier']
@@ -183,7 +183,7 @@ def reduceItemStats(itemDamage, itemArmor, itemStats):
 def getItemArmor(level, itemTypeId, itemPrefixId, rarityMultiplier):
     armorPerLevel = itemTypes[itemTypeId]['armor_per_level']
     armor = level * armorPerLevel
-    
+
     armorMultiplier = armorPrefixes[itemPrefixId]['armor_mult']
 
     armor = float(armor * rarityMultiplier * armorMultiplier)
@@ -233,8 +233,11 @@ def getPlayerTravelInfo(playerId):
 
 #Remove the player from the travel info dictionary
 def removePlayerTravelInfo(playerId):
+    print('######################REMOVE - START', playerId, travellingPlayers)
     if playerId in travellingPlayers:
         travellingPlayers.pop(playerId, None)
+    print('######################REMOVE - END', playerId, travellingPlayers)
+
 
 
 #After a player completes an event, process the rewards/stamina usage
@@ -246,7 +249,7 @@ def completePlayerEvent(playerId, playerWon, playerInfo, monsterInfo, travelInfo
     if playerWon:
         gold = monsterInfo['gold']
         xp = monsterInfo['xp']
-        
+
         if travelInfo['droppedLoot'] == 1:
             createItem(playerId, playerInfo['class_name'], playerInfo['level'])
 
@@ -262,6 +265,8 @@ def completePlayerEvent(playerId, playerWon, playerInfo, monsterInfo, travelInfo
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
 def addQuestToTravelInfo(playerId, monsterId):
+    print('===AddQuestTravelInfo - Start of function')
+
     questMonsters = database.getPlayerQuestMonsters(playerId)
 
     #If the player doesn't have active quests return
@@ -282,18 +287,20 @@ def addQuestToTravelInfo(playerId, monsterId):
     #Calculate the unix time so that it can be accurate when the travel page loads
     timeNow = int(time.time())
     endTime = timeNow + int(monster['travel_time'])
-    
+
     #Add a new entry into the travelling dictionary
     travellingPlayers[playerId] = {}
     travellingPlayers[playerId] = monster
     travellingPlayers[playerId]['travel_time'] = endTime
     travellingPlayers[playerId]['typeOfEvent'] = 'quest'
 
-    #print(travellingPlayers[playerId])
+    print('===AddQuestTravelInfo - End of function', travellingPlayers[playerId])
 
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
 def addBountyToTravelInfo(playerId, monsterId, multiplier):
+    print('===AddBountyTravelInfo - Start of function')
+
     bountyMonsters = database.getPlayerBountyMonsters(playerId)
 
     #If the player doesn't have active bounties return
@@ -314,7 +321,7 @@ def addBountyToTravelInfo(playerId, monsterId, multiplier):
     #Calculate the unix time so that it can be accurate when the travel page loads
     timeNow = int(time.time())
     endTime = timeNow + int(monster['travel_time'])
-    
+
     #Add a new entry into the travelling dictionary
     travellingPlayers[playerId] = {}
     travellingPlayers[playerId] = monster
@@ -322,11 +329,13 @@ def addBountyToTravelInfo(playerId, monsterId, multiplier):
     travellingPlayers[playerId]['travel_time'] = endTime
     travellingPlayers[playerId]['typeOfEvent'] = 'bounty'
 
-    #print(travellingPlayers[playerId])
+    print('===AddBountyTravelInfo - End of function', travellingPlayers[playerId])
 
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
 def addArenaFightToTravelInfo(player, playerId, opponentId):
+    print('===AddArenaTravelInfo - Start of function')
+
     opponents = database.getPlayerArenaOpponents(playerId)
 
     #If the player doesn't have active opponents return
@@ -343,7 +352,7 @@ def addArenaFightToTravelInfo(player, playerId, opponentId):
     #If the opponentId was changed by the player then there won't be a opponent and return
     if opponent == None:
         return
- 
+
     #Add a new entry into the travelling dictionary
     travellingPlayers[playerId] = {}
     travellingPlayers[playerId] = opponent
@@ -356,19 +365,25 @@ def addArenaFightToTravelInfo(player, playerId, opponentId):
 
     travellingPlayers[playerId]['honor'] = honor
 
+    print('===AddArenaTravelInfo - End of function', travellingPlayers[playerId])
+
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
 def addDungeonToTravelInfo(playerId, dungeonTier):
+    print('===AddDungeonTravelInfo - Start of function')
+
     monster = database.getDungeonMonsterInfo(playerId, dungeonTier)
 
     #If the dungeon monster doesn't exist return
     if monster == []:
         return
- 
+
     #Add a new entry into the travelling dictionary
     travellingPlayers[playerId] = {}
     travellingPlayers[playerId] = monster
     travellingPlayers[playerId]['typeOfEvent'] = 'dungeon'
+
+    print('===AddDungeonTravelInfo - End of function', travellingPlayers[playerId])
 
 
 def getTimeLeftFromEpochTime(epochTimestamp):
@@ -385,7 +400,7 @@ def getTimeLeftFromEpochTime(epochTimestamp):
 def createRandomQuestMonsters(playerId, playerStats):
     pickedMonsters = []
     playerLevel = playerStats['level']
-    
+
     #Get average stat level
     averageStat = getAverageStatLevel(playerStats)
 
@@ -403,7 +418,7 @@ def createRandomQuestMonsters(playerId, playerStats):
         questXp = math.floor((playerLevel ** 2)) + 10
 
         monsterExp = math.floor(questXp * float(random.uniform(0.75,1.25)))
-   
+
         #Get the gold based on player level with randomness
         gold = (playerLevel ** 3) + 300
         questsNeeded = math.floor(expForLevel / questXp)
@@ -461,7 +476,7 @@ def createRandomQuestMonsters(playerId, playerStats):
 def createRandomBountyMonsters(playerId, playerStats):
     pickedMonsters = []
     playerLevel = playerStats['level']
-    
+
     #Get average stat level
     averageStat = getAverageStatLevel(playerStats)
 
@@ -533,7 +548,7 @@ def createRandomBountyMonsters(playerId, playerStats):
 #Creates a new monster for the battle which uses current stats (incase the player equipped new items since the monsters were generated - or leveled up)
 def createMonsterForBattle(playerStats, playerId, travelInfo):
     monsterType = travelInfo['typeOfEvent']
-    
+
     if monsterType == 'quest':
         monsterId = travelInfo['quest_monster_id']
     elif monsterType == 'bounty':
@@ -544,7 +559,7 @@ def createMonsterForBattle(playerStats, playerId, travelInfo):
 
     #Get average stat level
     averageStat = getAverageStatLevel(playerStats)
-    
+
     #Get the monster stats based on multipliers and boosters
     stats = []
     statNames = ['strength', 'dexterity', 'intelligence', 'constitution', 'luck']
@@ -584,7 +599,7 @@ def createMonsterForBattle(playerStats, playerId, travelInfo):
     return monster
 
 
-#Returns the average level based on the players stats 
+#Returns the average level based on the players stats
 def getAverageStatLevel(playerStats):
     statNames = ['strength', 'dexterity', 'intelligence', 'constitution', 'luck']
     total = 0

@@ -143,7 +143,7 @@
         </div>
 
     </div>
-	
+
 {% endblock %}
 
 {% block script %}
@@ -157,8 +157,12 @@
             $.ajax({
                 type: 'POST',
                 url: '{{ url_for("cancelEvent") }}',
-                success: function (response) {
-                    window.location = '{{ url_for("quests") }}';
+                complete: function (textStatus) {
+                    status = textStatus.status
+                    //console.log(status)
+
+                    if(status == 201)
+                        window.location = '{{ url_for("quests") }}';
                 }
             });
         });
@@ -167,22 +171,26 @@
             $.ajax({
                 type: 'POST',
                 url: '{{ url_for("cancelEvent") }}',
-                success: function (response) {
-                    window.location = '{{ url_for("bounties") }}';
+                complete: function (textStatus) {
+                    status = textStatus.status
+                    //console.log(status)
+
+                    if(status == 201)
+                        window.location = '{{ url_for("bounties") }}';
                 }
             });
         });
     });
 
     //Setup the timer to go out when the travel time is up
-    setInterval(function() { 
+    setInterval(function() {
         var timer = document.getElementById('timeLeftCounter')
         var timeLeft = timer.innerText
 
         if(timeLeft <= 0)
             timeUp()
         else
-            timer.innerText -= 1 
+            timer.innerText -= 1
     }, 1000);
 
     function timeUp(){
@@ -190,8 +198,16 @@
             $.ajax({
                 type: 'GET',
                 url: '{{ url_for("eventDone") }}',
-                success: function (response) {
-                    window.location = '{{ url_for("results") }}';
+                complete: function (textStatus) {
+                    status = textStatus.status
+                    //console.log(status)
+
+                    if(status == 201)
+                        window.location = '{{ url_for("results") }}';
+                    else if(status == 202)
+                        window.location = '{{ url_for("travel") }}';
+                    else if(status == 203)
+                        window.location = '{{ url_for("quests") }}';
                 }
             });
         });

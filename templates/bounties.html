@@ -8,11 +8,11 @@
 <body class='background_bounties'>
 
     <div id='container'>
-        
+
         {% if unlocked == true %}
 
             <div class='infoPanel background border spacing'>
-                
+
                 <img class='iconImg' src='/static/icons/icon_note.png'>
                 <p><strong>{{ bountyAttempts }} / 3</strong></p>
                 <p>(Resets Daily)</p>
@@ -36,14 +36,14 @@
 
                         <div>
                             <img class='resizeImg128' buttonId='{{ monster["bounty_monster_id"] }}' src='/static/bounty_avatars/{{ monster["file_name"] }}'>
-            
+
                             <h3 class='alignCenter'><strong>{{ monster['monster_name'] }}</strong></h3>
                             <h4 class='alignCenter'><strong>{{ monster['monster_suffix'] }}</strong></h4>
                             <h5 class='alignCenter'>{{ monster['class_name'] }}</h5>
                             <h5 class='alignCenter'>-{{ monster['region_name'] }}-</h5>
-            
+
                             <hr>
-            
+
                             <table>
                                 <tr>
                                     <td>
@@ -127,7 +127,7 @@
         {% endif %}
 
     </div>
-	
+
 {% endblock %}
 
 {% block script %}
@@ -171,12 +171,15 @@
                 type: 'POST',
                 url: '{{ url_for("startBounty") }}',
                 data: {'monsterId': monsterId, 'multiplier': document.getElementById('difficultySlider').value * 2},
-                success: function (response) {
-                    if(response == 'NO_ATTEMPTS')
+                complete: function (textStatus) {
+                    status = textStatus.status
+                    //console.log(status)
+
+                    if(status == 201)
                         $('.popupParent').removeAttr('hidden');
-                    else if(response == 'ALREADY_IN_EVENT')
-                        return
-                    else
+                    else if(status == 202)
+                        window.location = '{{ url_for("travel") }}';
+                    else if(status == 203)
                         window.location = '{{ url_for("travel") }}';
                 }
             });

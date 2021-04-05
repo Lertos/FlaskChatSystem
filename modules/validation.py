@@ -1,8 +1,8 @@
 import re, math
 from modules import db_manager
 
-
 database = db_manager.mysql_pool
+
 
 
 #Validates the account creation info provided by the new player
@@ -19,7 +19,7 @@ def validateAccountInfo(username, displayName, password, passwordConfirm, season
         if(len(username) < 6):
             return 'Your username must be more than 6 characters'
         elif(len(displayName) < 6):
-            return 'Your display name must be more than 6 characters'         
+            return 'Your display name must be more than 6 characters'
         else:
             return 'Your password must be more than 6 characters'
 
@@ -40,7 +40,7 @@ def validateAccountInfo(username, displayName, password, passwordConfirm, season
 
 #Checks if the player can actually afford the levels the page sent (to check for page tampering)
 def canAffordUpgrades(playerId, stats):
-    playerStats = database.getPlayerStats(playerId)
+    playerStats = database.getPlayerBaseStats(playerId)
     playerGold = playerStats['gold']
     spentGold = 0
 
@@ -49,6 +49,10 @@ def canAffordUpgrades(playerId, stats):
     for i in range(0, len(statNames)):
         currentStatLevel = int(playerStats[statNames[i]])
         upgradedStatLevel = int(stats[i])
+
+        if currentStatLevel > upgradedStatLevel:
+            print('==ERROR: CanAffordUpgrades - Current stat bbigger than upgrade stat level')
+            return -1
 
         for j in range(currentStatLevel, upgradedStatLevel):
             levelUpCost = getStatLevelCost(j + 1)

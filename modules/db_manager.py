@@ -12,7 +12,6 @@ dbconfig = {
   'database':'flasksimplerpg'
 }
 
-
 class MySQLPool(object):
 
 
@@ -27,11 +26,8 @@ class MySQLPool(object):
 
 
     def close(self, conn, cursor):
-        print(conn.pool_name, conn.connection_id)
-
         cursor.close()
         conn.close()
-        conn.dispose()
 
 
 #===============================
@@ -45,7 +41,7 @@ class MySQLPool(object):
     def executeStatementServerSetup(self, statement, attributeList):
       conn = self.pool.get_connection()
       cursor = conn.cursor()
-      
+
       cursor.execute(statement)
 
       result = {}
@@ -64,15 +60,15 @@ class MySQLPool(object):
     def executeStatement(self, statement, commit, dictCursor, makeList, returnList, args=None):
       conn = self.pool.get_connection()
       cursor = conn.cursor(dictionary=dictCursor)
-      
+
       if args:
           cursor.execute(statement, args)
       else:
           cursor.execute(statement)
-      
+
       #Check whether the results are in list or dictionary form
       result = None
-      
+
       if returnList:
         result = []
       else:
@@ -95,12 +91,12 @@ class MySQLPool(object):
     def executeProcedure(self, procedure, commit, args=None):
       conn = self.pool.get_connection()
       cursor = conn.cursor()
-      
+
       if args:
           cursor.callproc(procedure, args)
       else:
           cursor.callproc(procedure)
-      
+
       if commit is True:
           conn.commit()
 
@@ -111,12 +107,12 @@ class MySQLPool(object):
     def executeProcedureReturnList(self, procedure, commit, dictCursor, args=None):
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
-        
+
         if args:
             cursor.callproc(procedure, args)
         else:
             cursor.callproc(procedure)
-        
+
         if commit is True:
             conn.commit()
 
@@ -133,12 +129,12 @@ class MySQLPool(object):
     def executeProcedureReturnDict(self, procedure, commit, dictCursor, args=None):
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
-        
+
         if args:
             cursor.callproc(procedure, args)
         else:
             cursor.callproc(procedure)
-        
+
         if commit is True:
             conn.commit()
 
@@ -270,14 +266,15 @@ class MySQLPool(object):
       return result[0]
 
 
-    def getPlayerStats(self, playerId):   
+    def getPlayerStats(self, playerId):
       args = [playerId]
       result = self.executeProcedureReturnList('usp_get_player_info', commit=False, dictCursor=True, args=args)
-      
+
       #Apply any blessings of the player
       blessing = self.getActiveBlessing(playerId)
 
       if blessing == 'stats':
+        print(result)
         statNames = ['strength', 'dexterity', 'intelligence', 'constitution', 'luck']
 
         for i in range(0, len(statNames)):
@@ -287,9 +284,16 @@ class MySQLPool(object):
       return result[0]
 
 
+    def getPlayerBaseStats(self, playerId):
+      args = [playerId]
+      result = self.executeProcedureReturnList('usp_get_player_base_stats', commit=False, dictCursor=True, args=args)
+
+      return result[0]
+
+
     def getMonsterStats(self, playerId, monsterId, monsterType):
       args = [playerId, monsterId]
-      
+
       if monsterType == 'quest':
         result = self.executeProcedureReturnList('usp_get_quest_monster_info', commit=False, dictCursor=True, args=args)
       elif monsterType == 'bounty':
@@ -312,17 +316,17 @@ class MySQLPool(object):
       return result
 
 
-    def createNewItem(self, playerId, level, itemTypeId, itemPrefixId, itemRarity, itemStats, itemDamage, itemArmor, itemWorth):  
+    def createNewItem(self, playerId, level, itemTypeId, itemPrefixId, itemRarity, itemStats, itemDamage, itemArmor, itemWorth):
       args = [playerId, level, itemTypeId, itemPrefixId, itemRarity, itemStats[0], itemStats[1], itemStats[2], itemStats[3], itemStats[4], itemDamage, itemArmor, itemWorth]
       self.executeProcedure('usp_create_new_item', commit=True, args=args)
 
 
-    def sellInventoryItem(self, playerId, sellPrice, inventoryId):  
+    def sellInventoryItem(self, playerId, sellPrice, inventoryId):
       args = [playerId, sellPrice, inventoryId]
       self.executeProcedure('usp_sell_inventory_item', commit=True, args=args)
 
 
-    def equipInventoryItem(self, playerId, inventoryId):  
+    def equipInventoryItem(self, playerId, inventoryId):
       args = [playerId, inventoryId]
       self.executeProcedure('usp_equip_inventory_item', commit=True, args=args)
 
@@ -332,18 +336,18 @@ class MySQLPool(object):
       self.executeProcedure('usp_unequip_inventory_item', commit=True, args=args)
 
 
-    def createQuestMonsterForPlayer(self, playerId, quest_monster_id, xp, gold, stamina, time, strength, dexterity, intelligence, constitution, luck, strengthMult, dexterityMult, intelligenceMult, constitutionMult, luckMult):  
+    def createQuestMonsterForPlayer(self, playerId, quest_monster_id, xp, gold, stamina, time, strength, dexterity, intelligence, constitution, luck, strengthMult, dexterityMult, intelligenceMult, constitutionMult, luckMult):
       args = [playerId, quest_monster_id, xp, gold, stamina, time, strength, dexterity, intelligence, constitution, luck, strengthMult, dexterityMult, intelligenceMult, constitutionMult, luckMult]
       self.executeProcedure('usp_create_quest_monster_for_player', commit=True, args=args)
 
-    
-    def getPlayerQuestMonsters(self, playerId):  
+
+    def getPlayerQuestMonsters(self, playerId):
       args = [playerId]
       result = self.executeProcedureReturnList('usp_get_player_quest_monsters', commit=False, dictCursor=True, args=args)
 
       return result
 
-    
+
     def givePlayerQuestRewards(self, playerId, stamina, gold, xp, travelType, dungeonTier):
       args = [playerId, stamina, gold, xp]
 
@@ -358,33 +362,34 @@ class MySQLPool(object):
       return result
 
 
-    def createBountyMonsterForPlayer(self, playerId, bounty_monster_id, xp, gold, dropChance, time, strength, dexterity, intelligence, constitution, luck, strengthMult, dexterityMult, intelligenceMult, constitutionMult, luckMult):  
+    def createBountyMonsterForPlayer(self, playerId, bounty_monster_id, xp, gold, dropChance, time, strength, dexterity, intelligence, constitution, luck, strengthMult, dexterityMult, intelligenceMult, constitutionMult, luckMult):
       args = [playerId, bounty_monster_id, xp, gold, dropChance, time, strength, dexterity, intelligence, constitution, luck, strengthMult, dexterityMult, intelligenceMult, constitutionMult, luckMult]
       self.executeProcedure('usp_create_bounty_monster_for_player', commit=True, args=args)
 
-    
-    def getPlayerBountyMonsters(self, playerId):  
+
+    def getPlayerBountyMonsters(self, playerId):
       args = [playerId]
       result = self.executeProcedureReturnList('usp_get_player_bounty_monsters', commit=False, dictCursor=True, args=args)
 
       for i in range(0, len(result)):
         result[i]['drop_chance'] = float(result[i]['drop_chance'])
 
+
       return result
 
 
-    def getPlayerDungeonMonsters(self, playerId):  
+    def getPlayerDungeonMonsters(self, playerId):
       args = [playerId]
       result = self.executeProcedureReturnList('usp_get_player_dungeon_info', commit=False, dictCursor=True, args=args)
 
       return result
 
 
-    def createArenaOpponents(self, playerId):  
+    def createArenaOpponents(self, playerId):
       args = [playerId]
       self.executeProcedure('usp_create_arena_opponents', commit=True, args=args)
 
-    
+
     def givePlayerBountyRewards(self, playerId, gold, xp):
       args = [playerId, gold, xp]
       result = self.executeProcedureReturnList('usp_give_player_bounty_rewards', commit=True, dictCursor=True, args=args)
@@ -397,7 +402,7 @@ class MySQLPool(object):
       result = self.executeProcedureReturnList('usp_process_arena_honor', commit=True, dictCursor=False, args=args)
 
 
-    def getPlayerArenaOpponents(self, playerId):  
+    def getPlayerArenaOpponents(self, playerId):
       args = [playerId]
       result = self.executeProcedureReturnList('usp_get_arena_opponents', commit=False, dictCursor=True, args=args)
 
@@ -410,7 +415,7 @@ class MySQLPool(object):
 
       return result[0]
 
-  
+
     def doesPlayerHaveInventorySpace(self, playerId):
       args = [playerId]
       statement = '''SELECT COUNT(*) AS space FROM player_inventories WHERE player_id = %s and equipped = 0;'''

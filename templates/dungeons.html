@@ -8,7 +8,7 @@
 <body class='background_dungeons'>
 
     <div id='container'>
-        
+
         <div>
             <div class='infoPanel background border spacing'>
                 <img class='iconImg' src='/static/icons/icon_key.png'>
@@ -102,7 +102,7 @@
 
         </div>
     </div>
-	
+
 {% endblock %}
 
 {% block script %}
@@ -124,12 +124,14 @@
                 type: 'POST',
                 url: '{{ url_for("startDungeon") }}',
                 data: {'dungeonTier': dungeonTier},
-                success: function (response) {
-                    if(response == 'NO_KEYS')
+                complete: function (textStatus) {
+                    status = textStatus.status
+
+                    if(status == 201)
                         $('.popupParent').removeAttr('hidden');
-                    else if(response == 'ALREADY_IN_EVENT')
-                        return
-                    else
+                    else if(status == 202)
+                        window.location = '{{ url_for("travel") }}';
+                    else if(status == 203)
                         window.location = '{{ url_for("results") }}';
                 }
             });

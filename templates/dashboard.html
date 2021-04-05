@@ -110,7 +110,7 @@
 
         <!-- LEFT PANEL -->
         <div class='sidePanel background border spacing'>
-            
+
             <img class='resizeImg128NoHover' src='/static/avatars/{{ player["file_name"] }}'>
 
             <!-- Player Info Panel -->
@@ -296,7 +296,7 @@
 
             <!-- Player Stats Panel -->
             <div class='alignCenter'>
-                
+
                 <h3>Item Information</h3>
 
                 <hr>
@@ -377,9 +377,9 @@
                 <button hidden id='equipButton' class='themeMediumButton' onclick='processEquipItem()'>Equip</button>
                 <button hidden id='unequipButton' class='themeMediumButton' onclick='processUnequipItem()'>Unequip</button>
             </div>
-        </div>    
+        </div>
     </div>
-    
+
 {% endblock %}
 
 {% block script %}
@@ -493,14 +493,14 @@
             //Update the cost, the level upgraded, current gold, and the total cost
             var plusLevel = parseInt(plusLevelElement.text())
             plusLevelElement.text(plusLevel + 1)
-            
+
             var totalLevel = parseInt(playerInfo[stat.toLowerCase()]) + plusLevel + 1
-            
+
             var nextCost = parseInt(costOfNextStatLevel(totalLevel + 1))
             var totalCost = parseInt(totalCostElement.text())
-            
+
             nextCostElement.text(nextCost)
-            totalCostElement.text(totalCost + currentCost)     
+            totalCostElement.text(totalCost + currentCost)
             currentGoldElement.text(currentGold - currentCost)
         });
 
@@ -545,7 +545,7 @@
         element.removeEventListener('click', showItemInPanel)
         element.addEventListener('click', showItemInPanel)
 
-        //Add the item to the equipped items 
+        //Add the item to the equipped items
         equippedItems.push(item)
 
         //Add the equipment stats to the players total equipment stats
@@ -593,9 +593,9 @@
             var slotType = getItemSlotTypeId(itemType)
             var equippedItemIndex = getEquippedItemIndex(itemType)
 
-            if(equippedItemIndex != -1) 
+            if(equippedItemIndex != -1)
                 equippedItem = equippedItems[equippedItemIndex]
-            else 
+            else
                 equippedItem = null
         }
 
@@ -630,7 +630,7 @@
                         elementDiff.classList = ''
                     else
                         elementDiff.classList = 'textRed'
-                    
+
                 }
                 //Reset the difference element text
                 else{
@@ -660,7 +660,7 @@
         var sellButton = document.getElementById('sellButton')
         var equipButton = document.getElementById('equipButton')
         var unequipButton = document.getElementById('unequipButton')
-        
+
         if(isEquipped){
             hideButtonAndRemoveItemId(equipButton)
             showButtonAndAddItemId(sellButton, itemIndex, isEquipped)
@@ -777,8 +777,8 @@
                 type: 'POST',
                 url: '{{ url_for("sellItem") }}',
                 data: {
-                    'playerId': '{{player["player_id"]}}', 
-                    'sellPrice': sellPrice, 
+                    'playerId': '{{player["player_id"]}}',
+                    'sellPrice': sellPrice,
                     'inventoryId': inventoryId
                 }
             })
@@ -904,7 +904,7 @@
 
         if(armor != 0){
             var classMaxArmorReduction = classInfo['max_armor_reduction'] * 100
-            
+
             updateInnerText('playerArmor', armor * multiplier)
 
             armor = document.getElementById('playerArmor').innerText
@@ -1012,7 +1012,7 @@
 
             if(itemPanelConfig[key]['compareStats']){
                 var elementDiff = document.getElementById(key + 'Diff')
-                
+
                 elementDiff.innerText = '--'
                 elementDiff.classList = ''
             }

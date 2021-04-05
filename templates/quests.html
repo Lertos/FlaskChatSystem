@@ -26,7 +26,7 @@
 
         <div>
             {% for monster in questMonsters %}
-            
+
             <div class='sidePanel background border spacing'>
                 <div>
 
@@ -34,7 +34,7 @@
 
                     <h3 class='alignCenter boldText'>{{ monster["monster_name"] }}</h3>
                     <h5 class='alignCenter boldText'>{{ monster["class_name"] }}</h5>
-                    
+
                     <hr>
 
                     <table class='alignCenter'>
@@ -92,7 +92,7 @@
 
         </div>
     </div>
-	
+
 {% endblock %}
 
 {% block script %}
@@ -114,12 +114,15 @@
                 type: 'POST',
                 url: '{{ url_for("startQuest") }}',
                 data: {'monsterId': monsterId},
-                success: function (response) {
-                    if(response == 'NO_STAMINA')
+                complete: function (textStatus) {
+                    status = textStatus.status
+                    //console.log(status)
+
+                    if(status == 201)
                         $('.popupParent').removeAttr('hidden');
-                    else if(response == 'ALREADY_IN_EVENT')
-                        return
-                    else
+                    else if(status == 202)
+                        window.location = '{{ url_for("travel") }}';
+                    else if(status == 203)
                         window.location = '{{ url_for("travel") }}';
                 }
             });

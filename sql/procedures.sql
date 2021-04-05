@@ -423,6 +423,30 @@ DELIMITER ;
 
 #CALL usp_get_player_info(1);
 
+
+/*==============================
+	usp_get_player_base_stats
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_get_player_base_stats;
+
+DELIMITER //
+CREATE PROCEDURE usp_get_player_base_stats
+(
+	IN p_player_id SMALLINT
+)
+BEGIN
+
+	SELECT player_id, gold, strength, dexterity, intelligence, constitution, luck
+	FROM players
+	WHERE player_id = p_player_id;
+    
+END //
+DELIMITER ;
+
+#CALL usp_get_player_base_stats(1);
+
+
 /*==============================
 	usp_get_quest_monster_info
 ==============================*/

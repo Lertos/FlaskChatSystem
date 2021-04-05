@@ -8,7 +8,7 @@
 <body class='background_arena'>
 
     <div id='container'>
-        
+
         <div>
             <div class='infoPanel background border spacing'>
                 <div>
@@ -16,7 +16,7 @@
                     <p><strong>{{ arenaAttempts }} / 10</strong></p>
                     <p>(Resets Daily)</p>
                 </div>
-                
+
                 <div>
                     <img class='iconImg' src='/static/icons/icon_honor.png'>
                     <p>{{ playerHonor }}</p>
@@ -36,7 +36,7 @@
 
             {% for opponent in opponents %}
                 <div class='sidePanel background border spacing'>
-            
+
                 <img class='resizeImg128' opponentId='{{ opponent["player_id"] }}' src='/static/avatars/{{ opponent["file_name"] }}'>
 
                 <h4 class='alignCenter'><strong>{{ opponent["display_name"] }}</strong> ({{ opponent["player_level"] }})</h4>
@@ -48,7 +48,7 @@
                     <tr>
                         <td>
                             <img class='iconImg' src='/static/icons/icon_honor.png'>
-                            <p>{{ opponent["honor"] }}</p>                          
+                            <p>{{ opponent["honor"] }}</p>
                         </td>
                     </tr>
                 </table>
@@ -104,7 +104,7 @@
         </div>
 
     </div>
-	
+
 {% endblock %}
 
 {% block script %}
@@ -126,12 +126,14 @@
                 type: 'POST',
                 url: '{{ url_for("startArenaFight") }}',
                 data: {'opponentId': opponentId},
-                success: function (response) {
-                    if(response == 'NO_ATTEMPTS')
+                complete: function (textStatus) {
+                    status = textStatus.status
+
+                    if(status == 201)
                         $('.popupParent').removeAttr('hidden');
-                    else if(response == 'ALREADY_IN_EVENT')
-                        return
-                    else
+                    else if(status == 202)
+                        window.location = '{{ url_for("travel") }}';
+                    else if(status == 203)
                         window.location = '{{ url_for("results") }}';
                 }
             });
