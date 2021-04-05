@@ -1,5 +1,6 @@
 USE flasksimplerpg;
 
+show processlist;
 
 /*==============================
 	usp_clear_transactional_data
@@ -13,8 +14,6 @@ BEGIN
 
 	DELETE FROM active_quests;
     DELETE FROM active_bounties;
-    
-    UPDATE players SET blessing = null, stamina = 100, bounty_attempts = 3, dungeon_attempts = 5, arena_attempts = 10;
 
 END //
 DELIMITER ;
@@ -885,9 +884,9 @@ BEGIN
     );
 
 	INSERT INTO arena_opponents
-	(SELECT p_player_id, player_id FROM players WHERE honor >= v_honor AND player_id <> p_player_id AND character_season = v_season ORDER BY honor DESC LIMIT 2)
+	(SELECT p_player_id, player_id FROM players WHERE honor >= v_honor AND player_id <> p_player_id AND character_season = v_season AND has_character = 1 ORDER BY honor DESC LIMIT 2)
 	UNION
-	(SELECT p_player_id, player_id FROM players WHERE honor < v_honor AND player_id <> p_player_id AND character_season = v_season ORDER BY honor DESC LIMIT 2);
+	(SELECT p_player_id, player_id FROM players WHERE honor < v_honor AND player_id <> p_player_id AND character_season = v_season AND has_character = 1 ORDER BY honor DESC LIMIT 2);
 
 END //
 DELIMITER ;
@@ -951,6 +950,9 @@ BEGIN
     UPDATE players
     SET honor = honor - p_loser_honor
     WHERE player_id = p_loser_id;
+    
+    DELETE FROM arena_opponents
+    WHERE player_id = p_player_id;
     
 END //
 DELIMITER ;

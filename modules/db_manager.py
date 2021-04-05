@@ -18,7 +18,7 @@ class MySQLPool(object):
 
     def __init__(self):
         self.dbconfig = dbconfig
-        self.pool = self.create_pool(pool_name='pool', pool_size=3)
+        self.pool = self.create_pool(pool_name='pool', pool_size=1)
 
 
     def create_pool(self, pool_name, pool_size):
@@ -27,8 +27,11 @@ class MySQLPool(object):
 
 
     def close(self, conn, cursor):
+        print(conn.pool_name, conn.connection_id)
+
         cursor.close()
         conn.close()
+        conn.dispose()
 
 
 #===============================
@@ -159,6 +162,11 @@ class MySQLPool(object):
       self.executeProcedure('usp_clear_transactional_data', commit=True, args=None)
 
 
+    def resetDailyStats(self):
+      statement = '''UPDATE players SET blessing = null, stamina = 100, bounty_attempts = 3, dungeon_attempts = 5, arena_attempts = 10;'''
+      result = self.executeStatement(statement, commit=False, dictCursor=True, makeList=False, returnList=False, args=None)
+
+
     def getSeasonList(self):
       statement = '''SELECT season, start_date FROM seasons;'''
       result = self.executeStatement(statement, commit=False, dictCursor=True, makeList=True, returnList=True, args=None)
@@ -270,14 +278,12 @@ class MySQLPool(object):
       blessing = self.getActiveBlessing(playerId)
 
       if blessing == 'stats':
-        print(result)
         statNames = ['strength', 'dexterity', 'intelligence', 'constitution', 'luck']
 
         for i in range(0, len(statNames)):
             result[0][statNames[i]] = math.floor(float(result[0][statNames[i]]) * 1.1)
             result[0]['equip_' + statNames[i]] = math.floor(float(result[0]['equip_' + statNames[i]]) * 1.1)
 
-        print(result)
       return result[0]
 
 
@@ -363,7 +369,6 @@ class MySQLPool(object):
 
       for i in range(0, len(result)):
         result[i]['drop_chance'] = float(result[i]['drop_chance'])
-
 
       return result
 
@@ -458,14 +463,7 @@ class MySQLPool(object):
       result = self.executeStatement(statement, commit=True, dictCursor=False, makeList=False, returnList=False, args=args)
 
 
-
-if __name__ == "__main__":
-    mysql_pool = MySQLPool(**dbconfig)
-    '''
-    sql = "select 1=1"
-    p = Pool()
-    for i in range(5):
-        p.apply_async(mysql_pool.execute, args=(sql,))
-    '''
+#Setup the pool
+mysql_pool = MySQLPool()
 
 

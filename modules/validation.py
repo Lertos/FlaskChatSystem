@@ -1,7 +1,8 @@
 import re, math
 from modules import db_manager
 
-database = db_manager.MySQLPool()
+
+database = db_manager.mysql_pool
 
 
 #Validates the account creation info provided by the new player

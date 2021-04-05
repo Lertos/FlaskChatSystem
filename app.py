@@ -15,7 +15,7 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app.secret_key = b'\xe4$Y2\xd5\xbb_\xab#\xfd*\x1e\xe2v\xa8J'
 
-database = db_manager.MySQLPool()
+database = db_manager.mysql_pool
 
 
 #===============================
@@ -28,12 +28,10 @@ database = db_manager.MySQLPool()
 @app.route("/")
 def index():
     #If the session DOES exist, they are already logged in - send them to their dashboard
-    if 'username' in session:
+    if 'playerId' in session:
         return redirect(url_for('dashboard'))
-    #If the session DOES NOT exist for this connection, make the user sign in
     else:
         return redirect(url_for('signin'))
-
 
 #===============================
 
@@ -75,6 +73,9 @@ def signin():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     seasonList = helper.seasonList
 
     if request.method == 'POST':
@@ -139,6 +140,9 @@ def characterCreation():
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
 
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     playerId = session['playerId']
     playerLevel = session['playerLevel']
 
@@ -159,6 +163,9 @@ def dashboard():
 @app.route('/sellItem', methods=['POST'])
 def sellItem():
 
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     playerId = request.form['playerId']
     sellPrice = request.form['sellPrice']
     inventoryId = request.form['inventoryId']
@@ -172,6 +179,9 @@ def sellItem():
 @app.route('/equipItem', methods=['POST'])
 def equipItem():
 
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     playerId = request.form['playerId']
     inventoryId = request.form['inventoryId']
 
@@ -184,6 +194,9 @@ def equipItem():
 @app.route('/unequipItem', methods=['POST'])
 def unequipItem():
 
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     playerId = request.form['playerId']
     inventoryId = request.form['inventoryId']
 
@@ -195,6 +208,9 @@ def unequipItem():
 
 @app.route('/upgradeStats', methods=['POST'])
 def upgradeStats():
+
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
 
     playerId = session['playerId']
     stats = [request.form['totalStrength'], request.form['totalDexterity'], request.form['totalIntelligence'], request.form['totalConstitution'], request.form['totalLuck']]
@@ -220,6 +236,9 @@ def upgradeStats():
 
 @app.route('/quests')
 def quests():
+
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
 
     playerId = session['playerId']
 
@@ -249,6 +268,9 @@ def quests():
 
 @app.route('/startQuest', methods=['POST'])
 def startQuest():
+
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
 
     playerId = session['playerId']
     monsterId = request.form['monsterId']
@@ -284,10 +306,13 @@ def startQuest():
 @app.route('/travel')
 def travel():
 
-    playerId = session['playerId']
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
 
+    playerId = session['playerId']
     #If player is not travelling - redirect to dashboard
     travelInfo = helper.getPlayerTravelInfo(playerId)
+    
 
     if travelInfo == {}:
         return redirect(url_for('dashboard'))
@@ -303,6 +328,9 @@ def travel():
 
 @app.route('/eventDone')
 def eventDone():
+
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
 
     playerId = session['playerId']
 
@@ -324,6 +352,9 @@ def eventDone():
 @app.route('/cancelEvent', methods=['POST'])
 def cancelEvent():
 
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     playerId = session['playerId']
 
     #Remove the player from the travel dict
@@ -342,13 +373,16 @@ def cancelEvent():
 @app.route('/results')
 def results():
 
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     playerId = session['playerId']
 
     #If player is not travelling - redirect to dashboard
     travelInfo = helper.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('results'))
 
     #Get the stats of the player and the monster
     player = database.getPlayerStats(playerId)
@@ -371,7 +405,7 @@ def results():
 
     #Give winnings
     playerWon = False
-    if battleLog['winner'] == player['name'] and travelInfo['typeOfEvent'] != 'arena':
+    if (battleLog['winner'] == player['name'] and travelInfo['typeOfEvent'] != 'arena') or (session['playerLevel'] <= 4 and travelInfo['typeOfEvent'] == 'quest'):
         playerWon = True
 
         #Check if the entity will drop something
@@ -384,9 +418,12 @@ def results():
             blessing = database.getActiveBlessing(playerId)
 
             if blessing == 'drops':
-                dropChance = 0.43
+                dropChance = 0.60
             else:
-                dropChance = 0.33
+                dropChance = 0.40
+
+            if session['playerLevel'] <= 4:
+                dropChance += 0.30
 
         if random.uniform(0,1) <= dropChance:
             if database.doesPlayerHaveInventorySpace(playerId):
@@ -430,6 +467,9 @@ def results():
 @app.route('/bounties')
 def bounties():
 
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     playerId = session['playerId']
     
     #Check if the player is high enough level to try bounties
@@ -462,6 +502,9 @@ def bounties():
 
 @app.route('/startBounty', methods=['POST'])
 def startBounty():
+
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
 
     playerId = session['playerId']
     monsterId = request.form['monsterId']
@@ -498,6 +541,9 @@ def startBounty():
 @app.route('/arena')
 def arena():
 
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     playerId = session['playerId']
 
     #Check if the player is already travelling - if so, redirect them to the travel page
@@ -526,6 +572,9 @@ def arena():
 
 @app.route('/startArenaFight', methods=['POST'])
 def startArenaFight():
+
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
 
     playerId = session['playerId']
     opponentId = request.form['opponentId']
@@ -561,6 +610,9 @@ def startArenaFight():
 @app.route('/dungeons')
 def dungeons():
 
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     playerId = session['playerId']
 
     #Check if the player is already travelling - if so, redirect them to the travel page
@@ -585,6 +637,9 @@ def dungeons():
 
 @app.route('/startDungeon', methods=['POST'])
 def startDungeon():
+
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
 
     playerId = session['playerId']
     dungeonTier = request.form['dungeonTier']
@@ -619,6 +674,10 @@ def startDungeon():
 
 @app.route('/offerings')
 def offerings():
+
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     playerId = session['playerId']
     active = database.getActiveBlessing(playerId)
 
@@ -627,6 +686,10 @@ def offerings():
 
 @app.route('/applyBlessing', methods=['POST'])
 def applyBlessing():
+
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     playerId = session['playerId']
     blessing = request.form['blessingType']
     active = database.getActiveBlessing(playerId)
@@ -648,6 +711,10 @@ def applyBlessing():
 
 @app.route('/leaderboard', methods=['GET','POST'])
 def leaderboard():
+
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
     seasonList = helper.seasonList
 
     if request.method == 'POST':
@@ -666,7 +733,11 @@ def leaderboard():
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
+    session.pop('playerId', None)
+    session.pop('className', None)
+    session.pop('playerLevel', None)
+    session.pop('displayName', None)
+
     return redirect(url_for('signin'))
 
 

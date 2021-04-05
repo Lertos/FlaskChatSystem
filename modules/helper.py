@@ -2,10 +2,12 @@ import random, math, time
 from modules import db_manager
 
 
-database = db_manager.MySQLPool()
+database = db_manager.mysql_pool
+
 
 #Clears all transactional data
 database.clearAllTransactionalData()
+#database.resetDailyStats()
 
 #Holds the high-use backend data
 seasonList = database.getSeasonList()
@@ -212,7 +214,7 @@ def getItemDamage(level, itemTypeId, itemPrefixId, itemRarity):
 
 #Calculates the sell price of an item based on level
 def getSellPrice(level, rarityMultiplier):
-    price = float(( ((level ** 3) * rarityMultiplier)  + 300) / 50)
+    price = float(( ((level ** 3) * rarityMultiplier)  + 300) / 40)
     price *= float(random.uniform(0.9,1.1))
     return math.floor(price)
 
@@ -486,7 +488,7 @@ def createRandomBountyMonsters(playerId, playerStats):
         monsterGold = math.floor(goldPerQuest * float(random.uniform(0.95,1.05)))
 
         #Get monster drop chance
-        monsterDropChance = 0.5
+        monsterDropChance = 0.75
 
         #Get a random travel time
         monsterTime = random.randint(30,300)
@@ -522,7 +524,7 @@ def createRandomBountyMonsters(playerId, playerStats):
         elif blessing == 'xp':
             monsterExp = math.floor(monsterExp * 1.5)
         elif blessing == 'drops':
-            monsterDropChance += 0.1
+            monsterDropChance += 0.2
 
         #Add it to the database
         database.createBountyMonsterForPlayer(playerId, monsterId, monsterExp, monsterGold, monsterDropChance, monsterTime, stats[0], stats[1], stats[2], stats[3], stats[4], statMultipliers[0], statMultipliers[1], statMultipliers[2], statMultipliers[3], statMultipliers[4])

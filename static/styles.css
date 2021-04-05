@@ -497,6 +497,33 @@ ul{
     margin-top: 20px;
 }
 
+@media only screen and (max-width: 600px) {
+    .sidePanel{
+        display: block;
+        width: auto;
+        height: auto;
+    }
+
+    .mainPanel{
+        display: block;
+        width: auto;
+        height: auto;
+    }
+
+    .quarterEmptyPanel{
+        display: block;
+        width: auto;
+        height: auto;
+    }
+
+    .infoPanel{
+        display: block;
+        width: auto;
+        height: auto;
+        text-align: center;
+    }
+}
+
 /* Scrollbar */
 
 ::-webkit-scrollbar {
