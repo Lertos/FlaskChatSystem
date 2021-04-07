@@ -9,19 +9,20 @@
 
     <div id='container'>
 
-        <div hidden id='noSpace' class='popupParent'>
+        <div hidden class='popupParent'>
             <div class='background border spacing popupChild'>
-                <h3>You don't have enough inventory space</h3>
-                <button id='noSpacePopupButton' class='themeSmallButton'>But.. But..</button>
+                <h3 id='popupHeader'></h3>
+                <p id='popupText' class='block'></p>
+                <button id='popupButton' class='themeSmallButton'></button>
             </div>
         </div>
 
-        <div hidden id='updateStats' class='popupParent'>
-            <div class='background border spacing popupChild'>
+        <div hidden id='updateStats' class='upgradePanelParent'>
+            <div class='background border spacing upgradePanelChild'>
                 <h3>Upgrade Base Stats</h3>
 
                 <h4 class='sameLine'>Current Gold </h4>
-                <h4 id='statPanelCurrentGold' class='sameLine textYellow boldText'>50</h4>
+                <h4 id='statPanelCurrentGold' class='sameLine textYellow boldText'>0</h4>
 
                 <h5 hidden id='notEnoughWarning' class='textRed'>You do not have enough gold to upgrade that</h5>
 
@@ -309,7 +310,7 @@
 
                 <h5 id='panelLevel'></h5>
 
-                <h5 hidden id='panelWarning' class='textRed'>Stats Reduced - Wrong Class</h5>
+                <h5 hidden id='panelWarning' class='textRed'>Wrong Class Type (Stats -20%)</h5>
 
                 <table class='leftRightTable'>
                     <tr>
@@ -411,10 +412,28 @@
 
     $(function(){
 
+        //===============================
+
+        //Popup Window
+
+        //===============================
+
+        //Hides the popup when acknowledged
+        $('#popupButton').on('click', function(){
+            $('.popupParent').attr('hidden', true);
+        });
+
+
+        //===============================
+
+        //Upgrade Stats Window
+
+        //===============================
+
         var stats = ['Strength', 'Dexterity', 'Intelligence', 'Constitution', 'Luck']
 
         //Setup the initial stat upgrade screen
-        $('#statPanelCurrentGold').text(playerInfo['gold'])
+        $('#statPanelCurrentGold').text($('#playerGold').text())
 
         for(var i=0; i<stats.length; i++){
             $('#statPanelBase' + stats[i]).text(playerInfo[stats[i].toLowerCase()])
@@ -423,13 +442,9 @@
             $('#statPanel' + stats[i] + 'TotalCost').text(0)
         }
 
-        //Hides the inventory space popup when acknowledged
-        $('#noSpacePopupButton').on('click', function(){
-            $('#noSpace').attr('hidden', true);
-        });
-
         //Shows the upgrade stats popup when "upgrade stats" is clicked
         $('#upgradeStatsPopupButton').on('click', function(){
+            $('#statPanelCurrentGold').text($('#playerGold').text())
             $('#updateStats').attr('hidden', false);
         });
 
@@ -466,7 +481,13 @@
                     'totalLuck': totalLuck
                 },
                 success: function (response) {
-                    window.location = '{{ url_for("dashboard") }}';
+                    //window.location = '{{ url_for("dashboard") }}';
+                },
+                complete: function (textStatus) {
+                    status = textStatus.status
+
+                    if(status == 201)
+                        window.location = '{{ url_for("dashboard") }}';
                 }
             });
         });
@@ -506,6 +527,18 @@
 
     });
 
+
+    //===============================
+
+    //Initial Setup
+
+    //===============================
+
+    //If the player doesn't have a blessing let them know
+    if(playerInfo['blessing'] == null)
+        updatePopupWithInformation("Thanks Boo", "Go to the <strong>Offerings</strong> tab to get bonuses!", "You have no <strong>Blessing</strong>")
+
+    //Have the item panel start fresh
     resetItemPanel()
 
     //If a class doesn't use their offhand, lock it to avoid confusion
@@ -515,16 +548,34 @@
         offHandSlot.classList = 'borderImg'
     }
 
+    //Setup all of the items
     for(var i=0; i<importedEquippedItems.length; i++)
         setupNewEquippedItem(importedEquippedItems[i])
 
     for(var i=0; i<importedInventoryItems.length; i++)
         setupNewInventoryItem(importedInventoryItems[i])
 
-
+    //Set the initial values for the player info panel
     updatePlayerHealth()
     updatePlayerCritChance()
     updatePlayerDamage(0)
+
+
+    //===============================
+
+    //Functions
+
+    //===============================
+
+    //Updates the popup with the text provided
+    function updatePopupWithInformation(buttonText, paragraphText, headerText){
+        $(function(){
+            $('#popupButton').html(buttonText)
+            $('#popupText').html(paragraphText)
+            $('#popupHeader').html(headerText)
+            $('.popupParent').attr('hidden', false);
+        });
+    }
 
     //Adds the event listener to the item slot as well as assigns needed attributes
     function setupNewEquippedItem(item){
@@ -574,7 +625,6 @@
 
     //When an item from either the inventory or worn equipment is clicked - show the stats of the item in the item panel
     function showItemInPanel(){
-
         changeDisplayedButtons(this.isEquipped, this.itemIndex)
 
         if(this.isEquipped)
@@ -644,7 +694,6 @@
 
     //Returns whether or not the item stat matches the players class stat
     function isWrongClassType(stat){
-
         if(classInfo['stat'] != stat){
             document.getElementById('panelWarning').hidden = false
             return true
@@ -723,7 +772,7 @@
 
         //Make sure the player actually has the inventory space to unequip an item
         if(amountOfEmptyInventorySlots() >= 21){
-            $('#noSpace').removeAttr('hidden');
+            updatePopupWithInformation("But.. But..", "", "You don't have enough inventory space")
             return
         }
 
@@ -737,6 +786,8 @@
         //Add the item to the inventory only if one was unequipped
         if(item != null)
             setupNewInventoryItem(item)
+
+        console.log(inventoryItems)
 
         resetItemPanel()
     }
@@ -757,19 +808,14 @@
             sellPrice = equippedItems[itemIndex]['sell_price']
             inventoryId = equippedItems[itemIndex]['inventory_item_id']
 
-            unequipItem(slotType, slotTypeId)
+            //unequipItem(slotType, slotTypeId)
         }
         else{
             sellPrice = inventoryItems[itemIndex]['sell_price']
             inventoryId = inventoryItems[itemIndex]['inventory_item_id']
 
-            removeItemFromInventory(itemIndex)
+            //removeItemFromInventory(itemIndex)
         }
-
-        //Update the players gold
-        updateInnerText('playerGold', sellPrice)
-
-        resetItemPanel()
 
         //Send AJAX request with the item that was sold and for how much
         $(function (){
@@ -780,6 +826,25 @@
                     'playerId': '{{player["player_id"]}}',
                     'sellPrice': sellPrice,
                     'inventoryId': inventoryId
+                },
+                complete: function (textStatus) {
+                    status = textStatus.status
+                    var sellWentThrough = false
+
+                    if(status == 201)
+                        updatePopupWithInformation("I Know c;", "You know what you did...", "The Item Was Manipulated")
+                    else if(status == 203){
+                        updateInnerText('playerGold', sellPrice)
+                        resetItemPanel()
+                        sellWentThrough = true
+                    }
+
+                    if(sellWentThrough){
+                        if(isEquipped)
+                            unequipItem(slotType, slotTypeId)
+                        else
+                            removeItemFromInventory(itemIndex)
+                    }
                 }
             })
         });

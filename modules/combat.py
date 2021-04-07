@@ -340,7 +340,11 @@ def checkEvadeOrBlock(attacker, defender, turnLog):
         return False
     else:
         #Scouts can evade magical attacks, but only with a 15% chance
-        if defenderClass == 'Scout':
+        if helper.classes[attackerClass]['stat'] == 'int' and defenderClass == 'Scout':
+            evadeBlockChance -= 0.10
+
+        #Scouts can evade blocking attacks, but only with a 15% chance
+        if attackerClass == 'Scout' and defenderClass == 'Warrior':
             evadeBlockChance -= 0.10
 			
         if evadeBlockChance > random.random():

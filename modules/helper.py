@@ -214,7 +214,7 @@ def getItemDamage(level, itemTypeId, itemPrefixId, itemRarity):
 
 #Calculates the sell price of an item based on level
 def getSellPrice(level, rarityMultiplier):
-    price = float(( ((level ** 3) * rarityMultiplier)  + 300) / 40)
+    price = float(( ((level ** 3) * rarityMultiplier)  + 300) / 35)
     price *= float(random.uniform(0.9,1.1))
     return math.floor(price)
 
@@ -233,11 +233,8 @@ def getPlayerTravelInfo(playerId):
 
 #Remove the player from the travel info dictionary
 def removePlayerTravelInfo(playerId):
-    print('######################REMOVE - START', playerId, travellingPlayers)
     if playerId in travellingPlayers:
         travellingPlayers.pop(playerId, None)
-    print('######################REMOVE - END', playerId, travellingPlayers)
-
 
 
 #After a player completes an event, process the rewards/stamina usage
@@ -265,8 +262,6 @@ def completePlayerEvent(playerId, playerWon, playerInfo, monsterInfo, travelInfo
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
 def addQuestToTravelInfo(playerId, monsterId):
-    print('===AddQuestTravelInfo - Start of function')
-
     questMonsters = database.getPlayerQuestMonsters(playerId)
 
     #If the player doesn't have active quests return
@@ -294,13 +289,9 @@ def addQuestToTravelInfo(playerId, monsterId):
     travellingPlayers[playerId]['travel_time'] = endTime
     travellingPlayers[playerId]['typeOfEvent'] = 'quest'
 
-    print('===AddQuestTravelInfo - End of function', travellingPlayers[playerId])
-
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
 def addBountyToTravelInfo(playerId, monsterId, multiplier):
-    print('===AddBountyTravelInfo - Start of function')
-
     bountyMonsters = database.getPlayerBountyMonsters(playerId)
 
     #If the player doesn't have active bounties return
@@ -329,13 +320,9 @@ def addBountyToTravelInfo(playerId, monsterId, multiplier):
     travellingPlayers[playerId]['travel_time'] = endTime
     travellingPlayers[playerId]['typeOfEvent'] = 'bounty'
 
-    print('===AddBountyTravelInfo - End of function', travellingPlayers[playerId])
-
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
 def addArenaFightToTravelInfo(player, playerId, opponentId):
-    print('===AddArenaTravelInfo - Start of function')
-
     opponents = database.getPlayerArenaOpponents(playerId)
 
     #If the player doesn't have active opponents return
@@ -365,13 +352,9 @@ def addArenaFightToTravelInfo(player, playerId, opponentId):
 
     travellingPlayers[playerId]['honor'] = honor
 
-    print('===AddArenaTravelInfo - End of function', travellingPlayers[playerId])
-
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
 def addDungeonToTravelInfo(playerId, dungeonTier):
-    print('===AddDungeonTravelInfo - Start of function')
-
     monster = database.getDungeonMonsterInfo(playerId, dungeonTier)
 
     #If the dungeon monster doesn't exist return
@@ -382,8 +365,6 @@ def addDungeonToTravelInfo(playerId, dungeonTier):
     travellingPlayers[playerId] = {}
     travellingPlayers[playerId] = monster
     travellingPlayers[playerId]['typeOfEvent'] = 'dungeon'
-
-    print('===AddDungeonTravelInfo - End of function', travellingPlayers[playerId])
 
 
 def getTimeLeftFromEpochTime(epochTimestamp):
@@ -427,10 +408,10 @@ def createRandomQuestMonsters(playerId, playerStats):
         monsterGold = math.floor(goldPerQuest * float(random.uniform(0.75,1.25)))
 
         #Get a random stamina cost
-        monsterStamina = random.randint(3,8)
+        monsterStamina = random.randint(4,7)
 
         #Get a random travel time
-        monsterTime = random.randint(30,300)
+        monsterTime = random.randint(60,240)
 
         #Get random stats based on the players average stat
         stats = []
@@ -506,7 +487,7 @@ def createRandomBountyMonsters(playerId, playerStats):
         monsterDropChance = 0.75
 
         #Get a random travel time
-        monsterTime = random.randint(30,300)
+        monsterTime = random.randint(60,240)
 
         #Get random stats based on the players average stat
         stats = []
@@ -555,6 +536,10 @@ def createMonsterForBattle(playerStats, playerId, travelInfo):
         monsterId = travelInfo['bounty_monster_id']
 
     monster = database.getMonsterStats(playerId, monsterId, monsterType)
+
+    if monster == -1:
+        return -1
+
     stat = classes[monster['class_name']]['stat']
 
     #Get average stat level

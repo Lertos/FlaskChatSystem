@@ -66,7 +66,16 @@ def canAffordUpgrades(playerId, stats):
     return spentGold
 
 
-
 #Gets the cost of the next stat level
 def getStatLevelCost(level):
     return math.floor((level ** 2)/20 + 1)
+
+
+#Check for tampering with sell prices of items
+def isPriceCorrect(itemList, sellPrice, itemId):
+    for i in range(0, len(itemList)):
+        if int(itemList[i]['inventory_item_id']) == int(itemId):
+            if int(itemList[i]['sell_price']) == int(sellPrice):
+                return True
+    
+    return False

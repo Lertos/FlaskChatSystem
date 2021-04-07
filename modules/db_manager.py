@@ -87,6 +87,21 @@ class MySQLPool(object):
       return result
 
 
+    #Executes a statement and doesnt return nor fetch anythin (for updates)
+    def executeUpdateStatement(self, statement, args=None):
+      conn = self.pool.get_connection()
+      cursor = conn.cursor()
+
+      if args:
+          cursor.execute(statement, args)
+      else:
+          cursor.execute(statement)
+
+      conn.commit()
+
+      self.close(conn, cursor)
+
+
     #Executes a procedures without returning anything
     def executeProcedure(self, procedure, commit, args=None):
       conn = self.pool.get_connection()
@@ -160,7 +175,7 @@ class MySQLPool(object):
 
     def resetDailyStats(self):
       statement = '''UPDATE players SET blessing = null, stamina = 100, bounty_attempts = 3, dungeon_attempts = 5, arena_attempts = 10;'''
-      result = self.executeStatement(statement, commit=False, dictCursor=True, makeList=False, returnList=False, args=None)
+      self.executeUpdateStatement(statement, args=None)
 
 
     def getSeasonList(self):
@@ -274,7 +289,6 @@ class MySQLPool(object):
       blessing = self.getActiveBlessing(playerId)
 
       if blessing == 'stats':
-        print(result)
         statNames = ['strength', 'dexterity', 'intelligence', 'constitution', 'luck']
 
         for i in range(0, len(statNames)):
@@ -299,12 +313,22 @@ class MySQLPool(object):
       elif monsterType == 'bounty':
         result = self.executeProcedureReturnList('usp_get_bounty_monster_info', commit=False, dictCursor=True, args=args)
 
+      if len(result) == 0:
+        return -1
+
       return result[0]
 
 
     def getPlayerInventory(self, playerId):
       args = [playerId]
       result = self.executeProcedureReturnList('usp_get_player_inventory_items', commit=False, dictCursor=True, args=args)
+
+      return result
+
+
+    def getPlayerItemsWithSellPriceAndType(self, playerId):
+      args = [playerId]
+      result = self.executeProcedureReturnList('usp_get_player_items_price_and_type', commit=False, dictCursor=True, args=args)
 
       return result
 

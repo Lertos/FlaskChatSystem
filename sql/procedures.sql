@@ -75,7 +75,7 @@ CREATE PROCEDURE usp_get_dashboard_details
 )
 BEGIN
 	SELECT player_id, display_name, class_name, file_name, player_level, exp_until_level, strength, dexterity, intelligence,
-		constitution, luck, gold, stamina, honor
+		constitution, luck, gold, stamina, honor, blessing
 	FROM players
 	WHERE player_id = p_player_id;
 END //
@@ -135,6 +135,32 @@ END //
 DELIMITER ;
 
 #CALL usp_get_player_equipped_items(1);
+
+
+/*==============================
+	usp_get_player_items_price_and_type
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_get_player_items_price_and_type;
+
+DELIMITER //
+CREATE PROCEDURE usp_get_player_items_price_and_type
+(
+	IN p_player_id SMALLINT
+)
+BEGIN
+
+    SELECT a.inventory_item_id, c.item_type_name, c.is_weapon, c.is_two_handed, c.stat, a.sell_price
+	FROM player_inventories a
+    JOIN items b ON a.item_id = b.item_id
+    JOIN item_types c on b.item_type_id = c.item_type_id
+    WHERE a.player_id = p_player_id;
+    
+END //
+DELIMITER ;
+
+#CALL usp_get_player_items_price_and_type(1);
+
 
 /*==============================
 	usp_create_new_item
@@ -674,8 +700,8 @@ BEGIN
 		SELECT a.display_name, a.class_name, a.player_level, a.honor,
 		(a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
 		FROM players a
-		LEFT JOIN player_inventories b ON a.player_id = b.player_id
-		WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+		LEFT JOIN player_inventories b ON a.player_id = b.player_id AND IFNULL(b.equipped,1) = 1
+		WHERE a.character_season = p_season AND a.has_character = 1
 		GROUP BY a.player_id
 		ORDER BY a.player_level DESC, a.honor DESC
 		LIMIT 100
@@ -706,8 +732,8 @@ BEGIN
 		SELECT a.display_name, a.class_name, a.player_level, a.honor,
 		(a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
 		FROM players a
-		LEFT JOIN player_inventories b ON a.player_id = b.player_id
-		WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+		LEFT JOIN player_inventories b ON a.player_id = b.player_id AND IFNULL(b.equipped,1) = 1
+		WHERE a.character_season = p_season AND a.has_character = 1
 		GROUP BY a.player_id
 		ORDER BY a.honor DESC, a.player_level DESC
 		LIMIT 100
@@ -738,8 +764,8 @@ BEGIN
 		SELECT a.display_name, a.class_name, a.arena_wins, a.player_level, a.honor,
 		(a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
 		FROM players a
-		LEFT JOIN player_inventories b ON a.player_id = b.player_id
-		WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+		LEFT JOIN player_inventories b ON a.player_id = b.player_id AND IFNULL(b.equipped,1) = 1
+		WHERE a.character_season = p_season AND a.has_character = 1
 		GROUP BY a.player_id
 		ORDER BY a.arena_wins DESC, a.player_level DESC, a.honor DESC
 		LIMIT 100
@@ -770,8 +796,8 @@ BEGIN
 		SELECT a.display_name, a.class_name, a.quests_finished, a.player_level, a.honor,
 		(a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
 		FROM players a
-		LEFT JOIN player_inventories b ON a.player_id = b.player_id
-		WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+		LEFT JOIN player_inventories b ON a.player_id = b.player_id AND IFNULL(b.equipped,1) = 1
+		WHERE a.character_season = p_season AND a.has_character = 1
 		GROUP BY a.player_id
 		ORDER BY a.quests_finished DESC, a.player_level DESC, a.honor DESC
 		LIMIT 100
@@ -802,8 +828,8 @@ BEGIN
 		SELECT a.display_name, a.class_name, a.bounties_finished, a.player_level, a.honor,
 		(a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
 		FROM players a
-		LEFT JOIN player_inventories b ON a.player_id = b.player_id
-		WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+		LEFT JOIN player_inventories b ON a.player_id = b.player_id AND IFNULL(b.equipped,1) = 1
+		WHERE a.character_season = p_season AND a.has_character = 1
 		GROUP BY a.player_id
 		ORDER BY a.bounties_finished DESC, a.player_level DESC, a.honor DESC
 		LIMIT 100
@@ -834,8 +860,8 @@ BEGIN
 		SELECT a.display_name, a.class_name, a.gold_collected, a.player_level, a.honor,
 		(a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
 		FROM players a
-		LEFT JOIN player_inventories b ON a.player_id = b.player_id
-		WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+		LEFT JOIN player_inventories b ON a.player_id = b.player_id AND IFNULL(b.equipped,1) = 1
+		WHERE a.character_season = p_season AND a.has_character = 1
 		GROUP BY a.player_id
 		ORDER BY a.gold_collected DESC, a.player_level DESC, a.honor DESC
 		LIMIT 100
@@ -866,8 +892,8 @@ BEGIN
 		SELECT a.display_name, a.class_name, a.items_collected, a.player_level, a.honor,
 		(a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
 		FROM players a
-		LEFT JOIN player_inventories b ON a.player_id = b.player_id
-		WHERE a.character_season = p_season AND IFNULL(b.equipped,1) = 1 AND a.has_character = 1
+		LEFT JOIN player_inventories b ON a.player_id = b.player_id AND IFNULL(b.equipped,1) = 1
+		WHERE a.character_season = p_season AND a.has_character = 1
 		GROUP BY a.player_id
 		ORDER BY a.items_collected DESC, a.player_level DESC, a.honor DESC
 		LIMIT 100
@@ -908,14 +934,14 @@ BEGIN
     );
 
 	INSERT INTO arena_opponents
-	(SELECT p_player_id, player_id FROM players WHERE honor >= v_honor AND player_id <> p_player_id AND character_season = v_season AND has_character = 1 ORDER BY honor DESC LIMIT 2)
+	(SELECT p_player_id, player_id FROM players WHERE honor >= v_honor AND player_id <> p_player_id AND character_season = v_season AND has_character = 1 ORDER BY honor ASC LIMIT 2)
 	UNION
 	(SELECT p_player_id, player_id FROM players WHERE honor < v_honor AND player_id <> p_player_id AND character_season = v_season AND has_character = 1 ORDER BY honor DESC LIMIT 2);
 
 END //
 DELIMITER ;
 
-#CALL usp_create_arena_opponents(4);
+#CALL usp_create_arena_opponents(1);
 
 
 /*==============================

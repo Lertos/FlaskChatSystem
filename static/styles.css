@@ -73,7 +73,7 @@ hr{
 }
 
 img{
-    max-width:64px; 
+    max-width:64px;
     height:auto;
     border: var(--text) var(--borderWidth) solid;
     background-color: var(--imageBackground);
@@ -323,6 +323,24 @@ ul{
     color: white;
 }
 
+.upgradePanelParent{
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+}
+
+.upgradePanelChild{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    background-color: var(--background);
+    background-image: url("/static/pattern2.png");
+    background-repeat: repeat;
+    color: white;
+}
+
 /*===================
 
     direct
@@ -492,36 +510,9 @@ ul{
 #battleLog{
     width: 100%;
     text-align: center;
-    overflow-y:scroll; 
+    overflow-y:scroll;
     height:400px;
     margin-top: 20px;
-}
-
-@media only screen and (max-width: 600px) {
-    .sidePanel{
-        display: block;
-        width: auto;
-        height: auto;
-    }
-
-    .mainPanel{
-        display: block;
-        width: auto;
-        height: auto;
-    }
-
-    .quarterEmptyPanel{
-        display: block;
-        width: auto;
-        height: auto;
-    }
-
-    .infoPanel{
-        display: block;
-        width: auto;
-        height: auto;
-        text-align: center;
-    }
 }
 
 /* Scrollbar */
@@ -529,7 +520,7 @@ ul{
 ::-webkit-scrollbar {
     width: 10px;
   }
-  
+
 /* Track */
 ::-webkit-scrollbar-track {
     background: var(--background);
@@ -722,7 +713,7 @@ ul.nav li.active a {
     background-repeat: repeat;
 }
 
-.navbar-inverse .navbar-brand{ 
+.navbar-inverse .navbar-brand{
     color: white;
     background-color: var(--background);
     background-image: url("/static/pattern2.png");
@@ -730,12 +721,12 @@ ul.nav li.active a {
     font-weight: bold;
 }
 
-.navbar-inverse .navbar-brand:hover{ 
+.navbar-inverse .navbar-brand:hover{
     filter: brightness(0.85);
 }
 
 .resizeImg128{
-    max-width:128px; 
+    max-width:128px;
     height:auto;
     margin: 0px;
     padding: 0px;
@@ -746,7 +737,7 @@ ul.nav li.active a {
 }
 
 .resizeImg128NoHover{
-    max-width:128px; 
+    max-width:128px;
     height:auto;
     margin: 0px;
     padding: 0px;
@@ -757,7 +748,7 @@ ul.nav li.active a {
 }
 
 .resizeImg128NoBg{
-    max-width:128px; 
+    max-width:128px;
     background-color: rgba(0, 0, 0, 0);
     height:auto;
     margin: 0px;
@@ -808,3 +799,30 @@ ul.nav li.active a {
 .sepia { filter: sepia(100%); }
 .huerotate { filter: hue-rotate(180deg); }
 .rss.opacity { filter: opacity(50%); }
+
+@media only screen and (max-width: 750px) {
+    .sidePanel{
+        display: block;
+        width: auto;
+        height: auto;
+    }
+
+    .mainPanel{
+        display: block;
+        width: auto;
+        height: auto;
+    }
+
+    .quarterEmptyPanel{
+        display: block;
+        width: auto;
+        height: auto;
+    }
+
+    .infoPanel{
+        display: block;
+        width: auto;
+        height: auto;
+        text-align: center;
+    }
+}

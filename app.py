@@ -19,7 +19,6 @@ app.secret_key = os.urandom(24)
 database = db_manager.mysql_pool
 
 
-
 #===============================
 
 #Routes
@@ -163,6 +162,7 @@ def dashboard():
     equippedItems = database.getPlayerEquippedItems(playerId)
     items = database.getPlayerInventory(playerId)
 
+    print('----->',session['displayName'],'DASHBOARD')
     return render_template('dashboard.html', player=player, classInfo=classInfo, equippedItems=equippedItems, items=items)
 
 
@@ -176,8 +176,13 @@ def sellItem():
     sellPrice = request.form['sellPrice']
     inventoryId = request.form['inventoryId']
 
+    #Check for tampering
     if int(playerId) == int(session['playerId']):
-        database.sellInventoryItem(playerId, sellPrice, inventoryId)
+        items = database.getPlayerItemsWithSellPriceAndType(playerId)
+
+        if validation.isPriceCorrect(items, sellPrice, inventoryId):
+            database.sellInventoryItem(playerId, sellPrice, inventoryId)
+            return Response('', status=203)
 
     return Response('', status=201)
 
@@ -264,6 +269,7 @@ def quests():
         playerStats = database.getPlayerStats(playerId)
         playerStamina = playerStats['stamina']
 
+        print('----->',session['displayName'],'QUESTS')
         return render_template('quests.html', questMonsters=questMonsters, playerStamina=playerStamina)
 
     #If they do not have active quests, create some and reload the quests page
@@ -323,36 +329,20 @@ def travel():
     travelInfo = helper.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
-        '''
-        #Try again but cap it so it isn't infinite
-        retryAttemtps = 1
-
-        while(travelInfo == {}):
-            time.sleep(1)
-            travelInfo = helper.getPlayerTravelInfo(playerId)
-
-            if retryAttemtps == 0:
-                break
-            retryAttemtps -= 1
-
-        if retryAttemtps == 0:
-            print('==ERROR: Travel timed out')
-        '''
         print('==ERROR: Travel redirect to dashboard')
         return redirect(url_for('dashboard'))
 
     #Check for travel types that should not be here
     if travelInfo['typeOfEvent'] == 'arena' or travelInfo['typeOfEvent'] == 'dungeon':
-        print('==ERROR: Arena and/or dungeon travel info trying to be used in /travel')
         return redirect(url_for('results'))
 
     #Get the time left from the end of the travel
     timeLeft = helper.getTimeLeftFromEpochTime(travelInfo['travel_time'])
 
     if timeLeft <= 0:
-        print('==GOOD: Travel redirect to result as time is up')
         return redirect(url_for('results'))
 
+    print('----->',session['displayName'],'TRAVEL')
     return render_template('travel.html', travelInfo=travelInfo, timeLeft=timeLeft)
 
 
@@ -368,20 +358,6 @@ def eventDone():
     travelInfo = helper.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
-        #Try again but cap it so it isn't infinite
-        '''
-        retryAttemtps = 1
-
-        while(travelInfo == {}):
-            time.sleep(1)
-            travelInfo = helper.getPlayerTravelInfo(playerId)
-
-            if retryAttemtps == 0:
-                break
-            retryAttemtps -= 1
-
-        if retryAttemtps == 0:
-        '''
         print('==ERROR: /eventDone had no travel info')
         return Response('', status=202)
 
@@ -402,7 +378,6 @@ def cancelEvent():
 
     playerId = session['playerId']
 
-    print('==GOOD: Cancelling Event', playerId)
     #Remove the player from the travel dict
     helper.removePlayerTravelInfo(playerId)
 
@@ -428,7 +403,15 @@ def results():
     travelInfo = helper.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
-        return redirect(url_for('results'))
+        print('==ERROR: /results Empty travel info')
+        return redirect(url_for('dashboard'))
+
+    #Get the time left from the end of the travel for quests and bounties
+    if travelInfo['typeOfEvent'] == 'quest' or travelInfo['typeOfEvent'] == 'bounty':
+        timeLeft = helper.getTimeLeftFromEpochTime(travelInfo['travel_time'])
+
+        if timeLeft > 0:
+            return redirect(url_for('travel'))
 
     #Get the stats of the player and the monster
     player = database.getPlayerStats(playerId)
@@ -440,7 +423,9 @@ def results():
         monster = travelInfo
     else:
         monster = helper.createMonsterForBattle(player, playerId, travelInfo)
-
+        if monster == -1:
+            print('==ERROR: /results MONSTER stats cannot be found - redirect to dashboard')
+            return redirect(url_for('dashboard'))
 
     #Fix player stats as base stats and equipment stats are separate
     player = helper.combinePlayerStats(player)
@@ -497,11 +482,10 @@ def results():
         if session['playerLevel'] != playerLevel:
             session['playerLevel'] = playerLevel
 
-    print('==GOOD: RESULTS - Removing Travel Info', playerId)
-
     #Remove travel information to generate new events
     helper.removePlayerTravelInfo(playerId)
 
+    print('----->',session['displayName'],'RESULTS')
     return render_template('results.html', travelInfo=travelInfo, player=player, monster=monster, battleLog=battleLog)
 
 
@@ -522,6 +506,7 @@ def bounties():
 
     #Check if the player is high enough level to try bounties
     if session['playerLevel'] < 10:
+        print('----->',session['displayName'],'BOUNTIES')
         return render_template('bounties.html', bountyMonsters=None, bountyAttempts=None, unlocked=False)
 
     #Check if the player travelling for another event
@@ -541,6 +526,7 @@ def bounties():
         playerStats = database.getPlayerStats(playerId)
         bountyAttempts = playerStats['bounty_attempts']
 
+        print('----->',session['displayName'],'BOUNTIES')
         return render_template('bounties.html', bountyMonsters=bountyMonsters, bountyAttempts=bountyAttempts, unlocked=True)
 
     #If they do not have active bounties, create some and reload the bounties page
@@ -577,9 +563,9 @@ def startBounty():
             helper.removePlayerTravelInfo(playerId)
             return Response('NO_ATTEMPTS', status=201)
 
-        return Response('START_BOUNTY', status=201)
+        return Response('START_BOUNTY', status=203)
 
-    return Response('ALREADY_IN_EVENT', status=201)
+    return Response('ALREADY_IN_EVENT', status=202)
 
 
 #===============================
@@ -615,6 +601,7 @@ def arena():
         playerHonor = playerStats['honor']
         arenaAttempts = playerStats['arena_attempts']
 
+        print('----->',session['displayName'],'ARENA')
         return render_template('arena.html', playerHonor=playerHonor, opponents=opponents, arenaAttempts=arenaAttempts)
 
     #If they do not have active opponents, create some and reload the arena page
@@ -683,13 +670,13 @@ def dungeons():
 
     #If they don't have it setup - return them to the dashboard gracefully
     if dungeonMonsters == []:
-        print('==ERROR: Player doesnt have dungeons...')
         return redirect(url_for('dashboard'))
 
     #Get the player dungeon attempts
     playerStats = database.getPlayerStats(playerId)
     dungeonAttempts = playerStats['dungeon_attempts']
 
+    print('----->',session['displayName'],'DUNGEONS')
     return render_template('dungeons.html', dungeonMonsters=dungeonMonsters, dungeonAttempts=dungeonAttempts)
 
 
@@ -739,6 +726,7 @@ def offerings():
     playerId = session['playerId']
     active = database.getActiveBlessing(playerId)
 
+    print('----->',session['displayName'],'OFFERINGS')
     return render_template('offerings.html', active=active)
 
 
@@ -784,8 +772,10 @@ def leaderboard():
         header = boardData[0]
         data = boardData[1]
 
+        print('----->',session['displayName'],'LEADERBOARD')
         return render_template('leaderboard.html', seasonList=seasonList, boardType=boardType, season=season, header=header, data=data, displayName=session['displayName'])
 
+    print('----->',session['displayName'],'LEADERBOARD')
     return render_template('leaderboard.html', seasonList=seasonList, boardType='')
 
 
