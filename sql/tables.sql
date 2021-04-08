@@ -31,10 +31,13 @@ CREATE TABLE players
     dungeon_attempts TINYINT DEFAULT 5,
     arena_attempts TINYINT DEFAULT 10,
     arena_wins INT DEFAULT 0,
+    arena_losses INT DEFAULT 0,
     quests_finished INT DEFAULT 0,
     bounties_finished INT DEFAULT 0,
     gold_collected INT DEFAULT 25,
 	items_collected SMALLINT DEFAULT 0,
+    legendary_collected SMALLINT DEFAULT 0,
+    mythic_collected SMALLINT DEFAULT 0,
     PRIMARY KEY (player_id)
 );
 

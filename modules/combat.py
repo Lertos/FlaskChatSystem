@@ -262,16 +262,8 @@ def calculateDamage(entity):
     else:
         damage = math.floor((float(damage)/(level ** 1.9)) * (level ** 2) * (float(mainStat)/30) + 40)
 
-    '''
-    #OLD DAMAGE
-    if level <= 2:
-        damage = math.floor(damage * (level) + 1)
-    if level <= 5:
-        #damage = math.floor(damage/30 * (level ** 2) + 10)
-        damage = math.floor(damage/2 * (level) + 1)
-    else:
-        damage = math.floor(damage/40 * (level ** 2) + 40)
-    '''
+    if 'player_id' not in entity and level <= 5:
+        damage = math.floor(damage/5)
 
     entity['damage'] = damage
 

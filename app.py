@@ -48,8 +48,11 @@ def signin():
 
         if 'playerId' in session:
             session.pop('playerId', None)
+        if 'className' in session:
             session.pop('className', None)
+        if 'playerLevel' in session:
             session.pop('playerLevel', None)
+        if 'displayName' in session:
             session.pop('displayName', None)
 
         username = request.form['username']
@@ -60,12 +63,12 @@ def signin():
         #If the statement returned anything (meaning the combo exists) - log them in
         if(result != {}):
             session['playerId'] = result['player_id']
-            session['className'] = result['class_name']
             session['playerLevel'] = result['player_level']
             session['displayName'] = result['display_name']
 
             #Check is the character has been created yet
             if(result['has_character'] == 1):
+                session['className'] = result['class_name']
                 return redirect(url_for('dashboard'))
             else:
                 return redirect(url_for('characterCreation'))
@@ -123,6 +126,12 @@ def signup():
 
 @app.route('/characterCreation', methods=['GET', 'POST'])
 def characterCreation():
+
+    #If the player is logged in and has a character
+    if 'playerId' in session and 'className' in session:
+        print(session)
+        return redirect(url_for('dashboard'))
+
     if request.method == 'POST':
         data = [request.form['className'], request.form['avatarName'], session['playerId']]
         database.createNewCharacter(data)
@@ -436,7 +445,7 @@ def results():
 
     #Give winnings
     playerWon = False
-    if (battleLog['winner'] == player['name'] and travelInfo['typeOfEvent'] != 'arena') or (session['playerLevel'] <= 4 and travelInfo['typeOfEvent'] == 'quest'):
+    if battleLog['winner'] == player['name'] and travelInfo['typeOfEvent'] != 'arena':
         playerWon = True
 
         #Check if the entity will drop something
@@ -449,12 +458,12 @@ def results():
             blessing = database.getActiveBlessing(playerId)
 
             if blessing == 'drops':
-                dropChance = 0.60
+                dropChance = 0.65
             else:
-                dropChance = 0.40
+                dropChance = 0.45
 
             if session['playerLevel'] <= 4:
-                dropChance += 0.30
+                dropChance += 0.25
 
         if random.uniform(0,1) <= dropChance:
             if database.doesPlayerHaveInventorySpace(playerId):
@@ -473,7 +482,7 @@ def results():
             loserId = player['player_id']
             winnerId = monster['player_id']
 
-        database.processArenaHonor(player['player_id'], winnerId, loserId, travelInfo['honor'], travelInfo['honor'] - 3)
+        database.processArenaHonor(player['player_id'], winnerId, loserId)
     else:
         playerLevel = helper.completePlayerEvent(playerId, playerWon, player, monster, travelInfo)
         playerLevel = playerLevel[0]['player_level']
@@ -777,6 +786,12 @@ def leaderboard():
 
     print('----->',session['displayName'],'LEADERBOARD')
     return render_template('leaderboard.html', seasonList=seasonList, boardType='')
+
+
+@app.route('/faq', methods=['GET'])
+def faq():
+    print('----->',session['displayName'],'FAQ')
+    return render_template('faq.html')
 
 
 @app.route('/logout')

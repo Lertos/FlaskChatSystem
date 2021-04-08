@@ -537,6 +537,44 @@ ul{
     background: var(--div);
 }
 
+.faqPage{
+    text-align: left;
+}
+
+.faqPage h2{
+    font-weight: bolder;
+    color: white;
+    padding-top: 30px;
+    padding-bottom: 15px;
+    padding-left: 20px;
+    border: 5px ridge var(--div);
+    background-color: #301f17;
+}
+
+.faqPage h4{
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    color: black;
+    font-weight: bolder;
+}
+
+.faqPage h5{
+    padding-left: 50px;
+    font-weight: bold;
+}
+
+.faqPage p, ul{
+    padding-left: 50px;
+    display: block;
+}
+
+.faqPage a{
+    display: block;
+    padding-left: 20px;
+    font-weight: bold;
+}
+
 /*===================
 
     border
@@ -675,6 +713,10 @@ ul{
 
 .background_travel{
     background-image: url('/static/backgrounds/background_travel.png');
+}
+
+.background_faq{
+    background-color: var(--background);
 }
 
 /*===================

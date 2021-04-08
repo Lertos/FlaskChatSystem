@@ -33,11 +33,14 @@
                         <option value=''></option>
                         <option value='level'>Level</option>
                         <option value='honor'>Honor</option>
-                        <option value='arena'>Arena Wins</option>
+                        <option value='arenaWins'>Arena Wins</option>
+                        <option value='arenaLosses'>Arena Losses</option>
                         <option value='quest'>Quest Wins</option>
                         <option value='bounty'>Bounty Wins</option>
                         <option value='gold'>Gold Collected</option>
                         <option value='items'>Items Collected</option>
+                        <option value='itemsLeg'>Legendaries</option>
+                        <option value='itemsMyth'>Mythics</option>
                     </select>
                 </div>
             </form>
@@ -49,8 +52,10 @@
                 <table class='largeTable background'>
                     <thead class='tableColColor'>
                         <th style='width:7%;'>Rank</th>
-                        {% if boardType == 'arena' %}
+                        {% if boardType == 'arenaWins' %}
                             <th style='width:8%;'>Wins</th>
+                        {% elif boardType == 'arenaLosses' %}
+                            <th style='width:8%;'>Losses</th>
                         {% elif boardType == 'quest' %}
                             <th style='width:8%;'>Quests</th>
                         {% elif boardType == 'bounty' %}
@@ -59,6 +64,10 @@
                             <th style='width:8%;'>Gold</th>
                         {% elif boardType == 'items' %}
                             <th style='width:8%;'>Items</th>
+                        {% elif boardType == 'itemsLeg' %}
+                            <th style='width:8%;'>Legendaries</th>
+                        {% elif boardType == 'itemsMyth' %}
+                            <th style='width:8%;'>Mythics</th>
                         {% endif %}
                         <th style='width:14%;'>Name</th>
                         <th style='width:7%;'>Level</th>
@@ -77,8 +86,10 @@
                             <tr>
                         {% endif %}
                             <td>{{ player['player_rank'] }}</td>
-                            {% if boardType == 'arena' %}
+                            {% if boardType == 'arenaWins' %}
                                 <td>{{ player['arena_wins'] }}</td>
+                            {% elif boardType == 'arenaLosses' %}
+                                <td>{{ player['arena_losses'] }}</td>
                             {% elif boardType == 'quest' %}
                                 <td>{{ player['quests_finished'] }}</td>
                             {% elif boardType == 'bounty' %}
@@ -87,6 +98,10 @@
                                 <td>{{ player['gold_collected'] }}</td>
                             {% elif boardType == 'items' %}
                                 <td>{{ player['items_collected'] }}</td>
+                            {% elif boardType == 'itemsLeg' %}
+                                <td>{{ player['legendary_collected'] }}</td>
+                            {% elif boardType == 'itemsMyth' %}
+                                <td>{{ player['mythic_collected'] }}</td>
                             {% endif %}
                             <td>{{ player['display_name'] }}</td>
                             <td>{{ player['player_level'] }}</td>

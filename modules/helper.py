@@ -39,9 +39,13 @@ leaderboardInfo = {
             'header': 'Highest Honor',
             'procedure': 'usp_leaderboard_get_highest_honor'
         },
-        'arena': {
+        'arenaWins': {
             'header': 'Most Arena Wins',
             'procedure': 'usp_leaderboard_get_highest_arena_wins'
+        },
+        'arenaLosses': {
+            'header': 'Most Arena Losses',
+            'procedure': 'usp_leaderboard_get_highest_arena_losses'
         },
         'quest': {
             'header': 'Most Quests Completed',
@@ -58,6 +62,14 @@ leaderboardInfo = {
         'items': {
             'header': 'Most Items Collected',
             'procedure': 'usp_leaderboard_get_highest_items_collected'
+        },
+        'itemsLeg': {
+            'header': 'Most Legendaries Collected',
+            'procedure': 'usp_leaderboard_get_highest_legendary_collected'
+        },
+        'itemsMyth': {
+            'header': 'Most Mythic Collected',
+            'procedure': 'usp_leaderboard_get_highest_mythic_collected'
         }
     }
 
@@ -345,13 +357,6 @@ def addArenaFightToTravelInfo(player, playerId, opponentId):
     travellingPlayers[playerId] = opponent
     travellingPlayers[playerId]['typeOfEvent'] = 'arena'
 
-    if player['honor'] > opponent['honor']:
-        honor = 9
-    else:
-        honor = 13
-
-    travellingPlayers[playerId]['honor'] = honor
-
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
 def addDungeonToTravelInfo(playerId, dungeonTier):
@@ -411,7 +416,7 @@ def createRandomQuestMonsters(playerId, playerStats):
         monsterStamina = random.randint(4,7)
 
         #Get a random travel time
-        monsterTime = random.randint(60,240)
+        monsterTime = random.randint(2,2)
 
         #Get random stats based on the players average stat
         stats = []
@@ -487,7 +492,7 @@ def createRandomBountyMonsters(playerId, playerStats):
         monsterDropChance = 0.75
 
         #Get a random travel time
-        monsterTime = random.randint(60,240)
+        monsterTime = random.randint(2,2)
 
         #Get random stats based on the players average stat
         stats = []
@@ -578,8 +583,8 @@ def createMonsterForBattle(playerStats, playerId, travelInfo):
         monster['damage'] = math.floor(float(playerStats['damage']) * float(random.uniform(0.3,0.5)))
         monster['armor'] = math.floor(float(playerStats['armor']) * float(random.uniform(0.3,0.5)))
     else:
-        monster['damage'] = math.floor(float(playerStats['damage']) * float(random.uniform(0.7,0.8)))
-        monster['armor'] = math.floor(float(playerStats['armor']) * float(random.uniform(0.7,0.8)))
+        monster['damage'] = math.floor(float(playerStats['damage']) * float(random.uniform(0.6,0.7)))
+        monster['armor'] = math.floor(float(playerStats['armor']) * float(random.uniform(0.6,0.7)))
 
     return monster
 
@@ -609,17 +614,17 @@ def combinePlayerStats(playerStats):
 #Applies a normalized booster for stats of a monster based on a class - so they don't look so random and stand a chance
 def applyMonsterStatBoosters(stats, stat):
     if stat == 'str':
-        stats[0] = math.floor(stats[0] * 1.4)
-        stats[3] = math.floor(stats[3] * 1.35)
-        stats[4] = math.floor(stats[4] * 1.15)
+        stats[0] = math.floor(stats[0] * 1.35)
+        stats[3] = math.floor(stats[3] * 1.3)
+        stats[4] = math.floor(stats[4] * 1.1)
     elif stat == 'dex':
-        stats[1] = math.floor(stats[0] * 1.5)
-        stats[3] = math.floor(stats[0] * 1.25)
-        stats[4] = math.floor(stats[4] * 1.15)
+        stats[1] = math.floor(stats[0] * 1.45)
+        stats[3] = math.floor(stats[0] * 1.2)
+        stats[4] = math.floor(stats[4] * 1.1)
     else:
-        stats[2] = math.floor(stats[0] * 1.6)
-        stats[3] = math.floor(stats[0] * 1.15)
-        stats[4] = math.floor(stats[0] * 1.5)
+        stats[2] = math.floor(stats[0] * 1.55)
+        stats[3] = math.floor(stats[0] * 1.1)
+        stats[4] = math.floor(stats[0] * 1.45)
     return stats
 
 

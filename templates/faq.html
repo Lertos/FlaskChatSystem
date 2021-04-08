@@ -1,0 +1,284 @@
+{% extends 'basePlusNavbar.html' %}
+
+{% block head %}
+    <title>FAQ</title>
+{% endblock %}
+
+{% block body %}
+<body class='background_faq'>
+
+    <div id='container'>
+
+        <div class='faqPage background border spacing'>    
+            <h2>Table of Contents</h2>
+            <a href="#general">General Info</a>
+            <a href="#icons">Icon Meanings</a>
+            <a href="#classes">Classes</a>
+            <a href="#tabs">Tab Explanations</a>
+            <a href="#rarities">Item Rarities/Drop Chances</a>
+            
+            <h2 id='general'>General Info</h2>
+            <h4>Drop Rates</h4>
+            <ul>
+                <li>Under Level 5 - <strong>70%</strong></li>
+                <li>Over Level 5 - <strong>45%</strong></li>
+                <li>Bounties - <strong>75%</strong></li>
+                <li>Dungeons - <strong>100%</strong></li>
+                <li>Drop Chance Blessing - <strong>+20%</strong></li>
+            </ul>
+
+            <h4>The Arena</h4>
+            <ul>
+                <li>Win - <strong>Lower Honor</strong> Than Opponent: <strong>+8 Honor</strong></li>
+                <li>Win - <strong>Higher Honor</strong> Than Opponent: <strong>+6 Honor</strong></li>
+                <li>Loss - <strong>Lower Honor</strong> Than Opponent: <strong>-8 Honor</strong></li>
+                <li>Loss - <strong>Higher Honor</strong> Than Opponent: <strong>-10 Honor</strong></li>
+            </ul>
+
+            <h4>Monsters</h4>
+            <ul>
+                <li><strong>Dungeons -</strong> These are fights that are pre-defined and are the same for everyone</li>
+                <li><strong>Quests/Bounties -</strong> These fights scale based on your current stats at the point of combat</li>
+            </ul>
+
+            <h2 id='icons'>Icon Meanings</h2>
+            
+            <ul>
+                <li>
+                    <img class='iconImg' src='/static/icons/icon_gold.png'>
+                    <strong>Gold -</strong>  Used to upgrade your attributes on the dashboard
+                </li>
+                <li>
+                    <img class='iconImg' src='/static/icons/icon_xp.png'>
+                    <strong>Experience -</strong>  Experience is what determines your level
+                </li>
+                <li>
+                    <img class='iconImg' src='/static/icons/icon_stamina.png'>
+                    <strong>Stamina -</strong>  Allows you to start quests and bounties
+                </li>
+                <li>
+                    <img class='iconImg' src='/static/icons/icon_time.png'>
+                    <strong>Travel Time -</strong>  How long quests/bounties will take
+                </li>
+                <li>
+                    <img class='iconImg' src='/static/icons/icon_honor.png'>
+                    <strong>Honor -</strong>  Earned (and lost) in the arena fighting other players
+                </li>
+                <li>
+                    <img class='iconImg' src='/static/icons/icon_loot.png'>
+                    <strong>Loot -</strong>  Lets the player know they received loot
+                </li>
+                <li>
+                    <img class='iconImg' src='/static/icons/icon_key.png'>
+                    <strong>Dungeon Key -</strong>  How many times you may attempt fighting dungeons
+                </li>
+                <li>
+                    <img class='iconImg' src='/static/icons/icon_note.png'>
+                    <strong>Bounty Attempts -</strong>  How many bounties you are allowed to attempt for the day
+                </li>
+                <li>
+                    <img class='iconImg' src='/static/icons/icon_summons.png'>
+                    <strong>Arena Attempts -</strong>  How many players you can fight in the arena for the day
+                </li>
+
+            </ul>
+
+            <h2 id='classes'>Classes</h2>
+            <ul>
+                <li>
+                    <img class='sameLine' src='/static/classes/class_warrior.png'>
+                    <h3 class='sameLine'>Warrior</h3>
+                    <ul class='spacing'>
+                        <li>Main Attribute: <strong>Strength</strong></li>
+                        <li>Max Armor Reduction: <strong>60%</strong></li>
+                        <li>Health Multiplier: <strong>3.5x</strong></li>
+                        <li>Weapons: <strong>One Handed</strong></li>
+                        <li>Special 1: <strong class='textRed'>Can equip shields in your off-hand</strong></li>
+                        <li>Special 2: <strong>Has a 25% chance to block an attack</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <img class='sameLine' src='/static/classes/class_berserker.png'>
+                    <h3 class='sameLine'>Berserker</h3>
+                    <ul class='spacing'>
+                        <li>Main Attribute: <strong>Strength</strong></li>
+                        <li>Max Armor Reduction: <strong>45%</strong></li>
+                        <li>Health Multiplier: <strong>2.8x</strong></li>
+                        <li>Weapons: <strong>One Handed</strong></li>
+                        <li>Special 1: <strong class='textRed'>Takes 2x damage from mages</strong></li>
+                        <li>Special 2: <strong>Has a 50% chance to attack again after each hit</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <img class='sameLine' src='/static/classes/class_magic_knight.png'>
+                    <h3 class='sameLine'>Magic Knight</h3>
+                    <ul class='spacing'>
+                        <li>Main Attribute: <strong>Strength</strong></li>
+                        <li>Max Armor Reduction: <strong>50%</strong></li>
+                        <li>Health Multiplier: <strong>3.0x</strong></li>
+                        <li>Weapons: <strong>One Handed</strong></li>
+                        <li>Special 1: <strong>For every hit, drop the foes armor reduction by 5%</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <img class='sameLine' src='/static/classes/class_fencer.png'>
+                    <h3 class='sameLine'>Fencer</h3>
+                    <ul class='spacing'>
+                        <li>Main Attribute: <strong>Strength</strong></li>
+                        <li>Max Armor Reduction: <strong>40%</strong></li>
+                        <li>Health Multiplier: <strong>2.7x</strong></li>
+                        <li>Weapons: <strong>One Handed</strong></li>
+                        <li>Special 1: <strong>Has an additional 25% critical chance (max is now 60%)</strong></li>
+                        <li>Special 2: <strong>Drops the foes armor reduction by 15%</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <img class='sameLine' src='/static/classes/class_scout.png'>
+                    <h3 class='sameLine'>Scout</h3>
+                    <ul class='spacing'>
+                        <li>Main Attribute: <strong>Dexterity</strong></li>
+                        <li>Max Armor Reduction: <strong>30%</strong></li>
+                        <li>Health Multiplier: <strong>2.3x</strong></li>
+                        <li>Weapons: <strong>Two Handed</strong></li>
+                        <li>Special 1: <strong class='textRed'>Has a 25% chance to evade physical attacks</strong></li>
+                        <li>Special 2: <strong>Has a 15% chance to evade magic attacks/ignore blocking</strong></li>
+                        <li>Special 3: <strong>Has a 15% chance to ignore Warrior's blocks</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <img class='sameLine' src='/static/classes/class_rogue.png'>
+                    <h3 class='sameLine'>Rogue</h3>
+                    <ul class='spacing'>
+                        <li>Main Attribute: <strong>Dexterity</strong></li>
+                        <li>Max Armor Reduction: <strong>20%</strong></li>
+                        <li>Health Multiplier: <strong>1.8x</strong></li>
+                        <li>Weapons: <strong>One Handed</strong></li>
+                        <li>Special 1: <strong class='textRed'>Has a 25% chance to evade physical attacks</strong></li>
+                        <li>Special 2: <strong>Strikes twice on each turn</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <img class='sameLine' src='/static/classes/class_demon_hunter.png'>
+                    <h3 class='sameLine'>Demon Hunter</h3>
+                    <ul class='spacing'>
+                        <li>Main Attribute: <strong>Dexterity</strong></li>
+                        <li>Max Armor Reduction: <strong>35%</strong></li>
+                        <li>Health Multiplier: <strong>2.3x</strong></li>
+                        <li>Weapons: <strong>Two Handed</strong></li>
+                        <li>Special 1: <strong class='textRed'>Has a 35% chance to resurrect with full health</strong></li>
+                        <li>Special 2: <strong>A ranged-tank hybrid</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <img class='sameLine' src='/static/classes/class_assassin.png'>
+                    <h3 class='sameLine'>Assassin</h3>
+                    <ul class='spacing'>
+                        <li>Main Attribute: <strong>Dexterity</strong></li>
+                        <li>Max Armor Reduction: <strong>20%</strong></li>
+                        <li>Health Multiplier: <strong>1.8x</strong></li>
+                        <li>Weapons: <strong>One Handed</strong></li>
+                        <li>Special 1: <strong class='textRed'>Has a 25% chance to evade physical attacks</strong></li>
+                        <li>Special 2: <strong>Has an additional 20% critical chance (max is now 50%)</strong></li>
+                        <li>Special 3: <strong>Your critical hits deal 3x damage instead of 2x</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <img class='sameLine' src='/static/classes/class_frost_mage.png'>
+                    <h3 class='sameLine'>Frost Mage</h3>
+                    <ul class='spacing'>
+                        <li>Main Attribute: <strong>Intelligence</strong></li>
+                        <li>Max Armor Reduction: <strong>20%</strong></li>
+                        <li>Health Multiplier: <strong>2.0x</strong></li>
+                        <li>Weapons: <strong>Two Handed</strong></li>
+                        <li>Special 1: <strong class='textRed'>Your magic attacks cannot be blocked or dodged</strong></li>
+                        <li>Special 2: <strong>Drops your foes critical chance by 20%</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <img class='sameLine' src='/static/classes/class_fire_mage.png'>
+                    <h3 class='sameLine'>Fire Mage</h3>
+                    <ul class='spacing'>
+                        <li>Main Attribute: <strong>Intelligence</strong></li>
+                        <li>Max Armor Reduction: <strong>15%</strong></li>
+                        <li>Health Multiplier: <strong>1.7x</strong></li>
+                        <li>Weapons: <strong>Two Handed</strong></li>
+                        <li>Special 1: <strong class='textRed'>Your magic attacks cannot be blocked or dodged</strong></li>
+                        <li>Special 2: <strong>Increases damage by 15% each turn</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <img class='sameLine' src='/static/classes/class_dark_mage.png'>
+                    <h3 class='sameLine'>Dark Mage</h3>
+                    <ul class='spacing'>
+                        <li>Main Attribute: <strong>Intelligence</strong></li>
+                        <li>Max Armor Reduction: <strong>15%</strong></li>
+                        <li>Health Multiplier: <strong>1.9x</strong></li>
+                        <li>Weapons: <strong>Two Handed</strong></li>
+                        <li>Special 1: <strong class='textRed'>Your magic attacks cannot be blocked or dodged</strong></li>
+                        <li>Special 2: <strong>Has a 50% chance to steal 1/3 of your base damage as health</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <img class='sameLine' src='/static/classes/class_blood_mage.png'>
+                    <h3 class='sameLine'>Blood Mage</h3>
+                    <ul class='spacing'>
+                        <li>Main Attribute: <strong>Intelligence</strong></li>
+                        <li>Max Armor Reduction: <strong>15%</strong></li>
+                        <li>Health Multiplier: <strong>1.8x</strong></li>
+                        <li>Weapons: <strong>Two Handed</strong></li>
+                        <li>Special 1: <strong class='textRed'>Your magic attacks cannot be blocked or dodged</strong></li>
+                        <li>Special 2: <strong>Critical hits heal you for 1/2 of your base damage instead of doing damage</strong></li>
+                        <li>Special 3: <strong>The healing is twice as strong if the foe is a mage</strong></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h2 id='tabs'>Tab Explanations</h2>
+            <ul>
+                <li><strong>Dashboard - </strong> Upgrade stats - Equip/unequip/sell gear - Check your player information</li>
+                <li><strong>Quests - </strong> Choose the quest that means the most to you</li>
+                <li><strong>Bounties - </strong> Create your own challenge (and rewards!)</li>
+                <li><strong>Dungeons - </strong> Pre-defined fights meant to test your abilities and get great rewards</li>
+                <li><strong>Arena - </strong> Fight other players for the almighty honor</li>
+                <li><strong>Offerings - </strong> Pick your daily blessing and get great bonuses</li>
+                <li><strong>Leaderboards - </strong> Keeps track of the greatest in different categories</li>
+                <li><strong>FAQ - </strong> You're here aren't you?</li>
+            </ul>
+
+            <h2 id='rarities'>Item Rarities/Drop Chances</h2>
+            <ul>
+                <li class='spacing'>
+                    <img class='sameLine itemBorderCommon' src='/static/weapons/axe (1).png'>
+                    <h3 class='sameLine'>Common</h3>
+                    <h3 class='sameLine textGreen'>60%</h3>
+                </li>
+                <li class='spacing'>
+                    <img class='sameLine itemBorderUncommon' src='/static/weapons/axe (1).png'>
+                    <h3 class='sameLine'>Uncommon</h3>
+                    <h3 class='sameLine textGreen'>30%</h3>
+                </li>
+                <li class='spacing'>
+                    <img class='sameLine itemBorderRare' src='/static/weapons/axe (1).png'>
+                    <h3 class='sameLine'>Rare</h3>
+                    <h3 class='sameLine textGreen'>8%</h3>
+                </li>
+                <li class='spacing'>
+                    <img class='sameLine itemBorderLegendary' src='/static/weapons/axe (1).png'>
+                    <h3 class='sameLine'>Legendary</h3>
+                    <h3 class='sameLine textGreen'>1%</h3>
+                </li>
+                <li class='spacing'>
+                    <img class='sameLine itemBorderMythic' src='/static/weapons/axe (1).png'>
+                    <h3 class='sameLine'>Mythic</h3>
+                    <h3 class='sameLine textGreen'>1%</h3>
+                </li>
+            </ul>
+            
+        </div>
+
+        <div>
+        </div>
+
+    </div>
+	
+{% endblock %}

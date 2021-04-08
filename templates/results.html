@@ -61,7 +61,11 @@
                                         <tr>
                                             <td>
                                                 <img class='iconImg' src='/static/icons/icon_honor.png'>
-                                                <p class='textRed'>-{{ travelInfo["honor"] - 3 }}</p>
+                                                {% if player['honor'] < monster['honor'] %}
+                                                    <p class='textRed'>-8</p>
+                                                {% elif player['honor'] >= monster['honor'] %}
+                                                    <p class='textRed'>-10</p>
+                                                {% endif %}
                                             </td>
                                         </tr>
                                 </table>
@@ -79,7 +83,11 @@
                                     <tr>
                                         <td>
                                             <img class='iconImg' src='/static/icons/icon_honor.png'>
-                                            <p class='textGreen'>+{{ travelInfo["honor"] }}</p>
+                                            {% if player['honor'] < monster['honor'] %}
+                                                <p class='textGreen'>+8</p>
+                                            {% elif player['honor'] >= monster['honor'] %}
+                                                <p class='textGreen'>+6</p>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                 {% else %}

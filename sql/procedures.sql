@@ -200,13 +200,15 @@ BEGIN
     VALUES (p_player_id, v_item_id, p_level, p_rarity_name, p_item_prefix_id, 0, p_strength, p_dexterity, p_intelligence, p_constitution, p_luck, p_damage, p_armor, p_worth);
     
     UPDATE players
-    SET items_collected = items_collected + 1
+    SET items_collected = items_collected + 1, 
+    legendary_collected = legendary_collected + CASE WHEN p_rarity_name = 'Legendary' THEN 1 ELSE 0 END,
+    mythic_collected = mythic_collected + CASE WHEN p_rarity_name = 'Mythic' THEN 1 ELSE 0 END
     WHERE player_id = p_player_id;
     
 END //
 DELIMITER ;
 
-#CALL usp_create_new_item(1, 20, 1, 1, 'Common', 10, 15, 20, 25, 30, 0, 45, 10);
+#CALL usp_create_new_item(1, 20, 1, 1, 'Rare', 10, 15, 20, 25, 30, 0, 45, 10);
 #SELECT * FROM player_inventories;
 
 
@@ -778,6 +780,38 @@ DELIMITER ;
 
 
 /*==============================
+	usp_leaderboard_get_highest_arena_losses
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_leaderboard_get_highest_arena_losses;
+
+DELIMITER //
+CREATE PROCEDURE usp_leaderboard_get_highest_arena_losses
+(
+	IN p_season SMALLINT
+)
+BEGIN
+
+	SET @player_rank = 0;
+
+	SELECT (@player_rank := @player_rank + 1) AS player_rank, a.* FROM (
+		SELECT a.display_name, a.class_name, a.arena_losses, a.player_level, a.honor,
+		(a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
+		FROM players a
+		LEFT JOIN player_inventories b ON a.player_id = b.player_id AND IFNULL(b.equipped,1) = 1
+		WHERE a.character_season = p_season AND a.has_character = 1
+		GROUP BY a.player_id
+		ORDER BY a.arena_losses DESC, a.player_level DESC, a.honor DESC
+		LIMIT 100
+    ) AS a;
+
+END //
+DELIMITER ;
+
+#CALL usp_leaderboard_get_highest_arena_losses(1);
+
+
+/*==============================
 	usp_leaderboard_get_highest_quests_finished
 ==============================*/
 
@@ -906,6 +940,70 @@ DELIMITER ;
 
 
 /*==============================
+	usp_leaderboard_get_highest_legendary_collected
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_leaderboard_get_highest_legendary_collected;
+
+DELIMITER //
+CREATE PROCEDURE usp_leaderboard_get_highest_legendary_collected
+(
+	IN p_season SMALLINT
+)
+BEGIN
+
+	SET @player_rank = 0;
+
+	SELECT (@player_rank := @player_rank + 1) AS player_rank, a.* FROM (
+		SELECT a.display_name, a.class_name, a.legendary_collected, a.player_level, a.honor,
+		(a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
+		FROM players a
+		LEFT JOIN player_inventories b ON a.player_id = b.player_id AND IFNULL(b.equipped,1) = 1
+		WHERE a.character_season = p_season AND a.has_character = 1
+		GROUP BY a.player_id
+		ORDER BY a.legendary_collected DESC, a.player_level DESC, a.honor DESC
+		LIMIT 100
+    ) AS a;
+
+END //
+DELIMITER ;
+
+#CALL usp_leaderboard_get_highest_legendary_collected(1);
+
+
+/*==============================
+	usp_leaderboard_get_highest_mythic_collected
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_leaderboard_get_highest_mythic_collected;
+
+DELIMITER //
+CREATE PROCEDURE usp_leaderboard_get_highest_mythic_collected
+(
+	IN p_season SMALLINT
+)
+BEGIN
+
+	SET @player_rank = 0;
+
+	SELECT (@player_rank := @player_rank + 1) AS player_rank, a.* FROM (
+		SELECT a.display_name, a.class_name, a.mythic_collected, a.player_level, a.honor,
+		(a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
+		FROM players a
+		LEFT JOIN player_inventories b ON a.player_id = b.player_id AND IFNULL(b.equipped,1) = 1
+		WHERE a.character_season = p_season AND a.has_character = 1
+		GROUP BY a.player_id
+		ORDER BY a.mythic_collected DESC, a.player_level DESC, a.honor DESC
+		LIMIT 100
+    ) AS a;
+
+END //
+DELIMITER ;
+
+#CALL usp_leaderboard_get_highest_mythic_collected(1);
+
+
+/*==============================
 	usp_create_arena_opponents
 ==============================*/
 
@@ -983,32 +1081,35 @@ CREATE PROCEDURE usp_process_arena_honor
 (
 	IN p_player_id SMALLINT,
     IN p_winner_id SMALLINT,
-    IN p_loser_id SMALLINT,
-    IN p_winner_honor SMALLINT,
-    IN p_loser_honor SMALLINT
+    IN p_loser_id SMALLINT
 )
 BEGIN
 
+	DECLARE v_winner_honor INT;
+    DECLARE v_loser_honor INT;
+    
+    SET v_winner_honor = (SELECT honor FROM players WHERE player_id = p_winner_id);
+    SET v_loser_honor = (SELECT honor FROM players WHERE player_id = p_loser_id);
+
 	UPDATE players
-    SET arena_attempts = arena_attempts - 1
+    SET arena_attempts = arena_attempts - 1,
+    arena_wins = arena_wins + CASE WHEN p_player_id = p_winner_id THEN 1 ELSE 0 END,
+    arena_losses = arena_losses + CASE WHEN p_player_id = p_winner_id THEN 0 ELSE 1 END,
+    honor = honor + CASE
+		WHEN p_player_id = p_winner_id AND honor < v_loser_honor THEN 8
+        WHEN p_player_id = p_winner_id AND honor >= v_loser_honor THEN 6
+        WHEN p_player_id = p_loser_id AND honor < v_winner_honor THEN -8
+        WHEN p_player_id = p_loser_id AND honor >= v_winner_honor THEN -10
+        END
     WHERE player_id = p_player_id;
-    
-    UPDATE players
-    SET honor = honor + p_winner_honor, arena_wins = arena_wins + 1
-    WHERE player_id = p_winner_id;
-    
-    UPDATE players
-    SET honor = honor - p_loser_honor
-    WHERE player_id = p_loser_id;
-    
+
     DELETE FROM arena_opponents
     WHERE player_id = p_player_id;
     
 END //
 DELIMITER ;
 
-#CALL usp_process_arena_honor(1, 4, 20, 126);
-
+#CALL usp_process_arena_honor(1, 4, 1);
 
 /*==============================
 	usp_get_player_dungeon_info

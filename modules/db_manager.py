@@ -39,87 +39,96 @@ class MySQLPool(object):
 
     #Executes a procedures without returning anything
     def executeStatementServerSetup(self, statement, attributeList):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor()
+      try:
+        conn = self.pool.get_connection()
+        cursor = conn.cursor()
 
-      cursor.execute(statement)
+        cursor.execute(statement)
 
-      result = {}
+        result = {}
 
-      for row in cursor:
-        result[row[0]] = {}
+        for row in cursor:
+          result[row[0]] = {}
 
-        for i in range(0, len(attributeList)):
-          result[row[0]][attributeList[i]] = row[i+1]
+          for i in range(0, len(attributeList)):
+            result[row[0]][attributeList[i]] = row[i+1]
 
-      self.close(conn, cursor)
-      return result
+      finally:
+        self.close(conn, cursor)
+        return result
 
 
     #Executes a procedures without returning anything
     def executeStatement(self, statement, commit, dictCursor, makeList, returnList, args=None):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor(dictionary=dictCursor)
+      try:
+        conn = self.pool.get_connection()
+        cursor = conn.cursor(dictionary=dictCursor)
 
-      if args:
-          cursor.execute(statement, args)
-      else:
-          cursor.execute(statement)
+        if args:
+            cursor.execute(statement, args)
+        else:
+            cursor.execute(statement)
 
-      #Check whether the results are in list or dictionary form
-      result = None
+        #Check whether the results are in list or dictionary form
+        result = None
 
-      if returnList:
-        result = []
-      else:
-        result = {}
+        if returnList:
+          result = []
+        else:
+          result = {}
 
-      if makeList:
-        result = list(cursor.fetchall())
-      else:
-        for row in cursor.fetchall():
-          result = row
+        if makeList:
+          result = list(cursor.fetchall())
+        else:
+          for row in cursor.fetchall():
+            result = row
 
-      if commit is True:
-          conn.commit()
+        if commit is True:
+            conn.commit()
 
-      self.close(conn, cursor)
-      return result
+      finally:
+        self.close(conn, cursor)
+        return result
 
 
     #Executes a statement and doesnt return nor fetch anythin (for updates)
     def executeUpdateStatement(self, statement, args=None):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor()
+      try:
+        conn = self.pool.get_connection()
+        cursor = conn.cursor()
 
-      if args:
-          cursor.execute(statement, args)
-      else:
-          cursor.execute(statement)
+        if args:
+            cursor.execute(statement, args)
+        else:
+            cursor.execute(statement)
 
-      conn.commit()
+        conn.commit()
 
-      self.close(conn, cursor)
+      finally:
+        self.close(conn, cursor)
 
 
     #Executes a procedures without returning anything
     def executeProcedure(self, procedure, commit, args=None):
-      conn = self.pool.get_connection()
-      cursor = conn.cursor()
+      try:
+        conn = self.pool.get_connection()
+        cursor = conn.cursor()
 
-      if args:
-          cursor.callproc(procedure, args)
-      else:
-          cursor.callproc(procedure)
+        if args:
+            cursor.callproc(procedure, args)
+        else:
+            cursor.callproc(procedure)
 
-      if commit is True:
-          conn.commit()
+        if commit is True:
+            conn.commit()
 
-      self.close(conn, cursor)
+      finally:
+        self.close(conn, cursor)
 
 
     #Executes a procedure and returns a list
     def executeProcedureReturnList(self, procedure, commit, dictCursor, args=None):
+      try:
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
 
@@ -136,12 +145,14 @@ class MySQLPool(object):
         for row in cursor.stored_results():
           result = row.fetchall()
 
+      finally:
         self.close(conn, cursor)
         return result
 
 
     #Executes a procedure and returns a dictonary
     def executeProcedureReturnDict(self, procedure, commit, dictCursor, args=None):
+      try:
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
 
@@ -158,6 +169,7 @@ class MySQLPool(object):
         for row in cursor.stored_results():
           result = row.fetchall()
 
+      finally:
         self.close(conn, cursor)
         return result
 
@@ -276,7 +288,7 @@ class MySQLPool(object):
 
     def getDashboardDetails(self, playerId):
       args = [playerId]
-      result = self.executeProcedureReturnDict('usp_get_dashboard_details', commit=True, dictCursor=True, args=args)
+      result = self.executeProcedureReturnDict('usp_get_dashboard_details', commit=False, dictCursor=True, args=args)
 
       return result[0]
 
@@ -421,8 +433,8 @@ class MySQLPool(object):
       return result
 
 
-    def processArenaHonor(self, playerId, winnerId, loserId, winnerHonor, loserHonor):
-      args = [playerId, winnerId, loserId, winnerHonor, loserHonor]
+    def processArenaHonor(self, playerId, winnerId, loserId):
+      args = [playerId, winnerId, loserId]
       result = self.executeProcedureReturnList('usp_process_arena_honor', commit=True, dictCursor=False, args=args)
 
 
