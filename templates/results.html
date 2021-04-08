@@ -54,7 +54,7 @@
                         {% if battleLog['winner'] != player['name'] %}
                             <h3 class='alignCenter textRed boldText '>YOU LOSE...</h3>
 
-                            {% if travelInfo['typeOfEvent'] == 'arena' %}
+                            {% if travelInfo['type_of_event'] == 'arena' %}
                                 <hr>
 
                                 <table class='lootTable alignCenter'>
@@ -79,7 +79,7 @@
                             <h4 class='alignCenter boldText'>Rewards</h4>
                             
                             <table class='lootTable alignCenter'>
-                                {% if travelInfo['typeOfEvent'] == 'arena' %}
+                                {% if travelInfo['type_of_event'] == 'arena' %}
                                     <tr>
                                         <td>
                                             <img class='iconImg' src='/static/icons/icon_honor.png'>
@@ -104,7 +104,7 @@
                                         </td>
                                     </tr>
                                 {% endif %}
-                                {% if travelInfo['droppedLoot'] == 1 %}
+                                {% if travelInfo['dropped_loot'] == 1 %}
                                     <tr>
                                         <td>
                                             <img class='iconImg' src='/static/icons/icon_loot.png'>
@@ -136,13 +136,13 @@
             <div class='sidePanel background border spacing'>
                 <div>
         
-                    {% if travelInfo['typeOfEvent'] == 'quest' %}
+                    {% if travelInfo['type_of_event'] == 'quest' %}
                         <img class='resizeImg128NoHover' src='/static/quest_avatars/{{ monster["file_name"] }}'>
-                    {% elif travelInfo['typeOfEvent'] == 'bounty' %}
+                    {% elif travelInfo['type_of_event'] == 'bounty' %}
                         <img class='resizeImg128NoHover' src='/static/bounty_avatars/{{ monster["file_name"] }}'>
-                    {% elif travelInfo['typeOfEvent'] == 'arena' %}
+                    {% elif travelInfo['type_of_event'] == 'arena' %}
                         <img class='resizeImg128NoHover' src='/static/avatars/{{ monster["file_name"] }}'>
-                    {% elif travelInfo['typeOfEvent'] == 'dungeon' %}
+                    {% elif travelInfo['type_of_event'] == 'dungeon' %}
                         <img class='resizeImg128NoHover' src='/static/dungeon_avatars/{{ monster["file_name"] }}'>
                     {% endif %}
 
@@ -239,7 +239,8 @@ for(var i=0; i<log.length; i++){
         var cell = row.insertCell(0);
 
         //Add the class that will dictate what side the text is on
-        if(log[i][j].includes(entity1Name))
+        console.log(log[i][j])
+        if(log[i][j].indexOf(entity1Name + '<') != -1)
             cell.classList.add('tableEntity1')
         else
             cell.classList.add('tableEntity2')

@@ -47,6 +47,46 @@ DELETE FROM arena_opponents;
 DELETE FROM active_quests;
 DELETE FROM active_bounties;
 
+
+/*==============================
+	travel_info
+==============================*/
+
+DROP TABLE IF EXISTS travel_info;
+
+CREATE TABLE travel_info
+(
+	player_id SMALLINT NOT NULL,
+    type_of_event VARCHAR(16) NOT NULL,
+    opponent_id SMALLINT NOT NULL,
+    travel_time INT NULL,
+    multiplier DECIMAL(4,3) NULL,
+    drop_chance DECIMAL(4,3) NULL,
+    dungeon_tier SMALLINT NULL,
+    dungeon_floor SMALLINT NULL,
+    level SMALLINT NULL,
+    name VARCHAR(20) NULL,
+	opponent_suffix VARCHAR(30) NULL,
+    region_name VARCHAR(30) NULL,
+    class_name VARCHAR(30) NULL,
+    file_name VARCHAR(40) NULL,
+    gold INT NULL,
+    xp INT NULL,
+    stamina SMALLINT NULL,
+    honor SMALLINT NULL,
+	strength SMALLINT NULL,
+    dexterity SMALLINT NULL,
+    intelligence SMALLINT NULL,
+    constitution SMALLINT NULL,
+    luck SMALLINT NULL,
+    damage INT NULL,
+    armor INT NULL,
+    PRIMARY KEY (player_id)
+);
+
+#SELECT * FROM travel_info;
+
+
 /*==============================
 	seasons
 ==============================*/

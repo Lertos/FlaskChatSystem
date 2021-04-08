@@ -2,6 +2,7 @@ from multiprocessing import Pool
 import mysql.connector
 import mysql.connector.pooling
 import math
+import datetime
 
 
 dbconfig = {
@@ -64,6 +65,7 @@ class MySQLPool(object):
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
 
+        print(datetime.datetime.now())
         if args:
             cursor.execute(statement, args)
         else:
@@ -86,6 +88,10 @@ class MySQLPool(object):
         if commit is True:
             conn.commit()
 
+      except:
+        print(datetime.datetime.now())
+        print('executeStatement', statement, commit, dictCursor, makeList, returnList, args)
+
       finally:
         self.close(conn, cursor)
         return result
@@ -97,12 +103,17 @@ class MySQLPool(object):
         conn = self.pool.get_connection()
         cursor = conn.cursor()
 
+        print(datetime.datetime.now())
         if args:
             cursor.execute(statement, args)
         else:
             cursor.execute(statement)
 
         conn.commit()
+
+      except:
+        print(datetime.datetime.now())
+        print('executeUpdateStatement', statement, args)
 
       finally:
         self.close(conn, cursor)
@@ -114,6 +125,7 @@ class MySQLPool(object):
         conn = self.pool.get_connection()
         cursor = conn.cursor()
 
+        print(datetime.datetime.now())
         if args:
             cursor.callproc(procedure, args)
         else:
@@ -121,6 +133,10 @@ class MySQLPool(object):
 
         if commit is True:
             conn.commit()
+
+      except:
+        print(datetime.datetime.now())
+        print('executeProcedure', procedure, commit, args)
 
       finally:
         self.close(conn, cursor)
@@ -132,6 +148,7 @@ class MySQLPool(object):
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
 
+        print(datetime.datetime.now())
         if args:
             cursor.callproc(procedure, args)
         else:
@@ -145,6 +162,10 @@ class MySQLPool(object):
         for row in cursor.stored_results():
           result = row.fetchall()
 
+      except:
+        print(datetime.datetime.now())
+        print('executeProcedureReturnList', procedure, commit, dictCursor, args)
+
       finally:
         self.close(conn, cursor)
         return result
@@ -156,6 +177,7 @@ class MySQLPool(object):
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
 
+        print(datetime.datetime.now())
         if args:
             cursor.callproc(procedure, args)
         else:
@@ -168,6 +190,10 @@ class MySQLPool(object):
 
         for row in cursor.stored_results():
           result = row.fetchall()
+
+      except:
+        print(datetime.datetime.now())
+        print('executeProcedureReturnDict', procedure, commit, dictCursor, args)
 
       finally:
         self.close(conn, cursor)
@@ -350,6 +376,39 @@ class MySQLPool(object):
       result = self.executeProcedureReturnList('usp_get_player_equipped_items', commit=False, dictCursor=True, args=args)
 
       return result
+
+
+    def getPlayerTravelInfo(self, playerId):
+      args = [playerId]
+      statement = '''SELECT * FROM travel_info WHERE player_id = %s;'''
+      result = self.executeStatement(statement, commit=False, dictCursor=True, makeList=False, returnList=False, args=args)
+
+      return result
+
+
+    def removePlayerTravelInfo(self, playerId):
+      args = [playerId]
+      self.executeUpdateStatement('''DELETE FROM travel_info WHERE player_id = %s;''', args=args)
+
+
+    def insertQuestIntoTravelInfo(self, playerId, typeOfEvent, opponentId, travelTime, opponentName, className, fileName, gold, xp, stamina, strength, dexterity, intelligence, constitution, luck):
+      args = [playerId, typeOfEvent, opponentId, travelTime, None, None, None, None, None, opponentName, None, None, className, fileName, gold, xp, stamina, None, strength, dexterity, intelligence, constitution, luck, None, None]
+      self.executeProcedure('usp_insert_travel_info', commit=True, args=args)
+
+
+    def insertBountyIntoTravelInfo(self, playerId, typeOfEvent, opponentId, travelTime, multiplier, dropChance, opponentName, opponentSuffix, opponentRegion, className, fileName, gold, xp, strength, dexterity, intelligence, constitution, luck):
+      args = [playerId, typeOfEvent, opponentId, travelTime, multiplier, dropChance, None, None, None, opponentName, opponentSuffix, opponentRegion, className, fileName, gold, xp, None, None, strength, dexterity, intelligence, constitution, luck, None, None]
+      self.executeProcedure('usp_insert_travel_info', commit=True, args=args)
+
+
+    def insertDungeonIntoTravelInfo(self, playerId, typeOfEvent, opponentId, dungeonTier, dungeonFloor, opponentLevel, opponentName, className, fileName, gold, xp, strength, dexterity, intelligence, constitution, luck, damage, armor):
+      args = [playerId, typeOfEvent, opponentId, None, None, None, dungeonTier, dungeonFloor, opponentLevel, opponentName, None, None, className, fileName, gold, xp, None, None, strength, dexterity, intelligence, constitution, luck, damage, armor]
+      self.executeProcedure('usp_insert_travel_info', commit=True, args=args)
+
+
+    def insertArenaIntoTravelInfo(self, playerId, typeOfEvent, opponentId, opponentLevel, opponentName, className, fileName, honor, strength, dexterity, intelligence, constitution, luck, damage, armor):
+      args = [playerId, typeOfEvent, opponentId, None, None, None, None, None, opponentLevel, opponentName, None, None, className, fileName, None, None, None, honor, strength, dexterity, intelligence, constitution, luck, damage, armor]
+      self.executeProcedure('usp_insert_travel_info', commit=True, args=args)
 
 
     def createNewItem(self, playerId, level, itemTypeId, itemPrefixId, itemRarity, itemStats, itemDamage, itemArmor, itemWorth):

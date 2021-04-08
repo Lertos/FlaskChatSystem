@@ -261,13 +261,13 @@ def quests():
     playerId = session['playerId']
 
     #Check if the player travelling for another event
-    travelInfo = helper.getPlayerTravelInfo(playerId)
+    travelInfo = database.getPlayerTravelInfo(playerId)
 
     if travelInfo != {}:
 
-        if travelInfo['typeOfEvent'] == 'arena' or travelInfo['typeOfEvent'] == 'dungeon':
+        if travelInfo['type_of_event'] == 'arena' or travelInfo['type_of_event'] == 'dungeon':
             return redirect(url_for('results'))
-        elif travelInfo['typeOfEvent'] == 'bounty' or travelInfo['typeOfEvent'] == 'quest':
+        elif travelInfo['type_of_event'] == 'bounty' or travelInfo['type_of_event'] == 'quest':
             return redirect(url_for('travel'))
 
     #Check if the player has active quests
@@ -299,7 +299,7 @@ def startQuest():
     monsterId = request.form['monsterId']
 
     #If the player isn't travelling already, proceed
-    travelInfo = helper.getPlayerTravelInfo(playerId)
+    travelInfo = database.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
         #Get the player stats and add travel info - assuming they have enough stamina
@@ -307,11 +307,11 @@ def startQuest():
         helper.addQuestToTravelInfo(playerId, monsterId)
 
         #Get the travel info again to ensure they have the correct stamina
-        travelInfo = helper.getPlayerTravelInfo(playerId)
+        travelInfo = database.getPlayerTravelInfo(playerId)
 
-        #Check if player has stamina - if not remove them from the travel dict
+        #Check if player has stamina - if not remove their travel information
         if player['stamina'] < travelInfo['stamina']:
-            helper.removePlayerTravelInfo(playerId)
+            database.removePlayerTravelInfo(playerId)
             return Response('NO_STAMINA', status=201)
 
         return Response('START_QUEST', status=203)
@@ -335,14 +335,14 @@ def travel():
     playerId = session['playerId']
 
     #If player is not travelling - redirect to dashboard
-    travelInfo = helper.getPlayerTravelInfo(playerId)
+    travelInfo = database.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
         print('==ERROR: Travel redirect to dashboard')
         return redirect(url_for('dashboard'))
 
     #Check for travel types that should not be here
-    if travelInfo['typeOfEvent'] == 'arena' or travelInfo['typeOfEvent'] == 'dungeon':
+    if travelInfo['type_of_event'] == 'arena' or travelInfo['type_of_event'] == 'dungeon':
         return redirect(url_for('results'))
 
     #Get the time left from the end of the travel
@@ -364,7 +364,7 @@ def eventDone():
     playerId = session['playerId']
 
     #If player is not travelling return an error
-    travelInfo = helper.getPlayerTravelInfo(playerId)
+    travelInfo = database.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
         print('==ERROR: /eventDone had no travel info')
@@ -387,8 +387,8 @@ def cancelEvent():
 
     playerId = session['playerId']
 
-    #Remove the player from the travel dict
-    helper.removePlayerTravelInfo(playerId)
+    #Player is done travelling - remove their travel information
+    database.removePlayerTravelInfo(playerId)
 
     return Response('', status=201)
 
@@ -409,14 +409,14 @@ def results():
     playerId = session['playerId']
 
     #If player is not travelling - redirect to dashboard
-    travelInfo = helper.getPlayerTravelInfo(playerId)
+    travelInfo = database.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
         print('==ERROR: /results Empty travel info')
         return redirect(url_for('dashboard'))
 
     #Get the time left from the end of the travel for quests and bounties
-    if travelInfo['typeOfEvent'] == 'quest' or travelInfo['typeOfEvent'] == 'bounty':
+    if travelInfo['type_of_event'] == 'quest' or travelInfo['type_of_event'] == 'bounty':
         timeLeft = helper.getTimeLeftFromEpochTime(travelInfo['travel_time'])
 
         if timeLeft > 0:
@@ -425,13 +425,14 @@ def results():
     #Get the stats of the player and the monster
     player = database.getPlayerStats(playerId)
 
-    if travelInfo['typeOfEvent'] == 'arena':
-        monster = database.getPlayerStats(travelInfo['player_id'])
+    if travelInfo['type_of_event'] == 'arena':
+        monster = database.getPlayerStats(travelInfo['opponent_id'])
         monster = helper.combinePlayerStats(monster)
-    elif travelInfo['typeOfEvent'] == 'dungeon':
+    elif travelInfo['type_of_event'] == 'dungeon':
         monster = travelInfo
     else:
         monster = helper.createMonsterForBattle(player, playerId, travelInfo)
+        
         if monster == -1:
             print('==ERROR: /results MONSTER stats cannot be found - redirect to dashboard')
             return redirect(url_for('dashboard'))
@@ -445,13 +446,13 @@ def results():
 
     #Give winnings
     playerWon = False
-    if battleLog['winner'] == player['name'] and travelInfo['typeOfEvent'] != 'arena':
+    if battleLog['winner'] == player['name'] and travelInfo['type_of_event'] != 'arena':
         playerWon = True
 
         #Check if the entity will drop something
-        if travelInfo['typeOfEvent'] == 'bounty':
+        if travelInfo['type_of_event'] == 'bounty':
             dropChance = monster['drop_chance']
-        elif travelInfo['typeOfEvent'] == 'dungeon':
+        elif travelInfo['type_of_event'] == 'dungeon':
             dropChance = 1.0
         else:
             #Apply any blessings of the player
@@ -467,14 +468,14 @@ def results():
 
         if random.uniform(0,1) <= dropChance:
             if database.doesPlayerHaveInventorySpace(playerId):
-                travelInfo['droppedLoot'] = 1
+                travelInfo['dropped_loot'] = 1
             else:
-                travelInfo['droppedLoot'] = 0
+                travelInfo['dropped_loot'] = 0
         else:
-            travelInfo['droppedLoot'] = 0
+            travelInfo['dropped_loot'] = 0
 
     #Give the player the rewards
-    if travelInfo['typeOfEvent'] == 'arena':
+    if travelInfo['type_of_event'] == 'arena':
         if battleLog['winner'] == player['name']:
             winnerId = player['player_id']
             loserId = monster['player_id']
@@ -492,7 +493,7 @@ def results():
             session['playerLevel'] = playerLevel
 
     #Remove travel information to generate new events
-    helper.removePlayerTravelInfo(playerId)
+    database.removePlayerTravelInfo(playerId)
 
     print('----->',session['displayName'],'RESULTS')
     return render_template('results.html', travelInfo=travelInfo, player=player, monster=monster, battleLog=battleLog)
@@ -519,12 +520,12 @@ def bounties():
         return render_template('bounties.html', bountyMonsters=None, bountyAttempts=None, unlocked=False)
 
     #Check if the player travelling for another event
-    travelInfo = helper.getPlayerTravelInfo(playerId)
+    travelInfo = database.getPlayerTravelInfo(playerId)
 
     if travelInfo != {}:
-        if travelInfo['typeOfEvent'] == 'arena' or travelInfo['typeOfEvent'] == 'dungeon':
+        if travelInfo['type_of_event'] == 'arena' or travelInfo['type_of_event'] == 'dungeon':
             return redirect(url_for('results'))
-        elif travelInfo['typeOfEvent'] == 'quest' or travelInfo['typeOfEvent'] == 'bounty':
+        elif travelInfo['type_of_event'] == 'quest' or travelInfo['type_of_event'] == 'bounty':
             return redirect(url_for('travel'))
 
     #Check if the player has active bounties
@@ -557,7 +558,7 @@ def startBounty():
     multiplier = request.form['multiplier']
 
     #If the player isn't travelling already, proceed
-    travelInfo = helper.getPlayerTravelInfo(playerId)
+    travelInfo = database.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
         #Get the player stats and add travel info - assuming they have enough attempts
@@ -565,11 +566,11 @@ def startBounty():
         helper.addBountyToTravelInfo(playerId, monsterId, multiplier)
 
         #Get the travel info again to ensure they have bounty attempts
-        travelInfo = helper.getPlayerTravelInfo(playerId)
+        travelInfo = database.getPlayerTravelInfo(playerId)
 
-        #Check if player has bounty attempts - if not remove them from the travel dict
+        #Check if player has bounty attempts - if not remove their travel information
         if player['bounty_attempts'] <= 0:
-            helper.removePlayerTravelInfo(playerId)
+            database.removePlayerTravelInfo(playerId)
             return Response('NO_ATTEMPTS', status=201)
 
         return Response('START_BOUNTY', status=203)
@@ -593,12 +594,12 @@ def arena():
     playerId = session['playerId']
 
     #Check if the player travelling for another event
-    travelInfo = helper.getPlayerTravelInfo(playerId)
+    travelInfo = database.getPlayerTravelInfo(playerId)
 
     if travelInfo != {}:
-        if travelInfo['typeOfEvent'] == 'dungeon' or travelInfo['typeOfEvent'] == 'arena':
+        if travelInfo['type_of_event'] == 'dungeon' or travelInfo['type_of_event'] == 'arena':
             return redirect(url_for('results'))
-        elif travelInfo['typeOfEvent'] == 'quest' or travelInfo['typeOfEvent'] == 'bounty':
+        elif travelInfo['type_of_event'] == 'quest' or travelInfo['type_of_event'] == 'bounty':
             return redirect(url_for('travel'))
 
     #Check if the player has active opponents
@@ -630,7 +631,7 @@ def startArenaFight():
     opponentId = request.form['opponentId']
 
     #If the player isn't travelling already, proceed
-    travelInfo = helper.getPlayerTravelInfo(playerId)
+    travelInfo = database.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
         #Get the player stats and add travel info - assuming they have enough attempts
@@ -638,11 +639,11 @@ def startArenaFight():
         helper.addArenaFightToTravelInfo(player, playerId, opponentId)
 
         #Get the travel info again to ensure they have arena attempts
-        travelInfo = helper.getPlayerTravelInfo(playerId)
+        travelInfo = database.getPlayerTravelInfo(playerId)
 
-        #Check if player has bounty attempts - if not remove them from the travel dict
+        #Check if player has bounty attempts - if not remove their travel information
         if player['arena_attempts'] <= 0:
-            helper.removePlayerTravelInfo(playerId)
+            database.removePlayerTravelInfo(playerId)
             return Response('NO_ATTEMPTS', status=201)
 
         return Response('START_ARENA', status=203)
@@ -666,12 +667,12 @@ def dungeons():
     playerId = session['playerId']
 
     #Check if the player travelling for another event
-    travelInfo = helper.getPlayerTravelInfo(playerId)
+    travelInfo = database.getPlayerTravelInfo(playerId)
 
     if travelInfo != {}:
-        if travelInfo['typeOfEvent'] == 'arena' or travelInfo['typeOfEvent'] == 'dungeon':
+        if travelInfo['type_of_event'] == 'arena' or travelInfo['type_of_event'] == 'dungeon':
             return redirect(url_for('results'))
-        elif travelInfo['typeOfEvent'] == 'quest' or travelInfo['typeOfEvent'] == 'bounty':
+        elif travelInfo['type_of_event'] == 'quest' or travelInfo['type_of_event'] == 'bounty':
             return redirect(url_for('travel'))
 
     #Get the players dungeon info
@@ -699,7 +700,7 @@ def startDungeon():
     dungeonTier = request.form['dungeonTier']
 
     #If the player isn't travelling already, proceed
-    travelInfo = helper.getPlayerTravelInfo(playerId)
+    travelInfo = database.getPlayerTravelInfo(playerId)
 
     if travelInfo == {}:
         #Get the player stats and add travel info - assuming they have enough keys
@@ -707,11 +708,11 @@ def startDungeon():
         helper.addDungeonToTravelInfo(playerId, dungeonTier)
 
         #Get the travel info again to ensure they have dungeon keys
-        travelInfo = helper.getPlayerTravelInfo(playerId)
+        travelInfo = database.getPlayerTravelInfo(playerId)
 
-        #Check if player has bounty attempts - if not remove them from the travel dict
+        #Check if player has bounty attempts - if not remove their travel information
         if player['dungeon_attempts'] <= 0:
-            helper.removePlayerTravelInfo(playerId)
+            database.removePlayerTravelInfo(playerId)
             return Response('NO_KEYS', status=201)
 
         return Response('START_DUNGEON', status=203)

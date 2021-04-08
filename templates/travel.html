@@ -10,9 +10,9 @@
     <div id='container'>
 
         <div class='infoPanel background border spacing'>
-            {% if travelInfo['typeOfEvent'] == 'quest' %}
+            {% if travelInfo['type_of_event'] == 'quest' %}
                 <h4>You Are Currently <strong>Questing</strong></h4>
-            {% elif travelInfo['typeOfEvent'] == 'bounty' %}
+            {% elif travelInfo['type_of_event'] == 'bounty' %}
                 <h4>You Are Currently <strong>Bounty Hunting</strong></h4>
             {% endif %}
         </div>
@@ -22,21 +22,21 @@
             <div class='sidePanel background border spacing'>
                 <div>
 
-                    {% if travelInfo['typeOfEvent'] == 'quest' %}
+                    {% if travelInfo['type_of_event'] == 'quest' %}
                         <img class='resizeImg128NoHover' src='/static/quest_avatars/{{ travelInfo["file_name"] }}'>
-                    {% elif travelInfo['typeOfEvent'] == 'bounty' %}
+                    {% elif travelInfo['type_of_event'] == 'bounty' %}
                         <img class='resizeImg128NoHover' src='/static/bounty_avatars/{{ travelInfo["file_name"] }}'>
                     {% endif %}
 
-                    <h3 class='alignCenter boldText'>{{ travelInfo["monster_name"] }}</h3>
+                    <h3 class='alignCenter boldText'>{{ travelInfo["name"] }}</h3>
 
-                    {% if travelInfo['typeOfEvent'] == 'bounty' %}
+                    {% if travelInfo['type_of_event'] == 'bounty' %}
                         <h4 class='alignCenter'><strong>{{ travelInfo['monster_suffix'] }}</strong></h4>
                     {% endif %}
 
                     <h5 class='alignCenter'>{{ travelInfo["class_name"] }}</h5>
 
-                    {% if travelInfo['typeOfEvent'] == 'bounty' %}
+                    {% if travelInfo['type_of_event'] == 'bounty' %}
                         <h5 class='alignCenter'>-{{ travelInfo["region_name"] }}-</h5>
                     {% endif %}
 
@@ -59,7 +59,7 @@
 
                     <table class='leftRightTable'>
 
-                        {% if travelInfo['typeOfEvent'] == 'quest' %}
+                        {% if travelInfo['type_of_event'] == 'quest' %}
                             <tr>
                                 <td><h5>Strength</h5></td>
                                 <td><p>{{ travelInfo["strength"] }}</p></td>
@@ -80,7 +80,7 @@
                                 <td><h5>Luck</h5></td>
                                 <td><p>{{ travelInfo["luck"] }}</p></td>
                             </tr>
-                        {% elif travelInfo['typeOfEvent'] == 'bounty' %}
+                        {% elif travelInfo['type_of_event'] == 'bounty' %}
                             {% set multiplierInt = travelInfo["multiplier"] | float %}
                             {% set multiplier = 1 + (multiplierInt / 100 ) | float %}
                             <tr>
@@ -131,9 +131,9 @@
 
                     <hr>
 
-                    {% if travelInfo['typeOfEvent'] == 'quest' %}
+                    {% if travelInfo['type_of_event'] == 'quest' %}
                         <button id='cancelQuest' class='themeSmallButton'>Cancel</button>
-                    {% elif travelInfo['typeOfEvent'] == 'bounty' %}
+                    {% elif travelInfo['type_of_event'] == 'bounty' %}
                         <button id='cancelBounty' class='themeSmallButton'>Cancel</button>
                     {% endif %}
 

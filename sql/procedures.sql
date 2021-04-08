@@ -14,6 +14,7 @@ BEGIN
 
 	DELETE FROM active_quests;
     DELETE FROM active_bounties;
+    DELETE FROM travel_info;
 
 END //
 DELIMITER ;
@@ -62,6 +63,7 @@ DELIMITER ;
 
 #CALL usp_create_user_account('lertos99','lertos99','lertos99',1);
 
+
 /*==============================
 	usp_get_dashboard_details
 ==============================*/
@@ -82,6 +84,82 @@ END //
 DELIMITER ;
 
 #CALL usp_get_dashboard_details(1);
+
+
+/*==============================
+	usp_insert_travel_info
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_insert_travel_info;
+
+DELIMITER //
+CREATE PROCEDURE usp_insert_travel_info
+(
+	p_player_id SMALLINT,
+	p_type_of_event VARCHAR(16),
+	p_opponent_id SMALLINT,
+	p_travel_time INT,
+	p_multiplier DECIMAL(4,3),
+	p_drop_chance DECIMAL(4,3),
+	p_dungeon_tier SMALLINT,
+	p_dungeon_floor SMALLINT,
+	p_level SMALLINT,
+	p_name VARCHAR(20),
+	p_opponent_suffix VARCHAR(30),
+	p_region_name VARCHAR(30),
+	p_class_name VARCHAR(30),
+	p_file_name VARCHAR(40),
+	p_gold INT,
+	p_xp INT,
+	p_stamina SMALLINT,
+	p_honor SMALLINT,
+	p_strength SMALLINT,
+	p_dexterity SMALLINT,
+	p_intelligence SMALLINT,
+	p_constitution SMALLINT,
+	p_luck SMALLINT,
+	p_damage INT,
+	p_armor INT
+)
+BEGIN
+
+	IF NOT EXISTS(SELECT player_id FROM travel_info WHERE player_id = p_player_id) THEN
+    BEGIN
+		INSERT INTO travel_info
+		VALUES(
+			p_player_id, 
+            p_type_of_event, 
+            p_opponent_id, 
+            p_travel_time, 
+            p_multiplier, 
+            p_drop_chance, 
+            p_dungeon_tier, 
+            p_dungeon_floor, 
+            p_level, 
+            p_name, 
+            p_opponent_suffix, 
+			p_region_name, 
+            p_class_name, 
+            p_file_name, 
+            p_gold, 
+            p_xp, 
+            p_stamina, 
+            p_honor, 
+            p_strength, 
+            p_dexterity, 
+            p_intelligence, 
+            p_constitution, 
+            p_luck, 
+            p_damage, 
+            p_armor
+		);
+	END;
+    END IF;
+
+END //
+DELIMITER ;
+
+#CALL usp_insert_travel_info(1);
 
 
 /*==============================

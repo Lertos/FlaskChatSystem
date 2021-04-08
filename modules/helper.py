@@ -22,9 +22,6 @@ bountyMonsters = database.getBountyMonsters()
 #Used to buff the lower level items since exponentials mean little at low numbers
 additionalDamageConstant = 10
 
-#Holds travel information when a player is in travel mode
-travellingPlayers = {}
-
 #Defines how many monsters for each page to create on load
 questMonstersToSpawn = 4
 bountyMonstersToSpawn = 3
@@ -236,19 +233,6 @@ def getClassInfo(className):
     return classes[className]
 
 
-#If a playerId exists inside the dictionary, return the contained dictionary - else return an empty dictionary
-def getPlayerTravelInfo(playerId):
-    if playerId in travellingPlayers:
-        return travellingPlayers[playerId]
-    return {}
-
-
-#Remove the player from the travel info dictionary
-def removePlayerTravelInfo(playerId):
-    if playerId in travellingPlayers:
-        travellingPlayers.pop(playerId, None)
-
-
 #After a player completes an event, process the rewards/stamina usage
 def completePlayerEvent(playerId, playerWon, playerInfo, monsterInfo, travelInfo):
     gold = 0
@@ -259,32 +243,32 @@ def completePlayerEvent(playerId, playerWon, playerInfo, monsterInfo, travelInfo
         gold = monsterInfo['gold']
         xp = monsterInfo['xp']
 
-        if travelInfo['droppedLoot'] == 1:
+        if travelInfo['dropped_loot'] == 1:
             createItem(playerId, playerInfo['class_name'], playerInfo['level'])
 
-    if travelInfo['typeOfEvent'] == 'quest':
+    if travelInfo['type_of_event'] == 'quest':
         stamina = monsterInfo['stamina']
-    elif travelInfo['typeOfEvent'] == 'bounty' or travelInfo['typeOfEvent'] == 'dungeon':
-        if travelInfo['typeOfEvent'] == 'dungeon':
+    elif travelInfo['type_of_event'] == 'bounty' or travelInfo['type_of_event'] == 'dungeon':
+        if travelInfo['type_of_event'] == 'dungeon':
             dungeonTier = travelInfo['dungeon_tier']
         stamina = 0
 
-    return database.givePlayerQuestRewards(playerId, stamina, gold, xp, travelInfo['typeOfEvent'], dungeonTier)
+    return database.givePlayerQuestRewards(playerId, stamina, gold, xp, travelInfo['type_of_event'], dungeonTier)
 
 
-#Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
+#Inserts a new row into the travel_info table
 def addQuestToTravelInfo(playerId, monsterId):
-    questMonsters = database.getPlayerQuestMonsters(playerId)
+    monsters = database.getPlayerQuestMonsters(playerId)
 
     #If the player doesn't have active quests return
-    if questMonsters == []:
+    if monsters == []:
         return
 
     monster = None
 
-    for i in range(0, len(questMonsters)):
-        if int(questMonsters[i]['quest_monster_id']) == int(monsterId):
-            monster = questMonsters[i]
+    for i in range(0, len(monsters)):
+        if int(monsters[i]['quest_monster_id']) == int(monsterId):
+            monster = monsters[i]
             break
 
     #If the monsterId was changed by the player then there won't be a monster and return
@@ -295,26 +279,22 @@ def addQuestToTravelInfo(playerId, monsterId):
     timeNow = int(time.time())
     endTime = timeNow + int(monster['travel_time'])
 
-    #Add a new entry into the travelling dictionary
-    travellingPlayers[playerId] = {}
-    travellingPlayers[playerId] = monster
-    travellingPlayers[playerId]['travel_time'] = endTime
-    travellingPlayers[playerId]['typeOfEvent'] = 'quest'
+    database.insertQuestIntoTravelInfo(playerId, 'quest', monster['quest_monster_id'], endTime, monster['monster_name'], monster['class_name'], monster['file_name'], monster['gold'], monster['xp'], monster['stamina'], monster['strength'], monster['dexterity'], monster['intelligence'], monster['constitution'], monster['luck'])
 
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
 def addBountyToTravelInfo(playerId, monsterId, multiplier):
-    bountyMonsters = database.getPlayerBountyMonsters(playerId)
+    monsters = database.getPlayerBountyMonsters(playerId)
 
     #If the player doesn't have active bounties return
-    if bountyMonsters == []:
+    if monsters == []:
         return
 
     monster = None
 
-    for i in range(0, len(bountyMonsters)):
-        if int(bountyMonsters[i]['bounty_monster_id']) == int(monsterId):
-            monster = bountyMonsters[i]
+    for i in range(0, len(monsters)):
+        if int(monsters[i]['bounty_monster_id']) == int(monsterId):
+            monster = monsters[i]
             break
 
     #If the monsterId was changed by the player then there won't be a monster and return
@@ -325,12 +305,7 @@ def addBountyToTravelInfo(playerId, monsterId, multiplier):
     timeNow = int(time.time())
     endTime = timeNow + int(monster['travel_time'])
 
-    #Add a new entry into the travelling dictionary
-    travellingPlayers[playerId] = {}
-    travellingPlayers[playerId] = monster
-    travellingPlayers[playerId]['multiplier'] = multiplier
-    travellingPlayers[playerId]['travel_time'] = endTime
-    travellingPlayers[playerId]['typeOfEvent'] = 'bounty'
+    database.insertBountyIntoTravelInfo(playerId, 'bounty', monster['bounty_monster_id'], endTime, multiplier, monster['drop_chance'], monster['monster_name'], monster['monster_suffix'], monster['region_name'], monster['class_name'], monster['file_name'], monster['gold'], monster['xp'], monster['strength'], monster['dexterity'], monster['intelligence'], monster['constitution'], monster['luck'])
 
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
@@ -352,10 +327,7 @@ def addArenaFightToTravelInfo(player, playerId, opponentId):
     if opponent == None:
         return
 
-    #Add a new entry into the travelling dictionary
-    travellingPlayers[playerId] = {}
-    travellingPlayers[playerId] = opponent
-    travellingPlayers[playerId]['typeOfEvent'] = 'arena'
+    database.insertArenaIntoTravelInfo(playerId, 'arena', opponent['player_id'], opponent['player_level'], opponent['display_name'], opponent['class_name'], opponent['file_name'], opponent['honor'], opponent['strength'], opponent['dexterity'], opponent['intelligence'], opponent['constitution'], opponent['luck'], opponent['damage'], opponent['armor'])
 
 
 #Inserts a new dictionary inside of the travelling dictionary based on the event the player chose to do
@@ -366,10 +338,7 @@ def addDungeonToTravelInfo(playerId, dungeonTier):
     if monster == []:
         return
 
-    #Add a new entry into the travelling dictionary
-    travellingPlayers[playerId] = {}
-    travellingPlayers[playerId] = monster
-    travellingPlayers[playerId]['typeOfEvent'] = 'dungeon'
+    database.insertDungeonIntoTravelInfo(playerId, 'dungeon', monster['dungeon_monster_id'], dungeonTier, monster['dungeon_floor'], monster['level'], monster['monster_name'], monster['class_name'], monster['file_name'], monster['gold'], monster['xp'], monster['strength'], monster['dexterity'], monster['intelligence'], monster['constitution'], monster['luck'], monster['damage'], monster['armor'])
 
 
 def getTimeLeftFromEpochTime(epochTimestamp):
@@ -533,12 +502,8 @@ def createRandomBountyMonsters(playerId, playerStats):
 
 #Creates a new monster for the battle which uses current stats (incase the player equipped new items since the monsters were generated - or leveled up)
 def createMonsterForBattle(playerStats, playerId, travelInfo):
-    monsterType = travelInfo['typeOfEvent']
-
-    if monsterType == 'quest':
-        monsterId = travelInfo['quest_monster_id']
-    elif monsterType == 'bounty':
-        monsterId = travelInfo['bounty_monster_id']
+    monsterType = travelInfo['type_of_event']
+    monsterId = travelInfo['opponent_id']
 
     monster = database.getMonsterStats(playerId, monsterId, monsterType)
 
