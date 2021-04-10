@@ -100,7 +100,28 @@ CREATE TABLE seasons
 	PRIMARY KEY (season)
 );
 
-INSERT INTO seasons (season,start_date) VALUES (1, 'Mar-12-2021');
+#INSERT INTO seasons (season,start_date) VALUES (1, 'Mar-12-2021');
+
+
+/*==============================
+	mail
+==============================*/
+
+DROP TABLE IF EXISTS mail;
+
+CREATE TABLE mail
+(
+    mail_id SMALLINT NOT NULL UNIQUE AUTO_INCREMENT,
+    player_id SMALLINT NOT NULL,
+    opponent_id SMALLINT NOT NULL,
+    event_type VARCHAR(20) NOT NULL,
+    is_player_winner TINYINT NOT NULL,
+    event_date DATETIME NOT NULL,
+    battle_log VARCHAR(16000) NOT NULL,
+	PRIMARY KEY (mail_id)
+);
+
+#INSERT INTO mail (player_id,opponent_id,event_type,is_player_winner,event_date,battle_log) VALUES (1,'Dee','Lee','arena',1,CURDATE(),'TURN1 lol TURN2 lol');
 
 
 /*==============================

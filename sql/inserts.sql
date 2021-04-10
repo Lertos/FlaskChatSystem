@@ -1,5 +1,6 @@
 USE flasksimplerpg;
 
+
 /*==============================
 	Item Prefixes
 ==============================*/
@@ -89,6 +90,7 @@ INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multi
 INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Boots', 0, 'int', 1, 1, 5);
 INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Boots', 0, 'dex', 1, 2, 5);
 INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Boots', 0, 'str', 1, 3, 5);
+INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (0, 'Shield', 0, 'str', 1, 3, 5);
 
 INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Sword', 0, 'str', 1, 1, 7);
 INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Axe', 0, 'str', 1, 1, 7);
@@ -96,7 +98,6 @@ INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multi
 INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Maul', 0, 'str', 1, 1, 7);
 INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Hammer', 0, 'str', 1, 1, 7);
 INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Spear', 0, 'dex', 1.2, 1, 7);
-INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Shield', 0, 'str', 1, 1, 7);
 INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Staff', 1, 'int', 1.5, 1, 14);
 INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Book', 1, 'int', 1.5, 1, 14);
 INSERT INTO item_types (is_weapon,item_type_name,is_two_handed,stat,damage_multiplier,armor_per_level,stats_per_level) VALUES (1, 'Bow', 1, 'dex', 1.2, 1, 14);

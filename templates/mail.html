@@ -1,0 +1,141 @@
+{% extends 'basePlusNavbar.html' %}
+
+{% block head %}
+    <title>Mail</title>
+{% endblock %}
+
+{% block body %}
+<body class='background_travel'>
+
+    <div id='container'>
+
+        <div class='mainPanel'>
+            <div class='background border spacing'>
+
+                <form id='form' action='#' method='POST'></form>
+
+                <div class='spacing'>
+                    <button mailType='arena' class='themeSmallButton'>Arena</button>
+                    <button mailType='dungeon' class='themeSmallButton'>Dungeon</button>
+                    <button mailType='quest' class='themeSmallButton'>Quests</button>
+                    <button mailType='bounty' class='themeSmallButton'>Bounties</button>
+                </div>
+    
+                <table class='mailTable'>
+                    <thead>
+                        <th>Type</th>
+                        <th>Opponent</th>
+                        <th style='width:15%;'>Result</th>
+                        <th>Date</th>
+                    </thead>
+                    {% for row in mail %}
+                        <tr logId='{{ loop.index0 }}'>
+                            <td>{{ row['event_type'][0]|upper }}{{ row['event_type'][1:] }}</td>
+                            <td>{{ row['opponent_name'] }}</td>
+                            {% if row['is_player_winner'] == 1 %}
+                                <td>Win</td>
+                            {% else %}
+                                <td>Loss</td>
+                            {% endif %}
+                            <td>{{ row['event_date'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                <hr>
+
+                <h3 id='resultHeader' class='boldText'></h3>
+
+                <div id='battleLog'>
+                    <table id='battleLogTable' class='resultsTable' >
+                        
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+	
+{% endblock %}
+
+{% block script %}
+
+<script type='text/javascript' src='{{ url_for("static", filename="jquery.js") }}'></script>
+
+<script>
+
+$(function(){
+    $('.mailTable tr').on('click', function(){
+        var logId = $(this).attr('logId')
+        displayBattleLog(logId)
+    })
+});
+
+$(function(){
+        $('.themeSmallButton').on('click', function() {
+            var mailType = $(this).attr('mailType')
+
+            var form = $('#form')
+            form.append('<input type="hidden" name="mailType" value="' + mailType + '" /> ');
+            form.submit();
+        })
+    });
+
+var mail = {{ mail|tojson|safe }}
+
+function displayBattleLog(id){
+    var turnArr = mail[id]['battle_log'].split('#')
+    var table = document.getElementById('battleLogTable');
+    table.innerHTML = ''
+
+    document.getElementById('battleLog').scrollTop = 0;
+
+    var header = document.getElementById('resultHeader');
+    var isPlayerWinner = mail[id]['is_player_winner']
+
+    if(isPlayerWinner == 1){
+        header.classList.remove('textRed')
+        header.classList.add('textGreen')
+        header.innerText = 'WIN'
+    }
+    else{
+        header.classList.remove('textGreen')
+        header.classList.add('textRed')
+        header.innerText = 'LOSS'
+    }
+
+    var entity1Name = mail[id]['player_name']
+    var entity2Name = mail[id]['opponent_name']
+
+    for(var i=0; i<turnArr.length-1; i++){
+        var row = table.insertRow();
+        var cell = row.insertCell(0);
+
+        cell.classList.add('tableTurnHeader')
+
+        if(i == 0)
+            cell.innerHTML = 'Battle Start';
+        else
+            cell.innerHTML = 'Turn ' + i;
+
+        var stepArr = turnArr[i].split(':')
+
+        //For each action in the turn
+        for(var j=0; j<stepArr.length; j++){
+            var row = table.insertRow();
+            var cell = row.insertCell(0);
+
+            //Add the class that will dictate what side the text is on
+            if(stepArr[j].indexOf(entity1Name + '<') != -1)
+                cell.classList.add('tableEntity1')
+            else
+                cell.classList.add('tableEntity2')
+
+            cell.innerHTML = stepArr[j];
+        }
+    }
+}
+
+</script>
+{% endblock %}

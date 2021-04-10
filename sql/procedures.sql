@@ -1,7 +1,5 @@
 USE flasksimplerpg;
 
-show processlist;
-
 /*==============================
 	usp_clear_transactional_data
 ==============================*/
@@ -615,7 +613,9 @@ CREATE PROCEDURE usp_give_player_quest_rewards
 	IN p_player_id SMALLINT,
     IN p_stamina TINYINT,
     IN p_gold INT,
-    IN p_xp INT
+    IN p_xp INT,
+    IN p_monster_id SMALLINT,
+    IN p_battle_log VARCHAR(16000)
 )
 BEGIN
 
@@ -626,6 +626,9 @@ BEGIN
 	UPDATE players
     SET stamina = stamina - p_stamina, gold = gold + p_gold, exp_until_level = exp_until_level - p_xp, quests_finished = quests_finished + 1, gold_collected = gold_collected + p_gold
     WHERE player_id = p_player_id;
+
+	INSERT INTO mail (player_id , opponent_id, event_type, is_player_winner, event_date, battle_log) 
+	VALUES (p_player_id, p_monster_id, 'quest', (SELECT CASE WHEN p_gold > 0 THEN 1 ELSE 0 END), NOW(), p_battle_log);
 
 	SET v_exp_until_level = (
 		SELECT exp_until_level 
@@ -658,7 +661,9 @@ CREATE PROCEDURE usp_give_player_bounty_rewards
 	IN p_player_id SMALLINT,
     IN p_stamina TINYINT,
     IN p_gold INT,
-    IN p_xp INT
+    IN p_xp INT,
+	IN p_monster_id SMALLINT,
+    IN p_battle_log VARCHAR(16000)
 )
 BEGIN
 
@@ -669,6 +674,9 @@ BEGIN
 	UPDATE players
     SET bounty_attempts = bounty_attempts - 1, gold = gold + p_gold, exp_until_level = exp_until_level - p_xp, bounties_finished = bounties_finished + 1, gold_collected = gold_collected + p_gold
     WHERE player_id = p_player_id;
+
+	INSERT INTO mail (player_id , opponent_id, event_type, is_player_winner, event_date, battle_log) 
+	VALUES (p_player_id, p_monster_id, 'bounty', (SELECT CASE WHEN p_gold > 0 THEN 1 ELSE 0 END), NOW(), p_battle_log);
 
 	SET v_exp_until_level = (
 		SELECT exp_until_level 
@@ -702,7 +710,8 @@ CREATE PROCEDURE usp_give_player_dungeon_rewards
     IN p_stamina TINYINT,
     IN p_gold INT,
     IN p_xp INT,
-    IN p_dungeon_tier TINYINT
+    IN p_dungeon_tier TINYINT,
+    IN p_battle_log VARCHAR(16000)
 )
 BEGIN
 
@@ -718,6 +727,15 @@ BEGIN
 	UPDATE players
     SET dungeon_attempts = dungeon_attempts - 1, gold = gold + p_gold, exp_until_level = exp_until_level - p_xp, gold_collected = gold_collected + p_gold
     WHERE player_id = p_player_id;
+    
+    SET @s = CONCAT('INSERT INTO mail (player_id , opponent_id, event_type, is_player_winner, event_date, battle_log) VALUES (',p_player_id,
+    ',(SELECT dungeon_monster_id FROM dungeon_monsters WHERE dungeon_tier = ',p_dungeon_tier,' AND dungeon_floor = (SELECT dungeon_tier_',p_dungeon_tier,'_floor FROM player_dungeons WHERE player_id = ',p_player_id,') - (SELECT CASE WHEN ',p_gold,' > 0 THEN 1 ELSE 0 END) )',
+    ', "dungeon", (SELECT CASE WHEN ',p_gold,' > 0 THEN 1 ELSE 0 END), NOW(), "',p_battle_log,'");'
+    );
+
+	PREPARE stmt FROM @s;
+    
+	EXECUTE stmt;
 
 	SET v_exp_until_level = (
 		SELECT exp_until_level 
@@ -735,7 +753,7 @@ BEGIN
 END //
 DELIMITER ;
 
-#CALL usp_give_player_dungeon_rewards(1, 4, 20, 126);
+#CALL usp_give_player_dungeon_rewards(1, 4, 20, 126,'ddd',2);
 
 
 /*==============================
@@ -1159,7 +1177,8 @@ CREATE PROCEDURE usp_process_arena_honor
 (
 	IN p_player_id SMALLINT,
     IN p_winner_id SMALLINT,
-    IN p_loser_id SMALLINT
+    IN p_loser_id SMALLINT,
+    IN p_battle_log VARCHAR(16000)
 )
 BEGIN
 
@@ -1180,14 +1199,63 @@ BEGIN
         WHEN p_player_id = p_loser_id AND honor >= v_winner_honor THEN -10
         END
     WHERE player_id = p_player_id;
-
+    
+    IF p_player_id = p_winner_id THEN
+		INSERT INTO mail (player_id , opponent_id, event_type, is_player_winner, event_date, battle_log) 
+		VALUES (p_winner_id, p_loser_id, 'arena', 1, NOW(), p_battle_log);
+	ELSE
+		INSERT INTO mail (player_id , opponent_id, event_type, is_player_winner, event_date, battle_log) 
+		VALUES (p_loser_id, p_winner_id, 'arena', 0, NOW(), p_battle_log);
+	END IF;
+    
     DELETE FROM arena_opponents
     WHERE player_id = p_player_id;
-    
+
 END //
 DELIMITER ;
 
 #CALL usp_process_arena_honor(1, 4, 1);
+
+
+/*==============================
+	usp_get_player_mail
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_get_player_mail;
+
+DELIMITER //
+CREATE PROCEDURE usp_get_player_mail
+(
+	IN p_player_id SMALLINT,
+    IN p_event_type VARCHAR(20)
+)
+BEGIN
+
+	SELECT 
+		(SELECT display_name FROM players WHERE player_id = p_player_id) AS player_name,
+        (SELECT CASE
+			WHEN p_event_type = 'arena' THEN (SELECT display_name FROM players WHERE player_id = CASE WHEN p_player_id = a.player_id THEN a.opponent_id ELSE a.player_id END) 
+            WHEN p_event_type = 'dungeon' THEN (SELECT monster_name FROM dungeon_monsters WHERE dungeon_monster_id = a.opponent_id)
+            WHEN p_event_type = 'quest' THEN (SELECT monster_name FROM quest_monsters WHERE quest_monster_id = a.opponent_id)
+            WHEN p_event_type = 'bounty' THEN (SELECT monster_name FROM bounty_monsters WHERE bounty_monster_id = a.opponent_id)
+		END) AS opponent_name, 
+        event_type, 
+        CASE WHEN (p_player_id = player_id AND is_player_winner = 1) OR (p_player_id = opponent_id AND is_player_winner = 0) THEN 1 ELSE 0 END AS is_player_winner, 
+        event_date, 
+        battle_log
+    FROM mail a
+    WHERE (a.player_id = p_player_id or a.opponent_id = p_player_id) AND a.event_type = p_event_type
+    ORDER BY mail_id DESC
+    LIMIT 10;
+
+END //
+DELIMITER ;
+/*
+select * from mail
+delete from mail
+update players set arena_attempts = 20
+*/
+#CALL usp_get_player_mail(2);
 
 /*==============================
 	usp_get_player_dungeon_info

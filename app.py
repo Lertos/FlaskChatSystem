@@ -163,7 +163,6 @@ def dashboard():
 
     #For testing new items out
     #if request.method == 'POST':
-    #    pass
         #helper.debugCreateItems(playerId, session['className'], 21, playerLevel, playerLevel)
 
     player = database.getDashboardDetails(playerId)
@@ -432,7 +431,7 @@ def results():
         monster = travelInfo
     else:
         monster = helper.createMonsterForBattle(player, playerId, travelInfo)
-        
+
         if monster == -1:
             print('==ERROR: /results MONSTER stats cannot be found - redirect to dashboard')
             return redirect(url_for('dashboard'))
@@ -483,9 +482,13 @@ def results():
             loserId = player['player_id']
             winnerId = monster['player_id']
 
-        database.processArenaHonor(player['player_id'], winnerId, loserId)
+        #Join the battle log together so it can be stored in the database
+        battleLogJoined = helper.joinBattleLogIntoString(battleLog['log'])
+        database.processArenaHonor(player['player_id'], winnerId, loserId, battleLogJoined)
     else:
-        playerLevel = helper.completePlayerEvent(playerId, playerWon, player, monster, travelInfo)
+        #Join the battle log together so it can be stored in the database
+        battleLogJoined = helper.joinBattleLogIntoString(battleLog['log'])
+        playerLevel = helper.completePlayerEvent(playerId, playerWon, player, monster, travelInfo, battleLogJoined)
         playerLevel = playerLevel[0]['player_level']
 
         #Check for level ups
@@ -787,6 +790,29 @@ def leaderboard():
 
     print('----->',session['displayName'],'LEADERBOARD')
     return render_template('leaderboard.html', seasonList=seasonList, boardType='')
+
+
+@app.route('/mail', methods=['GET', 'POST'])
+def mail():
+
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
+    playerId = session['playerId']
+
+    typeOfEvent = 'arena'
+
+    if request.method == 'POST':
+        typeOfEvent = request.form['mailType']
+
+        #Check for incorrect POST values even though the database would just return empty which is fine
+        if typeOfEvent not in ['arena','dungeon','quest','bounty']:
+            typeOfEvent = 'arena'
+
+    mail = database.getPlayerMail(playerId, typeOfEvent)
+
+    print('----->',session['displayName'],'Mail')
+    return render_template('mail.html', mail=mail, typeOfEvent=typeOfEvent)
 
 
 @app.route('/faq', methods=['GET'])

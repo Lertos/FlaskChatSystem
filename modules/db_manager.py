@@ -65,7 +65,7 @@ class MySQLPool(object):
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
 
-        print(datetime.datetime.now())
+        #print(datetime.datetime.now())
         if args:
             cursor.execute(statement, args)
         else:
@@ -89,7 +89,7 @@ class MySQLPool(object):
             conn.commit()
 
       except:
-        print(datetime.datetime.now())
+        #print(datetime.datetime.now())
         print('executeStatement', statement, commit, dictCursor, makeList, returnList, args)
 
       finally:
@@ -103,7 +103,7 @@ class MySQLPool(object):
         conn = self.pool.get_connection()
         cursor = conn.cursor()
 
-        print(datetime.datetime.now())
+        #print(datetime.datetime.now())
         if args:
             cursor.execute(statement, args)
         else:
@@ -112,7 +112,7 @@ class MySQLPool(object):
         conn.commit()
 
       except:
-        print(datetime.datetime.now())
+        #print(datetime.datetime.now())
         print('executeUpdateStatement', statement, args)
 
       finally:
@@ -125,7 +125,7 @@ class MySQLPool(object):
         conn = self.pool.get_connection()
         cursor = conn.cursor()
 
-        print(datetime.datetime.now())
+        #print(datetime.datetime.now())
         if args:
             cursor.callproc(procedure, args)
         else:
@@ -135,7 +135,7 @@ class MySQLPool(object):
             conn.commit()
 
       except:
-        print(datetime.datetime.now())
+        #print(datetime.datetime.now())
         print('executeProcedure', procedure, commit, args)
 
       finally:
@@ -148,7 +148,7 @@ class MySQLPool(object):
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
 
-        print(datetime.datetime.now())
+        #print(datetime.datetime.now())
         if args:
             cursor.callproc(procedure, args)
         else:
@@ -163,7 +163,7 @@ class MySQLPool(object):
           result = row.fetchall()
 
       except:
-        print(datetime.datetime.now())
+        #print(datetime.datetime.now())
         print('executeProcedureReturnList', procedure, commit, dictCursor, args)
 
       finally:
@@ -177,7 +177,7 @@ class MySQLPool(object):
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
 
-        print(datetime.datetime.now())
+        #print(datetime.datetime.now())
         if args:
             cursor.callproc(procedure, args)
         else:
@@ -192,7 +192,7 @@ class MySQLPool(object):
           result = row.fetchall()
 
       except:
-        print(datetime.datetime.now())
+        #print(datetime.datetime.now())
         print('executeProcedureReturnDict', procedure, commit, dictCursor, args)
 
       finally:
@@ -443,13 +443,12 @@ class MySQLPool(object):
       return result
 
 
-    def givePlayerQuestRewards(self, playerId, stamina, gold, xp, travelType, dungeonTier):
-      args = [playerId, stamina, gold, xp]
+    def givePlayerQuestRewards(self, playerId, stamina, gold, xp, travelType, monsterId, battleLog):
+      args = [playerId, stamina, gold, xp, monsterId, battleLog]
 
       if travelType == 'bounty':
         result = self.executeProcedureReturnList('usp_give_player_bounty_rewards', commit=True, dictCursor=True, args=args)
       elif travelType == 'dungeon':
-        args.append(dungeonTier)
         result = self.executeProcedureReturnList('usp_give_player_dungeon_rewards', commit=True, dictCursor=True, args=args)
       else:
         result = self.executeProcedureReturnList('usp_give_player_quest_rewards', commit=True, dictCursor=True, args=args)
@@ -485,15 +484,8 @@ class MySQLPool(object):
       self.executeProcedure('usp_create_arena_opponents', commit=True, args=args)
 
 
-    def givePlayerBountyRewards(self, playerId, gold, xp):
-      args = [playerId, gold, xp]
-      result = self.executeProcedureReturnList('usp_give_player_bounty_rewards', commit=True, dictCursor=True, args=args)
-
-      return result
-
-
-    def processArenaHonor(self, playerId, winnerId, loserId):
-      args = [playerId, winnerId, loserId]
+    def processArenaHonor(self, playerId, winnerId, loserId, battleLog):
+      args = [playerId, winnerId, loserId, battleLog]
       result = self.executeProcedureReturnList('usp_process_arena_honor', commit=True, dictCursor=False, args=args)
 
 
@@ -525,6 +517,16 @@ class MySQLPool(object):
     def getLeaderboardData(self, procedure, season):
       args = [season]
       result = self.executeProcedureReturnList(procedure, commit=False, dictCursor=True, args=args)
+
+      return result
+
+
+    def getPlayerMail(self, playerId, typeOfEvent):
+      args = [playerId, typeOfEvent]
+      result = self.executeProcedureReturnList('usp_get_player_mail', commit=False, dictCursor=True, args=args)
+
+      for i in range(0, len(result)):
+        result[i]['event_date'] = str(result[i]['event_date'])
 
       return result
 

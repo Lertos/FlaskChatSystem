@@ -261,6 +261,40 @@ ul{
     border: 1px solid #301f17;
 }
 
+.popupBackground{
+    background-color: var(--background);
+}
+
+.mailTable{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0px 0px;
+    border: 3px solid #301f17;
+}
+
+.mailTable th{
+    color: white;
+    background-color: var(--background);
+    background-image: url("/static/pattern2.png");
+    background-repeat: repeat;
+}
+
+.mailTable tr{
+    width:100%;
+    text-align: left;
+    padding: 10px;
+}
+
+.mailTable tr:nth-child(even) {
+    background-color: var(--diffColorTable);
+    background-image: url("/static/pattern3.png");
+    background-repeat: repeat;
+}
+
+.mailTable td{
+    text-align: left;
+}
+
 .lootTable{
     width: 100%;
 }
@@ -866,5 +900,15 @@ ul.nav li.active a {
         width: auto;
         height: auto;
         text-align: center;
+    }
+
+    .upgradePanelChild{
+        position: absolute;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        background-color: var(--background);
+        background-image: url("/static/pattern2.png");
+        background-repeat: repeat;
+        color: white;
     }
 }

@@ -78,7 +78,14 @@ leaderboardInfo = {
 
 def createItem(playerId, playerClass, level):
     #Item Type
-    itemTypeId = random.choice(list(itemTypes.keys()))
+
+    #Roll 4 times to try to get an item with your stat
+    for i in range(0, 4):
+        itemTypeId = random.choice(list(itemTypes.keys()))
+
+        if itemTypes[itemTypeId]['stat'] == classes[playerClass]['stat']:
+            break
+
     isWeapon = itemTypes[itemTypeId]['is_weapon']
 
     #Item Prefix
@@ -90,7 +97,7 @@ def createItem(playerId, playerClass, level):
 
     #Item Stats
     itemStats = getItemStats(level, isWeapon, itemTypeId, itemPrefixId, rarityMultiplier)
-    itemStats = trimItemStats(itemStats, itemRarity)
+    itemStats = trimItemStats(itemStats, itemRarity, classes[playerClass]['stat'])
 
     #Item Damage or Armor
     itemDamage = 0
@@ -155,22 +162,45 @@ def getItemStats(level, isWeapon, itemTypeId, itemPrefixId, rarityMultiplier):
 
 
 #Deals with the removal of stats based on the rarity drop chance
-def trimItemStats(itemStats, itemRarity):
+def trimItemStats(itemStats, itemRarity, playerStat):
     backupStats = itemStats.copy()
     removalChance = float(itemRarities[itemRarity]['drop_chance'])+ 0.05
-    count = 0
+    removeCount = 0
+    reduceCount = 0
 
     for x in range(0,len(itemStats)):
         roll = random.random()
 
         if roll < removalChance:
-            itemStats[x] = 0
-            count += 1
+            roll = random.random()
 
-    #If unlucky enough to remove all stats, give at least one
-    if count == 5:
-        randomStat = random.randrange(0,5)
-        itemStats[randomStat] = backupStats[randomStat]
+            #Check for reduction instead of flat 0 (30% chance)
+            if roll > 0.05 and roll < 0.35:
+                itemStats[x] = math.floor(itemStats[x] * roll)
+                reduceCount += 1
+            else:
+                itemStats[x] = 0
+                removeCount += 1
+
+    #If unlucky enough to remove all 5 stats, give at least one - and 
+    if removeCount >= 3 or (removeCount >= 2 and reduceCount >= 1):
+        #Check to see if it's main stat (30%), constitution (20%), luck (20%), or random (30%)
+        roll = random.random()
+
+        if roll < 0.3:
+            randomStat = random.randrange(0,5)
+            itemStats[randomStat] = backupStats[randomStat]
+        elif roll < 0.6:
+            if playerStat == 'str':
+                itemStats[0] = backupStats[0]
+            elif playerStat == 'dex':
+                itemStats[1] = backupStats[1]
+            else:
+                itemStats[2] = backupStats[2]
+        elif roll < 0.8:
+            itemStats[3] = backupStats[3]
+        else:
+            itemStats[4] = backupStats[4]
 
     return itemStats
 
@@ -234,10 +264,10 @@ def getClassInfo(className):
 
 
 #After a player completes an event, process the rewards/stamina usage
-def completePlayerEvent(playerId, playerWon, playerInfo, monsterInfo, travelInfo):
+def completePlayerEvent(playerId, playerWon, playerInfo, monsterInfo, travelInfo, battleLog):
     gold = 0
     xp = 0
-    dungeonTier = None
+    monsterId = None
 
     if playerWon:
         gold = monsterInfo['gold']
@@ -248,12 +278,16 @@ def completePlayerEvent(playerId, playerWon, playerInfo, monsterInfo, travelInfo
 
     if travelInfo['type_of_event'] == 'quest':
         stamina = monsterInfo['stamina']
+        monsterId = travelInfo['opponent_id']
     elif travelInfo['type_of_event'] == 'bounty' or travelInfo['type_of_event'] == 'dungeon':
         if travelInfo['type_of_event'] == 'dungeon':
-            dungeonTier = travelInfo['dungeon_tier']
+            #In this case, monsterId is the dungeon tier
+            monsterId = travelInfo['dungeon_tier']
+        else:
+            monsterId = travelInfo['opponent_id']
         stamina = 0
 
-    return database.givePlayerQuestRewards(playerId, stamina, gold, xp, travelInfo['type_of_event'], dungeonTier)
+    return database.givePlayerQuestRewards(playerId, stamina, gold, xp, travelInfo['type_of_event'], monsterId, battleLog)
 
 
 #Inserts a new row into the travel_info table
@@ -385,7 +419,7 @@ def createRandomQuestMonsters(playerId, playerStats):
         monsterStamina = random.randint(4,7)
 
         #Get a random travel time
-        monsterTime = random.randint(2,2)
+        monsterTime = random.randint(60,180)
 
         #Get random stats based on the players average stat
         stats = []
@@ -461,7 +495,7 @@ def createRandomBountyMonsters(playerId, playerStats):
         monsterDropChance = 0.75
 
         #Get a random travel time
-        monsterTime = random.randint(2,2)
+        monsterTime = random.randint(60,180)
 
         #Get random stats based on the players average stat
         stats = []
@@ -602,6 +636,19 @@ def getLeaderboardData(boardType, season):
 
     return [header, data]
 
+
+def joinBattleLogIntoString(battleLog):
+    battleLogJoined = ''
+
+    for i in range(0, len(battleLog)):
+        turnLog = ''
+        
+        for j in range(0, len(battleLog[i])):
+            turnLog += ':' + str(battleLog[i][j])
+
+        battleLogJoined += turnLog + '#'
+    
+    return battleLogJoined
 
 #===============================
 
