@@ -3,7 +3,7 @@ import mysql.connector
 import mysql.connector.pooling
 import math
 import datetime
-
+import sys
 
 dbconfig = {
   'host':'127.0.0.1',
@@ -40,6 +40,9 @@ class MySQLPool(object):
 
     #Executes a procedures without returning anything
     def executeStatementServerSetup(self, statement, attributeList):
+      conn = None
+      result = None
+
       try:
         conn = self.pool.get_connection()
         cursor = conn.cursor()
@@ -55,12 +58,16 @@ class MySQLPool(object):
             result[row[0]][attributeList[i]] = row[i+1]
 
       finally:
-        self.close(conn, cursor)
+        if conn != None:
+          self.close(conn, cursor)
         return result
 
 
     #Executes a procedures without returning anything
     def executeStatement(self, statement, commit, dictCursor, makeList, returnList, args=None):
+      conn = None
+      result = None
+
       try:
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
@@ -72,8 +79,6 @@ class MySQLPool(object):
             cursor.execute(statement)
 
         #Check whether the results are in list or dictionary form
-        result = None
-
         if returnList:
           result = []
         else:
@@ -93,12 +98,15 @@ class MySQLPool(object):
         print('executeStatement', statement, commit, dictCursor, makeList, returnList, args)
 
       finally:
-        self.close(conn, cursor)
+        if conn != None:
+          self.close(conn, cursor)
         return result
 
 
     #Executes a statement and doesnt return nor fetch anythin (for updates)
     def executeUpdateStatement(self, statement, args=None):
+      conn = None
+      
       try:
         conn = self.pool.get_connection()
         cursor = conn.cursor()
@@ -116,11 +124,14 @@ class MySQLPool(object):
         print('executeUpdateStatement', statement, args)
 
       finally:
-        self.close(conn, cursor)
+        if conn != None:
+          self.close(conn, cursor)
 
 
     #Executes a procedures without returning anything
     def executeProcedure(self, procedure, commit, args=None):
+      conn = None
+
       try:
         conn = self.pool.get_connection()
         cursor = conn.cursor()
@@ -134,16 +145,16 @@ class MySQLPool(object):
         if commit is True:
             conn.commit()
 
-      except:
-        #print(datetime.datetime.now())
-        print('executeProcedure', procedure, commit, args)
-
       finally:
-        self.close(conn, cursor)
+        if conn != None:
+          self.close(conn, cursor)
 
 
     #Executes a procedure and returns a list
     def executeProcedureReturnList(self, procedure, commit, dictCursor, args=None):
+      conn = None
+      result = None
+      
       try:
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
@@ -167,12 +178,16 @@ class MySQLPool(object):
         print('executeProcedureReturnList', procedure, commit, dictCursor, args)
 
       finally:
-        self.close(conn, cursor)
+        if conn != None:
+          self.close(conn, cursor)
         return result
 
 
     #Executes a procedure and returns a dictonary
     def executeProcedureReturnDict(self, procedure, commit, dictCursor, args=None):
+      conn = None
+      result = None
+      
       try:
         conn = self.pool.get_connection()
         cursor = conn.cursor(dictionary=dictCursor)
@@ -196,7 +211,8 @@ class MySQLPool(object):
         print('executeProcedureReturnDict', procedure, commit, dictCursor, args)
 
       finally:
-        self.close(conn, cursor)
+        if conn != None:
+          self.close(conn, cursor)
         return result
 
 
@@ -527,6 +543,15 @@ class MySQLPool(object):
 
       for i in range(0, len(result)):
         result[i]['event_date'] = str(result[i]['event_date'])
+
+      return result
+
+
+    def getMythicFeed(self):
+      result = self.executeProcedureReturnList('usp_get_mythic_feed', commit=False, dictCursor=True, args=None)
+
+      for i in range(0, len(result)):
+        result[i]['time_dropped'] = str(result[i]['time_dropped'])
 
       return result
 

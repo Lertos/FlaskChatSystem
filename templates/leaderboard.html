@@ -46,6 +46,8 @@
             </form>
         </div>
 
+        <form id='viewDashboard' action='viewDashboard' method='POST'></form>
+
         {% if boardType != '' %}
             <div class='spacing'>    
 
@@ -103,7 +105,7 @@
                             {% elif boardType == 'itemsMyth' %}
                                 <td>{{ player['mythic_collected'] }}</td>
                             {% endif %}
-                            <td>{{ player['display_name'] }}</td>
+                            <td><a playerId='{{ player["player_id"] }}'>{{ player['display_name'] }}</a></td>
                             <td>{{ player['player_level'] }}</td>
                             <td>{{ player['class_name'] }}</td>
                             <td>{{ player['honor'] }}</td>
@@ -134,10 +136,18 @@
             var season = $('#season option:selected').val()
 
             var form = $('#form')
-            form.append('<input type="hidden" name="season" value="' + season + '" /> ');
-            form.append('<input type="hidden" name="boardType" value="' + boardType + '" /> ');
-            form.submit();
+            form.append('<input type="hidden" name="season" value="' + season + '" /> ')
+            form.append('<input type="hidden" name="boardType" value="' + boardType + '" /> ')
+            form.submit()
         })
+
+        $('a').on('click', function(){
+            var playerId = $(this).attr('playerId')
+
+            var form = $('#viewDashboard')
+            form.append('<input type="hidden" name="playerId" value=' + playerId + ' /> ')
+            form.submit()
+        });
     });
 
 

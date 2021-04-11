@@ -1,0 +1,553 @@
+{% extends 'basePlusNavbar.html' %}
+
+{% block head %}
+    <title>Dashboard</title>
+{% endblock %}
+
+{% block body %}
+<body class='background_dashboard'>
+
+    <div id='container'>
+
+        <!-- LEFT PANEL -->
+        <div class='sidePanel background border spacing'>
+
+            <img class='resizeImg128NoHover' src='/static/avatars/{{ player["file_name"] }}'>
+
+            <!-- Player Info Panel -->
+            <div id='playerInfo'>
+                <h3 class='alignCenter'><strong>{{ player['display_name'] }}</strong> ({{ player['player_level'] }})</h3>
+                <h4><strong>{{ player['class_name'] }}</strong></h4>
+
+                <hr>
+
+                <div>
+                    <table class='alignLeft'>
+                        <tr>
+                            <td>
+                                <img class='iconImg' src='/static/icons/icon_honor.png'>
+                                <p>{{ player['honor'] }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img class='iconImg' src='/static/icons/icon_gold.png'>
+                                <p id='playerGold'>{{ player['gold'] }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img class='iconImg' src='/static/icons/icon_xp.png'>
+                                <p>{{ player['exp_until_level'] }} xp until lvl</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img class='iconImg' src='/static/icons/icon_stamina.png'>
+                                <p>{{ player['stamina'] }} / 100</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <hr>
+
+            <div>
+                <table class='leftRightTable'>
+                    <tr>
+                        <td>
+                            <h5>Strength</h5>
+                        </td>
+                        <td>
+                            <p id='playerStrength' class='sameLine'>{{ player['strength'] }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>Dexterity</h5>
+                        </td>
+                        <td>
+                            <p id='playerDexterity' class='sameLine'>{{ player['dexterity'] }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>Intelligence</h5>
+                        </td>
+                        <td>
+                            <p id='playerIntelligence' class='sameLine'>{{ player['intelligence'] }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>Constitution</h5>
+                        </td>
+                        <td>
+                            <p id='playerConstitution' class='sameLine'>{{ player['constitution'] }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>Luck</h5>
+                        </td>
+                        <td>
+                            <p id='playerLuck' class='sameLine'>{{ player['luck'] }}</p>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <hr>
+
+            <div>
+                <table class='leftRightTable'>
+                    <tr>
+                        <td>
+                            <h5>Base Damage</h5>
+                        </td>
+                        <td>
+                            <p id='playerDamage' class='sameLine'>0</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>Health</h5>
+                        </td>
+                        <td>
+                            <p id='playerHealth' class='sameLine'>0</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>Armor</h5>
+                        </td>
+                        <td>
+                            <p id='playerArmor' class='sameLine'>0</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>Armor Reduction</h5>
+                        </td>
+                        <td>
+                            <p id='playerArmorReduc' class='sameLine'>0</p>%
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h5>Critical Chance</h5>
+                        </td>
+                        <td>
+                            <p id='playerCritChance' class='sameLine'>0</p>%
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+        <!-- Main Panel -->
+        <div class='mainPanel background border spacing'>
+
+            <h3 class='header'><strong>Worn Items</strong></h3>
+
+            <div class='inventory'>
+                <div>
+                    <img id='slot_helmet' src='/static/slots/slot_helmet.png'>
+                    <img id='slot_chest' src='/static/slots/slot_chest.png'>
+                    <img id='slot_legs' src='/static/slots/slot_legs.png'>
+                    <img id='slot_gloves' src='/static/slots/slot_gloves.png'>
+                    <img id='slot_boots' src='/static/slots/slot_boots.png'>
+                    <img id='slot_weapon' src='/static/slots/slot_weapon.png'>
+                    <img id='slot_offhand' class='imgLocked' src='/static/slots/slot_locked.png'>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class='sidePanel background border spacing'>
+
+            <!-- Player Stats Panel -->
+            <div class='alignCenter'>
+
+                <h3>Item Information</h3>
+
+                <hr>
+
+                <img id='panelImage' src='/static/slots/slot_empty.png'>
+
+                <h4 id='panelPrefix'></h4>
+
+                <h4 id='panelName' class='boldText'></h4>
+
+                <h5 id='panelLevel'></h5>
+
+                <h5 hidden id='panelWarning' class='textRed'>Wrong Class Type (Stats -20%)</h5>
+
+                <table class='leftRightTable'>
+                    <tr>
+                        <td><h5>Weapon Dmg</h5></td>
+                        <td>
+                            <p id='panelDamage'></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h5>Armor</h5></td>
+                        <td>
+                            <p id='panelArmor'></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h5>Strength</h5></td>
+                        <td>
+                            <p id='panelStrength'></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h5>Dexterity</h5></td>
+                        <td>
+                            <p id='panelDexterity'></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h5>Intelligence</h5></td>
+                        <td>
+                            <p id='panelIntelligence'></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h5>Constitution</h5></td>
+                        <td>
+                            <p id='panelConstitution'></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h5>Luck</h5></td>
+                        <td>
+                            <p id='panelLuck'></p>
+                        </td>
+                    </tr>
+                </table>
+
+                <hr>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+<script type='text/javascript' src='{{ url_for("static", filename="jquery.js") }}'></script>
+
+<script>
+
+    var itemPanelConfig = {
+        'panelPrefix': {'listKey': 'prefix', 'compareStats': false},
+        'panelName': {'listKey': 'item_name', 'compareStats': false},
+        'panelDamage': {'listKey': 'damage', 'compareStats': true},
+        'panelArmor': {'listKey': 'armor', 'compareStats': true},
+        'panelStrength': {'listKey': 'strength', 'compareStats': true},
+        'panelDexterity': {'listKey': 'dexterity', 'compareStats': true},
+        'panelIntelligence': {'listKey': 'intelligence', 'compareStats': true},
+        'panelConstitution': {'listKey': 'constitution', 'compareStats': true},
+        'panelLuck': {'listKey': 'luck', 'compareStats': true}
+    }
+
+    var classInfo = {{ classInfo|tojson|safe }}
+    var importedEquippedItems = {{ equippedItems|tojson|safe }}
+    var playerInfo = {{ player|tojson|safe }}
+
+    var equippedItems = []
+
+    //===============================
+
+    //Initial Setup
+
+    //===============================
+
+    //Have the item panel start fresh
+    resetItemPanel()
+
+    //If a class doesn't use their offhand, lock it to avoid confusion
+    if(classInfo['uses_shield'] == 1){
+        var offHandSlot = document.getElementById('slot_offhand')
+        offHandSlot.src = '/static/slots/slot_offhand.png'
+        offHandSlot.classList = 'borderImg'
+    }
+
+    //Setup all of the items
+    for(var i=0; i<importedEquippedItems.length; i++)
+        setupNewEquippedItem(importedEquippedItems[i])
+
+    //Set the initial values for the player info panel
+    updatePlayerHealth()
+    updatePlayerCritChance()
+    updatePlayerDamage(0)
+
+    //===============================
+
+    //Functions
+
+    //===============================
+
+    //Adds the event listener to the item slot as well as assigns needed attributes
+    function setupNewEquippedItem(item){
+        var itemSlotId = getItemSlotTypeId(item['item_type_name'])
+
+        var element = document.getElementById(itemSlotId)
+
+        //Update the image in the worn slot
+        element.src = 'static/' + item['file_name']
+        element.classList = item['css_class_name']
+
+        //Assign the necessary attributes
+        var newIndex = equippedItems.length
+        element.itemIndex = newIndex
+        element.isEquipped = 1
+
+        //Add the event listeners
+        element.removeEventListener('click', showItemInPanel)
+        element.addEventListener('click', showItemInPanel)
+
+        //Add the item to the equipped items
+        equippedItems.push(item)
+
+        //Add the equipment stats to the players total equipment stats
+        changePlayerStats(item, 1)
+    }
+
+
+    //When an item from either the inventory or worn equipment is clicked - show the stats of the item in the item panel
+    function showItemInPanel(){
+        updatePanelElements(equippedItems, this.itemIndex, this.isEquipped)
+    }
+
+    //Updates each of the item panel elements with the information of the item
+    function updatePanelElements(itemsList, itemIndex, isEquipped){
+        var equippedItem
+
+        if(!isEquipped){
+            var itemType = itemsList[itemIndex]['item_type_name']
+            var slotType = getItemSlotTypeId(itemType)
+            var equippedItemIndex = getEquippedItemIndex(itemType)
+
+            if(equippedItemIndex != -1)
+                equippedItem = equippedItems[equippedItemIndex]
+            else
+                equippedItem = null
+        }
+
+        document.getElementById('panelImage').src = 'static/' + itemsList[itemIndex]['file_name']
+        document.getElementById('panelImage').classList = itemsList[itemIndex]['css_class_name']
+        document.getElementById('panelLevel').innerText = 'Level ' + itemsList[itemIndex]['item_level'] + ' ' + itemsList[itemIndex]['item_type_name']
+
+        //Check for wrong class stat to item type - warn them why their stats are reduced
+        isWrongClassType(itemsList[itemIndex]['stat'])
+
+        //Update each panel element based on the panel configuration
+        Object.keys(itemPanelConfig).forEach(function(key) {
+            var element = document.getElementById(key)
+            var item = itemsList[itemIndex]
+            var itemKey = itemPanelConfig[key]['listKey']
+
+            element.innerText = item[itemKey]
+        });
+    }
+
+
+    //Returns whether or not the item stat matches the players class stat
+    function isWrongClassType(stat){
+        if(classInfo['stat'] != stat){
+            document.getElementById('panelWarning').hidden = false
+            return true
+        }
+
+        document.getElementById('panelWarning').hidden = true
+        return false
+    }
+
+
+    //Updates the players equipment totals by either subtracting or adding the value (based on the multipler supplied +1 or -1)
+    function changePlayerStats(item, multiplier){
+
+        updatePlayerArmorAndReduction(item['armor'], multiplier)
+
+        updateInnerText('playerStrength', item['strength'] * multiplier)
+        updateInnerText('playerDexterity', item['dexterity'] * multiplier)
+        updateInnerText('playerIntelligence', item['intelligence'] * multiplier)
+        updateInnerText('playerConstitution', item['constitution'] * multiplier)
+        updateInnerText('playerLuck', item['luck'] * multiplier)
+
+        updatePlayerDamage(item['damage'], multiplier)
+        updatePlayerHealth()
+        updatePlayerCritChance()
+    }
+
+
+    //Updates the players armor and armor reduction stats
+    function updatePlayerArmorAndReduction(itemArmor, multiplier){
+        var armor = itemArmor
+
+        if(armor != 0){
+            var classMaxArmorReduction = classInfo['max_armor_reduction'] * 100
+
+            updateInnerText('playerArmor', armor * multiplier)
+
+            armor = document.getElementById('playerArmor').innerText
+            armorReduction = Math.floor(armor / '{{ player["player_level"] }}')
+
+            if(armorReduction > classMaxArmorReduction)
+                armorReduction = classMaxArmorReduction
+
+            document.getElementById('playerArmorReduc').innerText = armorReduction
+        }
+    }
+
+
+    //Gets the players main weapon Dmg
+    function getPlayerWeaponDamage(){
+        var weaponIndex = document.getElementById('slot_weapon').itemIndex
+        if(weaponIndex == null || weaponIndex == undefined) return
+
+        return equippedItems[weaponIndex]['damage']
+    }
+
+
+    //Updates the players damage
+    function updatePlayerDamage(itemDamage, multiplier){
+        var classStat = classInfo['stat']
+        var mainStat = getMainStat(classStat)
+        var levelMainStat = parseInt(document.getElementById('player' + mainStat).innerText)
+        var level = parseInt('{{ player["player_level"] }}')
+
+        var damage = 0
+
+        if(itemDamage == 0){
+            damage = getPlayerWeaponDamage()
+
+            if(damage == null) damage = 0
+        }
+        else{
+            if(multiplier == -1) damage = 0
+            else damage = itemDamage
+        }
+
+        if(level <= 2)
+            damage = Math.floor((damage/10) * ((level) * (levelMainStat/2)) + 1)
+        else if(level <= 5)
+            damage = Math.floor(damage/10 * ((level) * (levelMainStat/2)) + 5)
+        else
+            damage = Math.floor((damage/(level ** 1.9)) * (level ** 2) * (levelMainStat/30) + 40)
+
+        document.getElementById('playerDamage').innerText = damage
+    }
+
+
+    //Updates the players health based on class multipler as well as constitution level
+    function updatePlayerHealth(){
+        var constitution = document.getElementById('playerConstitution').innerText
+        var level = '{{ player["player_level"] }}'
+        var health
+
+        if(level <= 5)
+			health = Math.floor(classInfo['health_modifier'] * (level ** 2) * 4 * (constitution/20) + 60)
+		else
+            health = Math.floor(classInfo['health_modifier'] * (level ** 2) * 4 * (constitution/30) + 60)
+
+        document.getElementById('playerHealth').innerText = health
+    }
+
+
+    //Updates the players critical chance based on players luck
+    function updatePlayerCritChance(){
+        var luck = document.getElementById('playerLuck').innerText
+        var critChance = Math.floor(luck / '{{ player["player_level"] }}')
+        var classMaxCritChance = classInfo['max_crit_chance'] * 100
+
+        if(critChance > classMaxCritChance)
+            critChance = classMaxCritChance
+
+        document.getElementById('playerCritChance').innerText = critChance
+    }
+
+
+    //Get the index of the equipped item (if exists) for the given slot type
+    function getEquippedItemIndex(slotType){
+        var slotTypeId = getItemSlotTypeId(slotType)
+        for(var i=0; i<equippedItems.length; i++){
+            if(equippedItems[i] == null) continue
+            if(getItemSlotTypeId(equippedItems[i]['item_type_name']) == slotTypeId)
+                return i
+        }
+        return -1
+    }
+
+
+    //Resets all of the item panels elements to the initial values
+    function resetItemPanel(){
+        document.getElementById('panelImage').src = '/static/slots/slot_empty.png'
+        document.getElementById('panelImage').classList = '--'
+        document.getElementById('panelLevel').innerText = '--'
+        document.getElementById('panelWarning').hidden = true
+
+        Object.keys(itemPanelConfig).forEach(function(key) {
+            var element = document.getElementById(key)
+
+            element.innerText = '--'
+            element.classList.remove('textRed')
+
+        });
+    }
+
+
+    //Given a slot type, return the element id from the document
+    function getItemSlotTypeId(itemSlotType){
+        if(itemSlotType == 'Helmet')
+            return 'slot_helmet'
+        else if(itemSlotType == 'Chestplate')
+            return 'slot_chest'
+        else if(itemSlotType == 'Legs')
+            return 'slot_legs'
+        else if(itemSlotType == 'Gloves')
+            return 'slot_gloves'
+        else if(itemSlotType == 'Boots')
+            return 'slot_boots'
+        else if(itemSlotType == 'Shield')
+            return 'slot_offhand'
+        else
+            return 'slot_weapon'
+    }
+
+
+    function getMainStat(type){
+        if(type == 'str') return 'Strength'
+        else if(type == 'dex') return 'Dexterity'
+        else return 'Intelligence'
+    }
+
+
+    //===============================
+
+    //Helper Functions
+
+    //===============================
+
+
+    //Updates a numerical field by a given amount
+    function updateInnerText(id, increaseBy){
+        var element = document.getElementById(id)
+        var current = parseInt(element.innerText)
+
+        if(typeof(current) !== 'number')
+            return
+
+        element.innerText = current + increaseBy
+    }
+
+
+</script>
+{% endblock %}

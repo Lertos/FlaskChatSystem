@@ -201,8 +201,8 @@ def equipItem():
     if 'playerId' not in session:
         return redirect(url_for('signin'))
 
-    playerId = request.form['playerId']
-    inventoryId = request.form['inventoryId']
+    playerId = int(request.form['playerId'])
+    inventoryId = int(request.form['inventoryId'])
 
     if int(playerId) == int(session['playerId']):
         database.equipInventoryItem(playerId, inventoryId)
@@ -792,6 +792,54 @@ def leaderboard():
     return render_template('leaderboard.html', seasonList=seasonList, boardType='')
 
 
+#===============================
+
+#Mythics
+
+#===============================
+
+
+@app.route('/mythics', methods=['GET'])
+def mythics():
+
+    mythics = database.getMythicFeed()
+
+    return render_template('mythicfeed.html', mythics=mythics)
+
+
+#===============================
+
+#Other Player Dashboard
+
+#===============================
+
+
+@app.route('/viewDashboard', methods=['POST'])
+def viewDashboard():
+
+    if 'playerId' not in session:
+        return redirect(url_for('signin'))
+
+    playerId = request.form['playerId']
+
+    if type(int(playerId)) != int:
+        return
+
+    player = database.getDashboardDetails(playerId)
+    classInfo = helper.getClassInfo(player['class_name'])
+    equippedItems = database.getPlayerEquippedItems(playerId)
+
+    print('----->',session['displayName'],'OTHER-DASHBOARD')
+    return render_template('viewDashboard.html', player=player, classInfo=classInfo, equippedItems=equippedItems)
+
+
+#===============================
+
+#Mail
+
+#===============================
+
+
 @app.route('/mail', methods=['GET', 'POST'])
 def mail():
 
@@ -813,6 +861,13 @@ def mail():
 
     print('----->',session['displayName'],'Mail')
     return render_template('mail.html', mail=mail, typeOfEvent=typeOfEvent)
+
+
+#===============================
+
+#FAQ
+
+#===============================
 
 
 @app.route('/faq', methods=['GET'])

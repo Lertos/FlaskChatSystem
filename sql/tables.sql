@@ -60,7 +60,7 @@ CREATE TABLE travel_info
     type_of_event VARCHAR(16) NOT NULL,
     opponent_id SMALLINT NOT NULL,
     travel_time INT NULL,
-    multiplier DECIMAL(4,3) NULL,
+    multiplier DECIMAL(5,3) NULL,
     drop_chance DECIMAL(4,3) NULL,
     dungeon_tier SMALLINT NULL,
     dungeon_floor SMALLINT NULL,
@@ -448,3 +448,29 @@ CREATE TABLE level_up_costs
 
 #SELECT * FROM level_up_costs;
 #INSERT INTO level_up_costs (cost) VALUES ()
+
+
+/*==============================
+	mythic_feed
+==============================*/
+
+DROP TABLE IF EXISTS mythic_feed;
+
+CREATE TABLE mythic_feed
+(
+	player_id SMALLINT NOT NULL,
+    item_id SMALLINT NOT NULL,
+    item_level SMALLINT NOT NULL,
+    rarity_name VARCHAR(20) NOT NULL,
+    item_prefix_id SMALLINT,
+    strength SMALLINT NOT NULL,
+    dexterity SMALLINT NOT NULL,
+    intelligence SMALLINT NOT NULL,
+    constitution SMALLINT NOT NULL,
+    luck SMALLINT NOT NULL,
+	damage SMALLINT NOT NULL,
+    armor SMALLINT NOT NULL,
+    time_dropped DATETIME NOT NULL
+);
+
+#SELECT * FROM mythic_feed;

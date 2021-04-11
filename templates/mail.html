@@ -9,7 +9,7 @@
 
     <div id='container'>
 
-        <div class='mainPanel'>
+        <div class='logPanel'>
             <div class='background border spacing'>
 
                 <form id='form' action='#' method='POST'></form>
@@ -68,7 +68,15 @@
 $(function(){
     $('.mailTable tr').on('click', function(){
         var logId = $(this).attr('logId')
+        $('.mailTable tr').removeClass('highlightRowNoBright')
+        $(this).addClass('highlightRowNoBright')
         displayBattleLog(logId)
+    });
+
+    $('.mailTable tr').hover(function(){
+        $(this).addClass('highlightRow')
+    }, function(){
+        $(this).removeClass('highlightRow')
     })
 });
 

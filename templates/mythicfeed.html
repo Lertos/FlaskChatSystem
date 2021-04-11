@@ -1,0 +1,68 @@
+{% extends 'basePlusNavbar.html' %}
+
+{% block head %}
+    <title>Mythics</title>
+{% endblock %}
+
+{% block body %}
+<body class='background_dashboard'>
+
+    <div id='container'>
+
+
+        {% for item in mythics %}
+            <div class='sidePanel background border spacing'>
+
+                <div class='alignCenter'>
+
+                    <img class='itemBorderMythic' src='/static/{{ item["file_name"] }}'>
+
+                    <h4 id='panelPrefix'>{{ item["prefix"] }}</h4>
+
+                    <h4 id='panelName' class='boldText'>{{ item["item_name"] }}</h4>
+
+                    <h5 id='panelLevel'>{{ item["item_level"] }}</h5>
+
+                    <table class='leftRightTable'>      
+                        <tr>
+                        {% if item["damage"] != 0 %}
+                            <td><h5>Weapon Dmg</h5></td>
+                            <td><p>{{ item["damage"] }}</p></td>
+                        {% else %}
+                            <td><h5>Armor</h5></td>
+                            <td><p>{{ item["armor"] }}</p></td>
+                        {% endif %}
+                        </tr>
+                        <tr>
+                            <td><h5>Strength</h5></td>
+                            <td><p>{{ item["strength"] }}</td>
+                        </tr>
+                        <tr>
+                            <td><h5>Dexterity</h5></td>
+                            <td><p>{{ item["dexterity"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Intelligence</h5></td>
+                            <td><p>{{ item["intelligence"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Constitution</h5></td>
+                            <td><p>{{ item["constitution"] }}</p></td>
+                        </tr>
+                        <tr>
+                            <td><h5>Luck</h5></td>
+                            <td><p>{{ item["luck"] }}</p></td>
+                        </tr>
+                    </table>
+
+                    <h4><strong>Owner:</strong> {{ item["display_name"] }}</h4>
+                    <h5><strong>Dropped:</strong> {{ item["time_dropped"] }}</h6>
+
+                </div>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

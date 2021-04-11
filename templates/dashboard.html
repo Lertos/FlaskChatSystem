@@ -618,6 +618,7 @@
 
         element.removeEventListener('click', showItemInPanel)
         element.addEventListener('click', showItemInPanel)
+        element.addEventListener('dblclick', processEquipItem)
 
         inventoryItems[freeSlotId] = item
     }

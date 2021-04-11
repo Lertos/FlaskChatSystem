@@ -97,7 +97,7 @@ CREATE PROCEDURE usp_insert_travel_info
 	p_type_of_event VARCHAR(16),
 	p_opponent_id SMALLINT,
 	p_travel_time INT,
-	p_multiplier DECIMAL(4,3),
+	p_multiplier DECIMAL(5,3),
 	p_drop_chance DECIMAL(4,3),
 	p_dungeon_tier SMALLINT,
 	p_dungeon_floor SMALLINT,
@@ -281,6 +281,11 @@ BEGIN
     mythic_collected = mythic_collected + CASE WHEN p_rarity_name = 'Mythic' THEN 1 ELSE 0 END
     WHERE player_id = p_player_id;
     
+    IF p_rarity_name = 'Mythic' THEN
+		INSERT INTO mythic_feed
+        VALUES (p_player_id, v_item_id, p_level, p_rarity_name, p_item_prefix_id, p_strength, p_dexterity, p_intelligence, p_constitution, p_luck, p_damage, p_armor, NOW());
+    END IF;
+    
 END //
 DELIMITER ;
 
@@ -339,7 +344,7 @@ BEGIN
 END //
 DELIMITER ;
 
-#CALL usp_equip_inventory_item(1, 925);
+#CALL usp_equip_inventory_item(1, 2232);
 
 
 /*==============================
@@ -1083,7 +1088,7 @@ BEGIN
 	SET @player_rank = 0;
 
 	SELECT (@player_rank := @player_rank + 1) AS player_rank, a.* FROM (
-		SELECT a.display_name, a.class_name, a.mythic_collected, a.player_level, a.honor,
+		SELECT a.player_id, a.display_name, a.class_name, a.mythic_collected, a.player_level, a.honor,
 		(a.strength + SUM(IFNULL(b.strength,0))) AS strength, (a.dexterity + SUM(IFNULL(b.dexterity,0))) AS dexterity, (a.intelligence + SUM(IFNULL(b.intelligence,0))) AS intelligence, (a.constitution + SUM(IFNULL(b.constitution,0))) AS constitution, (a.luck + SUM(IFNULL(b.luck,0))) AS luck
 		FROM players a
 		LEFT JOIN player_inventories b ON a.player_id = b.player_id AND IFNULL(b.equipped,1) = 1
@@ -1310,3 +1315,27 @@ END //
 DELIMITER ;
 
 #CALL usp_get_dungeon_monster_info(4,2);
+
+
+/*==============================
+	usp_get_mythic_feed
+==============================*/
+
+DROP PROCEDURE IF EXISTS usp_get_mythic_feed;
+
+DELIMITER //
+CREATE PROCEDURE usp_get_mythic_feed ()
+BEGIN
+	
+    SELECT b.display_name, c.item_name, c.file_name, a.item_level, a.rarity_name, d.prefix, a.strength, a.dexterity, a.intelligence, a.constitution, a.luck, a.damage, a.armor, a.time_dropped
+    FROM mythic_feed a
+    INNER JOIN players b ON b.player_id = a.player_id
+    INNER JOIN items c ON c.item_id = a.item_id
+    INNER JOIN item_prefixes d ON d.item_prefix_id = a.item_prefix_id
+    ORDER BY a.time_dropped DESC
+    LIMIT 10;
+
+END //
+DELIMITER ;
+
+#CALL usp_get_mythic_feed();
